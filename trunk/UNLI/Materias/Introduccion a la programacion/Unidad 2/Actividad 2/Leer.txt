@@ -1,0 +1,29 @@
+Actividad2_1A.cpp
+ - Modificar dicho ejemplo para que informe la distancia con 2 decimales. (va a necesitar usar el operador fixed que no se encuentra en los apuntes, tendrán que buscarlo en google)
+
+Actividad2_1B.cpp
+ - Modificar dicho ejemplo para que informe la distancia que faltó para dar al blanco, en negativo significa que quedo corto, en positivo que se paso.
+
+Actividad2_1C.cpp
+ - Modificar dicho ejemplo para que pregunte la velocidad inicial antes de disparar.
+
+Actividad2_1.cpp
+ - Todos los puntos anteriores
+
+Actividad2_2.cpp
+ - Modificar dicho ejemplo para que el blanco se encuentre entre 1000 y 1500 metros y que la mayoría de los ángulos que se ingresen, 
+   los disparos caigan en ese rango.
+
+Actividad2_3.cpp
+ - Modificar el programa libremente para que quede de la manera que crean que queda mejor como juego.
+
+ActividadFinal.cpp
+ - Crear un programa parecido al del ejemplo el cual nos pida cuantos metros antes hay que lanzar una bomba cuando un bombardero 
+   se acerca a su blanco y nos informe a cuantos metros cayo del mismo, 
+   negativo significa que quedo corto, positivo que quedó largo. Agreguenle todo lo que crean que pueda mejorar el programa como juego.
+
+Nota: En este caso me parecio mas divertido que el jugador elija un valor en segundo antes de arrojar la bomba. 
+      Dado que la velocidad es constante, el tiempo es proporcional a la distantacia.
+      
+
+

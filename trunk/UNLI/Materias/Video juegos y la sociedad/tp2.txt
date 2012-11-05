@@ -1,0 +1,64 @@
+Dos de las ideas sobre las que se desarrollaron los contenidos de esta parte de la materia son "brecha" y "convergencia".
+
+En esta instancia, los invitamos discutir cómo se producen una y otra, especialmente, desde la perspectiva cultural, considerando el uso de las tecnologías y, especialmente, de los videojuegos, en la vida cotidiana.
+
+Para ilustrar la discusión, les proponemos que cada uno relate una experiencia concreta en la que se pueda reconocer la brecha cultural digital y/o la convergencia tcnológica y cultural en el uso de los videojuegos.
+
+Puede ser una experiencia de primera mano (vivida o vista por ustedes) o vivida por terceros.
+
+Consigna:
+
+1. Relaten una experiencia donde se ponga de manifiesto la idea de brecha cultural digital y/o de convergencia tecnológica cultural.
+
+Brecha:
+Algo muy comun que suele suceder en los bancos es el uso del buzon de pagos. Este es un dispositivo por el cual
+uno deposita dinero para diversas cosas como ser el pago de impuestos. Si bien este dispositivo podria ser considerado
+como un dispositivo que no es de alta tecnologia a comparacion de otros como ser los celulares. 
+El buzon de pagos es muy simple de operar solo hay que seguir las instrucciones que aparecen en la pantalla.
+Esta simple accion de leer una pantalla suele ser caotica cuando la persona de la tercera edad produciendo que se bloqueen 
+y no quieran usarlo prefieriendo hacer la cola para pagar por el cajero manual.
+
+Convergencia:
+En relacion a los video juegos, tengo el caso de una persona de tercera edad ya jubilada. Comenzo por los 90' jugando a los 
+juegos de la consola family game y hoy continua jugando en su computadora. Aunque ella no sepa bien como usarla, sabe lo suficiente
+que es prenderla y luego hacer clic en el icono que dice video juego que esta en el escritorio.
+
+
+2. Expliquen cómo se ponen de manifiesto estos conceptos en las situaciones que relatan, reflexionen sobre por qué sucede de esta manera, y cómo sería más aprovechable para la sociedad, que se intervenga para modificarla.
+
+En el caso del buzon, la persona prefiere no aprender a usar el dispositivo. En algunos casos puede ser una actitud facilista debido a que no quieren tomarse el tiempo para aprender porque consideran que asi estan bien o tan solo no se dan el tiempo para aprender a usarlo. A medida que una persona envejese, le cuesta mas 
+incorporar nuevos conocimientos cuando no se tiene una base sobre donde anclarlos. Esto es intrinsico a la mecanica del cerebro. Este caso es muy complejo, dado que el interesado no quiere hacerlo. Sin la colaboracion del interesado se hace muy dificil. 
+Igual hay que recalcar, que mejorando mas aun la interface de usuario se podria llegar a logar algun avance.
+
+En el segundo caso, la persona hace una convergencia e intenta ser parte. Todas sus energias estan centradas en su hobby el cual desempeña muy bien.
+La unica parte que puede ser considerada brecha digital, es el saber solo hacer clic en el icono de juegos. 
+las mejoras en este caso caen en lo basico que es hacer un curso de computacion adaptado a la edad respetando los tiempos. La mejor opcion es la tutoria personalizada y no la utilizacion de un sistema de tutoria digital.
+
+
+3. Suponiendo que, como diseñadores de videojuegos, podrían intervenir en esa experiencia, respondan, además ¿qué dirían o qué harían para reducir la brecha o para aprovechar la convergencia en nuestra sociedad? 
+
+En primer lugar,
+Se podria hacer un video juego con las siguientes caracteristicas:
+  El video juego deberia ser algo que la persona lo pueda relacionar con algo de la vida cotidiana.   
+  El mismo deberia una pantalla con pocas cosa y las misma de un tamaño grande para que pueda verse bien.
+  El orden de los pasos seria muy paulatino pero dando la opcion de podir ir avanzando mas rapido saltando esos pasos.
+  La comenzar cada etapa se mostraria que es lo que se debe hacer dando la posibilidad de en el momento de un error se indique cual era la opcion correcta a seguir.
+
+  Para el caso de relacionado con la brecha digital, seria un simulador de buzon de deposito.
+
+Otras opciones podrias ser la generacion de tutorias adecuadas para la edad.
+
+Como ultima opcion se podria incluir el plan  "Mi pc para la tercera edad" en la cual se entregaria una tablet de bajo costo con una interface adecuada.
+Por ejemplo el sistema operativo windows 8 esta pensado para este tipo de dispositivos. 
+
+
+
+
+
+
+
+
+
+
+
+

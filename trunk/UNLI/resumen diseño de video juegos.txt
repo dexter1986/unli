@@ -1,0 +1,39 @@
+El diseño de videojuegos abarca la creación de las reglas y el contenido del juego.
+
+Tareas específicas en el diseño de videojuegos:
+- Diseño de la mecánica de juego.
+- Diseño de niveles.
+- Diseño de contenidos.
+- Diseño de la interfaz de usuario.
+- Narrativa.
+
+
+Diseño de la mecánica del juego
+En esta etapa se definen las reglas básicas de un juego. ¿Cuáles son los actores? ¿Qué
+puede ser controlado por el usuario? ¿Qué acciones pueden ser llevadas a cabo con
+los elementos controlados? ¿Qué pasa específicamente cuando se realiza una
+determinada acción y cómo afecta el estado de juego? Generalmente, esta etapa
+involucra la definición de tres cosas:
+- Reglas de inicio: ¿cómo comienza el juego?
+- Reglas de progresión del juego: una vez que el juego comienza, ¿qué pueden
+realizar los jugadores y cómo reacciona el juego ante cada una de estas
+acciones?
+- Reglas de resolución: ¿qué es lo que causa el fin del juego? ¿Cuáles sonlas
+reglas que determinan cuándo se gana o pierde un determinado juego?
+
+------------------------------------------------------------
+Un juego es un sistema equilibrado de reglas, con objetivos y obstáculos que generan conflicto y riesgos.
+
+El objetivo se convierte en un deseo a cumplir.
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,22 @@
+ - Introducción a la Programación
+
+ - Introducción al Diseño de Videojuegos
+ - Videojuegos y Sociedad
+ - Modelos y Algoritmos para Videojuegos I
+ - Diseño de Videojuegos I
+
+ - Arte Digital para Videojuegos
+
+ - Modelos y Algoritmos para Videojuegos II
+ - Programación de Videojuegos I
+ - Manipulación de Objetos en 2D
+
+ - Programación de Videojuegos II
+ - Manipulación de Objetos en 3D
+ - Diseño de Videojuegos II
+
+ - Programación de Videojuegos III
+ - Proyecto Final
+
+ - Desarrollo de Videojuegos en 3D en Unity  (Optativa)
+ - Inteligencia Artificial para Videojuegos  (Optativa)

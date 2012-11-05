@@ -1,0 +1,9 @@
+sfml-window-s-d.lib
+sfml-system-s-d.lib
+sfml-network-s-d.lib
+sfml-main-d.lib
+sfml-graphics-s-d.lib
+sfml-audio-s-d.lib
+
+C:\SFML-1.6\include
+C:\SFML-1.6\lib\vc2008

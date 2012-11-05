@@ -1,0 +1,33 @@
+http://nintendo8.com/game/629/super_mario_brothers/
+
+Comprendiendo al Fontanero
+
+Super Mario Bros es un videojuego que la compañía Nintendo lanzó originalmente el 13 de septiembre de 1985, para la consola Nintendo Entertainment System (NES). El juego surgió de la mente del hoy legendario, Shigeru Miyamoto.
+
+Mario es un simple fontanero (conocido como plomero en nuestras tierras), que debe rescatar a la princesa Peach del Reino Champiñón, quién fue secuestrada por el Rey de los Koopas, Bowser. Para completar la aventura, Mario podrá contar con la ayuda de su fiel hermano Luigi.
+
+Pero Mario es más que un fontanero. Es en el sentido estricto del término, un Héroe, y una persona común inmersa en un mundo y una situación extraordinaria. Su misión, muy simple, rescatar a la “Damisela en apuros”.
+
+En esta actividad, queremos desenmarañar juntos que se esconde detrás de lo que parece ser un simple juego con una simple historia. ¿Qué cosas llaman la atención en este juego, su jugabilidad, sus gráficos, el nivel de adicción que genera, su historia, sus personajes? ¿Por qué un videojuego originalmente pensado para niños ha trascendido edades y generaciones tecnológicas? ¿Existen razones técnicas solamente o hay alguna razón tal vez más cerca de nuestra imaginación, psicología y cultura?
+
+Una de las razones que encuentro en su éxito, me surgió en una anécdota personal que les paso a contar: Cuando mi hija se empezó a interesar en mi trabajo como game designer y desarrollador, contaba en aquel entonces con sólo 4 años (hoy tiene 8). Ella veía como me pasaba horas enteras en mi escritorio, haciendo garabatos en papel (aclaró que no sé dibujar absolutamente nada) y trabajando con distintas herramientas para desarrollar videojuegos. Cuando le explique de que se trataba mi trabajo, junto sus papeles y sus lápices y se sentó a trabajar a mi costado. Al cabo de una hora, me trajo una tira de hojas A4 pegadas con cinta scotch; donde había dibujado una historia que quería que yo convierta en juego. ¿De que se trataba esta historia? Un guerrero debía rescatar a una princesa encerrada en un castillo por un monstruo. Demás esta decirle, que mi hija jamás había jugado al Super MarioBros, y su experiencia en videojuegos eran simples juegos flash.
+
+Esta situación me sirvió para entender que una de las claves del éxito de este juego, tal vez este en algo más profundo que cuestiones técnicas. Tiene que ver con la imaginación, con nuestras fantasías, con los cuentos que leíamos de niños y tal vez cuestiones de índole más psicológicas. También es cierto, que este fue un juego pionero y probablemente fue el primero en plasmar en un videojuego esta clase de historias, trabajando cuestiones como la trama, los personajes y la relación entre los mismos.
+
+Si podemos comenzar a comprender algunas de estas razones, y las podemos usar en nuestros desarrollos futuros, tal vez estemos en las puertas de alcanzar un super éxito en la Industria de los Videojuegos.
+
+El trabajo que queremos realicen,consiste en responder en forma breve las siguientes preguntas:
+
+1- Si bien Super Mario está considerado como el primer gran éxito en el mundo de los videojuegosde plataforma, ¿a qué crees que se debió esto? Para ello, puedes investigar y leer artículos en Internet, o cualquier otra fuente de información.
+
+2- Supongamos que te solicitan realizar una nueva versión del Super Mario Bros. ¿Qué elementos originales se te ocurren agregarle a su historia? (No trabajar sobre el gameplay, sólo sobre su historia)
+
+3- En base a tu respuesta anterior, qué modificarías del GamePlay original para que potencie esta historia. ¿Se te ocurre algún aspecto original sobre el desarrollo del juego, que lo haga más atractivo?
+
+4- Algunos críticos, se animan a decir que la historia de Mario trata también sobre la diferencia entre clases sociales. ¿Alcanzas a reconocer estos elementos en la historia?. ¿Estás de acuerdo con una observación de este tipo?. Argumenta tu posición al respecto.
+
+5- En forma breve, dale una vuelta de tuerca a la historia del juego para que brinde a los jugadores, un mensaje ecológico.
+
+Hemos adjuntado a la plataforma un enlace para que puedas probar y jugar el videojuego.
+
+Deberás realizar el trabajo en un documento de Word u Open Office, intentando no ocupar más de 400 palabras en total para todas las respuestas. Una vez que hayas concluido el trabajo, deberás subir el documento por este mismo medio.Tenés tiempo hasta el Domingo 10 de junio a las 23 hs para finalizar esta actividad.

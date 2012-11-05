@@ -1,0 +1,97 @@
+Trabajo Final Introducción a la Programación
+
+
+Primer cuatrimestre 2012
+
+
+El trabajo final es realizar un videojuego de carrera de autos que se desplazara verticalmente tipo http://www.juegospara.com/carrera-de-coches-retro/http://www.gratisjugarjuegos.com/flash-crazy-relax/http://www.juegosjuegos.com/jugar-juego/Dirt-Racers.html con las siguientes consignas:
+
+El juego básico es ir adelantándose a los demás autos como el primero. Se le puede agregar todos los elementos que quieran para transformarlo en algo más divertido.
+
+Se debe usar objetos, los autos deben manejarse con polimorfismo. Deben usar arreglos.
+
+
+Se debe informar el puntaje obtenido hasta el momento y la cantidad de autos disponibles.
+
+El puntaje son los metros recorridos, en lo práctico un punto por carácter avanzado, se pueden obtener más puntos por otros objetivos a cumplir según le quieran agregar.
+
+
+El programa debe mantener una lista de al menos los 5 mejores puntuados (records) y sus nombres.
+
+
+Obviamente si alguno supera una posición en la lista se le debe ofrecer ingresar el nombre y se acomodará la lista para mostrarlo en la nueva posición.
+
+
+El hecho de apagar la computadora no debe volver la lista a 0 (hay que usar archivos)
+
+
+El juego debe ir aumentando la dificultad, puede ser a medida que avanza la carrera ir aumentando el número de autos, o la velocidad o según los opcionales, o si lo piensan como pista (de carreras) de darle un final cada tantos metros, aumentar la dificultad en cada pista.
+
+
+Se pueden usar como gráficos:
+
+/\
+
+¦==+
+
+¦¦
+
+¦==¦
+
+
++==+
+
+¦__¦
+
+¦ ¦
+
+¦ ¦
+
+==
+
+
++==+
+
+¦XX¦
+
+¦--¦
+
+¦ ¦
+
+==
+
+Pero no son obligatorios, pueden realizar sus propios diseños, y si quieren compartirlos les dejamos un lugar en el foro.
+
+Todos estos gráficos son solo sugerencias por si no se quieren detener en estos detalles, pueden experimentar distintas combinaciones si lo desean.
+
+El número de carriles puede variar durante el juego. No hay curvas.
+
+Opcionales de mejora
+
+La indicación de la cantidad de vidas con autitos (del mismo o menor tamaño, de igual o forma parecida).
+
+Sonido que acompañe el juego.
+
+Que necesite combustible, la recarga puede ser juntando items. Si simula pista de carreras puede ser un boxes.
+
+Que se dañe, la reparación puede ser como el punto anterior.
+
+Que disparen, dejen bombas o manchas de aceite o lo que se les ocurra.
+
+Agregar obstáculos
+
+Que varíe la pista ensanchandose o angostandose, que se ramifique y se vuelva a unir.
+
+Que pueda acelerar y frenar.
+
+Completa libertad en el diseño. Como agregar vidas extras durante el mismo o colores o lo que se les ocurra. Pero recuerden que no tienen tiempo ilimitado para hacerlo.
+
+Pueden cambiar o poner el objetivo del juego que gusten tanto como llegar primero a la meta, destruir objetivos o solo llegar vivo o mantenerse vivo por x tiempo, o lo que se les ocurra.
+
+
+Nota Aclaratoria:
+
+Si la pantalla normal de 80x25 no es lo suficientemente alta para el juego, pueden usar más lineas solo que hay que maximizar la consola de DOS de Windows para verlo.
+
+Disponible en: 	lunes, 27 de agosto de 2012, 00:00
+Fecha de entrega: 	lunes, 8 de octubre de 2012, 23:55

@@ -1,0 +1,306 @@
+Actividad 1
+1) 
+Problema: Adivina un número
+
+Descripcion:
+Dos personas la primera piensa un número y la segunda intenta adivinarlo, 
+cada vez que la segunda dice un número la primera le da una pista si el número que dijo es más alto o más bajo que el número que pensó. 
+Plantear un algoritmo para resolverlo.
+(Variación: frio, caliente, si el número se encuentra más lejos o más cerca que el número dicho anteriormente,templado si está a la misma distancia )
+
+Estrategia:
+ - Se asume que el nro elegido siempre es positivo incluyendo el cero (0)
+ - Si el nro dicho se aleja por ensima o por debajo del nro elegido se usara la siguiente escala con su orden:
+   - Si era caliente pasara a ser tibio
+   - Si era tibio pasara a ser frio
+   - Si era frio seguira siendo frio
+ - Si el nro dicho se acerca por ensima o por debajo del nro elegido se usara la siguiente escala con su orden: 
+   - Si era frio pasara a ser tibio
+   - Si era tibio pasara a ser caliente
+   - Si es caliente seguira siendo caliente
+
+Elementos:
+ Lapiz, Papel, una Mesa.
+
+Resolucion:
+
+ Elegir un nro y anotarlo en un papel
+ Doblar el papel por el medio y dejarlo en la mesa
+ REPETIR 
+  decir un nro
+  SI el nro es igual al elegido ENTONCES
+    Decir "Acertaste el nro"
+  SINO 
+     SI es el primer nro ENTONCES
+	Decir "FRIO"
+     SINO
+	SI esta mas cerca del elegido ENTONCES
+           SI el anterior era "FRIO" ENTONCES
+	      Decir "TIBIO"
+	   SINO
+	      SI el anterior era "TIBIO" ENTONCES
+	      	Decir "CALIENTE"
+	      SINO
+		SI el anterior era "CALIENTE" ENTONCES
+		  Decir "Caliente"
+		FINSI
+	      FINSI
+	   FINSI 
+	SINO
+	 SI esta mas lejos del elegido ENTONCES
+           SI el anterior era "CALIENTE" ENTONCES
+	      Decir "TIBIO"
+	   SINO
+	      SI el anterior era "TIBIO" ENTONCES
+	      	Decir "FRIO"
+	      SINO
+		SI el anterior era "FRIO" ENTONCES
+		  Decir "FRIO"
+		FINSI
+	      FINSI
+	   FINSI 
+	 FINSI
+	FINSI
+     FINSI 
+  FINSI	
+ HASTA QUE el nro dicho sea igual al elegido
+ Tomar el papel y mostrar que el nro dicho es igual al elegido
+
+----------------------------------------------------------------------------------------------------
+2)Acertar el blanco
+Un cañón dispara a un objetivo, el cañón puede graduar el angulo de disparo, 
+quien dispara posee unos binoculares que le permiten ver donde cae la bala. 
+Plantear un algoritmo para dar en el blanco.
+
+Estrategia:
+ - Se asume que:
+	- La fuerza del disparo que impulsa la bala una vez que sale del cañon siempre es la misma
+        - Cada bala tiene el mismo peso y forma
+        - No hay viento
+        - El cañon solo puede moverse hacia arriba o hacia abajo
+        - El angulo de disparo va desde el 0°(Cañon en sentido horizontal) hasta 90° (Cañon en sentido vertical)
+
+Considerando que el disparo del cañon corresponde a tiro oblicuo se sabe que la distancia maxima es cuando el cañon
+esta a 45°, Valores mayores o menores a 45° producen que la distancia se acorte.
+Para este caso se obtara por un angulo compredido entre 0° y 45°.
+
+El primer disparo se hara a 45°, si la distancia del impacto de la bala es superior a la del blanco 
+se ajustara el cañon en un angulo inferior a 45°. 
+Si por el contrario la distancia de la bala es inferior a la del blanco se considerara que el blanco 
+no es alcanzable.
+ 
+
+Elementos:
+Binoculares, cañon, balas, blanco.
+
+Resolucion:
+ Posicionar el blanco en un lugar determinado
+ Posicionar el angulo del cañon a 45°
+ REPETIR
+   Cargar una bala en el cañon
+   Disparar cañon
+   SI la bala dio en el blanco ENTOCES
+       Festejar       
+   SINO
+       SI la bala supero al blanco ENTONCES
+          SI el angulo del cañon es 0° ENTONCES
+	     El blanco no es alcanzable
+          SINO
+             Disminuir el angulo del Cañon
+             SI el angulo es menor a 0° ENTONCES
+		Ajustarlo a 0°
+	     FINSI
+	  FINSI 
+       SINO
+          SI la bala no supera al blanco ENTONCES
+	      SI el angulo de cañon es 45° ENTONCES
+		El blanco no es alcanzable
+              SINO
+		Aumentar el angulo del Cañon
+                SI el angulo es mayor a 45° ENTONCES
+		   Ajustarlo en 45°
+	        FINSI
+	      FINSI	
+          FINSI         
+       FINSI   
+   FINSI	
+ HASTA QUE la bala de en el blanco si es alcanzable o salir si el blanco no es alcanzable. 
+
+----------------------------------------------------------------------------------------------------
+3)Tres en línea (en ingles tic tac toe).
+Un algoritmo para jugar y si es posible, ganar siempre.
+
+Estrategia:
+ - Se asume:
+	- al ser un juego en papel no es posible cambiar las marcar una vez realizadas
+        - La cantidad de turnos para el la primer marca (Cruz o circulo) es de 5 
+        - La cantidad de turnos para el la segunda marca (Cruz o circulo) es de 4
+ - CIRCULO comienza.
+ - La idea es que gana el comienza primero.
+Elementos:
+1 Lapiz, 1 papel
+
+Resolucion:
+ CIRCULO (CIRCULO comienza) se pone en el centro
+ SI CRUZ pone en alguna esquina ENTONCES
+   CIRCULO pone en la esquina opuesta   
+   SI CRUZ pone en la casilla siguiente Horizontal o Vertical de la esquina anterior ENTONCES
+      CIRCULO pone en la esquina que esta al lado de esa ultima CRUZ
+      No importan donde ponga CRUZ, CIRCULO pone y cierra los tres en linea. Gana CIRCULO
+   SINO
+      SI CRUZ pone en una esquina ENTONCES
+	CIRCULO pone en la casilla de al lado entre las dos CRUZ evitando los tres en linea
+        Dada esta situacion ninguno de los dos gana.
+      FINSI      
+   FINSI
+ SINO
+   SI CRUZ pone en alguna casilla del medio Horizontal o Vertical ENTONCES
+     CIRCULO pone en la proxima esquina que este cerca o del mismo lado que la CRUZ
+     CRUZ pone en la esquina opuesta al ultimo CIRCULO para evitar los tres en linea
+     CIRCULO pone en la esquina que no tiene cerca una CRUZ
+     No importa donde ponga CRUZ, CIRCULO cierra los tres en linea. GANA CIRCULO
+   FINSI
+ FINSI
+----------------------------------------------------------------------------------------------------
+4)La batalla naval
+El juego de la batalla naval, ¿se puede aplicar un algoritmo para jugar? Antes de escribir un algoritmo, plantear una estrategia.
+Si, se puede plantear un algoritmo para jugar.
+Estrategia:
+ - Se supone que los blancos se pueden poner horizontal o vertical.
+ - Los blancos pueden ser de 1,2 o 3 casilleros consecutivos.
+ - Ninguno de los blancos puede superponer 
+ - Un Jugador arma el mapa y otro intenta HUNDIR todos sus barcos. 
+   Para esta version no se contempla que ambos jueguen simultaneamente. 
+   Solo exite un table.
+ El mismo lo podemos dividir en dos partes:
+  - Primero se busca un casillero al azar que este todavia sin elegir
+  - Si se ya se tiene un solo casillero que se sabe que dio en algun blanco:
+    - Se elige algunas de las casillas: 
+      - Superior vertical
+      - Inferior vertical
+      - Derecha horizontal
+      - izquierda horizontal
+  - Si se tienen dos casilleros consecutivos se elige segun el sentido vertical u horizontal en que se encuentran los mismo:
+    - Si es vertical:
+       - a la derecha de uno de ellos 
+       - a la izquierda de uno de ellos
+    - Si es horizontal:
+       - arriba de uno de ellos
+       - debajo de uno de ellos
+  - Siempre se elige teniendo en cuenta que la casilla no esta elegida
+  - Si los casilleros no estan consecutivos se elige el que entre medio  
+
+Elementos:
+2 lapises, 1 papel cuadriculado
+
+Resolucion:
+Un Jugador ubica los blancos en sentido vertical u horizontal. 
+EL otro Jugador Hace:
+REPETIR 
+  Elegir una casilla      
+  SI es AVERIADO ENTONCES
+     REPETIR
+        elegir una casilla superior
+	SI es AGUA ENTONCES
+	   elegir una casilla Inferior
+	   SI es AGUA ENTONCES
+              elegir una casilla Derecha
+		SI es AGUA ENTOCES 
+		   elegir una casilla Izquierda
+		   SI es AGUA ENTOCES 
+		      No deberia ser agua. Alguien miente.
+		   FINSI
+                FINSI
+	    FINSI
+	FINSI	         	
+     HASTA es HUNDIDO	
+  FINSI      	
+HASTA Encontrar HUNDIR todos los blancos
+
+----------------------------------------------------------------------------------------------------
+5)Algoritmo para resolver sopa de letras.
+Antes de resolver el algoritmo plantear una estrategia.
+
+Estrategia:
+ - Se parte de un diccionario de palabras el cual es conocido.
+ - Las palabras estan ubicadas en forma horizontal o vertical y en sentido ascendente (de arriba hacia abajo o de izquierda a derecha).
+ - Solo hay una palabra en sentido horizontal por fila o vertical por columna.
+ - Se busca un letra en la esquina superior izquierda
+ - Luego se busca en el diccionario si hay palabras que la contengan
+ - Se busca una nueva letra de en sentido Abajo.
+ - Se busca en la lista si hay palabras que contengan la secuencia dada.
+ - Si no existe palabra se elimina el primer caracter y se toma como primer caracter el siguiente a ese primero
+ - Se continua hasta terminar con esa fila.
+ - Se pasa a la siguiente fila de la izquierda hasta agotar las filas.
+ - Se repite el mismo proceso pero para las lineas usando el sentido izquierda a derecha.
+ - Se continua hasta terminar las lineas.
+
+Resolucion:
+Se comienza en la esquina superior izquierda
+REPETIR
+   Se busca en el diccionario si hay palabras que comienzen con esa o esas letras en el orden dado
+   SI hay una palabras ENTONCES
+      SI se encuentra una palabra con todas las letras ENTOCES
+         Se nuestra la palabra
+         Se comienza con la siguiente columna en el primer caracter      
+      SINO
+        SI hay una letra para leer ENTONCES 
+   	  Se lee la siguiente letra ubicada en sentido ABAJO
+        SINO
+          Se comienza con la siguiente columna en el primer caracter 
+        FINSI 
+      FINSI
+   SINO
+      se saltea la letra            
+      SI hay una letra para leer ENTONCES 
+   	  Se lee la siguiente letra ubicada en sentido ABAJO
+        SINO
+          Se comienza con la siguiente columna en el primer caracter 
+        FINSI        
+   FINSI      
+HASTA terminar con todas las columnas
+Se comienza en la esquina superior izquierda
+REPETIR
+   Se busca en el diccionario si hay palabras que comienzen con esa o esas letras en el orden dado
+   SI hay una palabras ENTONCES
+      SI se encuentra una palabra con todas las letras ENTOCES
+         Se nuestra la palabra
+         Se comienza con la siguiente fila en el primer caracter      
+      SINO
+        SI hay una letra para leer ENTONCES 
+   	  Se lee la siguiente letra ubicada en sentido DERECHA
+        SINO
+          Se comienza con la siguiente FILA en el primer caracter 
+        FINSI 
+      FINSI
+   SINO
+      se saltea la letra            
+      SI hay una letra para leer ENTONCES 
+   	  Se lee la siguiente letra ubicada en sentido DERECHA
+        SINO
+          Se comienza con la siguiente FILA en el primer caracter 
+        FINSI        
+   FINSI        
+HASTA terminar con todas las filas
+----------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

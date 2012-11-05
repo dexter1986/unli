@@ -1,0 +1,22 @@
+Los ejercicios que van a entregar son del 3.5 en adelante, lo cual no significa que no hagan los anteriores, sobre todo si no tienen idea de programación.
+
+Ejercicio 3.5
+
+Lance 2 dados, muestre la tirada e informe si son iguales o no y la suma de ambos.
+
+Ejercicio 3.6
+
+En una pelea entre dos personajes en un juego de Rol uno golpea con un arma 2D6+3 y el otro tiene un escudo 2D4+1, el segundo personaje recibirá un daño igual a la diferencia del golpe del arma con la resistencia del escudo. Si esta resulta negativa o cero, no recibe ningún daño. Hacer un programa que haga las tiradas de los dados y muestre el resultado de los dados y el daño infringido.
+Nota 2D6 significa 2 dados de 6 caras, osea, cada dado puede tirar los valores de 1 a 6, 2D4 significa 2 dados de 4 caras, los valores que puede tirar cada dado es 1, 2, 3, o 4 dependiendo de la cara.
+
+Ejercicio 3.7
+
+Realizar el juego de adivina un número, el juego debe obtener un número al azar entre 1 y 20, y proponer al jugador adivinarlo, se le dan 5 intentos, se le debe informar si es mayor o menor que el número al azar obtenido por la computadora.
+
+Ejercicio 3.8
+
+El mismo ejercicio anterior pero que pida entre que números se va a jugar y con cuantos intentos.
+
+Ejercicio 3.9
+
+Realizar el juego de adivina un número pero, en vez de decir mayor o menor, debe decir en el primer intento si acertó o no, y a partir del segundo, si la distancia entre el numero dicho y el anterior es mayor que la distancia entre el actual y el número a adivinar decir caliente, si es igual decir templado y si es menor decir frío. 

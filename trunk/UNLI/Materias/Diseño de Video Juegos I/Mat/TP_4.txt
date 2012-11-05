@@ -1,0 +1,113 @@
+1)FPS + Fuego = Bomberos
+2)FPS + Clima = el jugador no tiene armas si no que controla el clima
+3)Plataforma + Fuego = el personaje es una llamita que tiene que llegar sin apagarse de una punta a la otra del escenario
+4)plataforma + clima = controlar el clima y el estado de la materia del personaje
+5)plataforma + clima = ser el clima o moverse a través del clima
+
+Concepto: plataforma + clima = controlar el clima y el estado de la materia del personaje
+
+preguntas:
+tenemos el genero plataformas
+que hay en ese genero?
+hay saltos de obstaculos (agujeros, enemigos, pinches). Hay recoleccion de items que dan puntos (monedas por ejemplo) y que dan mejoras. Se busca llegar de una punta a la otra sin perder.
+cuales son las referencias inmediatas y gastadas por decirlo de alguna forma?
+Super Mario Bross. Wonder Boy. Sonic.
+que ideas, mecanicas, conceptos ya no serìan innovadores?
+Saltar, pegar, recoletar. Correr
+que tenemos de interesante ahi?
+otra forma de atacar y sortear obstaculos.
+que pensamos al pensar en clima?
+
+que mecanicas se pueden desprender del clima?
+el personaje controla el clima. y por medio de este lo puede usar para atacar o desplazarse.
+
+
+Seleccion de ideas
+- El personaje controla el clima y usa este para atacar y desplazarse
+- El personaje puede saltar, correr, pegar.
+- El personaje recolecta items
+- El personaje es del material Agua.
+- El personaje puede cambiar de estado
+- El personaje puede mejorar sus habilidades
+- El personaje puede usar el ambiente para desplazarse.
+- El personaje debe llegar de una punta a la otra.
+
+
+
+Ronda 2
+¿Como son los enemigos o de que material son?
+Son una especie de seres que tiene poderes.
+¿Que tipos de poderes tienen?
+Cada uno tiene un Don, que es relacionado con el uso de los 4 elementos agua, tierra, aire, fuego.
+¿Es novedoso el concepto del juego?
+Si. el controlar el clima y poder cambiar de estado.
+¿Como puede mejorar sus habilidades?
+Canjeando los puntos obtenidos en la recoleccion de items.
+¿de que forma mejora sus habilidades?
+Con los puntos obtenidos en lugares especificos.
+¿Porque el personaje es de agua?
+Por una maldicion.
+¿Porque el personaje debe llegar de una punta a la otra?
+Para terminar con la maldicion.
+¿Hay posibilidad de caminos alternativos o finales alternativos?
+Si.
+¿Que determinan esos finales?
+De acuerdo a como el personaje vaya completando objetivos y las virtudes que vaya adquiriendo
+¿El personaje puede morir?
+No.
+¿Porque no puede morir el personaje?
+Al estar maldito, esta condenado.
+¿Que habilidades tiene?
+Cambiar de estado. Controlar el clima.
+¿El personaje ES el que tiene las habilidades?
+Si.
+¿Porque tiene esas habilidades?
+Un desconocido le dio un encanto y con ellas adquirio las habilidades.
+¿El encanto dura todo el tiempo?
+No. Hay un tiempo limite. El personaje debe llegar a la otra punta antes de que se termine el tiempo.
+¿El personaje puede hacer encantos contra sus enemigos o obstaculos?
+No. Solo puede usar encantos para controlar el clima
+¿Hay alguna experiencia que pueda emerger del juego?
+Misticismo, magia y fantasía
+
+¿Cual experiencia queremos trasmitir?
+Misticismo, magia y fantasía
+
+¿Puede revivir antes de perder? ¿Cuantas veces?
+No.
+¿Si no puede revivir, como es que continua el juego?
+el personaje es capturado. Los enemigos buscan capturar al personaje.
+¿Porque buscan capturarlo?
+Se escapo de una prisión en la cual fue puesto.
+¿Como logro escaparse?
+Fue liberado por un desconcido
+
+
+Seleccion de ideas
+- El personaje puede cambiar de estado
+- El personaje adquirió estos poderes por medio de un encanto de un desconocido. El encanto tiene una duracion.
+- El personaje controla el clima por medio de conjuros y lo usa para atacar y/o  desplazarse
+- El personaje puede saltar, correr, pegar.
+- El personaje recolecta items (mana)
+- El personaje es del material Agua debido a una maldicion
+- El personaje puede mejorar sus habilidades canjeando items recolectados en lugares especificos.
+- El personaje puede usar el ambiente para desplazarse.
+- El personaje debe llegar de una punta a la otra para terminar con la maldicion. Debe llegar antes de que se acabe el encanto.
+-  De acuerdo a como el personaje vaya adquieriendo virtudes, eliminando enemigos y seleccionando el camino a recorrer los finales del juego  varian
+- El personaje estaba prisionero y un desconocido lo ayudo a escapar
+- El personaje nunca muere solo es capturado y vuelto a la prision
+- Los enemigos intentan capturarlo
+- Los enemigos son seres con poderes. Cada uno tiene el don de controlar los elementos diferentes elementos como aire, tierra, fuego, agua
+- Depende a que tipo de enemigo le pegue, pueden pasar distintas cosas (si le pega a un elemento de tierra, se vuelva barro; al fuego lo apaga y genera humo, etc)
+
+
+
+
+
+
+Concepto
+Sos el personaje de un lugar lejano. Por razones que no conoces estas prisionero y recibiste una maldición que si abandonas la prisión te convertirias en agua. Un desconocido por medio de un conjuro te libera de prisión y te da el don de poder controlar el agua. antes de que partas te da un reloj de arena el cual indica el tiempo que posees antes de que el conjuro se rompa. Ahora esta fuera de la prisión. Podes controlar tu cuerpo a voluntad (Puedes elegir el estado líquido, sólido o gaseoso) como también el clima (La nubes, dado que poseen agua) y elementos de la naturaleza que sean de agua (ríos). Tu misión es llegar a la torre negra y romper la maldición. Ten cuidado, ya saben que escapaste y han enviado por ti. Ellos tiene el don de controlar los 4 elementos (fuego, aire, tierra, agua) por lo que deberás usar tu inteligencia y evitar que te capturen. Por medio de tu inteligencia, podrás recolectar mana el cual podrás usar en las fuentes gélidas para mejorar tus habilidades. Ten cuidado, el final de esta historia depende de cuanto mejores tus virtudes y del camino que elijas para llegar a la torre negra.
+
+
+Nota:
+Tendríamos que hacer unos dibujos del juego.
