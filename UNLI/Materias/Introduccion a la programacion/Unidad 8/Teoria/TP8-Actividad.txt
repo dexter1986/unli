@@ -1,0 +1,28 @@
+Para esta actividad deben hacer un Insaniquarium:
+http://www.popcap.com/games/insaniquarium/pc
+
+Las características:
+
+Los peces nadan libremente por la pantalla sin salirse de los bordes.
+Velocidad y color a gusto del programador.
+
+Debe haber 2 tipos de peces.
+Uno de ellos puede cambiar de color cuando el usuario presiona el "2".
+El otro cambia de dirección cuando el usuario presiona el "1".
+
+Ayudas:
+
+- Partan de una clase base y logren que se dibuje con algún gráfico simple.
+- Agreguen los métodos y atributos que crean convenientes.
+- El comportamiento de los peces es casi idéntico al de la pelota de la actividad pasada, con la excepción que es más lento y en cada instante puede o no avanzar hacia adelante y hacia arriba.
+- Ayudensé con el juego de los autos subido en la unidad anterior, ahi verán como dibujar de una forma ordenada.
+- Una vez que tengan la clase base agreguen las clases del tipo de pez 1 y 2 con los cambios correspondientes para que puedan realizar las acciones referidas a cada tipo de pez.
+
+Consideraciones:
+- No hace falta que el pez se mueva libremente, puede moverse como la pelota de la unidad anterior.
+- No hace falta que tengan distinta velocidad
+
+SI ES IMPORTANTE:
+- Que respeten el acceso a los métodos, que no haya atributos públicos.
+- Si un tipo de pez puede cambiar de color, esto debe ser posible sólo para este tipo de pez. Igual que cambiar de dirección para el otro pez.
+- Que tengan un buen esquema de clases es mucho más importante a que el juego "que lindo".

@@ -1,0 +1,24 @@
+Actividades Para entregar
+Los ejercicios anteriores a estos son para ir practicando desde lo más simple a los más complejo, no dejen de hacerlos primero y de pedir ayuda si se traban en los mismos, pero para corregir, lo vamos a hacer con los ejercicios más complejos ya que contienen en si las habilidades de los anteriores.
+
+UTILICEN ASIGNACIÓN DINÁMICA DE MEMORIA PARA LOS ARREGLOS
+
+Ejercicio 6.10
+Realizar el juego del Ahorcado, las palabras se toman de una lista guardada en un archivo de texto. De tal manera que puedan agregarse nuevas palabras o quitarse viejas.
+
+Ejercicio 6.11
+Realizar la sopa de letras, aprovechando el archivo del ejercicio anterior para elegir 5 palabras al azar. La grilla es de 20x20. Esta actividad no se entrega, ver 6.13
+
+Ejercicio 6.12
+Realizar un programa que, tomando una palabra al azar del archivo anterior realice un crucigrama simple (una sola palabra vertical que la crucen tantas palabras como letras tenga) usando palabras del mismo archivo teniendo en cuenta que no deben repetirse palabras y que efectivamente se deben cruzar en alguna letra de la palabra principal (vertical). Solo debe imprimir el resultado, no se debe jugar.
+Crucigrama simple con una palabra vertical (ver imagen en el pdf de Actividades)
+
+Ejercicio 6.13
+Modificar el juego sopa de letras para agregarle la capacidad de guardar la posición y poder retomar el juego más tarde. Solo entregar 6.13, no es necesario entregar 6.11 ya que es el mismo programa.
+
+Ejercicio 6.14
+Modificar antiaereo para que en vez de imprimir los aviones y el tanque desde el programa, tome los caracteres desde un archivo de texto que acompañe al programa. Si lo desean pueden cambiar la forma de los gráficos, pero deben tener en cuenta de respetar el tamaño (a menos que cambien también los ifs de detección de colisiones) y que los aviones comienzan con espacio para ir borrandose a si mismo cuando avanzan.
+Pueden usar el programa graficador para ayudarse.
+Los archivos txt serán del mismo tipo que los producidos por el programa graficador.
+Será un archivo por cada gráfico.
+Pista: creen matrices con el tamaño de los gráficos + 1 carácter para el '\0', carguen desde los archivos a las matrices al principio del juego, reemplacen todas las funciones de impresión para que impriman las matrices correspondientes a cada gráfico. 

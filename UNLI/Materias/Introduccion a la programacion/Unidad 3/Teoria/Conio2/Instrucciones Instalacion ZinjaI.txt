@@ -1,0 +1,45 @@
+Conio2
+
+Estas son las instrucciones para incorporar la librería conio2 al ZinjaI
+
+conio2 se encuentra en http://sourceforge.net/projects/conio/
+ZinjaI se encuentra en http://sourceforge.net/projects/zinjai/
+
+En primer lugar, esta librería esta hecha para Win32, así que en otros sistemas operativos no va a funcionar.
+En segundo lugar esta hecha para MiniGW/Dev C++. MiniGW es el compilador del ZinjaI, pero Dev C++ es otro IDE, si bajan el archivo desde sourceforge está preparado para intalarse en el Dev C++ no en el ZinjaI, para instalarlo hay que hacer unos pasos extras.
+
+Esta biblioteca emula la biblioteca propietaria conio de Borland, pero además la extiende para usarla sobre cout con los <<. Existen otros emuladores de conio, incluso para Linux (si buscan en SourceForge van a encontrar al menos uno), pero este es el que vamos a usar.
+
+Conio es una biblioteca de manipulación de la entrada y salida de consola, permite imprimir en cualquier lugar de la pantalla con colores, así como un sistema de detección de pulsación de teclas rudimentario. Con ella podremos mejorar sustancialmente la presentación gráfica de nuestros programas de consola.
+
+Primero que nada, no bajen el instalador que esta en SourceForge porque no van a poder usarlo, usen los archivos de este zip que tenemos preparado.
+
+Dentro del mismo van a encontrar cinco archivos:
+
+conio.chm   este archivo es la ayuda con las funciones de biblioteca, está en ingles
+conio2.h      este archivo es el prototipo para C
+constream  este archivo es el prototipo para C++ (el que modifica cout)
+libconio.a   este archivo es la biblioteca compilada, la va a usar el enlazador
+Instrucciones Instalacion ZinjaI.txt  este es un archivo txt con estas mismas instrucciones de instalación
+
+conio2.h  y  constream deben ser copiados a la carpeta include del MinGW
+libconio.a debe ser copiado a la carpeta lib del MinGW
+
+El ZinjaI coloca el MinGW dentro de su carpeta de instalación, por defecto ZinjaI se instala en c:\Archivos de Programas en la carpeta ZinjaI.
+
+En resumen, por defecto sería: c:\Archivos de Programas\ZinjaI\MinGW
+
+conio.chm coloquenlo donde quieran, tengalo a mano por si necesitan algo de ayuda. Si les molesta el ingles hay mucha ayuda para la versión de conio de Borland en castellano, pueden usarla porque es compatible, pero recuerden que conio2 tiene funciones mejoradas, esas no están en las de Borland.
+
+Y para finalizar, hay que indicarle al enlazador que cuando enlace tenga en cuenta a libconio.a, para eso, en el ZinjaI, debemos ir al menú Ejecucion donde dice Opciones..., y agregar en donde dice Parametros extras para el compilador: -lconio (la primera despues de - es una ele después el nombre del archivo pegado a la ele) separado con un espacio de la anterior.
+
+Con esto ya van a tener un abanico de grandes posibilidades para mejorar sus programas de consola.
+
+Estas instrucciones son válidas para cualquier compilador que use MiniGW coloquen los archivos en las carpetas correspondientes y busquen la opción para agregar al enlazador -lconio donde sea que esté y funcionará. Es más en Dev/C++ si no le colocan esta opción despues de la instalación automática tampoco va a funcionar.
+
+
+Esta guía fue hecha por el Prof. Juan Ernesto Sampietro para la materia Introducción a la Programación de la carrera a distancia de Tecnicatura en Diseño y Programación de Videojuegos que se dicta en la Facultad de Ingeniería y Ciencias Hídricas de la Universidad Nacional del Litoral, Santa Fe, Argentina. http://www.unl.edu.ar/eje.php?ID=173&IDcar=437
+
+Este texto esta bajo licencia Creative Commons: Atribución-No Comercial-Compartir Obras Derivadas Igual 2.5 Argentina más información en http://creativecommons.org/licenses/by-nc-sa/2.5/ar/
+Los archivos de conio2 están bajo dominio público como indica el sitio en SourceForge
+ZinjaI es un programa que se distribuye bajo la licencia GPL

@@ -1,0 +1,46 @@
+﻿Build started 02/11/2012 01:19:52 a.m..
+     1>Project "C:\Users\oscar.sanchez\Desktop\UNLI\Materias\Modelos y Algoritmos para Videojuegos I\Practicas\TP_Final\TP_Final\TP_Final.vcxproj" on node 2 (rebuild target(s)).
+     1>_PrepareForClean:
+         Deleting file "Debug\TP_Final.lastbuildstate".
+       InitializeBuildStatus:
+         Creating "Debug\TP_Final.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\SFML-1.6\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Hud.cpp Circulo.cpp Game.cpp Letra.cpp main.cpp Zone.cpp
+         Zone.cpp
+         main.cpp
+         Letra.cpp
+         Game.cpp
+         Circulo.cpp
+         Hud.cpp
+         Generating Code...
+       ManifestResourceCompile:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\TP_Final.exe.embed.manifest.res" Debug\TP_Final_manifest.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\oscar.sanchez\Desktop\UNLI\Materias\Modelos y Algoritmos para Videojuegos I\Practicas\TP_Final\Debug\TP_Final.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\SFML-1.6\lib\vc2008" "sfml-window-s-d.lib" "sfml-system-s-d.lib" "sfml-network-s-d.lib" "sfml-main-d.lib" "sfml-graphics-s-d.lib" "sfml-audio-s-d.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:LIBCMT /MANIFEST /ManifestFile:"Debug\TP_Final.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\oscar.sanchez\Desktop\UNLI\Materias\Modelos y Algoritmos para Videojuegos I\Practicas\TP_Final\Debug\TP_Final.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\oscar.sanchez\Desktop\UNLI\Materias\Modelos y Algoritmos para Videojuegos I\Practicas\TP_Final\Debug\TP_Final.lib" /MACHINE:X86 Debug\TP_Final.exe.embed.manifest.res
+         Debug\Hud.obj
+         Debug\Circulo.obj
+         Debug\Game.obj
+         Debug\Letra.obj
+         Debug\main.obj
+         Debug\Zone.obj
+       Manifest:
+         Deleting file "Debug\TP_Final.exe.embed.manifest".
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\TP_Final.exe.embed.manifest" /manifest Debug\TP_Final.exe.intermediate.manifest
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\TP_Final.exe.embed.manifest.res" Debug\TP_Final_manifest.rc 
+       LinkEmbedManifest:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\oscar.sanchez\Desktop\UNLI\Materias\Modelos y Algoritmos para Videojuegos I\Practicas\TP_Final\Debug\TP_Final.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\SFML-1.6\lib\vc2008" "sfml-window-s-d.lib" "sfml-system-s-d.lib" "sfml-network-s-d.lib" "sfml-main-d.lib" "sfml-graphics-s-d.lib" "sfml-audio-s-d.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:LIBCMT /MANIFEST /ManifestFile:"Debug\TP_Final.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\oscar.sanchez\Desktop\UNLI\Materias\Modelos y Algoritmos para Videojuegos I\Practicas\TP_Final\Debug\TP_Final.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\oscar.sanchez\Desktop\UNLI\Materias\Modelos y Algoritmos para Videojuegos I\Practicas\TP_Final\Debug\TP_Final.lib" /MACHINE:X86 Debug\TP_Final.exe.embed.manifest.res
+         Debug\Hud.obj
+         Debug\Circulo.obj
+         Debug\Game.obj
+         Debug\Letra.obj
+         Debug\main.obj
+         Debug\Zone.obj
+         TP_Final.vcxproj -> C:\Users\oscar.sanchez\Desktop\UNLI\Materias\Modelos y Algoritmos para Videojuegos I\Practicas\TP_Final\Debug\TP_Final.exe
+       FinalizeBuildStatus:
+         Deleting file "Debug\TP_Final.unsuccessfulbuild".
+         Touching "Debug\TP_Final.lastbuildstate".
+     1>Done Building Project "C:\Users\oscar.sanchez\Desktop\UNLI\Materias\Modelos y Algoritmos para Videojuegos I\Practicas\TP_Final\TP_Final\TP_Final.vcxproj" (rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:08.47

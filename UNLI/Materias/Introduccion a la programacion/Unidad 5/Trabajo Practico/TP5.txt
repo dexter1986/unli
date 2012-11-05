@@ -1,0 +1,31 @@
+Actividades Unidad 5 — Arreglos
+En C no existe el tipo básico string (cadena), en su lugar se arma un vector de char cuyo último valor es el código 0 (no confundir con el char '0' que tiene código 48), su representación en char es '\0'
+eso significa que la cadena "Hola" asignada al vector char c[5] sería:
+
+c[0]='H' c[1]='o' c[2]='l' c[3]='a' c[4]=0
+
+Es importante recordar siempre de reservar un lugar para este caracter '\0' cuando se trabaje con cadenas (strings) en C.
+Como el final de la cadena siempre viene marcado por el caracter '\0' no es necesario suministrar la logitud de la cadena junto con el vector ya que al encontrar dicho caracter se sabe que es el final de la cadena.
+
+Ejercicio 5.1
+a) Escribir una función que dada una cadena devuelva su longitud.
+b) Escribir una función a la cual se le suministren dos cadenas y las concatene dando el resultado en la primera de ellas. (La acción de concatenar es juntar una cadena detrás de otra, por ejemplo char a[25]="Hola " y char b[]="Mundo" concatenar(a,b) daría en a="Hola Mundo")
+Nota: Cuando lo prueben en el vector de char donde va el resultado debe tener suficiente espacio para las dos cadenas.
+c) Escribir una función que busque dentro de una cadena un caracter y devuelva en que posición se encuentra, de lo contrario devuelva -1.
+d) Escribir una función que inserte un caracter en un string en una posición dada.
+e) Realizar un programa que pruebe que funcionan las funciones del los puntos anteriores. Solo entregar este programa.
+
+Ejercicio 5.2
+Juego de la generala, (se pueden usar las funciones escritas en la unidad 4)
+En vez de usar 5 variables usar un arreglo.
+Simular la tirada de dados e informar si se hizo: escalera (12345 o 23456 o 34561), full (3 dados iguales entre ellos y los otros 2 también iguales entre ellos, ej: 2 2 2 5 5 ), poker (4 dados iguales y uno diferente) o generala (5 dados iguales).
+Pista: si se ordenan los números iguales quedan juntos.
+
+Ejercicio 5.3
+Juego de tres en raya
+Realizar un programa que permita a dos jugadores jugar al tres en raya, primero introduce el movimiento el jugador de las cruces y luego el de los circulos. Debe controlar que los movimientos sean legales y si hay un ganador.
+
+Ejercicio 5.4
+Juego 7 y media http://es.wikipedia.org/wiki/Siete_y_media
+
+Generar una estructura que represente un mazo de cartas, hacer un programa que mezcle las cartas, y las reparta para el juego de 7 y media, cada jugador jugará por turno en el cual deberá pedir cartas y ver que no se pase intentando ganar a los otros (la computadora no juega solo reparte).

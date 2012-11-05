@@ -1,0 +1,14 @@
+En una granja hay 3 animales: Una vaca, un chancho y un pato.
+A estos animales les gusta imitarse entre ellos.
+
+Los controles del juego son los siguientes:
+1,2,3: Cambian de tipo los animales.
+4: Los animales comen
+5: Cada uno hace su ruido.
+
+Instrucciones:
+Con 1,2,3 los animales cambian del tipo. Con el 1 el animal de la izquierda es una vaca, el del medio un chancho y el de la derecha un pato. Con el 2 el de la izquierda es un pato, el del medio una vaca y el de la derecha un chancho. Con el 3 el animal de la izquierda es un chancho, el del medio un pato y el de la derecha una vaca. (Mirar el ejecutable para ver esto en acción).
+IMPORTANTE: Los animales no deben cambiar de posición, sino que deben cambiar de tipo. Con el 4 los animales comen. La acción de comer es igual para todos los animales, salvo para el chancho que comer como chancho.
+
+Disponible en: 	sábado, 11 de agosto de 2012, 11:55
+Fecha de entrega: 	sábado, 25 de agosto de 2012, 11:55

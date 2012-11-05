@@ -1,0 +1,7 @@
+http://c.conclase.net/borland/?borlandfun=cgets#inicio
+
+mover la pelota
+detectar el teclado
+mover la barra
+detectar las colisiones
+imprimir todo en pantalla

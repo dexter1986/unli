@@ -1,0 +1,30 @@
+Para seguir pensando en juegos durante el resto de esta semana, nada mejor que imaginar dos anti-juegos.
+
+CONVERTÍ 2 JUEGOS CLÁSICOS EN 2 ANTI-JUEGOS...
+
+... y REDACTÁ 2 INFORMES sobre ellos de 15 líneas cada uno.
+
+Te recomiendo de antemano que primero realices todo el ejercicio con un juego y que sólo después de redactado este primer Informe te ocupes del segundo juego y del segundo Informe (Ambos en un único documento Word u Open Office). De ese modo, vas a poder enfocarte mejor en los problemas que cada uno plantea. Esto no es obligatorio, por supuesto, sino apenas un consejo.
+
+1) Elegí dos videojuegos conocidos de cualquier época y plataforma.
+
+Tené en cuenta esto:
+
+· Si te ves tentado a preguntar si podés elegir tal o cual juego, entonces es porque ese juego no es lo suficientemente conocido. Elegí otro.
+
+· Que los juegos sean distintos entre sí (dos juegos de la misma franquicia no son aceptables – como Quake I y II).
+
+2) Jugá a esos dos juegos. No necesitás terminarlos, pero sí tenerlos frescos. Una hora a cada uno es lo mínimo recomendable.
+
+3) Ahora, a transformarlo en un anti-juego, siguiendo estos pasos:
+
+    Primero, vamos a desarmar los juegos que hayas elegido. A cada uno de estos juegos, removele sólo uno de los siguientes tres elementos que lo hacen ser un juego:
+            sistema de reglas
+            objetivos
+            obstáculos.
+
+        Así, describí brevemente (en un Informe de no más de 15 líneas) cómo queda cada uno de estos dos juegos con las modificaciones que les hiciste. Si querés un ejemplo de cómo escribirlo, volvé a leer en el material de lectura la idea de PacMan sin los fantasmitas: eso te puede dar una idea. Es decir, contá a grandes rasgos cómo es la experiencia del personaje o del jugador de enfrentarse a un juego así. Qué cosas suceden o dejan de suceder.
+
+        Asegurate de dejar en claro por qué este juego sigue siendo o no un juego (según nuestra última definición). Redactá ambos informes en un mismo archivo de OpenOffice o Word. Asegurate de incluir en tu informe el nombre del juego original y una imagen clara (png, jpg) de la parte del gameplay que describís. La imagen puede ser del juego original, o podés retocarla para mostrar tu versión de (anti)juego, tal como sucede en mi ejemplo de PacMan. 
+
+Recuerden que tienen tiempo para subir la actividad hasta el Lunes 8 de octubre.
