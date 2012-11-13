@@ -1,0 +1,12 @@
+ACTIVIDAD 2 - Crear un juego orientado a una audiencia específica
+
+
+Creá un concepto original de juego en no más de media carilla para la siguiente audiencia:
+
+Audiencia: Mujeres de 30 a 39 años. Usuarias frecuentes de redes sociales (Twitter, Facebook, Foursquare, etc) y telefonía móvil de última generación (70% iPhone): pasan al menos 20 horas por semana utilizando estos medios. Viajeras frecuentes (ejecutivas). 40% de ellas son madres.
+
+Recordá, sobre todo, describir la temática y una idea de cómo será el gameplay de tu juego. Deberás justificar adecuadamente tus decisiones de diseño (por qué elegiste la temática y cómo el juego está orientado hacia esa audiencia específica). Deberás saber aprovechar la poca información disponible sobre cada audiencia para hacer inferencias sobre qué juegos (es decir qué tipo de experiencias de gameplay) les interesarán más que otras.
+
+Sugerencia: Si no conocés gran cosa sobre la audiencia o sobre alguno de los datos ofrecidos, investigá en Internet o haciendo entrevistas informales para recabar información útil. Los resultados de tu investigación servirán para justificar aspectos de tu diseño.
+
+Subí esta actividad a la sección Tareas hasta el martes 13 de noviembre.
