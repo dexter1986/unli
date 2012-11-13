@@ -1,0 +1,26 @@
+ACTIVIDAD 1 – INFORME SOBRE JUEGOS
+
+
+En esta ocasión, tu informe sobre juegos estará enfocado en ahondar la comprensión de lo que constituye una audiencia.
+
+Este informe involucra 2 juegos. Deberás probar y analizar ambos:
+
+Juegos:
+
+1) Blush
+
+http://blurst.com/blush/
+
+Requiere plugin de Unity3D (gratuito)
+
+2) Farmville
+
+http://www.facebook.com/farmville
+
+Juego en Facebook (requiere cuenta gratuita en Facebook)
+
+Deberás explicar brevemente, en no más de un párrafo por juego, hacia qué clase de audiencia está dirigido cada uno (describiendo así con claridad cómo está constituida la audiencia principal) y cómo esto se revela a través de algunas decisiones que hayas notado en el diseño de juego y en la estética de cada uno.
+
+Opcionalmente, también podés agregar ejemplos sobre la tecnología utilizada o el marketing del juego. De todos modos, estos dos aspectos son optativos, mientras que los del párrafo anterior (diseño, estética) son requeridos. Sin duda encontrarás que existe una relación profunda entre estas decisiones y las audiencias de estos juegos.
+
+Subí esta actividad a la sección Tareas hasta el martes 13 de noviembre.
