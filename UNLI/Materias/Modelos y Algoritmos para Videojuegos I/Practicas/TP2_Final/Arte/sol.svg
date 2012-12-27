@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg13549"
+   version="1.1"
+   inkscape:version="0.47 r22583"
+   sodipodi:docname="New document 6">
+  <defs
+     id="defs13551">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective13557" />
+    <inkscape:perspective
+       id="perspective13521"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <linearGradient
+       gradientTransform="translate(2.5502163e-6,-2.9824449e-6)"
+       inkscape:collect="always"
+       xlink:href="#linearGradient3397"
+       id="linearGradient3405"
+       gradientUnits="userSpaceOnUse"
+       x1="646.53253"
+       y1="80.522873"
+       x2="648.50525"
+       y2="83.141518" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient3397">
+      <stop
+         style="stop-color:#ff0000;stop-opacity:1;"
+         offset="0"
+         id="stop3399" />
+      <stop
+         style="stop-color:#ff0000;stop-opacity:0;"
+         offset="1"
+         id="stop3401" />
+    </linearGradient>
+    <linearGradient
+       gradientTransform="translate(-183.73592,-293.00438)"
+       inkscape:collect="always"
+       xlink:href="#linearGradient2596"
+       id="linearGradient2602"
+       x1="72.686829"
+       y1="130.6306"
+       x2="115.5971"
+       y2="95.146393"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       id="linearGradient2596">
+      <stop
+         style="stop-color:#ff5602;stop-opacity:1;"
+         offset="0"
+         id="stop2598" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop2600" />
+    </linearGradient>
+    <filter
+       color-interpolation-filters="sRGB"
+       inkscape:collect="always"
+       id="filter3842">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.54046"
+         id="feGaussianBlur3844" />
+    </filter>
+    <inkscape:perspective
+       id="perspective13622"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <linearGradient
+       gradientTransform="translate(2.1607158e-5,-2.7371703e-6)"
+       inkscape:collect="always"
+       xlink:href="#linearGradient3397-7"
+       id="linearGradient3405-1"
+       gradientUnits="userSpaceOnUse"
+       x1="646.53253"
+       y1="80.522873"
+       x2="648.50525"
+       y2="83.141518" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient3397-7">
+      <stop
+         style="stop-color:#ff0000;stop-opacity:1;"
+         offset="0"
+         id="stop3399-4" />
+      <stop
+         style="stop-color:#ff0000;stop-opacity:0;"
+         offset="1"
+         id="stop3401-0" />
+    </linearGradient>
+    <linearGradient
+       gradientTransform="matrix(0.10908479,0,0,0.10908479,79.413881,61.62998)"
+       inkscape:collect="always"
+       xlink:href="#linearGradient2596-4"
+       id="linearGradient2602-9"
+       x1="72.686829"
+       y1="130.6306"
+       x2="115.5971"
+       y2="95.146393"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       id="linearGradient2596-4">
+      <stop
+         style="stop-color:#ff5602;stop-opacity:1;"
+         offset="0"
+         id="stop2598-8" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop2600-8" />
+    </linearGradient>
+    <filter
+       color-interpolation-filters="sRGB"
+       inkscape:collect="always"
+       id="filter3842-2">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.54046"
+         id="feGaussianBlur3844-4" />
+    </filter>
+    <inkscape:perspective
+       id="perspective13713"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3397-5"
+       id="linearGradient3405-5"
+       gradientUnits="userSpaceOnUse"
+       x1="646.53253"
+       y1="80.522873"
+       x2="648.50525"
+       y2="83.141518"
+       gradientTransform="translate(5.4647325e-6,-1.1957531e-5)" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient3397-5">
+      <stop
+         style="stop-color:#ff0000;stop-opacity:1;"
+         offset="0"
+         id="stop3399-1" />
+      <stop
+         style="stop-color:#ff0000;stop-opacity:0;"
+         offset="1"
+         id="stop3401-7" />
+    </linearGradient>
+    <linearGradient
+       gradientTransform="matrix(0.19421297,0,0,0.19478233,52.767347,26.966202)"
+       inkscape:collect="always"
+       xlink:href="#linearGradient2596-1"
+       id="linearGradient2602-1"
+       x1="284.18716"
+       y1="388.52194"
+       x2="510.88144"
+       y2="226.56451"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       id="linearGradient2596-1">
+      <stop
+         style="stop-color:#ff5602;stop-opacity:1;"
+         offset="0"
+         id="stop2598-5" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop2600-2" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3583"
+       id="linearGradient3626"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(-0.13692346,0,0,0.1373528,101.16752,421.97708)"
+       x1="38.963764"
+       y1="541.80646"
+       x2="56.456928"
+       y2="517.45465" />
+    <linearGradient
+       id="linearGradient3583">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop3585" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop3587" />
+    </linearGradient>
+    <filter
+       color-interpolation-filters="sRGB"
+       id="filter8092"
+       inkscape:collect="always">
+      <feGaussianBlur
+         id="feGaussianBlur8094"
+         stdDeviation="11.799213973799127"
+         inkscape:collect="always" />
+    </filter>
+    <filter
+       color-interpolation-filters="sRGB"
+       inkscape:collect="always"
+       id="filter3842-7">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.54046"
+         id="feGaussianBlur3844-6" />
+    </filter>
+    <linearGradient
+       id="linearGradient3374">
+      <stop
+         style="stop-color:#ffea00;stop-opacity:1;"
+         offset="0"
+         id="stop3376" />
+      <stop
+         style="stop-color:#ff1c00;stop-opacity:1;"
+         offset="1"
+         id="stop3378" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3374"
+       id="linearGradient13841"
+       x1="385.83646"
+       y1="789.65814"
+       x2="336.86578"
+       y2="300.32263"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.15825795"
+     inkscape:cx="474.01785"
+     inkscape:cy="466.78094"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1280"
+     inkscape:window-height="750"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata13554">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:#ff5555;fill-opacity:0;fill-rule:evenodd;stroke:none"
+       d="m 237.47227,582.89384 c 0,40.38609 32.87988,73.16331 73.39263,73.16331 40.51275,0 73.39315,-32.77722 73.39315,-73.16331 0,-40.38628 -32.8804,-73.16343 -73.39315,-73.16343 -40.51275,0 -73.39263,32.77715 -73.39263,73.16343 z"
+       id="path2465"
+       inkscape:export-filename="C:\Users\star\Desktop\siteLUCIANA.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72" />
+    <path
+       style="fill:url(#linearGradient13841);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.80000000999999998;marker-start:none;marker-mid:none"
+       d="M 662.04589,462.52814 C 538.5258,486.69773 531.21116,423.98542 592.59893,309.90781 c -82.8575,67.28962 -139.92165,74.15468 -138.89392,-55.0692 -51.94504,161.61855 -113.27566,68.90496 -131.00258,-11.01389 15.06387,144.52148 -51.08209,130.37082 -140.47208,70.80327 79.67284,116.09074 25.6785,125.58184 -61.55512,108.56505 128.10885,79.08644 47.39075,99.34131 -11.04818,125.87247 98.94344,23.74023 123.56899,66.47692 58.39825,132.16613 C 294.59719,649.9765 361.2838,704.6865 382.67936,824.41158 417.47622,656.60313 489.26442,705.95309 561.03205,755.18163 487.34438,616.57574 573.47559,628.43732 646.2622,627.73582 537.38119,572.66656 598.07282,517.59744 662.04589,462.52814 z"
+       id="path3246"
+       sodipodi:nodetypes="cccccccccccc"
+       inkscape:export-filename="C:\Users\star\Desktop\siteLUCIANA.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72" />
+    <path
+       transform="matrix(-9.5823607,0,0,9.5524073,800.87649,-4316.1325)"
+       style="fill:#ffa900;fill-opacity:1;fill-rule:evenodd;stroke:none;filter:url(#filter3842-7)"
+       d="m 58.822323,506.51633 c 0,8.72847 -7.013139,15.81245 -15.654328,15.81245 -8.641188,0 -15.654327,-7.08398 -15.654327,-15.81245 0,-8.72848 7.013139,-15.81246 15.654327,-15.81246 8.641189,0 15.654328,7.08398 15.654328,15.81246 z"
+       id="path7966"
+       inkscape:export-filename="C:\Users\star\Desktop\siteLUCIANA.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72" />
+    <path
+       transform="matrix(-7.878742,0,0,7.8541146,733.0324,-3443.7582)"
+       style="fill:url(#linearGradient3626);fill-opacity:1;fill-rule:evenodd;stroke:none;filter:url(#filter8092)"
+       d="m 58.822323,506.51633 c 0,8.72847 -7.013139,15.81245 -15.654328,15.81245 -8.641188,0 -15.654327,-7.08398 -15.654327,-15.81245 0,-8.72848 7.013139,-15.81246 15.654327,-15.81246 8.641189,0 15.654328,7.08398 15.654328,15.81246 z"
+       id="path2474"
+       inkscape:export-filename="C:\Users\star\Desktop\siteLUCIANA.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72" />
+    <path
+       sodipodi:type="arc"
+       style="opacity:0.76356590000000002;fill:url(#linearGradient2602-1);fill-opacity:1;fill-rule:evenodd;stroke:none"
+       id="path3533"
+       sodipodi:cx="107.96018"
+       sodipodi:cy="102.64341"
+       sodipodi:rx="15.701934"
+       sodipodi:ry="15.701934"
+       d="m 123.66212,102.64341 a 15.701934,15.701934 0 1 1 -31.403872,0 15.701934,15.701934 0 1 1 31.403872,0 z"
+       transform="matrix(-8.0371804,0,0,8.0120569,1254.2947,-301.40365)"
+       inkscape:export-filename="C:\Users\star\Desktop\siteLUCIANA.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72" />
+    <path
+       style="fill:#ffffff;fill-rule:evenodd;stroke:none"
+       d="m 455.08134,480.96416 c -15.2096,0.31777 -44.20973,16.64297 -47.40983,25.33462 -7.61224,-9.31258 -25.06371,-37.80066 -10.95652,-63.56752 13.74522,-25.10461 49.67537,20.7947 58.36635,38.2329 z"
+       id="path2592"
+       sodipodi:nodetypes="cczc"
+       inkscape:export-filename="C:\Users\star\Desktop\siteLUCIANA.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72" />
+    <path
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 453.92538,526.39034 c -44.71893,24.79682 -56.17903,32.38092 -114.74464,60.6189 78.84179,57.54835 131.66576,0.64513 114.74464,-60.6189 z"
+       id="path3248"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="C:\Users\star\Desktop\siteLUCIANA.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72" />
+    <path
+       style="fill:#000000;fill-rule:evenodd;stroke:none"
+       d="m 440.81504,483.81049 c -26.00907,-55.20628 -64.26193,-33.4066 -33.73309,21.97884 9.81502,-10.54786 23.47836,-16.94028 33.73309,-21.97884 z"
+       id="path3258"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="C:\Users\star\Desktop\siteLUCIANA.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72" />
+    <path
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 403.46945,485.61637 c 1.88864,3.61659 5.26637,5.86362 7.53963,5.01571 2.27331,-0.84809 2.58533,-4.47153 0.69667,-8.08816 -1.88865,-3.61662 -5.26689,-5.86368 -7.54017,-5.01572 -2.27327,0.84803 -2.58531,4.47147 -0.69613,8.08817 z"
+       id="path3280"
+       inkscape:export-filename="C:\Users\star\Desktop\siteLUCIANA.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72" />
+    <path
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 414.46406,487.06269 c 0.11838,1.51617 1.03186,2.90027 2.03953,3.08951 1.00765,0.18942 1.73006,-0.88757 1.61214,-2.40375 -0.11838,-1.51612 -1.03186,-2.90029 -2.03953,-3.08946 -1.00816,-0.18941 -1.73004,0.88756 -1.61214,2.4037 z"
+       id="path3282"
+       inkscape:export-filename="C:\Users\star\Desktop\siteLUCIANA.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72" />
+    <path
+       style="fill:#ffffff;fill-rule:evenodd;stroke:none"
+       d="m 341.95706,535.49578 c -15.17921,1.00749 -43.40389,18.63195 -46.20392,27.45979 -8.02983,-8.95749 -26.76391,-36.62406 -13.84665,-63.00444 12.58462,-25.70237 50.57283,18.51895 60.05057,35.54465 z"
+       id="path7948"
+       sodipodi:nodetypes="cczc"
+       inkscape:export-filename="C:\Users\star\Desktop\siteLUCIANA.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72" />
+    <path
+       style="fill:#000000;fill-rule:evenodd;stroke:none"
+       d="m 327.18821,539.77735 c -32.95506,-51.38795 -68.82959,-27.60149 -31.36915,23.38122 8.36401,-11.72515 19.57385,-18.81145 31.36915,-23.38122 z"
+       id="path7950"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="C:\Users\star\Desktop\siteLUCIANA.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72" />
+    <path
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 289.61917,543.62105 c 2.34227,3.34267 5.98362,5.13514 8.12767,4.00109 2.14403,-1.13399 1.98288,-4.76725 -0.36043,-8.10998 -2.34228,-3.34265 -5.98364,-5.13511 -8.12767,-4.00107 -2.14406,1.13407 -1.9834,4.76737 0.36043,8.10996 z"
+       id="path7954"
+       inkscape:export-filename="C:\Users\star\Desktop\siteLUCIANA.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72" />
+    <path
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 300.70904,543.63721 c 0.31408,1.48816 1.39951,2.74282 2.42363,2.80053 1.02361,0.0575 1.59978,-1.10328 1.28622,-2.59149 -0.31409,-1.48814 -1.39949,-2.74276 -2.42365,-2.80047 -1.0236,-0.0581 -1.60028,1.10324 -1.2862,2.59143 z"
+       id="path7956"
+       inkscape:export-filename="C:\Users\star\Desktop\siteLUCIANA.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#aa0000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       id="path2594"
+       sodipodi:cx="663.63141"
+       sodipodi:cy="79.476051"
+       sodipodi:rx="5.136466"
+       sodipodi:ry="2.4892104"
+       d="m 668.76787,79.476051 a 5.136466,2.4892104 0 1 1 -10.27293,0 5.136466,2.4892104 0 1 1 10.27293,0 z"
+       transform="matrix(3.7637266,-1.7020573,1.1447285,4.2072472,-2206.3062,1337.6381)"
+       inkscape:export-filename="C:\Users\star\Desktop\siteLUCIANA.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72" />
+    <path
+       style="opacity:0.52325583;fill:url(#linearGradient3405-5);fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 291.37547,583.32193 c -7.56591,-12.88581 8.34189,-29.04184 27.25617,-39.34487 8.32026,-4.5321 15.45931,-8.29034 25.47666,-7.73028 2.93802,24.71668 -45.16691,59.96104 -52.73283,47.07515 z"
+       id="path3382"
+       sodipodi:nodetypes="cscz"
+       inkscape:export-filename="C:\Users\star\Desktop\siteLUCIANA.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:4.30000019;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 398.0721,896.40857 c -13.61262,-34.38481 -36.56264,-37.85469 -56.00131,-43.83084 0,0 0,0 0,0"
+       id="path24058"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="C:\Users\star\Desktop\siteLUCIANA.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 101.87321,852.26509 98.28577,2.18679"
+       id="path24086"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\star\Desktop\siteLUCIANA.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 259.54508,851.71171 51.45552,0"
+       id="path24088"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\star\Desktop\siteLUCIANA.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72" />
+  </g>
+</svg>
