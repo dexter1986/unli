@@ -28,7 +28,7 @@ void GameObject::LoadSprite(const std::string &filename)
 	height = sprite.GetSize().y;
 }
 
-bool GameObject::Hit(int x,int y)
+bool GameObject::Hit(int x,int y) const
 {
 	if(!isEnable || !isCollide)
 		return false;
@@ -43,7 +43,7 @@ bool GameObject::Hit(int x,int y)
 void GameObject::Update(RenderWindow *app)
 {}
 
-void GameObject::Draw(RenderWindow *app)
+void GameObject::Draw(RenderWindow *app) const
 {
 	if(isEnable)
 		app->Draw(sprite);
@@ -54,6 +54,35 @@ void GameObject::Move(float x,float y)
 	pos.x = x;
 	pos.y = y;
 	sprite.SetPosition(pos);
+}
+
+Vector2f GameObject::GetPos() const
+{
+	return pos;
+}
+
+float GameObject::GetWidth() const
+{
+	return width;
+}
+
+float GameObject::GetHeight() const
+{
+	return height;
+}
+
+void GameObject::Init(RenderWindow *app)
+{
+}
+
+void GameObject::Rotate(float rad)
+{
+	sprite.SetRotation(rad);
+}
+
+void GameObject::SetCenter(float x,float y)
+{
+	sprite.SetCenter(x,y);
 }
 
 GameObject::~GameObject(void)
