@@ -6,6 +6,7 @@
 
 #include "Background.h"
 #include "NubesParallax.h"
+#include "Cannon.h"
 
 using namespace sf;
 using namespace std;
@@ -23,10 +24,12 @@ private:
 
 	Background *background;
 	NubesParallax *nubes;
+	Cannon *cannon;
 
 	SoundBuffer sonido_bff;		
 	Sound sonido;	
-		
+
+	void ProcessInput();
 	bool isGame;
 	int puntos;	
 	int vidas;

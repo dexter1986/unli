@@ -2,7 +2,7 @@
 
 void Game::Go(){
 	//Oculta el cursor
-	pWnd->ShowMouseCursor(false);
+	//pWnd->ShowMouseCursor(false);
 	pWnd->SetFramerateLimit(30);
 	//objeto para recibir eventos
 	Event evt;
@@ -21,6 +21,8 @@ void Game::Go(){
 		//procesar eventos
 		while (pWnd->GetEvent(evt))
 			ProcessEvent(evt);
+
+		ProcessInput();
 
 		//procesar colisiones
 		ProcessCollisions();
@@ -57,8 +59,11 @@ void Game::Init()
 	puntos = 0;
 
 	background = new Background();
+	background->Init(pWnd);
 	nubes = new NubesParallax();
-
+	nubes->Init(pWnd);
+	cannon = new Cannon();
+	cannon->Init(pWnd);
 }
 
 void Game::LoadSound()
@@ -69,6 +74,7 @@ void Game::LoadSound()
 
 Game::~Game()
 {
+	delete cannon;
 	delete nubes;
 	delete background;
 	delete pWnd;
@@ -97,7 +103,7 @@ void Game::ProcessEvent(Event &evt)
 		{
 			
 		}
-	}
+	}	
 }
 
 void Game::Quit()
@@ -116,12 +122,30 @@ void Game::DrawGame()
 {
 	background->Draw(pWnd);
 	nubes->Draw(pWnd);
+	cannon->Draw(pWnd);
+}
+
+void Game::ProcessInput()
+{
+	int x = in->GetMouseX();
+	float c =  pWnd->GetWidth() /2;
+	float rad;
+	if(x == c)
+	{
+		rad = 0;
+	}
+	else
+	{
+		rad = 90 - (x * 90 / c);
+	}
+	cannon->Rotate(rad);
 }
 
 void Game::UpdateGame()
 {
 	background->Update(pWnd);
 	nubes->Update(pWnd);
+	cannon->Update(pWnd);
 
 	if(rand()%1000 > 900)
 		nubes->Sentido(rand()%2);
