@@ -85,6 +85,11 @@ void GameObject::SetCenter(float x,float y)
 	sprite.SetCenter(x,y);
 }
 
+bool GameObject::Hit(Rect<int> *rect) const
+{	
+	return  rect->Intersects(sprite.GetSubRect());
+}
+
 GameObject::~GameObject(void)
 {
 

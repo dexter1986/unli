@@ -7,12 +7,15 @@
 #include "Background.h"
 #include "NubesParallax.h"
 #include "Cannon.h"
+#include "Bala.h"
 
 using namespace sf;
 using namespace std;
 
 #ifndef GAME_H
 #define GAME_H
+
+#define MAX_BALAS 20
 
 class Game
 {
@@ -25,6 +28,10 @@ private:
 	Background *background;
 	NubesParallax *nubes;
 	Cannon *cannon;
+	int cant_balas;
+	Bala *balas[20];
+
+	int force;
 
 	SoundBuffer sonido_bff;		
 	Sound sonido;	

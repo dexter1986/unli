@@ -15,8 +15,11 @@ private:
 	GameObject *cano;
 	float rot_rad;
 public:
+	float GetRad() const;
+	Vector2f GetPosCano() const;
+	Vector2f GetLargoCano() const;
 	void Enable(bool enable);
-	void Draw(RenderWindow *app) const;
+	void Draw(RenderWindow *app) const;	
 	bool Hit(int x,int y) const;
 	void Update(RenderWindow *app);	
 	void Init(RenderWindow *app);

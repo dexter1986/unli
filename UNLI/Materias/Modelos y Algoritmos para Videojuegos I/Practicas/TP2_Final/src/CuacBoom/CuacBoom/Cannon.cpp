@@ -47,13 +47,29 @@ void Cannon::Rotate(float rad)
 {
 	if(rad > -70 && rad < 70) 
 	{	
+		rot_rad = rad;
 		cano->Rotate(rad);
 	}
+}
+
+Vector2f Cannon::GetLargoCano() const
+{
+	return Vector2f(cano->GetWidth(),cano->GetHeight());
 }
 
 void Cannon::Init(RenderWindow *app)
 {
 	 base->Move((app->GetWidth() - base->GetWidth())/2, app->GetHeight() - base->GetHeight() - 50); 
-	 cano->SetCenter(cano->GetWidth()/2,cano->GetHeight());
 	 cano->Move(app->GetWidth()/2, base->GetPos().y  + base->GetHeight() / 2); 
+	 cano->SetCenter(cano->GetWidth()/2,cano->GetHeight());	 
+}
+
+float Cannon::GetRad() const
+{
+	return rot_rad;
+}
+
+Vector2f Cannon::GetPosCano() const
+{
+	return cano->GetPos();
 }

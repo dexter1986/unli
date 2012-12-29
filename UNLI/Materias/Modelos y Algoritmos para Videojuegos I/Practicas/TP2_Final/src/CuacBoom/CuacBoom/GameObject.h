@@ -11,6 +11,7 @@ class GameObject: public GameObjectBase
 {
 protected:		
 	Vector2f pos;	
+	Vector2f velocidad;
 	float width,height;
 	bool isEnable;
 	bool isCollide;
@@ -24,6 +25,7 @@ public:
 	void Init(RenderWindow *app);
 	void Draw(RenderWindow *app) const;
 	bool Hit(int x,int y) const;
+	bool Hit(Rect<int> *rect) const;
 	Vector2f GetPos() const;
 	float GetWidth() const;
 	float GetHeight() const;
