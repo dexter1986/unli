@@ -1,10 +1,22 @@
 #include "GameObject.h"
+#include <cstdio>
 
 GameObject::GameObject(bool isCollide,const std::string &filename)
 {
 	GameObject::isCollide = isCollide;
 	GameObject::isEnable = false;
+	GameObject::maxframes = 0;
+	GameObject::currentframe = 0;
 	GameObject::LoadSprite(filename);
+}
+
+GameObject::GameObject(bool isCollide,const std::string &filename,int frames)
+{
+	GameObject::isCollide = isCollide;
+	GameObject::isEnable = false;
+	GameObject::maxframes = frames;
+	GameObject::currentframe = 0;
+	GameObject::LoadSprite(filename,frames);
 }
 
 GameObject::GameObject(){
@@ -20,10 +32,38 @@ const sf::Image *GameObject::ShareImage()
 	return &img;
 }
 
+bool GameObject::isAnim() const
+{
+	return maxframes > 1;
+}
+
 void GameObject::LoadSprite(const std::string &filename)
 {
 	img.LoadFromFile(filename);
 	sprite.SetImage(img);
+	width =  sprite.GetSize().x;
+	height = sprite.GetSize().y;
+}
+
+void GameObject::LoadSprite(const std::string &filename,int frames)
+{
+	imgAnim = new Image[frames];
+
+	int pos = filename.find(".");
+	
+	string extension = filename.substr(pos-1);
+	string name =  filename.substr(0,pos-1);
+	string file;
+
+	for(int i=0;i<frames;i++)
+	{	
+		file = i;
+		file = name + "-" + file + extension;
+		
+		(imgAnim+i)->LoadFromFile(file);
+	}
+
+	sprite.SetImage(*(imgAnim+currentframe));
 	width =  sprite.GetSize().x;
 	height = sprite.GetSize().y;
 }
@@ -92,5 +132,11 @@ bool GameObject::Hit(Rect<int> *rect) const
 
 GameObject::~GameObject(void)
 {
-
+	if(maxframes > 0)
+	{
+		for(int i;i<maxframes;i++)
+		{			
+			delete (imgAnim+i);
+		}
+	}
 }

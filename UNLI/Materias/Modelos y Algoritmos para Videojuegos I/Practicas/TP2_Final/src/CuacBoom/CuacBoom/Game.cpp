@@ -55,10 +55,10 @@ void Game::Init()
 	
 	isGame = false;
 	
-	vidas = 3;
+	vidas = MAX_VIDAS;
 	puntos = 0;
 	cant_balas = 0;
-	force = 3;
+	force = MIN_FORCE;
 
 	for(int i=0;i<MAX_BALAS;i++)
 	{
@@ -133,7 +133,7 @@ void Game::ProcessEvent(Event &evt)
 					}
 				}				
 			}
-			force = 3;
+			force = MIN_FORCE;
 		}
 	}
 }
@@ -196,7 +196,7 @@ void Game::ProcessInput()
 
 	if(in->IsMouseButtonDown(Mouse::Left))
 	{
-		if(cant_balas < MAX_BALAS && force < 12)
+		if(cant_balas < MAX_BALAS && force < MAX_FORCE)
 		{
 			force++;
 		}
