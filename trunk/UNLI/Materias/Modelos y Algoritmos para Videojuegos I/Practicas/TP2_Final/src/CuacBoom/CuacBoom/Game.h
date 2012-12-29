@@ -16,6 +16,9 @@ using namespace std;
 #define GAME_H
 
 #define MAX_BALAS 20
+#define MAX_FORCE 20
+#define MIN_FORCE 3
+#define MAX_VIDAS 3
 
 class Game
 {

@@ -17,10 +17,15 @@ protected:
 	bool isCollide;
 	Image img;
 	Sprite sprite;
-	void LoadSprite(const std::string &Filename);		
+	void LoadSprite(const std::string &filename);	
+	void LoadSprite(const std::string &filename,int frames);
+	int maxframes;
+	int currentframe;
+	Image *imgAnim;
 public:
 	GameObject();
 	GameObject(bool isCollide,const std::string &Filename);	
+	GameObject(bool isCollide,const std::string &filename,int frames);	
 	void Enable(bool enable);
 	void Init(RenderWindow *app);
 	void Draw(RenderWindow *app) const;
@@ -29,6 +34,7 @@ public:
 	Vector2f GetPos() const;
 	float GetWidth() const;
 	float GetHeight() const;
+	bool isAnim() const;
 	void Update(RenderWindow *app);
 	const sf::Image *ShareImage();
 	void Move(float x,float y);
