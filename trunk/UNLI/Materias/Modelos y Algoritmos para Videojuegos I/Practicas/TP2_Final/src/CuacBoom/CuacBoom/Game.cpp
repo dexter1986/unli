@@ -2,7 +2,7 @@
 
 void Game::Go(){
 	//Oculta el cursor
-	//pWnd->ShowMouseCursor(false);
+	pWnd->ShowMouseCursor(false);
 	pWnd->SetFramerateLimit(30);
 	//objeto para recibir eventos
 	Event evt;
@@ -57,6 +57,13 @@ void Game::Init()
 	
 	vidas = 3;
 	puntos = 0;
+	cant_balas = 0;
+	force = 3;
+
+	for(int i=0;i<MAX_BALAS;i++)
+	{
+		balas[i] = NULL;
+	}
 
 	background = new Background();
 	background->Init(pWnd);
@@ -73,7 +80,13 @@ void Game::LoadSound()
 }
 
 Game::~Game()
-{
+{	
+	for(int i=0;i<MAX_BALAS;i++)
+	{
+		if(balas[i] != NULL)
+			delete balas[i];
+	}
+
 	delete cannon;
 	delete nubes;
 	delete background;
@@ -103,7 +116,26 @@ void Game::ProcessEvent(Event &evt)
 		{
 			
 		}
-	}	
+	}
+	else if(evt.Type == Event::MouseButtonReleased)
+	{
+		if(evt.MouseButton.Button == Mouse::Left)
+		{
+			if(cant_balas < MAX_BALAS)
+			{
+				cant_balas++;
+				for(int i=0;i<MAX_BALAS;i++)
+				{
+					if(balas[i] == NULL)
+					{
+						balas[i] = new Bala(cannon->GetPosCano(),cannon->GetLargoCano(),cannon->GetRad(),force);	
+						break;
+					}
+				}				
+			}
+			force = 3;
+		}
+	}
 }
 
 void Game::Quit()
@@ -115,14 +147,36 @@ void Game::Quit()
 
 void Game::ProcessCollisions()
 {
-	
+	for(int i=0;i<MAX_BALAS;i++)
+	{
+		if(balas[i] != NULL)
+		{
+			Vector2f pos = balas[i]->GetPos();
+			if(pos.x > 0 && pos.x < pWnd->GetWidth() && pos.y > 0 && pos.y < pWnd->GetHeight())
+			{
+				//Comprobar si le pega a un pato
+			}
+			else
+			{
+				delete balas[i];
+				balas[i] = NULL;
+				cant_balas--;
+			}
+		}
+	}
 }
 
 void Game::DrawGame()
 {
 	background->Draw(pWnd);
-	nubes->Draw(pWnd);
 	cannon->Draw(pWnd);
+	for(int i=0;i<MAX_BALAS;i++)
+	{
+		if(balas[i] != NULL)
+			balas[i]->Draw(pWnd);
+	}
+
+	nubes->Draw(pWnd);
 }
 
 void Game::ProcessInput()
@@ -139,6 +193,14 @@ void Game::ProcessInput()
 		rad = 90 - (x * 90 / c);
 	}
 	cannon->Rotate(rad);
+
+	if(in->IsMouseButtonDown(Mouse::Left))
+	{
+		if(cant_balas < MAX_BALAS && force < 12)
+		{
+			force++;
+		}
+	}
 }
 
 void Game::UpdateGame()
@@ -146,6 +208,12 @@ void Game::UpdateGame()
 	background->Update(pWnd);
 	nubes->Update(pWnd);
 	cannon->Update(pWnd);
+
+	for(int i=0;i<MAX_BALAS;i++)
+	{
+		if(balas[i] != NULL)
+			balas[i]->Update(pWnd);
+	}
 
 	if(rand()%1000 > 900)
 		nubes->Sentido(rand()%2);
