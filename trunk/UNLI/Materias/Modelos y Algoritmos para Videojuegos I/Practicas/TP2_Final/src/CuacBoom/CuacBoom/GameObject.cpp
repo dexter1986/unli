@@ -1,5 +1,5 @@
 #include "GameObject.h"
-#include <cstdio>
+#include "Helper.h"
 
 GameObject::GameObject(bool isCollide,const std::string &filename)
 {
@@ -49,16 +49,15 @@ void GameObject::LoadSprite(const std::string &filename,int frames)
 {
 	imgAnim = new Image[frames];
 
-	int pos = filename.find(".");
+	int pos = filename.find_last_of(".");
 	
-	string extension = filename.substr(pos-1);
-	string name =  filename.substr(0,pos-1);
+	string extension = filename.substr(pos);
+	string name =  filename.substr(0,pos);
 	string file;
 
 	for(int i=0;i<frames;i++)
-	{	
-		file = i;
-		file = name + "-" + file + extension;
+	{		
+		file = name + "-" + Helper::ToInt(i) + extension;
 		
 		(imgAnim+i)->LoadFromFile(file);
 	}
@@ -132,11 +131,18 @@ bool GameObject::Hit(Rect<int> *rect) const
 
 GameObject::~GameObject(void)
 {
-	if(maxframes > 0)
+	/*if(maxframes > 0)
 	{
-		for(int i;i<maxframes;i++)
-		{			
-			delete (imgAnim+i);
-		}
-	}
+		delete imgAnim;		
+	}*/
+}
+
+void GameObject::Anim()
+{
+
+}
+
+void GameObject::UpdateFrame()
+{
+	sprite.SetImage(*(imgAnim+currentframe));
 }

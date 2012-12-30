@@ -19,7 +19,8 @@ Cannon::~Cannon()
 
 void Cannon::Enable(bool enable)
 {
-
+	cano->Enable(enable);
+	base->Enable(enable);	
 }
 
 void Cannon::Draw(RenderWindow *app) const
@@ -72,4 +73,14 @@ float Cannon::GetRad() const
 Vector2f Cannon::GetPosCano() const
 {
 	return cano->GetPos();
+}
+
+Vector2f Cannon::GetPos() const
+{
+	return base->GetPos();
+}
+
+Vector2f Cannon::GetSize() const
+{
+	return Vector2f(base->GetWidth(),base->GetHeight());
 }

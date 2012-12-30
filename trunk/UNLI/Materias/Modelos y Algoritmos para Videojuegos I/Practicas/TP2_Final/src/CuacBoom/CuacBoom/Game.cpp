@@ -71,6 +71,8 @@ void Game::Init()
 	nubes->Init(pWnd);
 	cannon = new Cannon();
 	cannon->Init(pWnd);
+	energyLevel = new EnergyLevel(cannon->GetPos(),cannon->GetSize());
+	energyLevel->Init(pWnd);
 }
 
 void Game::LoadSound()
@@ -87,6 +89,7 @@ Game::~Game()
 			delete balas[i];
 	}
 
+	delete energyLevel;
 	delete cannon;
 	delete nubes;
 	delete background;
@@ -134,6 +137,7 @@ void Game::ProcessEvent(Event &evt)
 				}				
 			}
 			force = MIN_FORCE;
+			energyLevel->SetForceLevel(force);
 		}
 	}
 }
@@ -170,6 +174,7 @@ void Game::DrawGame()
 {
 	background->Draw(pWnd);
 	cannon->Draw(pWnd);
+	energyLevel->Draw(pWnd);
 	for(int i=0;i<MAX_BALAS;i++)
 	{
 		if(balas[i] != NULL)
@@ -199,6 +204,7 @@ void Game::ProcessInput()
 		if(cant_balas < MAX_BALAS && force < MAX_FORCE)
 		{
 			force++;
+			energyLevel->SetForceLevel(force);
 		}
 	}
 }
@@ -208,7 +214,7 @@ void Game::UpdateGame()
 	background->Update(pWnd);
 	nubes->Update(pWnd);
 	cannon->Update(pWnd);
-
+	energyLevel->Update(pWnd);
 	for(int i=0;i<MAX_BALAS;i++)
 	{
 		if(balas[i] != NULL)

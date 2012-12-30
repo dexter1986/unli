@@ -17,6 +17,8 @@ private:
 public:
 	float GetRad() const;
 	Vector2f GetPosCano() const;
+	Vector2f GetPos() const;
+	Vector2f GetSize() const;
 	Vector2f GetLargoCano() const;
 	void Enable(bool enable);
 	void Draw(RenderWindow *app) const;	
