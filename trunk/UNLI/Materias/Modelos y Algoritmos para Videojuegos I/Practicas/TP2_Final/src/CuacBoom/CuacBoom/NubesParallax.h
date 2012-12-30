@@ -7,9 +7,11 @@ class NubesParallax : public GameObject
 {
 private:
 	bool isLeft;
+	int windforce;
 public:
 	void Sentido(bool isLeft);
 	NubesParallax();
+	void SetWindForce(int force);
 	void Update(RenderWindow *app);
 };
 

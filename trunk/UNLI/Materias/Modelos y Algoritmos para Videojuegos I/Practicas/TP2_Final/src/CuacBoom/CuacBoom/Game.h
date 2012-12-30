@@ -9,6 +9,7 @@
 #include "Cannon.h"
 #include "Bala.h"
 #include "EnergyLevel.h"
+#include "WindBlow.h"
 
 using namespace sf;
 using namespace std;
@@ -33,11 +34,16 @@ private:
 	NubesParallax *nubes;
 	Cannon *cannon;
 	EnergyLevel *energyLevel;
+	WindBlow *wind;
 
 	int cant_balas;
 	Bala *balas[20];
 
 	int force;
+	
+	float windNextTime;
+	float windTime;
+
 
 	SoundBuffer sonido_bff;		
 	Sound sonido;	
