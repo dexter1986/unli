@@ -40,6 +40,8 @@ public:
 	void Move(float x,float y);
 	void Rotate(float rad);
 	void SetCenter(float x,float y);
+	void Anim();
+	void UpdateFrame();
 	~GameObject(void);
 };
 

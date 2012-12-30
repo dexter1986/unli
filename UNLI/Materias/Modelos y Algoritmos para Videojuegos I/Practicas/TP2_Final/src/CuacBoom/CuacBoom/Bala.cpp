@@ -4,6 +4,8 @@ Bala::Bala(Vector2f pos,Vector2f largocano,float rad,int force):GameObject(true,
 {
 	Enable(true);
 	
+	force *= 25; 
+
 	float a = (90 + rad) * 3.14f / 180;
 	float _cos = cosf(a);
 	float _sin = sinf(a);
@@ -20,6 +22,11 @@ Bala::Bala(Vector2f pos,Vector2f largocano,float rad,int force):GameObject(true,
 
 void Bala::Update(RenderWindow *app)
 {
-	velocidad.y -= 9.8 * pow(app->GetFrameTime(),2)*12;
-	Move(pos.x+velocidad.x,pos.y-velocidad.y);
+	float time = app->GetFrameTime();
+	velocidad.y -= 9800 * pow(time,2);
+	
+	float y = pos.y - velocidad.y * time;
+	float x = pos.x + velocidad.x * time;
+
+	Move(x,y);
 }

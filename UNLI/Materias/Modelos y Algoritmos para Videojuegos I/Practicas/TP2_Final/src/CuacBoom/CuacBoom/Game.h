@@ -8,6 +8,7 @@
 #include "NubesParallax.h"
 #include "Cannon.h"
 #include "Bala.h"
+#include "EnergyLevel.h"
 
 using namespace sf;
 using namespace std;
@@ -16,8 +17,8 @@ using namespace std;
 #define GAME_H
 
 #define MAX_BALAS 20
-#define MAX_FORCE 20
-#define MIN_FORCE 3
+#define MAX_FORCE 40
+#define MIN_FORCE 0
 #define MAX_VIDAS 3
 
 class Game
@@ -31,6 +32,8 @@ private:
 	Background *background;
 	NubesParallax *nubes;
 	Cannon *cannon;
+	EnergyLevel *energyLevel;
+
 	int cant_balas;
 	Bala *balas[20];
 

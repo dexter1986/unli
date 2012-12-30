@@ -80,8 +80,10 @@
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="Bala.cpp" />
     <ClCompile Include="Cannon.cpp" />
+    <ClCompile Include="EnergyLevel.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Helper.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NubesParallax.cpp" />
   </ItemGroup>
@@ -93,9 +95,11 @@
     <ClInclude Include="Background.h" />
     <ClInclude Include="Bala.h" />
     <ClInclude Include="Cannon.h" />
+    <ClInclude Include="EnergyLevel.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectBase.h" />
+    <ClInclude Include="Helper.h" />
     <ClInclude Include="NubesParallax.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
