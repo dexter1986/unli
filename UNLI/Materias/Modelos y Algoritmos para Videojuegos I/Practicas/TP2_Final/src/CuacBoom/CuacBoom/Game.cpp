@@ -59,6 +59,8 @@ void Game::Init()
 	puntos = 0;
 	cant_balas = 0;
 	force = MIN_FORCE;
+	windTime = 0;
+	windNextTime = 10;
 
 	for(int i=0;i<MAX_BALAS;i++)
 	{
@@ -73,6 +75,8 @@ void Game::Init()
 	cannon->Init(pWnd);
 	energyLevel = new EnergyLevel(cannon->GetPos(),cannon->GetSize());
 	energyLevel->Init(pWnd);
+	wind = new WindBlow();
+	wind->Init(pWnd);
 }
 
 void Game::LoadSound()
@@ -89,6 +93,7 @@ Game::~Game()
 			delete balas[i];
 	}
 
+	delete wind;
 	delete energyLevel;
 	delete cannon;
 	delete nubes;
@@ -131,7 +136,7 @@ void Game::ProcessEvent(Event &evt)
 				{
 					if(balas[i] == NULL)
 					{
-						balas[i] = new Bala(cannon->GetPosCano(),cannon->GetLargoCano(),cannon->GetRad(),force);	
+						balas[i] = new Bala(cannon->GetPosCano(),cannon->GetLargoCano(),cannon->GetRad(),force,wind->GetForceLevel());	
 						break;
 					}
 				}				
@@ -182,6 +187,7 @@ void Game::DrawGame()
 	}
 
 	nubes->Draw(pWnd);
+	wind->Draw(pWnd);
 }
 
 void Game::ProcessInput()
@@ -211,18 +217,28 @@ void Game::ProcessInput()
 
 void Game::UpdateGame()
 {
-	background->Update(pWnd);
-	nubes->Update(pWnd);
+	background->Update(pWnd);	
 	cannon->Update(pWnd);
 	energyLevel->Update(pWnd);
+
 	for(int i=0;i<MAX_BALAS;i++)
 	{
 		if(balas[i] != NULL)
 			balas[i]->Update(pWnd);
 	}
+	float t = pWnd->GetFrameTime();
+	windTime += t;
+	
+	if(windNextTime <= windTime)
+	{
+		windNextTime = rand()%10 + 10;		
+		windTime = 0;
+		wind->InitWind();
+		nubes->SetWindForce(wind->GetForceLevel());		
+	}
 
-	if(rand()%1000 > 900)
-		nubes->Sentido(rand()%2);
+	nubes->Update(pWnd);
+	wind->Update(pWnd);
 
 	if(vidas == 0)
 	{	

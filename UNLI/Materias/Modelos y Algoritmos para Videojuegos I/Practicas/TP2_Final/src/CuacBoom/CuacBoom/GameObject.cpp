@@ -143,6 +143,6 @@ void GameObject::Anim()
 }
 
 void GameObject::UpdateFrame()
-{
+{	
 	sprite.SetImage(*(imgAnim+currentframe));
 }
