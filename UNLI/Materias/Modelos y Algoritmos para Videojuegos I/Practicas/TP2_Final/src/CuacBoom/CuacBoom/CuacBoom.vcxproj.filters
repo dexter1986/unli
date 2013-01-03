@@ -48,6 +48,9 @@
     <ClCompile Include="WindBlow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Pato.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="dll\libsndfile-1.dll">
@@ -86,6 +89,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WindBlow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pato.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

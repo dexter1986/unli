@@ -58,6 +58,7 @@ void Game::Init()
 	vidas = MAX_VIDAS;
 	puntos = 0;
 	cant_balas = 0;
+	cant_patos = 0;
 	force = MIN_FORCE;
 	windTime = 0;
 	windNextTime = 10;
@@ -65,6 +66,13 @@ void Game::Init()
 	for(int i=0;i<MAX_BALAS;i++)
 	{
 		balas[i] = NULL;
+	}
+
+	patosNextTime = 0;
+	patosTime = 0;
+	for(int i=0;i<MAX_PATOS;i++)
+	{
+		patos[i] = NULL;
 	}
 
 	background = new Background();
@@ -87,6 +95,12 @@ void Game::LoadSound()
 
 Game::~Game()
 {	
+	for(int i=0;i<MAX_PATOS;i++)
+	{
+		if(patos[i] != NULL)
+			delete patos[i];
+	}
+
 	for(int i=0;i<MAX_BALAS;i++)
 	{
 		if(balas[i] != NULL)
@@ -164,6 +178,22 @@ void Game::ProcessCollisions()
 			if(pos.x > 0 && pos.x < pWnd->GetWidth() && pos.y > 0 && pos.y < pWnd->GetHeight())
 			{
 				//Comprobar si le pega a un pato
+				for(int i=0;i<MAX_PATOS;i++)
+				{
+					if(patos[i] != NULL)
+					{
+						if(patos[i]->Hit(pos.x,pos.y))
+						{								
+							CrearPatos(patos[i]);
+
+							delete patos[i];
+							patos[i] = NULL;
+							cant_patos--;
+
+							break;
+						}
+					}
+				}
 			}
 			else
 			{
@@ -172,6 +202,51 @@ void Game::ProcessCollisions()
 				cant_balas--;
 			}
 		}
+	}
+}
+
+void Game::CrearPatos(Pato *pato)
+{
+	int count = 0;
+
+	if(rand()%1 == 0)
+	{
+		count++;
+		CrearPato(0,pato->getForce());
+	}
+
+	if(rand()%1 == 0)
+	{
+		count++;
+		CrearPato(0,pato->getForce() + rand()%20+20);
+	}
+
+	if(count < 2 && rand()%1 == 0)
+	{
+		count++;
+		int cant = rand()%1+2;
+		for(int i=0;i<cant;i++)
+		{	
+			CrearPato(0,0);
+		}
+	}
+
+}
+
+void Game::CrearPato(float angulo,float force)
+{
+	if(cant_patos < MAX_PATOS)
+	{
+		cant_patos++;
+		for(int i=0;i<MAX_PATOS;i++)
+		{
+			if(patos[i] == NULL)
+			{
+				patos[i] = new Pato(angulo,force);
+				patos[i]->Init(pWnd);
+				break;
+			}
+		}				
 	}
 }
 
@@ -184,6 +259,12 @@ void Game::DrawGame()
 	{
 		if(balas[i] != NULL)
 			balas[i]->Draw(pWnd);
+	}
+
+	for(int i=0;i<MAX_PATOS;i++)
+	{
+		if(patos[i] != NULL)
+			patos[i]->Draw(pWnd);
 	}
 
 	nubes->Draw(pWnd);
@@ -226,7 +307,23 @@ void Game::UpdateGame()
 		if(balas[i] != NULL)
 			balas[i]->Update(pWnd);
 	}
+
+	for(int i=0;i<MAX_PATOS;i++)
+	{
+		if(patos[i] != NULL)
+			patos[i]->Update(pWnd);
+	}
+
 	float t = pWnd->GetFrameTime();
+
+	patosTime += t;
+	if(patosNextTime < patosTime)
+	{
+		patosNextTime = rand()%5+10;
+		patosTime = 0;
+		CrearPato(0,0);
+	}
+	
 	windTime += t;
 	
 	if(windNextTime <= windTime)

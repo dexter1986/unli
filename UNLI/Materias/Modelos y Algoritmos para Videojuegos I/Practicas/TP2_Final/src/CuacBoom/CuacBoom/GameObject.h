@@ -21,6 +21,8 @@ protected:
 	void LoadSprite(const std::string &filename,int frames);
 	int maxframes;
 	int currentframe;
+	int frameRate;
+	int countFrameRate;
 	Image *imgAnim;
 public:
 	GameObject();
