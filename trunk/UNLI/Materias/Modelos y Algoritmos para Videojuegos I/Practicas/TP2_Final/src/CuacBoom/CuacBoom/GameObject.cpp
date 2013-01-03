@@ -7,6 +7,8 @@ GameObject::GameObject(bool isCollide,const std::string &filename)
 	GameObject::isEnable = false;
 	GameObject::maxframes = 0;
 	GameObject::currentframe = 0;
+	frameRate = 0;
+	countFrameRate = 0;
 	GameObject::LoadSprite(filename);
 }
 
@@ -16,6 +18,8 @@ GameObject::GameObject(bool isCollide,const std::string &filename,int frames)
 	GameObject::isEnable = false;
 	GameObject::maxframes = frames;
 	GameObject::currentframe = 0;
+	frameRate = 10 / frames;
+	countFrameRate = 0;
 	GameObject::LoadSprite(filename,frames);
 }
 
@@ -116,7 +120,7 @@ void GameObject::Init(RenderWindow *app)
 
 void GameObject::Rotate(float rad)
 {
-	sprite.SetRotation(rad);
+	sprite.SetRotation(rad);	
 }
 
 void GameObject::SetCenter(float x,float y)
@@ -139,10 +143,20 @@ GameObject::~GameObject(void)
 
 void GameObject::Anim()
 {
+	countFrameRate++;
+	if(countFrameRate > frameRate)
+	{
+		countFrameRate = 0;
+		currentframe++;
+		if(currentframe == maxframes)
+			currentframe = 0;
+		UpdateFrame();
+	}
 
 }
 
 void GameObject::UpdateFrame()
 {	
+	countFrameRate = 0;
 	sprite.SetImage(*(imgAnim+currentframe));
 }

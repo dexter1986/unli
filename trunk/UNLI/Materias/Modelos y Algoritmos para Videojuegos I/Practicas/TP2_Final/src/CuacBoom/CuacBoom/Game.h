@@ -10,6 +10,7 @@
 #include "Bala.h"
 #include "EnergyLevel.h"
 #include "WindBlow.h"
+#include "Pato.h"
 
 using namespace sf;
 using namespace std;
@@ -21,6 +22,7 @@ using namespace std;
 #define MAX_FORCE 40
 #define MIN_FORCE 0
 #define MAX_VIDAS 3
+#define MAX_PATOS 20
 
 class Game
 {
@@ -39,15 +41,20 @@ private:
 	int cant_balas;
 	Bala *balas[20];
 
+	int cant_patos;
+	float patosNextTime;
+	float patosTime;
+	Pato *patos[20];
+
 	int force;
 	
 	float windNextTime;
 	float windTime;
-
-
+	
 	SoundBuffer sonido_bff;		
 	Sound sonido;	
-
+	void CrearPatos(Pato *pato);
+	void CrearPato(float angulo,float force);
 	void ProcessInput();
 	bool isGame;
 	int puntos;	
