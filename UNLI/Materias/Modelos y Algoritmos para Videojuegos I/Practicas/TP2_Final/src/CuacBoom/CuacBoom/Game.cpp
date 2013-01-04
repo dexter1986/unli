@@ -75,6 +75,11 @@ void Game::Init()
 		patos[i] = NULL;
 	}
 
+	for(int i=0;i<MAX_VIDAS;i++)
+	{
+		patosNegro [i] = NULL;
+	}
+
 	background = new Background();
 	background->Init(pWnd);
 	nubes = new NubesParallax();
@@ -95,6 +100,13 @@ void Game::LoadSound()
 
 Game::~Game()
 {	
+	
+	for(int i=0;i<MAX_VIDAS;i++)
+	{
+		if(patosNegro[i] != NULL)
+			delete patosNegro[i];
+	}
+
 	for(int i=0;i<MAX_PATOS;i++)
 	{
 		if(patos[i] != NULL)
@@ -181,7 +193,7 @@ void Game::ProcessCollisions()
 				for(int i=0;i<MAX_PATOS;i++)
 				{
 					if(patos[i] != NULL)
-					{
+					{	
 						if(patos[i]->Hit(pos.x,pos.y))
 						{								
 							CrearPatos(patos[i]);
@@ -189,9 +201,7 @@ void Game::ProcessCollisions()
 							delete patos[i];
 							patos[i] = NULL;
 							cant_patos--;
-
-							break;
-						}
+						}						
 					}
 				}
 			}
@@ -200,6 +210,34 @@ void Game::ProcessCollisions()
 				delete balas[i];
 				balas[i] = NULL;
 				cant_balas--;
+			}
+		}
+	}
+
+	//Comprobar si le pega a un pato
+	for(int i=0;i<MAX_PATOS;i++)
+	{
+		if(patos[i] != NULL)
+		{
+			Vector2f pos_pato = patos[i]->GetPos();
+			if(pos_pato.x > 0 && pos_pato.x  < pWnd->GetWidth() && pos_pato.y < pWnd->GetHeight())
+			{
+				if(pos_pato.y > pWnd->GetHeight() - 130)
+				{	
+					delete patos[i];
+					patos[i] = NULL;
+					cant_patos--;
+
+					vidas--;
+					patosNegro[vidas] = new PatoNegro(vidas);
+					patosNegro[vidas]->Init(pWnd);
+				}
+			}
+			else
+			{
+				delete patos[i];
+				patos[i] = NULL;
+				cant_patos--;
 			}
 		}
 	}
@@ -254,6 +292,13 @@ void Game::DrawGame()
 {
 	background->Draw(pWnd);
 	cannon->Draw(pWnd);
+
+	for(int i=0;i<MAX_VIDAS;i++)
+	{
+		if(patosNegro[i] != NULL)
+			patosNegro[i]->Draw(pWnd);
+	}
+
 	energyLevel->Draw(pWnd);
 	for(int i=0;i<MAX_BALAS;i++)
 	{
@@ -340,7 +385,6 @@ void Game::UpdateGame()
 	if(vidas == 0)
 	{	
 		StopMusic();
-
 		//Juego finalizado
 				
 		//Mostrar puntaje			
@@ -383,7 +427,7 @@ void Game::Intro()
 
 void Game::Creditos()
 {	
-	/*StopMusic();
+	StopMusic();
 		
 	Image img;
 	img.LoadFromFile("..//Imagenes//Creditos.png");
@@ -401,7 +445,7 @@ void Game::Creditos()
 		pWnd->Display();
 	
 		sleep += pWnd->GetFrameTime();
-	}*/
+	}
 }
 
 void Game::MusicGame()

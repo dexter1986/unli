@@ -87,6 +87,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NubesParallax.cpp" />
     <ClCompile Include="Pato.cpp" />
+    <ClCompile Include="PatoNegro.cpp" />
     <ClCompile Include="WindBlow.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -104,6 +105,7 @@
     <ClInclude Include="Helper.h" />
     <ClInclude Include="NubesParallax.h" />
     <ClInclude Include="Pato.h" />
+    <ClInclude Include="PatoNegro.h" />
     <ClInclude Include="WindBlow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

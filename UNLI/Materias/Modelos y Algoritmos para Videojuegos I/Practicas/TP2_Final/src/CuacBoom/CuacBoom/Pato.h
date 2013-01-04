@@ -10,8 +10,7 @@ private:
 	enum Estado
 	{		
 		caer=0,
-		planear=1,
-		morir=2
+		planear=1,	
 	};
 	Estado estado;
 	float angulo;
@@ -22,11 +21,9 @@ private:
 	void Init_Pattern(Estado estado);
 	void Update_Pattern(Estado estado);
 	void Update_Planear();
-	void Update_Caer();
-	void Update_Morir();
+	void Update_Caer();	
 	void Init_Planear();
-	void Init_Caer();
-	void Init_Morir();
+	void Init_Caer();	
 public:
 	void Update(RenderWindow *app);
 	bool Hit(Rect<int> *rect) const;
