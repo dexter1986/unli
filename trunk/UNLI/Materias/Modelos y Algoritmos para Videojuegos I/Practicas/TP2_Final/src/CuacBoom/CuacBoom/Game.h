@@ -11,6 +11,7 @@
 #include "EnergyLevel.h"
 #include "WindBlow.h"
 #include "Pato.h"
+#include "PatoNegro.h"
 
 using namespace sf;
 using namespace std;
@@ -40,6 +41,8 @@ private:
 
 	int cant_balas;
 	Bala *balas[20];
+	
+	PatoNegro *patosNegro[MAX_VIDAS];
 
 	int cant_patos;
 	float patosNextTime;

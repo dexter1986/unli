@@ -32,9 +32,6 @@ void Pato::Init_Pattern(Estado estado)
 	case Estado::planear:
 		Pato::Init_Planear();
 		break;
-	case Estado::morir:
-		Pato::Init_Morir();
-		break;
 	}
 }
 
@@ -77,11 +74,6 @@ void Pato::Init_Caer()
 	Rotate(angulo);
 }
 
-void Pato::Init_Morir()
-{
-
-}
-
 void Pato::Update_Pattern(Estado estado)
 {
 	switch(estado)
@@ -92,26 +84,30 @@ void Pato::Update_Pattern(Estado estado)
 	case Estado::planear:
 		Pato::Update_Planear();
 		break;
-	case Estado::morir:
-		Pato::Update_Morir();
-		break;
 	}
 }
 
 void Pato::Update_Planear()
-{
+{	
 	//Gravedad compensada 200 -> factor de compensacion
 	if(velocidad.y > 0)
 	{
-		velocidad.y -= 200 * pow(Pato::time_lastFrame,2);	
+		velocidad.y -= 1000 * pow(Pato::time_lastFrame,2);	
+		if(velocidad.y < 0)
+			velocidad.y = 0;	
 	}
 
-	if(angulo != 0)
+	if(angulo > 0)
 	{
-		angulo = 0;
-		Rotate(0);		
+		angulo -=1;
+		Rotate(angulo);		
 	}
-
+	else if(angulo < 0)
+	{
+		angulo +=1;
+		Rotate(angulo);		
+	}
+		
 	float y = pos.y + velocidad.y * time_lastFrame;
 	float x = pos.x + velocidad.x * time_lastFrame;
 
@@ -130,11 +126,7 @@ void Pato::Update_Caer()
 
 	Move(x,y);
 
-	Anim();
-}
-
-void Pato::Update_Morir()
-{
+	//Anim();
 }
 
 void Pato::Update(RenderWindow *app)
@@ -147,7 +139,7 @@ void Pato::Update(RenderWindow *app)
 		time_CountPattern = 0;
 		time_nextPattern = rand()%3+4;
 					
-		if(estado == Estado::caer)
+		if(estado == Estado::caer )
 		{
 			estado = Estado::planear;
 		}
