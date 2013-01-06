@@ -54,8 +54,15 @@ private:
 	float windNextTime;
 	float windTime;
 	
-	SoundBuffer sonido_bff;		
-	Sound sonido;	
+	SoundBuffer snd_disparo_bff;		
+	Sound snd_disparo;	
+
+	SoundBuffer snd_pato_hit_bff;		
+	Sound snd_pato_hit;	
+
+	SoundBuffer snd_loadbff;		
+	Sound snd_load;	
+	
 	void CrearPatos(Pato *pato);
 	void CrearPato(float angulo,float force);
 	void ProcessInput();
@@ -69,6 +76,8 @@ private:
 	void ProcessCollisions();	
 	void MusicGame();
 	void MusicMenu();
+	void MusicGameOver();
+	void GameOver();
 	void StopMusic();
 	void Intro();
 	void Creditos();

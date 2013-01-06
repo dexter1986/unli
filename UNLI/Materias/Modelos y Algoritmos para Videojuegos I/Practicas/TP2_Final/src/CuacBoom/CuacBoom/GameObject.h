@@ -24,6 +24,8 @@ protected:
 	int frameRate;
 	int countFrameRate;
 	Image *imgAnim;
+	int startAnim;
+	int stopAnim;
 public:
 	GameObject();
 	GameObject(bool isCollide,const std::string &Filename);	
@@ -44,6 +46,7 @@ public:
 	void SetCenter(float x,float y);
 	void Anim();
 	void UpdateFrame();
+	void SetAnim(int start,int stop);
 	~GameObject(void);
 };
 
