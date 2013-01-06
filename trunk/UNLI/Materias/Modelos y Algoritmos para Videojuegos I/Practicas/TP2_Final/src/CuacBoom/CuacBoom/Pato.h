@@ -6,13 +6,17 @@
 
 class Pato : public GameObject
 {
-private:
+public:
 	enum Estado
 	{		
 		caer=0,
 		planear=1,	
+		morir=2,
+		borrar=3
 	};
+private:	
 	Estado estado;
+	bool isMorir;
 	float angulo;
 	float force;
 	float time_lastFrame;
@@ -22,15 +26,17 @@ private:
 	void Update_Pattern(Estado estado);
 	void Update_Planear();
 	void Update_Caer();	
+	void Update_Morir();	
 	void Init_Planear();
 	void Init_Caer();	
-public:
-	void Update(RenderWindow *app);
-	bool Hit(Rect<int> *rect) const;
-	bool Hit(int x,int y) const;
+	void Init_Morir();	
+public:	
+	void Update(RenderWindow *app);	
+	bool Hit(int x,int y);
 	void Init(RenderWindow *app);
 	float getAngulo();
 	float getForce();
+	Estado getEstado();
 	Pato(float angulo,float force);
 };
 

@@ -9,6 +9,8 @@ GameObject::GameObject(bool isCollide,const std::string &filename)
 	GameObject::currentframe = 0;
 	frameRate = 0;
 	countFrameRate = 0;
+	startAnim = 0;
+	stopAnim = 0;
 	GameObject::LoadSprite(filename);
 }
 
@@ -20,6 +22,8 @@ GameObject::GameObject(bool isCollide,const std::string &filename,int frames)
 	GameObject::currentframe = 0;
 	frameRate = 10 / frames;
 	countFrameRate = 0;
+	startAnim = 0;
+	stopAnim = frames;
 	GameObject::LoadSprite(filename,frames);
 }
 
@@ -148,8 +152,8 @@ void GameObject::Anim()
 	{
 		countFrameRate = 0;
 		currentframe++;
-		if(currentframe == maxframes)
-			currentframe = 0;
+		if(currentframe == stopAnim)
+			currentframe = startAnim;
 		UpdateFrame();
 	}
 
@@ -159,4 +163,13 @@ void GameObject::UpdateFrame()
 {	
 	countFrameRate = 0;
 	sprite.SetImage(*(imgAnim+currentframe));
+}
+
+void GameObject::SetAnim(int start,int stop)
+{
+	if(start > 0 && start <= maxframes)
+		startAnim = start;
+
+	if(stop > 0 && stop <= maxframes && stop >= start)
+		stopAnim = stop;	
 }

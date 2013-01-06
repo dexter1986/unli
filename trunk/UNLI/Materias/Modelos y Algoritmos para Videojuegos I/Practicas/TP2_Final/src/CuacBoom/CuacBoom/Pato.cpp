@@ -1,12 +1,14 @@
 #include "Pato.h"
 
-Pato::Pato(float angulo,float force):GameObject(true,"..//Imagenes//Pato.png",2)
+Pato::Pato(float angulo,float force):GameObject(true,"..//Imagenes//Pato.png",4)
 {
 	time_lastFrame = 0;
 	time_CountPattern = 0;
 	time_nextPattern = rand()%3+4;
 	Pato::angulo = angulo;
 	Pato::force = force;
+	SetAnim(0,2);
+	isMorir = false;
 }
 
 void Pato::Init(RenderWindow *app)
@@ -31,6 +33,9 @@ void Pato::Init_Pattern(Estado estado)
 		break;
 	case Estado::planear:
 		Pato::Init_Planear();
+		break;
+	case Estado::morir:
+		Pato::Init_Morir();
 		break;
 	}
 }
@@ -84,6 +89,9 @@ void Pato::Update_Pattern(Estado estado)
 	case Estado::planear:
 		Pato::Update_Planear();
 		break;
+	case Estado::morir:
+		Pato::Update_Morir();
+		break;
 	}
 }
 
@@ -134,7 +142,7 @@ void Pato::Update(RenderWindow *app)
 	time_lastFrame = app->GetFrameTime();
 	time_CountPattern += time_lastFrame;
 
-	if(time_CountPattern > time_nextPattern)
+	if(estado != Estado::morir && estado != Estado::borrar && time_CountPattern > time_nextPattern)
 	{
 		time_CountPattern = 0;
 		time_nextPattern = rand()%3+4;
@@ -154,14 +162,19 @@ void Pato::Update(RenderWindow *app)
 	Update_Pattern(Pato::estado);
 }
 
-bool Pato::Hit(Rect<int> *rect) const
+bool Pato::Hit(int x,int y) 
 {
-	return GameObject::Hit(rect);
-}
-
-bool Pato::Hit(int x,int y) const
-{
-	return GameObject::Hit(x,y);
+	if(estado != Estado::morir && estado != Estado::borrar)
+	{	
+		if(GameObject::Hit(x,y))
+		{
+			estado = Estado::morir;
+			Init_Pattern(estado);
+			return true;
+		}
+	}
+	else
+		return false;
 }
 
 float Pato::getAngulo()
@@ -172,4 +185,30 @@ float Pato::getAngulo()
 float Pato::getForce()
 {
 	return force;
+}
+
+Pato::Estado Pato::getEstado()
+{
+	return estado;
+}
+
+void Pato::Update_Morir()
+{	
+	if(currentframe == 3)
+	{
+		isMorir = true;
+	}
+	else if(isMorir)
+	{
+		estado = Estado::borrar;
+		Enable(false);
+	}	
+	Anim();
+}
+
+void Pato::Init_Morir()
+{
+	SetAnim(2,4);
+	currentframe = 2;
+	isMorir = false;
 }

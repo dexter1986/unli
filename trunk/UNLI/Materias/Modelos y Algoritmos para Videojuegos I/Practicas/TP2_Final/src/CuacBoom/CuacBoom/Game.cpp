@@ -10,13 +10,13 @@ void Game::Go(){
 	//Inicializa los objetos del juego
 	Init();
 	
-	/*
+	
 	if(pWnd->IsOpened())
 	{
 		Intro();
 		ShowMenu();		
 	}
-	*/
+	
 	while(pWnd->IsOpened()){
 		//procesar eventos
 		while (pWnd->GetEvent(evt))
@@ -94,8 +94,17 @@ void Game::Init()
 
 void Game::LoadSound()
 {
-	//sonido_bff.LoadFromFile("..\\Musica\\mario_1-up.wav");
-	//sonido.SetBuffer(sonido_bff);	
+	snd_disparo_bff.LoadFromFile("..\\Musica\\Disparo.wav");
+	snd_disparo.SetBuffer(snd_disparo_bff);	
+
+	snd_pato_hit_bff.LoadFromFile("..\\Musica\\Pato hit.wav");
+	snd_pato_hit.SetBuffer(snd_pato_hit_bff);
+
+	snd_loadbff.LoadFromFile("..\\Musica\\Load.wav");
+	snd_load.SetBuffer(snd_loadbff);	
+	snd_load.SetLoop(true);	
+	snd_load.SetVolume(10.0f);
+	
 }
 
 Game::~Game()
@@ -162,7 +171,9 @@ void Game::ProcessEvent(Event &evt)
 				{
 					if(balas[i] == NULL)
 					{
-						balas[i] = new Bala(cannon->GetPosCano(),cannon->GetLargoCano(),cannon->GetRad(),force,wind->GetForceLevel());	
+						balas[i] = new Bala(cannon->GetPosCano(),cannon->GetLargoCano(),cannon->GetRad(),force,wind->GetForceLevel());						
+						snd_load.Stop();						
+						snd_disparo.Play();						
 						break;
 					}
 				}				
@@ -195,12 +206,9 @@ void Game::ProcessCollisions()
 					if(patos[i] != NULL)
 					{	
 						if(patos[i]->Hit(pos.x,pos.y))
-						{								
+						{
+							snd_pato_hit.Play();
 							CrearPatos(patos[i]);
-
-							delete patos[i];
-							patos[i] = NULL;
-							cant_patos--;
 						}						
 					}
 				}
@@ -214,7 +222,6 @@ void Game::ProcessCollisions()
 		}
 	}
 
-	//Comprobar si le pega a un pato
 	for(int i=0;i<MAX_PATOS;i++)
 	{
 		if(patos[i] != NULL)
@@ -227,10 +234,10 @@ void Game::ProcessCollisions()
 					delete patos[i];
 					patos[i] = NULL;
 					cant_patos--;
-
+					
 					vidas--;
 					patosNegro[vidas] = new PatoNegro(vidas);
-					patosNegro[vidas]->Init(pWnd);
+					patosNegro[vidas]->Init(pWnd);					
 				}
 			}
 			else
@@ -246,20 +253,20 @@ void Game::ProcessCollisions()
 void Game::CrearPatos(Pato *pato)
 {
 	int count = 0;
-
-	if(rand()%1 == 0)
+	patosTime = 0;
+	if(cant_patos < 10 && rand()%1 == 0)
 	{
 		count++;
 		CrearPato(0,pato->getForce());
 	}
 
-	if(rand()%1 == 0)
+	if(cant_patos < 10 && rand()%1 == 0)
 	{
 		count++;
 		CrearPato(0,pato->getForce() + rand()%20+20);
 	}
 
-	if(count < 2 && rand()%1 == 0)
+	if(cant_patos < 10 && count < 2 && rand()%1 == 0)
 	{
 		count++;
 		int cant = rand()%1+2;
@@ -335,6 +342,9 @@ void Game::ProcessInput()
 	{
 		if(cant_balas < MAX_BALAS && force < MAX_FORCE)
 		{
+			if(snd_load.GetStatus() != Sound::Status::Playing)
+				snd_load.Play();
+			
 			force++;
 			energyLevel->SetForceLevel(force);
 		}
@@ -342,77 +352,90 @@ void Game::ProcessInput()
 }
 
 void Game::UpdateGame()
-{
-	background->Update(pWnd);	
-	cannon->Update(pWnd);
-	energyLevel->Update(pWnd);
-
-	for(int i=0;i<MAX_BALAS;i++)
-	{
-		if(balas[i] != NULL)
-			balas[i]->Update(pWnd);
-	}
-
-	for(int i=0;i<MAX_PATOS;i++)
-	{
-		if(patos[i] != NULL)
-			patos[i]->Update(pWnd);
-	}
-
-	float t = pWnd->GetFrameTime();
-
-	patosTime += t;
-	if(patosNextTime < patosTime)
-	{
-		patosNextTime = rand()%5+10;
-		patosTime = 0;
-		CrearPato(0,0);
-	}
-	
-	windTime += t;
-	
-	if(windNextTime <= windTime)
-	{
-		windNextTime = rand()%10 + 10;		
-		windTime = 0;
-		wind->InitWind();
-		nubes->SetWindForce(wind->GetForceLevel());		
-	}
-
-	nubes->Update(pWnd);
-	wind->Update(pWnd);
-
+{	
 	if(vidas == 0)
 	{	
 		StopMusic();
 		//Juego finalizado
-				
+		GameOver();		
 		//Mostrar puntaje			
 		Creditos();
 		Quit();
+	}
+	else
+	{
+		background->Update(pWnd);	
+		cannon->Update(pWnd);
+		energyLevel->Update(pWnd);
+
+		for(int i=0;i<MAX_BALAS;i++)
+		{
+			if(balas[i] != NULL)
+				balas[i]->Update(pWnd);
+		}
+
+		for(int i=0;i<MAX_PATOS;i++)
+		{
+			if(patos[i] != NULL)
+			{
+				patos[i]->Update(pWnd);
+				if(patos[i]->getEstado() == Pato::Estado::borrar)
+				{
+					delete patos[i];
+					patos[i] = NULL;
+					cant_patos--;
+				}
+			}
+		}
+
+		float t = pWnd->GetFrameTime();
+
+		patosTime += t;
+		if(patosNextTime < patosTime)
+		{
+			patosNextTime = rand()%5+5;
+			patosTime = 0;
+			CrearPato(0,0);
+		}
+	
+		windTime += t;
+	
+		if(windNextTime <= windTime)
+		{
+			windNextTime = rand()%10 + 10;		
+			windTime = 0;
+			wind->InitWind();
+			nubes->SetWindForce(wind->GetForceLevel());		
+		}
+
+		nubes->Update(pWnd);
+		wind->Update(pWnd);
 	}
 }
 
 void Game::Intro()
 {
-	bool isHowto = false;
+	/*bool isHowto = false;
 	Image img;
 	img.LoadFromFile("..//Imagenes//Intro.png");
 	Sprite intro;
 	intro.SetImage(img);
-
+	*/
 	MusicMenu();
-
+	
 	float sleep = 0.0;
-
-	while(sleep < 8.0)
+	
+	while(sleep < 40.0)
 	{
-		pWnd->Clear();
 		
-		pWnd->Draw(intro);
+		pWnd->Clear();
+		//FadeIn
+		//pWnd->Draw(intro);
+		//FadeOut
 		
 		pWnd->Display();
 		
+		/*
 		if(sleep > 3 && !isHowto)
 		{
 			isHowto =  true;
@@ -420,15 +443,48 @@ void Game::Intro()
 			intro.SetImage(img);
 			sleep = 3.0;
 		}
+		*/
 
+		sleep += pWnd->GetFrameTime();
+
+	}
+}
+
+void Game::GameOver()
+{	
+	snd_load.Stop();
+
+	int alpha = 0;
+	Image img;
+	img.LoadFromFile("..//Imagenes//Background - Game over.png");
+	Sprite intro;
+	intro.SetImage(img);
+
+	intro.SetColor(sf::Color(255, 255, 255, alpha));
+
+	MusicGameOver();
+
+	float sleep = 0.0;
+		
+	while(sleep < 10.0)
+	{	
+		if ((alpha < 255))
+		{
+			intro.SetColor(sf::Color(255, 255, 255, alpha += 1));
+		}
+
+		pWnd->Clear();
+
+		pWnd->Draw(intro);
+				
+		pWnd->Display();
+		
 		sleep += pWnd->GetFrameTime();
 	}
 }
 
 void Game::Creditos()
 {	
-	StopMusic();
-		
 	Image img;
 	img.LoadFromFile("..//Imagenes//Creditos.png");
 	Sprite intro;
@@ -446,11 +502,13 @@ void Game::Creditos()
 	
 		sleep += pWnd->GetFrameTime();
 	}
+
+	StopMusic();
 }
 
 void Game::MusicGame()
 {
-	if(musica.OpenFromFile("..//Musica//tema1.ogg"))
+	if(musica.OpenFromFile("..//Musica//music.wav"))
 	{
 		isMusicEnable = true;		
 		musica.SetLoop(true);
@@ -463,7 +521,7 @@ void Game::MusicGame()
 
 void Game::MusicMenu()
 {
-	if(musica.OpenFromFile("..//Musica//tema2.ogg"))
+	if(musica.OpenFromFile("..//Musica//music2.wav"))
 	{
 		isMusicEnable = true;		
 		musica.SetLoop(true);
@@ -474,6 +532,19 @@ void Game::MusicMenu()
 	}
 }
 
+void Game::MusicGameOver()
+{
+	if(musica.OpenFromFile("..//Musica//Game Over.wav"))
+	{
+		isMusicEnable = true;		
+		musica.SetLoop(true);
+		musica.Play();
+	}else
+	{
+		isMusicEnable = false;
+	}	
+}
+
 void Game::StopMusic()
 {
 	if(isMusicEnable)		
@@ -482,7 +553,7 @@ void Game::StopMusic()
 
 void Game::ShowMenu()
 {
-	bool salir = false;
+	/*bool salir = false;
 	Event evt;
 	Image img;
 	img.LoadFromFile("..//Imagenes//Menu.png");
@@ -520,7 +591,7 @@ void Game::ShowMenu()
 
 		pWnd->Display();
 				
-	}
+	}*/
 
 	if(pWnd->IsOpened())
 	{
