@@ -11,11 +11,11 @@ void Game::Go(){
 	Init();
 	
 	
-	/*if(pWnd->IsOpened())
+	if(pWnd->IsOpened())
 	{
 		Intro();
 		ShowMenu();		
-	}*/
+	}
 	
 	while(pWnd->IsOpened()){
 		//procesar eventos
