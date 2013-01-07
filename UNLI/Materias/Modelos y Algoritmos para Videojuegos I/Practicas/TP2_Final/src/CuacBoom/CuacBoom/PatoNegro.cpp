@@ -7,6 +7,6 @@ PatoNegro::PatoNegro(int index):GameObject(false,"..//Imagenes//pato_negro.png")
 
 void PatoNegro::Init(RenderWindow *app)
 {
-	 Move(app->GetWidth() / 2 - 100 - index * (width + 20) , app->GetHeight() - 130); 
+	 Move(app->GetWidth() / 2.0f - 100.0f - index * (width + 20.0f) , app->GetHeight() - 130.0f); 
 	 Enable(true);
 }

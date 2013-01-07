@@ -4,7 +4,7 @@ Pato::Pato(float angulo,float force):GameObject(true,"..//Imagenes//Pato.png",4)
 {
 	time_lastFrame = 0;
 	time_CountPattern = 0;
-	time_nextPattern = rand()%3+4;
+	time_nextPattern =(float) (rand()%3+4);
 	Pato::angulo = angulo;
 	Pato::force = force;
 	SetAnim(0,2);
@@ -51,7 +51,7 @@ void Pato::Init_Caer()
 
 	if(angulo == 0)
 	{
-		float rot = rand()%3+1;
+		float rot = (float)(rand()%3+1);
 	
 		//Calculo el angulo
 		if(rot == 1)
@@ -71,7 +71,7 @@ void Pato::Init_Caer()
 	float _sin = sinf(ang);
 	
 	if(force == 0)
-		force = rand()%40+30;
+		force =(float) (rand()%40+30);
 
 	velocidad.x = force*_cos;
 	velocidad.y = force*_sin;			
@@ -145,7 +145,7 @@ void Pato::Update(RenderWindow *app)
 	if(estado != Estado::morir && estado != Estado::borrar && time_CountPattern > time_nextPattern)
 	{
 		time_CountPattern = 0;
-		time_nextPattern = rand()%3+4;
+		time_nextPattern = (float) (rand()%3+4);
 					
 		if(estado == Estado::caer )
 		{
@@ -172,6 +172,7 @@ bool Pato::Hit(int x,int y)
 			Init_Pattern(estado);
 			return true;
 		}
+		return false;
 	}
 	else
 		return false;
