@@ -71,7 +71,7 @@ void Pato::Init_Caer()
 	float _sin = sinf(ang);
 	
 	if(force == 0)
-		force =(float) (rand()%40+30);
+		force =(float) (rand()%20+30);
 
 	velocidad.x = force*_cos;
 	velocidad.y = force*_sin;			
@@ -100,7 +100,7 @@ void Pato::Update_Planear()
 	//Gravedad compensada 200 -> factor de compensacion
 	if(velocidad.y > 0)
 	{
-		velocidad.y -= 1000 * pow(Pato::time_lastFrame,2);	
+		velocidad.y -= 200 * Pato::time_lastFrame;	
 		if(velocidad.y < 0)
 			velocidad.y = 0;	
 	}
@@ -127,7 +127,7 @@ void Pato::Update_Planear()
 void Pato::Update_Caer()
 {
 	//Gravedad compensada 200 -> factor de compensacion
-	velocidad.y += 200 * pow(Pato::time_lastFrame,2);	
+	velocidad.y += 15.0 * Pato::time_lastFrame;	
 
 	float y = pos.y + velocidad.y * time_lastFrame;
 	float x = pos.x + velocidad.x * time_lastFrame;
