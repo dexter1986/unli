@@ -10,7 +10,7 @@ Bala::Bala(Vector2f pos,Vector2f largocano,float rad,int force,int windforce):Ga
 		sentido = -1;
 
 	//0.3 -> factor de compensacion
-	Bala::windForce = abs(windforce)*0.3;
+	Bala::windForce =(int)(abs(windforce)*0.3);
 
 	//40 -> Factor de compensacion
 	force *= 40; 

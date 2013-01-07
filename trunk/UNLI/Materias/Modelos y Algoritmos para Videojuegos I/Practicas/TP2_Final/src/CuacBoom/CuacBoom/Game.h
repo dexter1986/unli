@@ -12,6 +12,7 @@
 #include "WindBlow.h"
 #include "Pato.h"
 #include "PatoNegro.h"
+#include "IntroGame.h"
 
 using namespace sf;
 using namespace std;
@@ -38,7 +39,7 @@ private:
 	Cannon *cannon;
 	EnergyLevel *energyLevel;
 	WindBlow *wind;
-
+	
 	int cant_balas;
 	Bala *balas[20];
 	

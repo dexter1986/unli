@@ -60,9 +60,9 @@ Vector2f Cannon::GetLargoCano() const
 
 void Cannon::Init(RenderWindow *app)
 {
-	 base->Move((app->GetWidth() - base->GetWidth())/2, app->GetHeight() - base->GetHeight() - 50); 
-	 cano->Move(app->GetWidth()/2, base->GetPos().y  + base->GetHeight() / 2); 
-	 cano->SetCenter(cano->GetWidth()/2,cano->GetHeight());	 
+	 base->Move((app->GetWidth() - base->GetWidth())/2.0f, app->GetHeight() - base->GetHeight() - 50.0f); 
+	 cano->Move(app->GetWidth()/2.0f, base->GetPos().y  + base->GetHeight() / 2.0f); 
+	 cano->SetCenter(cano->GetWidth()/2.0f,cano->GetHeight());	 
 }
 
 float Cannon::GetRad() const

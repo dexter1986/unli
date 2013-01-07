@@ -205,7 +205,7 @@ void Game::ProcessCollisions()
 				{
 					if(patos[i] != NULL)
 					{	
-						if(patos[i]->Hit(pos.x,pos.y))
+						if(patos[i]->Hit((int)pos.x,(int)pos.y))
 						{
 							snd_pato_hit.Play();
 							CrearPatos(patos[i]);
@@ -326,7 +326,7 @@ void Game::DrawGame()
 void Game::ProcessInput()
 {
 	int x = in->GetMouseX();
-	float c =  pWnd->GetWidth() /2;
+	float c =  pWnd->GetWidth() /2.0f;
 	float rad;
 	if(x == c)
 	{
@@ -393,7 +393,7 @@ void Game::UpdateGame()
 		patosTime += t;
 		if(patosNextTime < patosTime)
 		{
-			patosNextTime = rand()%5+5;
+			patosNextTime = (float) (rand()%5+5);
 			patosTime = 0;
 			CrearPato(0,0);
 		}
@@ -402,7 +402,7 @@ void Game::UpdateGame()
 	
 		if(windNextTime <= windTime)
 		{
-			windNextTime = rand()%10 + 10;		
+			windNextTime =(float) (rand()%10 + 10);		
 			windTime = 0;
 			wind->InitWind();
 			nubes->SetWindForce(wind->GetForceLevel());		
@@ -415,39 +415,49 @@ void Game::UpdateGame()
 
 void Game::Intro()
 {
-	/*bool isHowto = false;
-	Image img;
-	img.LoadFromFile("..//Imagenes//Intro.png");
-	Sprite intro;
-	intro.SetImage(img);
-	*/
+	IntroGame intro;
+
 	MusicMenu();
 	
-	float sleep = 0.0;
+	float maxIntro = 0.0f;
+	float maxFrame = 0.0f;
+	float old_vol = musica.GetVolume();
+	bool isIntroEnd = false;
 	
-	while(sleep < 40.0)
-	{
-		
+	while(maxIntro < 100.0)
+	{		
+		if(!isIntroEnd && maxFrame > 10.0f)
+		{
+			maxFrame = 0.0f;
+			intro.NextFrame();
+			if(!intro.isNextFrame())
+				isIntroEnd = true;
+		}
+
+		if(isIntroEnd)
+		{
+			if(musica.GetVolume() > 2)
+			{
+				musica.SetVolume(musica.GetVolume()-0.5f);
+			}
+			else
+			{
+				break;
+			}
+		}
+
 		pWnd->Clear();
-		//FadeIn
-		//pWnd->Draw(intro);
-		//FadeOut
+
+		intro.Draw(pWnd);
 		
 		pWnd->Display();
 		
-		/*
-		if(sleep > 3 && !isHowto)
-		{
-			isHowto =  true;
-			img.LoadFromFile("..//Imagenes//HowTo.png");
-			intro.SetImage(img);
-			sleep = 3.0;
-		}
-		*/
-
-		sleep += pWnd->GetFrameTime();
-
+		maxFrame += pWnd->GetFrameTime();
+		maxIntro += pWnd->GetFrameTime();
 	}
+
+	musica.Stop();
+	musica.SetVolume(old_vol);
 }
 
 void Game::GameOver()
@@ -508,7 +518,7 @@ void Game::Creditos()
 
 void Game::MusicGame()
 {
-	if(musica.OpenFromFile("..//Musica//music.wav"))
+	if(musica.OpenFromFile("..//Musica//music.ogg"))
 	{
 		isMusicEnable = true;		
 		musica.SetLoop(true);
@@ -521,7 +531,7 @@ void Game::MusicGame()
 
 void Game::MusicMenu()
 {
-	if(musica.OpenFromFile("..//Musica//music2.wav"))
+	if(musica.OpenFromFile("..//Musica//music2.ogg"))
 	{
 		isMusicEnable = true;		
 		musica.SetLoop(true);
@@ -534,7 +544,7 @@ void Game::MusicMenu()
 
 void Game::MusicGameOver()
 {
-	if(musica.OpenFromFile("..//Musica//Game Over.wav"))
+	if(musica.OpenFromFile("..//Musica//Game Over.ogg"))
 	{
 		isMusicEnable = true;		
 		musica.SetLoop(true);
