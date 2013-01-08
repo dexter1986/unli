@@ -41,10 +41,11 @@ void Game::Go(){
 }
 
 Game::Game(int alto, int ancho, string titulo)
-{	
+{	 
 	wnd_alto = alto;
 	wnd_ancho = ancho;	
-	pWnd = new RenderWindow(VideoMode(wnd_ancho,wnd_alto,32),titulo);
+	pWnd = new RenderWindow(VideoMode(wnd_ancho,wnd_alto,32),titulo,sf::Style::Fullscreen);
+	
 	in = &pWnd->GetInput();	 
 	srand((unsigned int) time(NULL));
 }
@@ -423,9 +424,24 @@ void Game::Intro()
 	float maxFrame = 0.0f;
 	float old_vol = musica.GetVolume();
 	bool isIntroEnd = false;
-	
+	Event evt;
+
 	while(maxIntro < 100.0)
 	{		
+		//procesar eventos
+		while (pWnd->GetEvent(evt))
+		{
+			if(evt.Type == Event::KeyPressed)
+			{
+				if(evt.Key.Code == Key::Escape)
+				{	
+					musica.Stop();
+					musica.SetVolume(old_vol);
+					return;
+				}
+			}
+		}
+
 		if(!isIntroEnd && maxFrame > 10.0f)
 		{
 			maxFrame = 0.0f;
@@ -463,7 +479,7 @@ void Game::Intro()
 void Game::GameOver()
 {	
 	snd_load.Stop();
-
+	Event evt;
 	int alpha = 0;
 	Image img;
 	img.LoadFromFile("..//Imagenes//Background - Game over.png");
@@ -478,6 +494,10 @@ void Game::GameOver()
 		
 	while(sleep < 10.0)
 	{	
+		//procesar eventos
+		while (pWnd->GetEvent(evt))
+		{}
+
 		if ((alpha < 255))
 		{
 			intro.SetColor(sf::Color(255, 255, 255, alpha += 1));
@@ -499,11 +519,15 @@ void Game::Creditos()
 	img.LoadFromFile("..//Imagenes//Creditos.png");
 	Sprite intro;
 	intro.SetImage(img);
-
+	Event evt;
 	float sleep = 0.0;
 
 	while(sleep < 2.0)
 	{
+		//procesar eventos
+		while (pWnd->GetEvent(evt))
+		{}
+
 		pWnd->Clear();
 		
 		pWnd->Draw(intro);
