@@ -1,0 +1,144 @@
+6 carillas de texto
+6 carillas de imagenes
+
+ - Arriba y Abajo
+ - Innovador
+
+Game play= 30 min
+
+Adobe Flash. Plataforma Web.
+
+--------------------------------------------------------
+
+Wave 1
+-----------
+
+ - Presionar las teclas arriba y abajo
+ - Mover el mouse arriba y abajo
+ - Atacar de arriba y de abajo
+ - ir para arriba hasta algo y luego ir para abajo hasta algo
+ - Atacar para arriba y para abajo
+
+--------------------------------------------------------
+
+Wave 2
+-----------
+
+ - Presionar las teclas arriba y abajo [x]
+ - Mover el mouse arriba y abajo [x]
+
+ - Atacar de arriba y de abajo 
+   - capacidad de controlar cosas que sirven para atacar o tirarse  
+   - Apuntar y disparar
+	
+ - ir para arriba hasta algo y luego ir para abajo hasta algo
+   - Subir saltando
+   - Subir volando 
+   - Bajar cayendo
+   - Bajar saltando
+   - Teletransportarse   
+	
+ - Atacar para arriba y para abajo
+   - Apuntar y tirar
+
+*[x] = Se descartan
+   
+--------------------------------------------------------
+
+Wave 3
+-----------
+
+ - Atacar de arriba y de abajo 
+   - capacidad de controlar cosas que sirven para atacar o tirarse          
+	
+   - Apuntar y disparar
+	
+ - ir para arriba hasta algo y luego ir para abajo hasta algo
+   - Subir saltando
+     
+   - Subir volando 
+     - Tiene la capacidad de propulsarse 
+
+   - Bajar cayendo
+     
+   - Bajar saltando
+     
+   - Teletransportarse   
+     - Tiene la capacidad de..
+     - Usa una maquina para ello
+     - Va a zonas donde se..
+	
+ - Atacar para arriba y para abajo
+   - Apuntar y tirar
+
+--------------------------------------------------------
+
+Step Wave A
+-----------
+  El personaje puede:  
+	- saltar
+	- Caminar
+        - Correr
+        - Agacharse
+        - volar [n]
+        - teletransportarse.  [n]
+        - controlar cosas. [n]
+  	- usar diferentes tipos de armas. 
+
+ - Atravesar muros 
+ - Desintegarar muros
+
+ El personaje utiliza una herramienta que le da capacidad especiales (mensionas arriba). [n]
+ Juego Accion. Plataforma.
+
+*[n] = Novedoso
+
+--------------------------------------------------------
+
+Wave 1A
+-----------
+ 
+ 
+ 
+--------------------------------------------------------
+
+Wave 2A
+-----------
+
+  
+--------------------------------------------------------
+
+Wave 3A
+-----------
+  
+
+--------------------------------------------------------
+
+Step Wave B
+-----------
+
+
+--------------------------------------------------------
+
+Wave 1B
+-----------
+ 
+ 
+ 
+--------------------------------------------------------
+
+Wave 2B
+-----------
+
+  
+--------------------------------------------------------
+
+Wave 3B
+-----------
+
+
+
+--------------------------------------------------------
+
+Step Wave C
+-----------

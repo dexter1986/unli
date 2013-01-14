@@ -1,0 +1,38 @@
+Diseño de Videojuegos I: Trabajo práctico final
+
+Deberás producir un Documento de Diseño de Juego, o GDD (Game Design Document) de hasta 6 carillas de texto, y de hasta 12 carillas incluyendo además las imágenes necesarias, que comunique en detalle el diseño de un juego de creación tuya con textos, imágenes y los recursos que creas necesario emplear para lograr una máxima claridad. Las imágenes que incluyan texto deberán ser claramente legibles. Diseñarás el GDD como respuesta a la siguiente consigna:
+
+CONSIGNA:
+
+Diseñar el GDD para un juego web original, (que se desarrollaría
+
+en Flash), pensado para competir en el Independent Game
+
+Festival (www.igf.com).
+
+El juego deberá desarrollar el concepto de “arriba y abajo”, en
+
+cualquier sentido en que decidas explorarlo, un sentido que
+
+deberá quedar justificado en el documento.
+
+Este juego deberá presentar algún aspecto innovador en su
+
+diseño, que lo distinga frente a otros juegos. Se valorará la
+
+originalidad de tu diseño.
+
+Este juego estará diseñado para ser producido en un tiempo
+
+muy breve (2 meses máximo) y con un costo de producción
+
+reducido, por lo que se valorará el equilibrio que logres entre 1)
+
+el desarrollo de la profundidad del juego y 2) la simplicidad de
+
+producción que exija.
+
+
+Duración total: aproximadamente 30 minutos de gameplay
+
+Tendrás hasta el día 21 de enero de 2013 para completar este trabajo . Una vez completado, deberás subir el Trabajo Práctico Final a la sección Tareas. 
