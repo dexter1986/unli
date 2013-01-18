@@ -4,9 +4,16 @@
  - Arriba y Abajo
  - Innovador
 
+ - Remake de Elevator
+
 Game play= 30 min
 
 Adobe Flash. Plataforma Web.
+
+El objetivo es poner en lugar seguro unos señores que transportan cosas en un carrito.
+Los mismos se deben desplazar de un lado al otro de la pantalla. 
+Para que puedan cumplir su objetivo se deben utilizar unos montacarga para cambiar de piso.
+
 
 --------------------------------------------------------
 
@@ -97,25 +104,31 @@ Step Wave A
 
 Wave 1A
 -----------
- 
- 
+ - debe subir por el nivel para luego bajar
+ - debe subir y bajar de un piso a otro para poder avanzar
+ - hay partes que no pueden ser atravesadas
  
 --------------------------------------------------------
 
 Wave 2A
 -----------
+ - La estructura del mapa determina que debe ir arriba y abajo
+ - el objetivo es ir ascendiendo o descendiendo para poder avanzar
 
   
 --------------------------------------------------------
 
 Wave 3A
 -----------
+ - Remake de Elevator.
   
 
 --------------------------------------------------------
 
 Step Wave B
 -----------
+
+ 
 
 
 --------------------------------------------------------
