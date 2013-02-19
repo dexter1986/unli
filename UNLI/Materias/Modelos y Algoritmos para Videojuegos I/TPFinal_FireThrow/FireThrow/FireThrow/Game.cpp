@@ -3,22 +3,35 @@
 void Game::Go(){
 	
 	//Oculta el cursor	
-	//pWnd->ShowMouseCursor(false);
-
+	//pWnd->ShowMouseCursor(false);	
 	pWnd->SetFramerateLimit(30);
-	//objeto para recibir eventos
-	Event evt;
 
 	//Inicializa los objetos del juego
-	Init();
+	Instance();
+
+	isShowIntro = false;
+
+	PrincipalLoop();	
+}
+
+
+void Game::PrincipalLoop()
+{
+	isPause = false;
 	
+	Init();	
+
+	if(!isShowIntro && pWnd->IsOpened())
+	{
+		Intro();	
+		isShowIntro = true;
+	}
 	
 	if(pWnd->IsOpened())
 	{
-		Intro();
-		ShowMenu();		
+		ShowMenu();	
 	}
-	
+
 	while(pWnd->IsOpened()){
 		//procesar eventos
 		while (pWnd->GetEvent(evt))
@@ -46,7 +59,6 @@ Game::Game(int alto, int ancho, string titulo)
 {	 
 	wnd_alto = alto;
 	wnd_ancho = ancho;	
-	//pWnd = new RenderWindow(VideoMode(wnd_ancho,wnd_alto,32),titulo,sf::Style::Fullscreen);
 	pWnd = new RenderWindow(VideoMode(wnd_ancho,wnd_alto,32),titulo);
 	
 	in = &pWnd->GetInput();	 
@@ -63,14 +75,16 @@ void Game::Init()
 	windTime = 0;
 	windNextTime = 10;
 
-	menu = new Menu();
 	menu->Init(pWnd);
-
-	background = new Background();
-	background->Init(pWnd);	
-	cannon = new Cannon();
+	background->Init(pWnd);		
 	cannon->Init(pWnd);
+}
 
+void Game::Instance()
+{
+	menu = new Menu();
+	background = new Background();
+	cannon = new Cannon();
 }
 
 void Game::LoadSound()
@@ -98,34 +112,62 @@ Game::~Game()
 void Game::ProcessEvent(Event &evt)
 {
 	if(evt.Type == Event::Closed)
-	{	
-		Creditos();
+	{		
 		Quit();
 	}
 	
-	if(evt.Type == Event::KeyPressed)
+	if(isPause)
 	{
-		if(evt.Key.Code == Key::Escape)
-		{	
-			Creditos();
-			Quit();
+		if(in->IsMouseButtonDown(Mouse::Left))
+		{
+			if(menu->Hit(in->GetMouseX(),in->GetMouseY()))
+			{			
+				if(menu->GetState() == Menu::MENU_STATE::CONTINUAR)
+				{
+					isPause = false;
+				}
+				else if(menu->GetState() == Menu::MENU_STATE::REINICIAR)
+				{
+					
+				}
+				else if(menu->GetState() == Menu::MENU_STATE::MENU)
+				{
+					PrincipalLoop();
+				}
+			}
 		}
+		else
+		{
+			menu->Test(in->GetMouseX(),in->GetMouseY());
+		}
+	}
+	else
+	{
+		if(evt.Type == Event::KeyPressed)
+			{
+				if(evt.Key.Code == Key::Escape)
+				{	
+					isPause = true;			
+				}
+			}
+
+			if(evt.Type == Event::MouseButtonPressed)
+			{
+				if(evt.MouseButton.Button == Mouse::Left)
+				{
+			
+				}
+			}
+			else if(evt.Type == Event::MouseButtonReleased)
+			{
+				if(evt.MouseButton.Button == Mouse::Left)
+				{
+			
+				}
+			}
 	}
 
-	if(evt.Type == Event::MouseButtonPressed)
-	{
-		if(evt.MouseButton.Button == Mouse::Left)
-		{
-			
-		}
-	}
-	else if(evt.Type == Event::MouseButtonReleased)
-	{
-		if(evt.MouseButton.Button == Mouse::Left)
-		{
-			
-		}
-	}
+	
 }
 
 void Game::Quit()
@@ -142,48 +184,57 @@ void Game::ProcessCollisions()
 
 void Game::DrawGame()
 {
-	menu->Draw(pWnd);
 	background->Draw(pWnd);
 	cannon->Draw(pWnd);
+
+	if(isPause)
+		menu->Draw(pWnd);
+	
 }
 
 void Game::ProcessInput()
 {
-	int x = in->GetMouseX();
-	float c =  pWnd->GetWidth() /2.0f;
-	float rad;
-	if(x == c)
+	if(!isPause)
 	{
-		rad = 0;
-	}
-	else
-	{
-		rad = 90 - (x * 90 / c);
-	}
-	cannon->Rotate(rad);
+		int x = in->GetMouseX();
+		float c =  pWnd->GetWidth() /2.0f;
+		float rad;
+		if(x == c)
+		{
+			rad = 0;
+		}
+		else
+		{
+			rad = 90 - (x * 90 / c);
+		}
+		cannon->Rotate(rad);
 
-	if(in->IsMouseButtonDown(Mouse::Left))
-	{
+		if(in->IsMouseButtonDown(Mouse::Left))
+		{
 		
+		}
 	}
 }
 
 void Game::UpdateGame()
 {	
-	//if(vidas == 0)
-	//{	
-	//	StopMusic();
-	//	//Juego finalizado
-	//	GameOver();		
-	//	//Mostrar puntaje			
-	//	Creditos();
-	//	Quit();
-	//}
-	//else
-	//{
-		background->Update(pWnd);	
-		cannon->Update(pWnd);	
-	//}
+	if(!isPause)
+	{
+		//if(vidas == 0)
+		//{	
+		//	StopMusic();
+		//	//Juego finalizado
+		//	GameOver();		
+		//	//Mostrar puntaje			
+		//	Creditos();
+		//	Quit();
+		//}
+		//else
+		//{
+			background->Update(pWnd);	
+			cannon->Update(pWnd);	
+		//}
+	}
 }
 
 void Game::Intro()
@@ -365,6 +416,8 @@ void Game::ShowMenu()
 		pWnd->Display();
 				
 	}
+
+	menu->SetMenu(Menu::MENU_TYPE::PAUSA);
 
 	if(pWnd->IsOpened())
 	{
