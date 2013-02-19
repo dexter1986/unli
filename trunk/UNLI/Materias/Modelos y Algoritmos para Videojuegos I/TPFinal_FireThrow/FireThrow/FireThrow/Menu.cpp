@@ -110,19 +110,19 @@ bool Menu::Test(int x,int y,bool isTest)
 			if(!isTest )
 				menustate = MENU_STATE::CONTINUAR;
 			tx = 290;
-			ty = 220;
-			bx = 510;
-			by = 240;
+			ty = 214;
+			bx = 512;
+			by = 243;
 			ret = true;
 		}//REINICIAR
-		else if(x >= 230 && y >= 270 && x <= 490 && y <= 290 )
+		else if(x >= 306 && y >= 270 && x <= 490 && y <= 290 )
 		{
 			if(!isTest )
 				menustate = MENU_STATE::REINICIAR;
-			tx = 230;
-			ty = 270;
-			bx = 490;
-			by = 290;
+			tx = 306;
+			ty = 268;
+			bx = 496;
+			by = 296;
 			ret = true;
 		}//MENU
 		else if(x >= 346 && y >= 320 && x <= 450 && y <= 340 )
@@ -133,8 +133,8 @@ bool Menu::Test(int x,int y,bool isTest)
 			}
 			tx = 346;
 			ty = 320;
-			bx = 450;
-			by = 340;
+			bx = 457;
+			by = 348;
 			ret = true;
 		}
 	}

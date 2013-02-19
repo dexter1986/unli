@@ -40,7 +40,11 @@ private:
 	
 	float windNextTime;
 	float windTime;
-	
+	Event evt;
+
+	bool isPause; 
+	bool isShowIntro;
+
 	SoundBuffer snd_disparo_bff;		
 	Sound snd_disparo;	
 
@@ -68,6 +72,8 @@ private:
 	void ShowMenu();	
 	void Quit();
 	void Init();
+	void Instance();
+	void PrincipalLoop();
 public:
 	Game(int alto, int ancho, string titulo);
 	~Game(void);

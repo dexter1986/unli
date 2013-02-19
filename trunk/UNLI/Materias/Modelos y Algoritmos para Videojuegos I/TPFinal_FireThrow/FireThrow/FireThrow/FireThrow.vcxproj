@@ -80,6 +80,7 @@
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="Bala.cpp" />
     <ClCompile Include="Cannon.cpp" />
+    <ClCompile Include="Edificio.cpp" />
     <ClCompile Include="EnergyLevel.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -97,6 +98,7 @@
     <ClInclude Include="Background.h" />
     <ClInclude Include="Bala.h" />
     <ClInclude Include="Cannon.h" />
+    <ClInclude Include="Edificio.h" />
     <ClInclude Include="EnergyLevel.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
