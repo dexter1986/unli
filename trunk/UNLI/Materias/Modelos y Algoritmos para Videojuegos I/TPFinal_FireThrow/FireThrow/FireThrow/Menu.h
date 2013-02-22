@@ -30,7 +30,7 @@ private:
 	int bx; 
 	int by;
 	MENU_TYPE menutype;
-	MENU_STATE menustate;
+	MENU_STATE menustate;	
 public:
 	Menu();
 	void SetMenu(MENU_TYPE type); 
