@@ -11,6 +11,7 @@
 #include "Bala.h"
 #include "IntroGame.h"
 #include "Menu.h"
+#include "Edificio.h"
 
 using namespace sf;
 using namespace std;
@@ -35,6 +36,7 @@ private:
 	Cannon *cannon;
 	
 	Bala *balas;
+	Edificio *edificio;
 
 	int force;
 	
@@ -44,15 +46,14 @@ private:
 
 	bool isPause; 
 	bool isShowIntro;
+	bool isQuit;
+	bool isMenuGeneral;
 
-	SoundBuffer snd_disparo_bff;		
-	Sound snd_disparo;	
-
-	SoundBuffer snd_pato_hit_bff;		
-	Sound snd_pato_hit;	
+	/*SoundBuffer snd_disparo_bff;		
+	Sound snd_disparo;			
 
 	SoundBuffer snd_loadbff;		
-	Sound snd_load;	
+	Sound snd_load;	*/
 	
 	void ProcessInput();
 	bool isGame;	

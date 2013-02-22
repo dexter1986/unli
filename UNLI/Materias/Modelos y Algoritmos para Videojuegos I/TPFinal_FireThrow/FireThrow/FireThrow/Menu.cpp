@@ -2,8 +2,6 @@
 
 Menu::Menu():GameObject(false,"..//Imagenes//Menu.png",3)
 {	
-	;
-
 	Enable(true);
 }
 
@@ -12,7 +10,7 @@ void Menu::Init(RenderWindow *app)
 	tx,ty,bx,by = 0;
 	SetMenu(MENU_TYPE::GENERAL);
 	menustate = MENU_STATE::MENU;
-	GameObject::Init(app);	
+	GameObject::Init(app);		
 }
 
 void Menu::Update(RenderWindow *app)
@@ -23,7 +21,6 @@ void Menu::Update(RenderWindow *app)
 void Menu::Draw(RenderWindow *app)
 {	
 	GameObject::Draw(app);	
-
 	app->Draw(Shape::Rectangle(tx,ty,bx,by,Color::Color(0,0,0,0),3.0f,Color::White));
 }
 

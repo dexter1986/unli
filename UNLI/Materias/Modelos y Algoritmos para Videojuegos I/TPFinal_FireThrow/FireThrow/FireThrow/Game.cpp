@@ -5,54 +5,62 @@ void Game::Go(){
 	//Oculta el cursor	
 	//pWnd->ShowMouseCursor(false);	
 	pWnd->SetFramerateLimit(30);
-
+	
+	LoadSound();
+	
 	//Inicializa los objetos del juego
 	Instance();
-
-	isShowIntro = false;
 
 	PrincipalLoop();	
 }
 
 
 void Game::PrincipalLoop()
-{
-	isPause = false;
+{   
+	isShowIntro = false;
+	isQuit = false;
 	
-	Init();	
+	while(pWnd->IsOpened() && !isQuit){
+		isPause = false;
+		isMenuGeneral = false;
+		
+		Init();	
 
-	if(!isShowIntro && pWnd->IsOpened())
-	{
-		Intro();	
-		isShowIntro = true;
+		if(!isShowIntro && pWnd->IsOpened())
+		{
+			Intro();	
+			isShowIntro = true;
+		}
+	
+		if(pWnd->IsOpened())
+		{
+			ShowMenu();	
+		}	
+
+		while(pWnd->IsOpened() && !isQuit && !isMenuGeneral){
+			//procesar eventos
+			while (pWnd->GetEvent(evt))
+				ProcessEvent(evt);
+
+			ProcessInput();
+
+			//procesar colisiones
+			ProcessCollisions();
+		
+			//actualizar estados de objetos
+			UpdateGame();
+		
+			pWnd->Clear();
+
+			//Dibuja los objetos
+			DrawGame();
+		
+			pWnd->Display();		
+		}
 	}
 	
-	if(pWnd->IsOpened())
-	{
-		ShowMenu();	
-	}
-
-	while(pWnd->IsOpened()){
-		//procesar eventos
-		while (pWnd->GetEvent(evt))
-			ProcessEvent(evt);
-
-		ProcessInput();
-
-		//procesar colisiones
-		ProcessCollisions();
-		
-		//actualizar estados de objetos
-		UpdateGame();
-		
-		pWnd->Clear();
-
-		//Dibuja los objetos
-		DrawGame();
-		
-		pWnd->Display();
-	}
 	StopMusic();	
+	Quit();
 }
 
 Game::Game(int alto, int ancho, string titulo)
@@ -66,9 +74,7 @@ Game::Game(int alto, int ancho, string titulo)
 }
 
 void Game::Init()
-{
-	LoadSound();
-	
+{	
 	isGame = false;
 	
 	force = MIN_FORCE;
@@ -77,19 +83,24 @@ void Game::Init()
 
 	menu->Init(pWnd);
 	background->Init(pWnd);		
+	edificio->Init(pWnd);
+	
 	cannon->Init(pWnd);
 }
 
 void Game::Instance()
 {
+	
+
 	menu = new Menu();
 	background = new Background();
 	cannon = new Cannon();
+	edificio = new Edificio();
 }
 
 void Game::LoadSound()
 {
-	snd_disparo_bff.LoadFromFile("..\\Musica\\Disparo.wav");
+	/*snd_disparo_bff.LoadFromFile("..\\Musica\\Disparo.wav");
 	snd_disparo.SetBuffer(snd_disparo_bff);	
 
 	snd_pato_hit_bff.LoadFromFile("..\\Musica\\Pato hit.wav");
@@ -98,22 +109,22 @@ void Game::LoadSound()
 	snd_loadbff.LoadFromFile("..\\Musica\\Load.wav");
 	snd_load.SetBuffer(snd_loadbff);	
 	snd_load.SetLoop(true);	
-	snd_load.SetVolume(10.0f);	
+	snd_load.SetVolume(10.0f);	*/
 }
 
 Game::~Game()
 {	
 	delete cannon;	
 	delete background;
-	delete menu;
-	delete pWnd;
+	delete edificio;
+	delete menu;	
 }
 
 void Game::ProcessEvent(Event &evt)
 {
 	if(evt.Type == Event::Closed)
 	{		
-		Quit();
+		isQuit = true;		
 	}
 	
 	if(isPause)
@@ -132,7 +143,7 @@ void Game::ProcessEvent(Event &evt)
 				}
 				else if(menu->GetState() == Menu::MENU_STATE::MENU)
 				{
-					PrincipalLoop();
+					isMenuGeneral = true;
 				}
 			}
 		}
@@ -185,6 +196,9 @@ void Game::ProcessCollisions()
 void Game::DrawGame()
 {
 	background->Draw(pWnd);
+	
+	edificio->Draw(pWnd);
+	
 	cannon->Draw(pWnd);
 
 	if(isPause)
@@ -232,6 +246,7 @@ void Game::UpdateGame()
 		//else
 		//{
 			background->Update(pWnd);	
+			edificio->Update(pWnd);
 			cannon->Update(pWnd);	
 		//}
 	}
@@ -267,7 +282,7 @@ void Game::Intro()
 
 void Game::GameOver()
 {	
-	snd_load.Stop();
+	/*snd_load.Stop();*/
 	Event evt;
 	int alpha = 0;
 	Image img;
@@ -379,13 +394,13 @@ void Game::ShowMenu()
 	bool salir = false;
 	Event evt;
 	
-	while(pWnd->IsOpened() && !salir){	
+	while(pWnd->IsOpened() && !salir && !isQuit){	
 		
 		while (pWnd->GetEvent(evt))
 		{	
 			if(evt.Type == Event::Closed)
 			{	
-				Quit();
+				isQuit = true;
 			}
 		}
 		
@@ -395,7 +410,7 @@ void Game::ShowMenu()
 			{			
 				if(menu->GetState() == Menu::MENU_STATE::SALIR)
 				{
-					Quit();
+					isQuit = true;
 				}
 				else if(menu->GetState() == Menu::MENU_STATE::JUGAR)
 				{
@@ -414,13 +429,13 @@ void Game::ShowMenu()
 			menu->Draw(pWnd);
 
 		pWnd->Display();
-				
 	}
-
+	
 	menu->SetMenu(Menu::MENU_TYPE::PAUSA);
 
 	if(pWnd->IsOpened())
-	{
+	{		
+
 		StopMusic();
 		MusicGame();
 	}
