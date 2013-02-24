@@ -39,9 +39,6 @@
     <ClCompile Include="Bala.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EnergyLevel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Helper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -83,9 +80,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Bala.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EnergyLevel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Helper.h">

@@ -82,20 +82,33 @@ void Game::Init()
 	windNextTime = 10;
 
 	menu->Init(pWnd);
+
 	background->Init(pWnd);		
+	
 	edificio->Init(pWnd);
 	
-	cannon->Init(pWnd);
+	Vector2f *vect = edificio->GetPos(true);
+
+	cannon_p1->Init(pWnd,vect);
+
+	delete vect;
+
+	vect = edificio->GetPos(false);
+
+	cannon_p2->Init(pWnd,vect);
+
+	delete vect;
 }
 
 void Game::Instance()
 {
-	
-
 	menu = new Menu();
 	background = new Background();
-	cannon = new Cannon();
 	edificio = new Edificio();
+
+	cannon_p1 = new Cannon();
+	cannon_p2 = new Cannon();
+	
 }
 
 void Game::LoadSound()
@@ -114,9 +127,10 @@ void Game::LoadSound()
 
 Game::~Game()
 {	
-	delete cannon;	
-	delete background;
+	delete cannon_p1;	
+	delete cannon_p2;	
 	delete edificio;
+	delete background;	
 	delete menu;	
 }
 
@@ -199,7 +213,8 @@ void Game::DrawGame()
 	
 	edificio->Draw(pWnd);
 	
-	cannon->Draw(pWnd);
+	cannon_p1->Draw(pWnd);
+	cannon_p2->Draw(pWnd);
 
 	if(isPause)
 		menu->Draw(pWnd);
@@ -221,7 +236,8 @@ void Game::ProcessInput()
 		{
 			rad = 90 - (x * 90 / c);
 		}
-		cannon->Rotate(rad);
+		cannon_p1->Rotate(rad);
+		cannon_p2->Rotate(rad);
 
 		if(in->IsMouseButtonDown(Mouse::Left))
 		{
@@ -247,7 +263,8 @@ void Game::UpdateGame()
 		//{
 			background->Update(pWnd);	
 			edificio->Update(pWnd);
-			cannon->Update(pWnd);	
+			cannon_p1->Update(pWnd);	
+			cannon_p2->Update(pWnd);	
 		//}
 	}
 }
@@ -346,6 +363,7 @@ void Game::Creditos()
 
 void Game::MusicGame()
 {
+	/*
 	if(musica.OpenFromFile("..//Musica//music.ogg"))
 	{
 		isMusicEnable = true;		
@@ -354,11 +372,13 @@ void Game::MusicGame()
 	}else
 	{
 		isMusicEnable = false;
-	}					
+	}
+	*/
 }
 
 void Game::MusicMenu()
 {
+	/*
 	if(musica.OpenFromFile("..//Musica//music2.ogg"))
 	{
 		isMusicEnable = true;		
@@ -368,6 +388,7 @@ void Game::MusicMenu()
 	{
 		isMusicEnable = false;
 	}
+	*/
 }
 
 void Game::MusicGameOver()
