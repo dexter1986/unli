@@ -25,6 +25,7 @@ private:
 	void Make();
 public:
 	Edificio();
+	Vector2f* GetPos(bool isPalyer1);
 	void Update(RenderWindow *app);
 	void Draw(RenderWindow *app);
 	void Init(RenderWindow *app);

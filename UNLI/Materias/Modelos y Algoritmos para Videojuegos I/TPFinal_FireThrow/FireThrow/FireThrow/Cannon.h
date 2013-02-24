@@ -14,6 +14,7 @@ private:
 	GameObject *base;
 	GameObject *cano;
 	float rot_rad;
+	void Init(RenderWindow *app);
 public:
 	float GetRad() const;
 	Vector2f GetPosCano() const;
@@ -24,7 +25,8 @@ public:
 	void Draw(RenderWindow *app) const;	
 	bool Hit(int x,int y) const;
 	void Update(RenderWindow *app);	
-	void Init(RenderWindow *app);
+	
+	void Init(RenderWindow *app,Vector2f *pos);
 	void Move(float x,float y);
 	void Rotate(float rad);
 	Cannon();

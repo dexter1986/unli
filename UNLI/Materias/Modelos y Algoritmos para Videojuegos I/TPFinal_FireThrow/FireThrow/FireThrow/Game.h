@@ -33,7 +33,8 @@ private:
 	Background *background;
 	
 	Menu *menu;
-	Cannon *cannon;
+	Cannon *cannon_p1;
+	Cannon *cannon_p2;
 	
 	Bala *balas;
 	Edificio *edificio;

@@ -1,6 +1,6 @@
 #include "NubesParallax.h"
 
-NubesParallax::NubesParallax():GameObject(false,"..//Imagenes//nubes_parallax_.png")
+NubesParallax::NubesParallax():GameObject(false,"..//Imagenes//nubes_parallax.png")
 {
 	windforce = 0;
 	Enable(true);

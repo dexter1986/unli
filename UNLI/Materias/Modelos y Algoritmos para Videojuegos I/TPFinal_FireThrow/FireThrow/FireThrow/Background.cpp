@@ -7,13 +7,29 @@ Background::Background():GameObject(false,"..//Imagenes//Background.png")
 
 void Background::Init(RenderWindow *app)
 {
-	GameObject::Init(app);
 	nubes.Init(app);
+	InitWind();
+}
+
+void Background::InitWind()
+{
+	wind_force = rand()%MAX_FORCE + MIN_FORCE;
+	wind_force = rand()%2 == 0? wind_force*-1:wind_force;
+	windTime = 0;
+	windNextTime = rand()%5+5;	
+	nubes.SetWindForce(wind_force);
 }
 
 void Background::Update(RenderWindow *app)
 {
-	GameObject::Update(app);
+	float t = app->GetFrameTime();
+	windTime += t;
+	
+	if(windNextTime <= windTime)
+	{
+		InitWind();	
+	}
+
 	nubes.Update(app);
 }
 
