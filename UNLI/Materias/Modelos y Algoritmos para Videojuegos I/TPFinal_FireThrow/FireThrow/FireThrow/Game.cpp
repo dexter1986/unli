@@ -82,6 +82,7 @@ void Game::Init()
 	windNextTime = 10;
 
 	menu->Init(pWnd);
+	hud->Init(pWnd);
 
 	background->Init(pWnd);		
 	
@@ -105,7 +106,7 @@ void Game::Instance()
 	menu = new Menu();
 	background = new Background();
 	edificio = new Edificio();
-
+	hud = new Hud();
 	cannon_p1 = new Cannon();
 	cannon_p2 = new Cannon();
 	
@@ -131,6 +132,7 @@ Game::~Game()
 	delete cannon_p2;	
 	delete edificio;
 	delete background;	
+	delete hud;
 	delete menu;	
 }
 
@@ -216,6 +218,8 @@ void Game::DrawGame()
 	cannon_p1->Draw(pWnd);
 	cannon_p2->Draw(pWnd);
 
+	hud->Draw(pWnd);
+
 	if(isPause)
 		menu->Draw(pWnd);
 	
@@ -265,6 +269,7 @@ void Game::UpdateGame()
 			edificio->Update(pWnd);
 			cannon_p1->Update(pWnd);	
 			cannon_p2->Update(pWnd);	
+			hud->Update(pWnd);
 		//}
 	}
 }
@@ -454,9 +459,40 @@ void Game::ShowMenu()
 	
 	menu->SetMenu(Menu::MENU_TYPE::PAUSA);
 
-	if(pWnd->IsOpened())
-	{		
+	while(pWnd->IsOpened() && !isQuit){
 
+		while (pWnd->GetEvent(evt))
+		{	
+			if(evt.Type == Event::Closed)
+			{	
+				isQuit = true;
+			}else
+			{
+				hud->ProcessEvent(evt);
+			}
+		}	
+
+		if(in->IsMouseButtonDown(Mouse::Left))
+		{
+			hud->Hit(in->GetMouseX(),in->GetMouseY());
+		}
+		else
+		{
+			hud->Test(in->GetMouseX(),in->GetMouseY());
+		}
+
+		pWnd->Clear();
+		
+			hud->Draw(pWnd);
+
+		pWnd->Display();
+
+		if(hud->GetState() == 4)
+			break;
+	}
+
+	if(pWnd->IsOpened())
+	{	
 		StopMusic();
 		MusicGame();
 	}

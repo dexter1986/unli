@@ -9,3 +9,11 @@ string Helper::ToInt(int value)
      ss << value;
      return ss.str();
 }
+
+int Helper::ToString(string value)
+{	 
+	istringstream buffer(value);
+	int ret;
+	buffer >> ret;
+	return ret;
+}
