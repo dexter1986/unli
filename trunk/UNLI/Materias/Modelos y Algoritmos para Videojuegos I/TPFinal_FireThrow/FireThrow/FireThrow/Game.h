@@ -12,6 +12,7 @@
 #include "IntroGame.h"
 #include "Menu.h"
 #include "Edificio.h"
+#include "Hud.h"
 
 using namespace sf;
 using namespace std;
@@ -31,7 +32,7 @@ private:
 	const Input* in;
 	
 	Background *background;
-	
+	Hud *hud;
 	Menu *menu;
 	Cannon *cannon_p1;
 	Cannon *cannon_p2;

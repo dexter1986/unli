@@ -12,6 +12,7 @@ class Helper
 {
 public:
 	static string ToInt(int value);
+	static int Helper::ToString(string value);
 };
 
 #endif
