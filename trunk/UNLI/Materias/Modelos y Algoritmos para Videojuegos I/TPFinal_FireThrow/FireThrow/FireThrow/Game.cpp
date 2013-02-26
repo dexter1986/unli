@@ -1,4 +1,5 @@
 #include"Game.h"
+#include "Helper.h"
 
 void Game::Go(){
 	
@@ -13,7 +14,6 @@ void Game::Go(){
 
 	PrincipalLoop();	
 }
-
 
 void Game::PrincipalLoop()
 {   
@@ -36,6 +36,8 @@ void Game::PrincipalLoop()
 		{
 			ShowMenu();	
 		}	
+
+		InitLevel();
 
 		while(pWnd->IsOpened() && !isQuit && !isMenuGeneral){
 			//procesar eventos
@@ -77,10 +79,6 @@ void Game::Init()
 {	
 	isGame = false;
 	
-	force = MIN_FORCE;
-	windTime = 0;
-	windNextTime = 10;
-
 	menu->Init(pWnd);
 	hud->Init(pWnd);
 
@@ -99,6 +97,31 @@ void Game::Init()
 	cannon_p2->Init(pWnd,vect);
 
 	delete vect;
+}
+
+void Game::InitLevel()
+{
+	background->InitWind();
+	hud->InitLevel();
+	hud->SetWind(background->wind_force);
+
+	cannon_p1->SetVidas(hud->GetVidas());
+	cannon_p1->SetAngulo(0.0f);
+	cannon_p1->SetVelocidad(0.0f);
+
+	cannon_p2->SetVidas(hud->GetVidas());
+	cannon_p2->SetAngulo(0.0f);
+	cannon_p2->SetVelocidad(0.0f);
+
+	int aux_t = rand()%2;
+	isTurnoP1 =  aux_t == 1;
+
+	hud->SetTurno(isTurnoP1);
+
+	isTurnoSec = 0;
+	isNextTurnSec = false;
+	aux = "";
+
 }
 
 void Game::Instance()
@@ -140,7 +163,8 @@ void Game::ProcessEvent(Event &evt)
 {
 	if(evt.Type == Event::Closed)
 	{		
-		isQuit = true;		
+		isQuit = true;	
+		return;
 	}
 	
 	if(isPause)
@@ -152,49 +176,75 @@ void Game::ProcessEvent(Event &evt)
 				if(menu->GetState() == Menu::MENU_STATE::CONTINUAR)
 				{
 					isPause = false;
+					return;
 				}
 				else if(menu->GetState() == Menu::MENU_STATE::REINICIAR)
 				{
-					
+					InitLevel();
+					isPause = false;
+					return;
 				}
 				else if(menu->GetState() == Menu::MENU_STATE::MENU)
 				{
 					isMenuGeneral = true;
+					return;
 				}
 			}
 		}
 		else
 		{
 			menu->Test(in->GetMouseX(),in->GetMouseY());
+			return;
 		}
 	}
 	else
 	{
 		if(evt.Type == Event::KeyPressed)
+		{
+			if(evt.Key.Code == Key::Escape)
+			{	
+				isPause = true;	
+				return;
+			}
+			if(evt.Key.Code == Key::Return)
 			{
-				if(evt.Key.Code == Key::Escape)
-				{	
-					isPause = true;			
+				isNextTurnSec = true;					
+			}
+			else
+			{
+				if(evt.Key.Code == Key::Back)
+				{
+					if(!aux.empty())
+					{
+						aux.erase(aux.length()-1,1);
+					}					
+				}
+				
+				else if(evt.Key.Code == Key::Num0 ||evt.Key.Code == Key::Num1 || evt.Key.Code == Key::Num2 ||
+						evt.Key.Code == Key::Num3 ||evt.Key.Code == Key::Num4 || evt.Key.Code == Key::Num5 ||
+						evt.Key.Code == Key::Num6 ||evt.Key.Code == Key::Num7 || evt.Key.Code == Key::Num8 ||
+						evt.Key.Code == Key::Num9)
+				{
+					aux += evt.Key.Code;					
 				}
 			}
+		}
 
-			if(evt.Type == Event::MouseButtonPressed)
+		if(evt.Type == Event::MouseButtonPressed)
+		{
+			if(evt.MouseButton.Button == Mouse::Left)
 			{
-				if(evt.MouseButton.Button == Mouse::Left)
-				{
 			
-				}
 			}
-			else if(evt.Type == Event::MouseButtonReleased)
+		}
+		else if(evt.Type == Event::MouseButtonReleased)
+		{
+			if(evt.MouseButton.Button == Mouse::Left)
 			{
-				if(evt.MouseButton.Button == Mouse::Left)
-				{
 			
-				}
 			}
+		}
 	}
-
-	
 }
 
 void Game::Quit()
@@ -229,7 +279,7 @@ void Game::ProcessInput()
 {
 	if(!isPause)
 	{
-		int x = in->GetMouseX();
+		/*int x = in->GetMouseX();
 		float c =  pWnd->GetWidth() /2.0f;
 		float rad;
 		if(x == c)
@@ -246,7 +296,7 @@ void Game::ProcessInput()
 		if(in->IsMouseButtonDown(Mouse::Left))
 		{
 		
-		}
+		}*/
 	}
 }
 
@@ -254,23 +304,72 @@ void Game::UpdateGame()
 {	
 	if(!isPause)
 	{
-		//if(vidas == 0)
-		//{	
-		//	StopMusic();
-		//	//Juego finalizado
-		//	GameOver();		
-		//	//Mostrar puntaje			
-		//	Creditos();
-		//	Quit();
-		//}
-		//else
-		//{
+		if(cannon_p1->GetVidas() > 0 && cannon_p1->GetVidas() > 0)		
+		{
 			background->Update(pWnd);	
 			edificio->Update(pWnd);
 			cannon_p1->Update(pWnd);	
 			cannon_p2->Update(pWnd);	
 			hud->Update(pWnd);
-		//}
+			hud->SetWind(background->wind_force);						
+
+			if(isTurnoSec == 0)
+			{
+				hud->SetIsAng();
+				if(!aux.empty())
+				{
+					if(isTurnoP1)
+					{
+						cannon_p1->SetAngulo(Helper::ToString(aux));	
+						hud->SetStatePlayer1(cannon_p1->GetAngulo(),cannon_p1->GetVelocidad(),cannon_p1->GetVidas());
+					}
+					else
+					{
+						cannon_p2->SetAngulo(Helper::ToString(aux));
+						hud->SetStatePlayer2(cannon_p2->GetAngulo(),cannon_p2->GetVelocidad(),cannon_p2->GetVidas());
+					}
+				}
+				if(isNextTurnSec)
+				{
+					isNextTurnSec = false;					
+					isTurnoSec = 1;	
+					aux = "";
+				}
+			}
+			else if(isTurnoSec == 1)
+			{
+				hud->SetIsVel();
+				if(!aux.empty())
+				{
+					if(isTurnoP1)
+					{
+						cannon_p1->SetVelocidad(Helper::ToString(aux));
+						hud->SetStatePlayer1(cannon_p1->GetAngulo(),cannon_p1->GetVelocidad(),cannon_p1->GetVidas());
+					}
+					else
+					{
+						cannon_p2->SetVelocidad(Helper::ToString(aux));
+						hud->SetStatePlayer2(cannon_p2->GetAngulo(),cannon_p2->GetVelocidad(),cannon_p2->GetVidas());
+					}
+				}
+				if(isNextTurnSec)
+				{
+					isNextTurnSec = false;
+					isTurnoSec = 2;			
+					aux = "";
+				}
+			}
+			else if(isTurnoSec == 2)
+			{
+				hud->SetIsFire();
+				if(isNextTurnSec)
+				{
+					isNextTurnSec = false;
+					isTurnoSec = 3;				
+				}
+			}		
+			
+		}
 	}
 }
 

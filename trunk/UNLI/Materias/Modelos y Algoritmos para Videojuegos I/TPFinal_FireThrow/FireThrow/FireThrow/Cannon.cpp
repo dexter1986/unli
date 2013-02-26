@@ -44,6 +44,36 @@ void Cannon::Move(float x,float y)
 
 }
 
+int Cannon::GetVidas()
+{
+	return vidas;
+}
+
+void Cannon::SetVelocidad(float value)
+{
+	velocidad = value;
+}
+
+void Cannon::SetAngulo(float value)
+{
+	angulo = value;
+}
+
+void Cannon::SetVidas(int value)
+{
+	vidas = value;
+}
+
+float Cannon::GetVelocidad()
+{
+	return velocidad;
+}
+
+float Cannon::GetAngulo()
+{
+	return angulo;
+}
+
 void Cannon::Rotate(float rad)
 {
 	if(rad > -70 && rad < 70) 
@@ -57,6 +87,7 @@ Vector2f Cannon::GetLargoCano() const
 {
 	return Vector2f(cano->GetWidth(),cano->GetHeight());
 }
+
 void Cannon::Init(RenderWindow *app)
 {
 

@@ -158,27 +158,35 @@ void Hud::HudUser(RenderWindow *app)
 	{
 		aux = "Viento ";
 
-		if(windForce < 0)
+		if(windForce > 0)
 			aux += "<=";
 
 		if(wind > 10)
 			aux +="=";
+		if(wind > 15)
+			aux +="=";
+		if(wind > 20)
+			aux +="=";
 		if(wind > 25)
 			aux +="=";
+		if(wind > 30)
+			aux +="=";
 		if(wind > 35)
+			aux +="=";
+		if(wind > 40)
+			aux +="=";
+		if(wind > 45)
 			aux +="=";
 		if(wind > 50)
 			aux +="=";
 		if(wind > 60)
 			aux +="=";
-		if(wind > 75)
+		if(wind > 70)
 			aux +="=";
-		if(wind > 85)
-			aux +="=";
-		if(wind > 90)
+		if(wind > 80)
 			aux +="=";
 
-		if(windForce > 0)
+		if(windForce < 0)
 			aux += "=>";
 	
 		text.SetPosition(300,35);
@@ -196,18 +204,16 @@ int Hud::GetVidas()
 
 void Hud::SetStatePlayer1(int angulo,int velocidad,int puntos)
 {
-	playerstate[1].angulo = angulo;
-	playerstate[1].velocidad = velocidad;
-	playerstate[1].puntos = puntos;
-
-	playerstate[1].angulo = angulo;
-	playerstate[1].velocidad = velocidad;
-	playerstate[1].puntos = puntos;
+	playerstate[0].angulo = angulo;
+	playerstate[0].velocidad = velocidad;
+	playerstate[0].puntos = puntos;
 }
 
 void Hud::SetStatePlayer2(int angulo,int velocidad,int puntos)
 {
-
+	playerstate[1].angulo = angulo;
+	playerstate[1].velocidad = velocidad;
+	playerstate[1].puntos = puntos;
 }
 
 void Hud::ProcessEvent(Event &evt)
@@ -400,4 +406,33 @@ void Hud::SetTurno(bool isPlayer1)
 void Hud::SetWind(float value)
 {
 	windForce = value;
+}
+
+void Hud::InitLevel()
+{
+	playerstate[0].angulo = 0;
+	playerstate[0].puntos = puntos;
+	playerstate[0].velocidad = 0;
+
+	playerstate[1].angulo = 0;
+	playerstate[1].puntos = puntos;
+	playerstate[1].velocidad = 0;
+}
+
+void Hud::SetIsVel()
+{
+	isSetAng = false;
+	isSetVel = true;
+}
+
+void Hud::SetIsAng()
+{
+	isSetAng = true;
+	isSetVel = false;
+}
+
+void Hud::SetIsFire()
+{
+	isSetAng = false;
+	isSetVel = false;
 }

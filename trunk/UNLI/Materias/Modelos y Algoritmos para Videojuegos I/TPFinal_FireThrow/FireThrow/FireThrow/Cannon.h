@@ -14,8 +14,17 @@ private:
 	GameObject *base;
 	GameObject *cano;
 	float rot_rad;
+	int vidas;
+	float velocidad;
+	float angulo;
 	void Init(RenderWindow *app);
 public:
+	void SetVelocidad(float value);
+	void SetAngulo(float value);
+	float GetVelocidad();
+	float GetAngulo();
+	int GetVidas();
+	void SetVidas(int value);
 	float GetRad() const;
 	Vector2f GetPosCano() const;
 	Vector2f GetPos() const;

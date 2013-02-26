@@ -50,6 +50,9 @@ public:
 	void SetStatePlayer1(int angulo,int velocidad,int puntos);
 	void SetStatePlayer2(int angulo,int velocidad,int puntos);
 	int GetVidas();
+	void SetIsVel();
+	void SetIsAng();
+	void SetIsFire();
 	void ProcessEvent(Event &evt);
 	bool Hit(int x,int y);
 	bool Test(int x,int y);
@@ -58,6 +61,7 @@ public:
 	void SetTurno(bool isPlayer1);
 	void SetWind(float value);
 	int GetState();
+	void InitLevel();
 	Hud();
 };
 

@@ -12,9 +12,9 @@ class Background : public GameObject
 private:
 	NubesParallax nubes;
 	int windTime;
-	int windNextTime;
-	void InitWind();
+	int windNextTime;	
 public:
+	void InitWind();
 	int wind_force;
 	Background();
 	void Update(RenderWindow *app);
