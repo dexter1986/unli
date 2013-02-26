@@ -39,13 +39,12 @@ private:
 	
 	Bala *balas;
 	Edificio *edificio;
-
-	int force;
-	
-	float windNextTime;
-	float windTime;
+		
 	Event evt;
-
+	bool isTurnoP1;
+	int isTurnoSec;
+	bool isNextTurnSec;
+	string aux;
 	bool isPause; 
 	bool isShowIntro;
 	bool isQuit;
@@ -75,6 +74,7 @@ private:
 	void ShowMenu();	
 	void Quit();
 	void Init();
+	void InitLevel();
 	void Instance();
 	void PrincipalLoop();
 public:
