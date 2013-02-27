@@ -2,8 +2,8 @@
 
 Cannon::Cannon()
 {
-	base = new GameObject(false,"..//Imagenes//Canon_base.png");
-	cano = new GameObject(false,"..//Imagenes//Canon_cano.png");
+	base = new GameObject(true,"..//Imagenes//Canon_base.png");
+	cano = new GameObject(true,"..//Imagenes//Canon_cano.png");
 
 	base->Enable(true);
 	cano->Enable(true);
@@ -96,12 +96,8 @@ bool Cannon::Fire(bool leftSide)
 
 void Cannon::Rotate(float rad)
 {
-	/*if(rad > -70 && rad < 70) 
-	{	*/
-		
-		rot_rad = rad;
-		cano->Rotate(rot_rad);
-	//}
+	rot_rad = rad;
+	cano->Rotate(rot_rad);
 }
 
 Vector2f Cannon::GetLargoCano() const
@@ -118,7 +114,21 @@ void Cannon::Init(RenderWindow *app,Vector2f *pos)
 {	
 	 base->Move(pos->x + base->GetWidth() / 2.0f - 17.0f ,pos->y - base->GetHeight()); 
 	 cano->Move(base->GetPos().x  + base->GetWidth() / 2.0f, base->GetPos().y  + base->GetHeight() / 2.0f); 
-	 cano->SetCenter(cano->GetWidth()/2.0f,cano->GetHeight());	 
+	 cano->SetCenter(cano->GetWidth()/2.0f,cano->GetHeight());	
+}
+
+bool Cannon::Hit(Vector2f pos)
+{
+	bool ret = false;
+	if(cano->Hit(pos.x,pos.y))
+		ret = true;
+	else if(base->Hit(pos.x,pos.y))
+		ret = true;
+
+	if(ret)
+		vidas--;
+
+	return ret;
 }
 
 float Cannon::GetRad() const

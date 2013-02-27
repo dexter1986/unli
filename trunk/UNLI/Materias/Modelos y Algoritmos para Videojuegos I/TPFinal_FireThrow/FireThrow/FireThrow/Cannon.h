@@ -13,6 +13,7 @@ class Cannon : public GameObjectBase
 private:
 	GameObject *base;
 	GameObject *cano;
+	sf::Rect<float> rect;
 	float rot_rad;
 	int vidas;
 	float velocidad;
@@ -33,6 +34,7 @@ public:
 	void Enable(bool enable);
 	void Draw(RenderWindow *app) const;	
 	bool Hit(int x,int y) const;
+	bool Hit(Vector2f pos);
 	void Update(RenderWindow *app);		
 	void Init(RenderWindow *app,Vector2f *pos);
 	void Move(float x,float y);

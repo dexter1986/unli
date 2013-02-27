@@ -84,6 +84,43 @@ void Game::Init()
 
 	background->Init(pWnd);		
 	
+	RefreshLevel();
+}
+
+void Game::InitLevel()
+{
+	background->InitWind();
+	hud->InitLevel();
+	hud->SetWind(background->wind_force);
+
+	cannon_p1->SetVidas(hud->GetVidas());
+	cannon_p1->SetAngulo(90.0f);
+	cannon_p1->SetVelocidad(0.0f);
+	cannon_p1->Fire(true);
+
+	cannon_p2->SetVidas(hud->GetVidas());
+	cannon_p2->SetAngulo(90.0f);
+	cannon_p2->SetVelocidad(0.0f);
+	cannon_p2->Fire(false);
+	
+	int aux_t = rand()%2;
+	isTurnoP1 =  aux_t == 1;
+
+	hud->SetTurno(isTurnoP1);
+
+	isTurnoSec = 0;
+	isNextTurnSec = false;
+	aux = "";
+
+	if(balas != NULL)
+	{
+		delete balas;
+		balas = NULL;
+	}
+}
+
+void Game::RefreshLevel()
+{
 	edificio->Init(pWnd);
 	
 	Vector2f *vect = edificio->GetPos(true);
@@ -99,31 +136,6 @@ void Game::Init()
 	delete vect;
 }
 
-void Game::InitLevel()
-{
-	background->InitWind();
-	hud->InitLevel();
-	hud->SetWind(background->wind_force);
-
-	cannon_p1->SetVidas(hud->GetVidas());
-	cannon_p1->SetAngulo(0.0f);
-	cannon_p1->SetVelocidad(0.0f);
-
-	cannon_p2->SetVidas(hud->GetVidas());
-	cannon_p2->SetAngulo(0.0f);
-	cannon_p2->SetVelocidad(0.0f);
-
-	int aux_t = rand()%2;
-	isTurnoP1 =  aux_t == 1;
-
-	hud->SetTurno(isTurnoP1);
-
-	isTurnoSec = 0;
-	isNextTurnSec = false;
-	aux = "";
-
-}
-
 void Game::Instance()
 {
 	menu = new Menu();
@@ -132,7 +144,7 @@ void Game::Instance()
 	hud = new Hud();
 	cannon_p1 = new Cannon();
 	cannon_p2 = new Cannon();
-	
+	balas = NULL;
 }
 
 void Game::LoadSound()
@@ -151,6 +163,10 @@ void Game::LoadSound()
 
 Game::~Game()
 {	
+	if(balas != NULL)
+	{
+		delete balas;
+	}
 	delete cannon_p1;	
 	delete cannon_p2;	
 	delete edificio;
@@ -267,30 +283,67 @@ void Game::Quit()
 
 void Game::ProcessCollisions()
 {
-	
+	bool ret = false;
+	if(balas != NULL)
+	{
+		if(balas->GetPos().x > 0 && balas->GetPos().x < wnd_ancho &&
+           balas->GetPos().y > wnd_alto*-1 && balas->GetPos().y < wnd_alto)
+		{
+			if(cannon_p2->Hit(balas->GetPos()))
+			{
+				ret = true;
+			}
+			else if(cannon_p1->Hit(balas->GetPos()))
+			{	
+				ret = true;
+			}
+
+			if(ret)
+			{
+				RefreshLevel();
+			}
+		}
+		else
+		{
+			ret = true;
+		}
+
+		if(ret)
+		{	
+			delete balas;
+			balas = NULL;
+			isTurnoSec = 4;
+		}
+	}
 }
 
 void Game::DrawGame()
 {
 	background->Draw(pWnd);
 	
-	edificio->Draw(pWnd);
-	
-	cannon_p1->Draw(pWnd);
-	cannon_p2->Draw(pWnd);
-
-	hud->Draw(pWnd);
-
-	if(isPause)
-		menu->Draw(pWnd);
-
 	if(isTurnoSec == 5)
-	{
+	{	
 		if(cannon_p1->GetVidas() == 0)
 			hud->ShowGano(pWnd,false);
 		if(cannon_p2->GetVidas() == 0)
 			hud->ShowGano(pWnd,true);
-	}	
+	}
+	else
+	{
+		edificio->Draw(pWnd);
+
+		cannon_p1->Draw(pWnd);
+		cannon_p2->Draw(pWnd);
+
+		hud->Draw(pWnd);
+		if(balas != NULL)
+		{
+			balas->Draw(pWnd);
+		}
+	}
+
+	if(isPause)
+		menu->Draw(pWnd);
 }
 
 void Game::ProcessInput()
@@ -328,6 +381,11 @@ void Game::UpdateGame()
 		cannon_p2->Update(pWnd);	
 		hud->Update(pWnd);
 		hud->SetWind(background->wind_force);						
+		
+		if(balas != NULL)
+		{
+			balas->Update(pWnd);
+		}
 
 		if(isTurnoSec == 0)
 		{
@@ -382,18 +440,32 @@ void Game::UpdateGame()
 		}
 		else if(isTurnoSec == 3)
 		{
-			bool ret;
-			if(isTurnoP1)
+			if(balas == NULL)
 			{
-				ret = cannon_p1->Fire(true);
-			}
-			else
-			{
-				ret = cannon_p2->Fire(false);
-			}
+				bool ret;
+				if(isTurnoP1)
+				{
+					ret = cannon_p1->Fire(true);				
+				}
+				else
+				{
+					ret = cannon_p2->Fire(false);
+				}
 
-			if(ret)			
-				isTurnoSec = 4;
+				if(ret)		
+				{
+					if(isTurnoP1)
+					{
+						balas =  new Bala(cannon_p1->GetPosCano(),cannon_p1->GetLargoCano(),cannon_p1->GetRad(),
+										  cannon_p1->GetVelocidad(),background->wind_force);
+					}
+					else
+					{
+						balas =  new Bala(cannon_p2->GetPosCano(),cannon_p2->GetLargoCano(),cannon_p2->GetRad(),
+										  cannon_p2->GetVelocidad(),background->wind_force);
+					}
+				}
+			}
 		}
 		else if(isTurnoSec == 4)
 		{			
@@ -404,13 +476,13 @@ void Game::UpdateGame()
 			hud->SetStatePlayer2(cannon_p2->GetAngulo(),cannon_p2->GetVelocidad(),cannon_p2->GetVidas());
 			
 			
-			if(cannon_p1->GetVidas() == 0 || cannon_p1->GetVidas() == 0)		
+			if(cannon_p1->GetVidas() == 0 || cannon_p2->GetVidas() == 0)		
 			{
 				isTurnoSec = 5;
 			}
 			else
 			{
-				isTurnoSec = 0;
+				isTurnoSec = 0;				
 			}
 		}
 		else if(isTurnoSec == 5)

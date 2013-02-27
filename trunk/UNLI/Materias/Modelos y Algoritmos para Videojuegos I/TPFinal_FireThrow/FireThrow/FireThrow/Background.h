@@ -4,7 +4,7 @@
 #ifndef BACKGROUND_H
 #define BACKGROUND_H
 
-#define MAX_FORCE 40
+#define MAX_FORCE 10
 #define MIN_FORCE 0
 
 class Background : public GameObject
