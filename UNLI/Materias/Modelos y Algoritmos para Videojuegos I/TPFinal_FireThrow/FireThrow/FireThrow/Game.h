@@ -77,6 +77,7 @@ private:
 	void InitLevel();
 	void Instance();
 	void PrincipalLoop();
+	void RefreshLevel();
 public:
 	Game(int alto, int ancho, string titulo);
 	~Game(void);

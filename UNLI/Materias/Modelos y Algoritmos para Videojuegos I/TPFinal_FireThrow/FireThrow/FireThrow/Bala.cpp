@@ -10,12 +10,12 @@ Bala::Bala(Vector2f pos,Vector2f largocano,float rad,int force,int windforce):Ga
 		sentido = -1;
 
 	//0.3 -> factor de compensacion
-	Bala::windForce =(int)(abs(windforce)*0.3);
+	Bala::windForce =(int)(abs(windforce)*0.04);
 
 	//40 -> Factor de compensacion
-	force *= 40; 
-
-	float a = (90 + rad) * 3.14f / 180;
+	//force *= 2;
+	
+	float a = (rad + 90) * 3.14f / 180;
 	float _cos = cosf(a);
 	float _sin = sinf(a);
 
@@ -31,9 +31,9 @@ Bala::Bala(Vector2f pos,Vector2f largocano,float rad,int force,int windforce):Ga
 
 void Bala::Update(RenderWindow *app)
 {
-	float time = app->GetFrameTime();
-	//Gravedad compensada 490 -> factor de compensacion
-	velocidad.y += 490 * time;
+	float time = app->GetFrameTime()*6;
+	
+	velocidad.y += 5 * time;
 	
 	velocidad.x += windForce * sentido;
 

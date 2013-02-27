@@ -50,6 +50,7 @@ public:
 	void SetStatePlayer1(int angulo,int velocidad,int puntos);
 	void SetStatePlayer2(int angulo,int velocidad,int puntos);
 	int GetVidas();
+	int GetCantJugadores();
 	void SetIsVel();
 	void SetIsAng();
 	void SetIsFire();

@@ -216,6 +216,11 @@ void Hud::SetStatePlayer2(int angulo,int velocidad,int puntos)
 	playerstate[1].puntos = puntos;
 }
 
+int Hud::GetCantJugadores()
+{
+	return cantjugadores;
+}
+
 void Hud::ProcessEvent(Event &evt)
 {
 	if(evt.Type == Event::KeyPressed)
@@ -440,8 +445,8 @@ void Hud::SetIsFire()
 void Hud::ShowGano(RenderWindow *app,bool isPlayer1)
 {
 	string aux;
-	text.SetSize(50);
-	text.SetPosition(300,300);
+	
+	text.SetPosition(300,150);
 	
 	if(isPlayer1)
 		aux = playerstate[0].nombre;
@@ -455,9 +460,8 @@ void Hud::ShowGano(RenderWindow *app,bool isPlayer1)
 	app->Draw(text);
 
 
-	text.SetSize(30);
-	text.SetPosition(500,500);
-	aux = "Presinar Enter para continuar";
+	text.SetPosition(250,200);
+	aux = "Presionar Enter para continuar";
 	text.SetText(aux);	
 	app->Draw(text);
 }
