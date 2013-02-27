@@ -62,6 +62,7 @@ public:
 	void SetWind(float value);
 	int GetState();
 	void InitLevel();
+	void ShowGano(RenderWindow *app,bool isPlayer1);
 	Hud();
 };
 

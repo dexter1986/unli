@@ -47,6 +47,7 @@ public:
 	void Anim();
 	void UpdateFrame();
 	void SetAnim(int start,int stop);
+	void RotateAbs(float ang);
 	~GameObject(void);
 };
 

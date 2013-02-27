@@ -74,13 +74,34 @@ float Cannon::GetAngulo()
 	return angulo;
 }
 
+bool Cannon::Fire(bool leftSide)
+{
+	if(angulo > 180)
+		angulo = 180;
+
+	float aux = angulo;
+
+	if(leftSide)
+	{
+		aux = (90-aux) *-1;
+	}
+	else
+	{
+		aux = 90-aux;
+	}
+
+	Rotate(aux);
+	return true;
+}
+
 void Cannon::Rotate(float rad)
 {
-	if(rad > -70 && rad < 70) 
-	{	
+	/*if(rad > -70 && rad < 70) 
+	{	*/
+		
 		rot_rad = rad;
-		cano->Rotate(rad);
-	}
+		cano->Rotate(rot_rad);
+	//}
 }
 
 Vector2f Cannon::GetLargoCano() const
@@ -96,7 +117,6 @@ void Cannon::Init(RenderWindow *app)
 void Cannon::Init(RenderWindow *app,Vector2f *pos)
 {	
 	 base->Move(pos->x + base->GetWidth() / 2.0f - 17.0f ,pos->y - base->GetHeight()); 
-
 	 cano->Move(base->GetPos().x  + base->GetWidth() / 2.0f, base->GetPos().y  + base->GetHeight() / 2.0f); 
 	 cano->SetCenter(cano->GetWidth()/2.0f,cano->GetHeight());	 
 }

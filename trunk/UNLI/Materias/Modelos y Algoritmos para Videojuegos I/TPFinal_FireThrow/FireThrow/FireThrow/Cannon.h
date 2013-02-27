@@ -33,11 +33,11 @@ public:
 	void Enable(bool enable);
 	void Draw(RenderWindow *app) const;	
 	bool Hit(int x,int y) const;
-	void Update(RenderWindow *app);	
-	
+	void Update(RenderWindow *app);		
 	void Init(RenderWindow *app,Vector2f *pos);
 	void Move(float x,float y);
 	void Rotate(float rad);
+	bool Fire(bool leftSide);
 	Cannon();
 	~Cannon();
 };
