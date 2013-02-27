@@ -127,6 +127,11 @@ void GameObject::Rotate(float rad)
 	sprite.SetRotation(rad);	
 }
 
+void GameObject::RotateAbs(float ang)
+{
+	sprite.Rotate(ang);	
+}
+
 void GameObject::SetCenter(float x,float y)
 {
 	sprite.SetCenter(x,y);

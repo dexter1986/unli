@@ -197,6 +197,16 @@ void Game::ProcessEvent(Event &evt)
 			return;
 		}
 	}
+	else if(isTurnoSec == 5)
+	{
+		if(evt.Type == Event::KeyPressed)
+		{
+			if(evt.Key.Code == Key::Return)
+			{
+				isMenuGeneral = true;					
+			}
+		}
+	}
 	else
 	{
 		if(evt.Type == Event::KeyPressed)
@@ -208,7 +218,8 @@ void Game::ProcessEvent(Event &evt)
 			}
 			if(evt.Key.Code == Key::Return)
 			{
-				isNextTurnSec = true;					
+				isNextTurnSec = true;		
+				return;
 			}
 			else
 			{
@@ -272,7 +283,14 @@ void Game::DrawGame()
 
 	if(isPause)
 		menu->Draw(pWnd);
-	
+
+	if(isTurnoSec == 5)
+	{
+		if(cannon_p1->GetVidas() == 0)
+			hud->ShowGano(pWnd,false);
+		if(cannon_p2->GetVidas() == 0)
+			hud->ShowGano(pWnd,true);
+	}	
 }
 
 void Game::ProcessInput()
@@ -303,73 +321,102 @@ void Game::ProcessInput()
 void Game::UpdateGame()
 {	
 	if(!isPause)
-	{
-		if(cannon_p1->GetVidas() > 0 && cannon_p1->GetVidas() > 0)		
-		{
-			background->Update(pWnd);	
-			edificio->Update(pWnd);
-			cannon_p1->Update(pWnd);	
-			cannon_p2->Update(pWnd);	
-			hud->Update(pWnd);
-			hud->SetWind(background->wind_force);						
+	{	
+		background->Update(pWnd);	
+		edificio->Update(pWnd);
+		cannon_p1->Update(pWnd);	
+		cannon_p2->Update(pWnd);	
+		hud->Update(pWnd);
+		hud->SetWind(background->wind_force);						
 
-			if(isTurnoSec == 0)
+		if(isTurnoSec == 0)
+		{
+			hud->SetIsAng();
+			if(!aux.empty())
 			{
-				hud->SetIsAng();
-				if(!aux.empty())
+				if(isTurnoP1)
 				{
-					if(isTurnoP1)
-					{
-						cannon_p1->SetAngulo(Helper::ToString(aux));	
-						hud->SetStatePlayer1(cannon_p1->GetAngulo(),cannon_p1->GetVelocidad(),cannon_p1->GetVidas());
-					}
-					else
-					{
-						cannon_p2->SetAngulo(Helper::ToString(aux));
-						hud->SetStatePlayer2(cannon_p2->GetAngulo(),cannon_p2->GetVelocidad(),cannon_p2->GetVidas());
-					}
+					cannon_p1->SetAngulo(Helper::ToString(aux));	
+					hud->SetStatePlayer1(cannon_p1->GetAngulo(),cannon_p1->GetVelocidad(),cannon_p1->GetVidas());
 				}
-				if(isNextTurnSec)
+				else
 				{
-					isNextTurnSec = false;					
-					isTurnoSec = 1;	
-					aux = "";
+					cannon_p2->SetAngulo(Helper::ToString(aux));
+					hud->SetStatePlayer2(cannon_p2->GetAngulo(),cannon_p2->GetVelocidad(),cannon_p2->GetVidas());
 				}
 			}
-			else if(isTurnoSec == 1)
+			if(isNextTurnSec)
 			{
-				hud->SetIsVel();
-				if(!aux.empty())
-				{
-					if(isTurnoP1)
-					{
-						cannon_p1->SetVelocidad(Helper::ToString(aux));
-						hud->SetStatePlayer1(cannon_p1->GetAngulo(),cannon_p1->GetVelocidad(),cannon_p1->GetVidas());
-					}
-					else
-					{
-						cannon_p2->SetVelocidad(Helper::ToString(aux));
-						hud->SetStatePlayer2(cannon_p2->GetAngulo(),cannon_p2->GetVelocidad(),cannon_p2->GetVidas());
-					}
-				}
-				if(isNextTurnSec)
-				{
-					isNextTurnSec = false;
-					isTurnoSec = 2;			
-					aux = "";
-				}
+				isNextTurnSec = false;					
+				isTurnoSec = 1;	
+				aux = "";
 			}
-			else if(isTurnoSec == 2)
-			{
-				hud->SetIsFire();
-				if(isNextTurnSec)
-				{
-					isNextTurnSec = false;
-					isTurnoSec = 3;				
-				}
-			}		
-			
 		}
+		else if(isTurnoSec == 1)
+		{	
+			hud->SetIsVel();
+			if(!aux.empty())
+			{
+				if(isTurnoP1)
+				{
+					cannon_p1->SetVelocidad(Helper::ToString(aux));
+					hud->SetStatePlayer1(cannon_p1->GetAngulo(),cannon_p1->GetVelocidad(),cannon_p1->GetVidas());
+				}
+				else
+				{
+					cannon_p2->SetVelocidad(Helper::ToString(aux));
+					hud->SetStatePlayer2(cannon_p2->GetAngulo(),cannon_p2->GetVelocidad(),cannon_p2->GetVidas());
+				}
+			}
+			if(isNextTurnSec)
+			{
+				isNextTurnSec = false;
+				isTurnoSec = 2;			
+				aux = "";
+			}
+		}
+		else if(isTurnoSec == 2)
+		{
+			hud->SetIsFire();			
+			isTurnoSec = 3;							
+		}
+		else if(isTurnoSec == 3)
+		{
+			bool ret;
+			if(isTurnoP1)
+			{
+				ret = cannon_p1->Fire(true);
+			}
+			else
+			{
+				ret = cannon_p2->Fire(false);
+			}
+
+			if(ret)			
+				isTurnoSec = 4;
+		}
+		else if(isTurnoSec == 4)
+		{			
+			isTurnoP1 = !isTurnoP1;
+			hud->SetTurno(isTurnoP1);
+
+			hud->SetStatePlayer1(cannon_p1->GetAngulo(),cannon_p1->GetVelocidad(),cannon_p1->GetVidas());
+			hud->SetStatePlayer2(cannon_p2->GetAngulo(),cannon_p2->GetVelocidad(),cannon_p2->GetVidas());
+			
+			
+			if(cannon_p1->GetVidas() == 0 || cannon_p1->GetVidas() == 0)		
+			{
+				isTurnoSec = 5;
+			}
+			else
+			{
+				isTurnoSec = 0;
+			}
+		}
+		else if(isTurnoSec == 5)
+		{	
+				
+		}		
 	}
 }
 

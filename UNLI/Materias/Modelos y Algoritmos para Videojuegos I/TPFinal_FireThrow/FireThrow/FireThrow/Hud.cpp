@@ -436,3 +436,28 @@ void Hud::SetIsFire()
 	isSetAng = false;
 	isSetVel = false;
 }
+
+void Hud::ShowGano(RenderWindow *app,bool isPlayer1)
+{
+	string aux;
+	text.SetSize(50);
+	text.SetPosition(300,300);
+	
+	if(isPlayer1)
+		aux = playerstate[0].nombre;
+	else
+		aux = playerstate[1].nombre;
+
+	aux += " GANA";
+
+	
+	text.SetText(aux);	
+	app->Draw(text);
+
+
+	text.SetSize(30);
+	text.SetPosition(500,500);
+	aux = "Presinar Enter para continuar";
+	text.SetText(aux);	
+	app->Draw(text);
+}
