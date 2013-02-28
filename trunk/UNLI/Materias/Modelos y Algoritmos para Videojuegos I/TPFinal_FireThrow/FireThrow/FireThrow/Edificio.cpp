@@ -108,4 +108,5 @@ Vector2f* Edificio::GetPos(bool isPalyer1)
 				return new Vector2f(bloques[pos][h].pos_x,bloques[pos][h].pos_y + bloques[pos][h].sprite.GetSize().y);		
 		}
 	}
+	return new Vector2f();
 }

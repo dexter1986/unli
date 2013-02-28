@@ -49,7 +49,7 @@ private:
 	bool isShowIntro;
 	bool isQuit;
 	bool isMenuGeneral;
-
+	bool isPlayer1Lost;
 	/*SoundBuffer snd_disparo_bff;		
 	Sound snd_disparo;			
 

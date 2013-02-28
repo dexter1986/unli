@@ -13,7 +13,7 @@ void Background::Init(RenderWindow *app)
 
 void Background::InitWind()
 {
-	wind_force = rand()%MAX_FORCE + MIN_FORCE;
+	wind_force = rand()% MAX_WIND_FORCE + MIN_WIND_FORCE;
 	wind_force = rand()%2 == 0? wind_force*-1:wind_force;
 	windTime = 0;
 	windNextTime = rand()%5+5;	

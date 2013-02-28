@@ -25,10 +25,10 @@ public:
 	}MENU_STATE;
 
 private:
-	int tx;
-	int ty;
-	int bx; 
-	int by;
+	float tx;
+	float ty;
+	float bx; 
+	float by;
 	MENU_TYPE menutype;
 	MENU_STATE menustate;	
 public:

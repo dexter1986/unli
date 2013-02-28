@@ -4,21 +4,23 @@
 #ifndef HUD_H
 #define HUD_H
 
+#define MAX_FX_TIME 2
+
 class Hud : public GameObject
 {
 public:
 	typedef struct PlayerState_
 	{
 		string nombre;
-		int angulo;
-		int velocidad;
+		float angulo;
+		float velocidad;
 		int puntos;
 	}PlayerState;
 private:
-	int tx;
-	int ty;
-	int bx; 
-	int by;
+	float tx;
+	float ty;
+	float bx; 
+	float by;
 
 	Font font;
 	sf::String text;
@@ -45,10 +47,10 @@ private:
 	void HudUser(RenderWindow *app);
 	
 	PlayerState playerstate[2];
-
+	float initFXTime;
 public:
-	void SetStatePlayer1(int angulo,int velocidad,int puntos);
-	void SetStatePlayer2(int angulo,int velocidad,int puntos);
+	void SetStatePlayer1(float angulo,float velocidad,int puntos);
+	void SetStatePlayer2(float angulo,float velocidad,int puntos);
 	int GetVidas();
 	int GetCantJugadores();
 	void SetIsVel();
@@ -64,6 +66,8 @@ public:
 	int GetState();
 	void InitLevel();
 	void ShowGano(RenderWindow *app,bool isPlayer1);
+	bool ShowLostVida(RenderWindow *app,bool isPlayer1);
+	void InitFXTime();
 	Hud();
 };
 

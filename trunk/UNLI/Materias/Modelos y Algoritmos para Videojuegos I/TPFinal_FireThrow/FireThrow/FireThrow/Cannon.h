@@ -19,6 +19,7 @@ private:
 	float velocidad;
 	float angulo;
 	void Init(RenderWindow *app);
+	bool blink_draw;
 public:
 	void SetVelocidad(float value);
 	void SetAngulo(float value);
@@ -33,6 +34,7 @@ public:
 	Vector2f GetLargoCano() const;
 	void Enable(bool enable);
 	void Draw(RenderWindow *app) const;	
+	void Blink(RenderWindow *app);	
 	bool Hit(int x,int y) const;
 	bool Hit(Vector2f pos);
 	void Update(RenderWindow *app);		

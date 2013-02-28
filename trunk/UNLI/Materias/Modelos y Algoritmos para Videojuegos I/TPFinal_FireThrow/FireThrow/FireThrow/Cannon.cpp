@@ -7,7 +7,7 @@ Cannon::Cannon()
 
 	base->Enable(true);
 	cano->Enable(true);
-
+	blink_draw = false;
 	rot_rad = 0;
 }
 
@@ -27,6 +27,16 @@ void Cannon::Draw(RenderWindow *app) const
 {
 	cano->Draw(app);
 	base->Draw(app);
+}
+
+void Cannon::Blink(RenderWindow *app)
+{
+	if(blink_draw)
+	{
+		cano->Draw(app);
+		base->Draw(app);
+	}
+	blink_draw = !blink_draw;
 }
 
 bool Cannon::Hit(int x,int y) const

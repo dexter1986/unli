@@ -1,6 +1,6 @@
 #include "Bala.h"
 
-Bala::Bala(Vector2f pos,Vector2f largocano,float rad,int force,int windforce):GameObject(true,"..//Imagenes//Bala.png")
+Bala::Bala(Vector2f pos,Vector2f largocano,float rad,int force,float windforce):GameObject(true,"..//Imagenes//Bala.png")
 {
 	Enable(true);
 	
