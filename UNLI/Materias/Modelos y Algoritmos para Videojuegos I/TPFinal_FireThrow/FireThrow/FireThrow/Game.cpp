@@ -213,7 +213,7 @@ void Game::ProcessEvent(Event &evt)
 			return;
 		}
 	}
-	else if(isTurnoSec == 5)
+	else if(isTurnoSec == 7)
 	{
 		if(evt.Type == Event::KeyPressed)
 		{
@@ -291,28 +291,31 @@ void Game::ProcessCollisions()
 		{
 			if(cannon_p2->Hit(balas->GetPos()))
 			{
+				isPlayer1Lost = false;
 				ret = true;
 			}
 			else if(cannon_p1->Hit(balas->GetPos()))
 			{	
+				isPlayer1Lost = true;
 				ret = true;
 			}
 
 			if(ret)
 			{
-				RefreshLevel();
+				hud->InitFXTime();
+				isTurnoSec = 4;				
 			}
 		}
 		else
 		{
 			ret = true;
+			isTurnoSec = 6;
 		}
 
 		if(ret)
 		{	
 			delete balas;
-			balas = NULL;
-			isTurnoSec = 4;
+			balas = NULL;			
 		}
 	}
 }
@@ -321,25 +324,49 @@ void Game::DrawGame()
 {
 	background->Draw(pWnd);
 	
-	if(isTurnoSec == 5)
+	if(isTurnoSec == 7)
 	{	
 		if(cannon_p1->GetVidas() == 0)
 			hud->ShowGano(pWnd,false);
 		if(cannon_p2->GetVidas() == 0)
 			hud->ShowGano(pWnd,true);
-	}
+	}	
 	else
 	{
 		edificio->Draw(pWnd);
 
-		cannon_p1->Draw(pWnd);
-		cannon_p2->Draw(pWnd);
+		if(isTurnoSec == 4)
+		{	
+			if(hud->ShowLostVida(pWnd,isPlayer1Lost))
+			{
+				isTurnoSec = 5;
+			}
+			else
+			{
+				if(isPlayer1Lost)
+				{
+					cannon_p1->Blink(pWnd);
+					cannon_p2->Draw(pWnd);
+				}
+				else
+				{
+					cannon_p2->Blink(pWnd);
+					cannon_p1->Draw(pWnd);
+				}
+			}
+		}
+		else
+		{
+			cannon_p1->Draw(pWnd);
+			cannon_p2->Draw(pWnd);
+		}
 
 		hud->Draw(pWnd);
+		
 		if(balas != NULL)
 		{
 			balas->Draw(pWnd);
-		}
+		}		
 	}
 
 	if(isPause)
@@ -394,12 +421,12 @@ void Game::UpdateGame()
 			{
 				if(isTurnoP1)
 				{
-					cannon_p1->SetAngulo(Helper::ToString(aux));	
+					cannon_p1->SetAngulo((float)Helper::ToString(aux));	
 					hud->SetStatePlayer1(cannon_p1->GetAngulo(),cannon_p1->GetVelocidad(),cannon_p1->GetVidas());
 				}
 				else
 				{
-					cannon_p2->SetAngulo(Helper::ToString(aux));
+					cannon_p2->SetAngulo((float)Helper::ToString(aux));
 					hud->SetStatePlayer2(cannon_p2->GetAngulo(),cannon_p2->GetVelocidad(),cannon_p2->GetVidas());
 				}
 			}
@@ -417,12 +444,12 @@ void Game::UpdateGame()
 			{
 				if(isTurnoP1)
 				{
-					cannon_p1->SetVelocidad(Helper::ToString(aux));
+					cannon_p1->SetVelocidad((float)Helper::ToString(aux));
 					hud->SetStatePlayer1(cannon_p1->GetAngulo(),cannon_p1->GetVelocidad(),cannon_p1->GetVidas());
 				}
 				else
 				{
-					cannon_p2->SetVelocidad(Helper::ToString(aux));
+					cannon_p2->SetVelocidad((float)Helper::ToString(aux));
 					hud->SetStatePlayer2(cannon_p2->GetAngulo(),cannon_p2->GetVelocidad(),cannon_p2->GetVidas());
 				}
 			}
@@ -467,7 +494,12 @@ void Game::UpdateGame()
 				}
 			}
 		}
-		else if(isTurnoSec == 4)
+		else if(isTurnoSec == 5)
+		{
+			isTurnoSec = 6;
+			RefreshLevel();
+		}
+		else if(isTurnoSec == 6)
 		{			
 			isTurnoP1 = !isTurnoP1;
 			hud->SetTurno(isTurnoP1);
@@ -478,14 +510,14 @@ void Game::UpdateGame()
 			
 			if(cannon_p1->GetVidas() == 0 || cannon_p2->GetVidas() == 0)		
 			{
-				isTurnoSec = 5;
+				isTurnoSec = 7;
 			}
 			else
 			{
-				isTurnoSec = 0;				
+				isTurnoSec = 0;		
 			}
 		}
-		else if(isTurnoSec == 5)
+		else if(isTurnoSec == 7)
 		{	
 				
 		}		

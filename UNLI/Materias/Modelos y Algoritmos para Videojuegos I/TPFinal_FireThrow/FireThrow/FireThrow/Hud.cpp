@@ -5,6 +5,7 @@ Hud::Hud()
 {
 	font.LoadFromFile("..//Fonts//ethnocen.ttf",24);
 	text.SetFont(font);
+	initFXTime = 0;
 }
 
 void Hud::Init(RenderWindow *app)
@@ -97,12 +98,12 @@ void Hud::HudUser(RenderWindow *app)
 	aux += playerstate[0].nombre;
 	aux += "\n";
 	aux += "Angulo: ";
-	aux += Helper::ToInt(playerstate[0].angulo);
+	aux += Helper::ToInt((int)playerstate[0].angulo);
 	if(isTurnoPlayer1 && isSetAng)
 		aux += " <--";
 	aux += "\n";
 	aux += "Velocidad: ";
-	aux += Helper::ToInt(playerstate[0].velocidad);
+	aux += Helper::ToInt((int)playerstate[0].velocidad);
 	if(isTurnoPlayer1 && isSetVel)
 		aux += " <--";
 	aux += "\n";
@@ -117,12 +118,12 @@ void Hud::HudUser(RenderWindow *app)
 	if(!isTurnoPlayer1 && isSetAng)
 		aux += "--> ";
 	aux += "Angulo: ";
-	aux += Helper::ToInt(playerstate[1].angulo);
+	aux += Helper::ToInt((int)playerstate[1].angulo);
 	aux += "\n";
 	if(!isTurnoPlayer1 && isSetVel)
 		aux += "--> ";
 	aux += "Velocidad: ";
-	aux += Helper::ToInt(playerstate[1].velocidad);
+	aux += Helper::ToInt((int)playerstate[1].velocidad);
 	aux += "\n";
 		
 	text.SetText(aux);
@@ -159,8 +160,14 @@ void Hud::HudUser(RenderWindow *app)
 		aux = "Viento ";
 
 		if(windForce > 0)
-			aux += "<=";
+			aux += "<";
 
+		if(wind > 2)
+			aux +="-";
+		if(wind > 5)
+			aux +="-";
+		if(wind > 7)
+			aux +="-";		
 		if(wind > 10)
 			aux +="=";
 		if(wind > 15)
@@ -174,20 +181,10 @@ void Hud::HudUser(RenderWindow *app)
 		if(wind > 35)
 			aux +="=";
 		if(wind > 40)
-			aux +="=";
-		if(wind > 45)
-			aux +="=";
-		if(wind > 50)
-			aux +="=";
-		if(wind > 60)
-			aux +="=";
-		if(wind > 70)
-			aux +="=";
-		if(wind > 80)
-			aux +="=";
+			aux +="=";	
 
 		if(windForce < 0)
-			aux += "=>";
+			aux += ">";
 	
 		text.SetPosition(300,35);
 			
@@ -202,14 +199,14 @@ int Hud::GetVidas()
 	return puntos;
 }
 
-void Hud::SetStatePlayer1(int angulo,int velocidad,int puntos)
+void Hud::SetStatePlayer1(float angulo,float velocidad,int puntos)
 {
 	playerstate[0].angulo = angulo;
 	playerstate[0].velocidad = velocidad;
 	playerstate[0].puntos = puntos;
 }
 
-void Hud::SetStatePlayer2(int angulo,int velocidad,int puntos)
+void Hud::SetStatePlayer2(float angulo,float velocidad,int puntos)
 {
 	playerstate[1].angulo = angulo;
 	playerstate[1].velocidad = velocidad;
@@ -219,6 +216,39 @@ void Hud::SetStatePlayer2(int angulo,int velocidad,int puntos)
 int Hud::GetCantJugadores()
 {
 	return cantjugadores;
+}
+
+bool Hud::ShowLostVida(RenderWindow *app,bool isPlayer1)
+{
+	initFXTime += app->GetFrameTime();
+	if(initFXTime > MAX_FX_TIME)
+	{
+		return true;
+	}else
+	{
+		string aux;
+	
+		text.SetPosition(300,150);
+	
+		if(isPlayer1)
+			aux = playerstate[0].nombre;
+		else
+			aux = playerstate[1].nombre;
+
+		aux += " PIERDE";
+
+		text.SetColor(Color::Red);
+		text.SetText(aux);
+
+		app->Draw(text);				
+		text.SetColor(Color::Black);
+		return false;
+	}
+}
+
+void Hud::InitFXTime()
+{
+	initFXTime = 0;
 }
 
 void Hud::ProcessEvent(Event &evt)
