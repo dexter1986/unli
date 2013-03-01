@@ -266,7 +266,7 @@ void Hud::ProcessEvent(Event &evt)
 				else
 				{
 					estado = 3;
-					playerstate[1].nombre = nomplayer2.c_str();
+					playerstate[1].nombre = "Maquina";
 				}
 
 				if(!isCleanPlayer1)

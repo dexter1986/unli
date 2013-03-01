@@ -39,7 +39,7 @@ private:
 	
 	Bala *balas;
 	Edificio *edificio;
-		
+	
 	Event evt;
 	bool isTurnoP1;
 	int isTurnoSec;
@@ -50,12 +50,13 @@ private:
 	bool isQuit;
 	bool isMenuGeneral;
 	bool isPlayer1Lost;
-	/*SoundBuffer snd_disparo_bff;		
+	bool isOnePlayer;
+	SoundBuffer snd_disparo_bff;		
 	Sound snd_disparo;			
 
 	SoundBuffer snd_loadbff;		
-	Sound snd_load;	*/
-	
+	Sound snd_load;	
+	float delay_oneplayermode;
 	void ProcessInput();
 	bool isGame;	
 	bool isMusicEnable;

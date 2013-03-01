@@ -13,6 +13,12 @@ void Game::Go(){
 	Instance();
 
 	PrincipalLoop();	
+
+	Creditos();
+
+	StopMusic();	
+
+	Quit();
 }
 
 void Game::PrincipalLoop()
@@ -60,9 +66,6 @@ void Game::PrincipalLoop()
 			pWnd->Display();		
 		}
 	}
-	
-	StopMusic();	
-	Quit();
 }
 
 Game::Game(int alto, int ancho, string titulo)
@@ -110,7 +113,10 @@ void Game::InitLevel()
 
 	isTurnoSec = 0;
 	isNextTurnSec = false;
+	delay_oneplayermode = 2.0f;
 	aux = "";
+	
+	isOnePlayer = hud->GetCantJugadores() == 1;
 
 	if(balas != NULL)
 	{
@@ -121,6 +127,7 @@ void Game::InitLevel()
 
 void Game::RefreshLevel()
 {
+	delay_oneplayermode = 2.0f;
 	edificio->Init(pWnd);
 	
 	Vector2f *vect = edificio->GetPos(true);
@@ -149,16 +156,13 @@ void Game::Instance()
 
 void Game::LoadSound()
 {
-	/*snd_disparo_bff.LoadFromFile("..\\Musica\\Disparo.wav");
+	snd_disparo_bff.LoadFromFile("..\\Musica\\Heavy stomp.ogg");
 	snd_disparo.SetBuffer(snd_disparo_bff);	
+	snd_disparo.SetVolume(100);
 
-	snd_pato_hit_bff.LoadFromFile("..\\Musica\\Pato hit.wav");
-	snd_pato_hit.SetBuffer(snd_pato_hit_bff);
-
-	snd_loadbff.LoadFromFile("..\\Musica\\Load.wav");
-	snd_load.SetBuffer(snd_loadbff);	
-	snd_load.SetLoop(true);	
-	snd_load.SetVolume(10.0f);	*/
+	snd_loadbff.LoadFromFile("..\\Musica\\Explosion, rocky.ogg");
+	snd_load.SetBuffer(snd_loadbff);		
+	snd_load.SetVolume(100);
 }
 
 Game::~Game()
@@ -225,36 +229,40 @@ void Game::ProcessEvent(Event &evt)
 	}
 	else
 	{
-		if(evt.Type == Event::KeyPressed)
+		if(!isOnePlayer || (isOnePlayer && isTurnoP1))
 		{
-			if(evt.Key.Code == Key::Escape)
-			{	
-				isPause = true;	
-				return;
-			}
-			if(evt.Key.Code == Key::Return)
+			if(evt.Type == Event::KeyPressed)
 			{
-				isNextTurnSec = true;		
-				return;
-			}
-			else
-			{
-				if(evt.Key.Code == Key::Back)
+				if(evt.Key.Code == Key::Escape)
+				{	
+					isPause = true;	
+					return;
+				}
+
+				if(evt.Key.Code == Key::Return)
 				{
-					if(!aux.empty())
+					isNextTurnSec = true;		
+					return;
+				}
+				else
+				{	
+					if(evt.Key.Code == Key::Back)
 					{
-						aux.erase(aux.length()-1,1);
-					}					
-				}
-				
-				else if(evt.Key.Code == Key::Num0 ||evt.Key.Code == Key::Num1 || evt.Key.Code == Key::Num2 ||
-						evt.Key.Code == Key::Num3 ||evt.Key.Code == Key::Num4 || evt.Key.Code == Key::Num5 ||
-						evt.Key.Code == Key::Num6 ||evt.Key.Code == Key::Num7 || evt.Key.Code == Key::Num8 ||
-						evt.Key.Code == Key::Num9)
-				{
-					aux += evt.Key.Code;					
+						if(!aux.empty())
+						{
+							aux.erase(aux.length()-1,1);
+						}					
+					}				
+					else if(evt.Key.Code == Key::Num0 ||evt.Key.Code == Key::Num1 || evt.Key.Code == Key::Num2 ||
+							evt.Key.Code == Key::Num3 ||evt.Key.Code == Key::Num4 || evt.Key.Code == Key::Num5 ||
+							evt.Key.Code == Key::Num6 ||evt.Key.Code == Key::Num7 || evt.Key.Code == Key::Num8 ||
+							evt.Key.Code == Key::Num9)
+					{
+						aux += evt.Key.Code;					
+					}				
 				}
 			}
+		 
 		}
 
 		if(evt.Type == Event::MouseButtonPressed)
@@ -278,7 +286,7 @@ void Game::Quit()
 {
 	//Muestra el cursor
 	pWnd->ShowMouseCursor(true);
-	pWnd->Close();
+	pWnd->Close();	
 }
 
 void Game::ProcessCollisions()
@@ -286,8 +294,8 @@ void Game::ProcessCollisions()
 	bool ret = false;
 	if(balas != NULL)
 	{
-		if(balas->GetPos().x > 0 && balas->GetPos().x < wnd_ancho &&
-           balas->GetPos().y > wnd_alto*-1 && balas->GetPos().y < wnd_alto)
+		//balas->GetPos().x > 0 && balas->GetPos().x < wnd_ancho &&
+		if(balas->GetPos().y > wnd_alto*-3 && balas->GetPos().y < wnd_alto)
 		{
 			if(cannon_p2->Hit(balas->GetPos()))
 			{
@@ -299,9 +307,18 @@ void Game::ProcessCollisions()
 				isPlayer1Lost = true;
 				ret = true;
 			}
+			
+			if(edificio->Hit(balas->GetPos()))
+			{
+				snd_load.Play();				
+				isTurnoSec = 6;
+				delete balas;
+				balas = NULL;	
+			}
 
 			if(ret)
 			{
+				snd_load.Play();
 				hud->InitFXTime();
 				isTurnoSec = 4;				
 			}
@@ -312,6 +329,9 @@ void Game::ProcessCollisions()
 			isTurnoSec = 6;
 		}
 
+		if(balas != NULL && (balas->GetPos().x < 0 || balas->GetPos().x > wnd_ancho))
+			balas->InvPosX(wnd_ancho);
+		
 		if(ret)
 		{	
 			delete balas;
@@ -423,11 +443,13 @@ void Game::UpdateGame()
 				{
 					cannon_p1->SetAngulo((float)Helper::ToString(aux));	
 					hud->SetStatePlayer1(cannon_p1->GetAngulo(),cannon_p1->GetVelocidad(),cannon_p1->GetVidas());
+					cannon_p1->Fire(true);
 				}
 				else
 				{
 					cannon_p2->SetAngulo((float)Helper::ToString(aux));
 					hud->SetStatePlayer2(cannon_p2->GetAngulo(),cannon_p2->GetVelocidad(),cannon_p2->GetVidas());
+					cannon_p2->Fire(false);
 				}
 			}
 			if(isNextTurnSec)
@@ -446,11 +468,13 @@ void Game::UpdateGame()
 				{
 					cannon_p1->SetVelocidad((float)Helper::ToString(aux));
 					hud->SetStatePlayer1(cannon_p1->GetAngulo(),cannon_p1->GetVelocidad(),cannon_p1->GetVidas());
+					cannon_p1->Fire(true);
 				}
 				else
 				{
 					cannon_p2->SetVelocidad((float)Helper::ToString(aux));
 					hud->SetStatePlayer2(cannon_p2->GetAngulo(),cannon_p2->GetVelocidad(),cannon_p2->GetVidas());
+					cannon_p2->Fire(false);
 				}
 			}
 			if(isNextTurnSec)
@@ -481,6 +505,7 @@ void Game::UpdateGame()
 
 				if(ret)		
 				{
+
 					if(isTurnoP1)
 					{
 						balas =  new Bala(cannon_p1->GetPosCano(),cannon_p1->GetLargoCano(),cannon_p1->GetRad(),
@@ -491,6 +516,7 @@ void Game::UpdateGame()
 						balas =  new Bala(cannon_p2->GetPosCano(),cannon_p2->GetLargoCano(),cannon_p2->GetRad(),
 										  cannon_p2->GetVelocidad(),background->wind_force);
 					}
+					snd_disparo.Play();
 				}
 			}
 		}
@@ -502,6 +528,10 @@ void Game::UpdateGame()
 		else if(isTurnoSec == 6)
 		{			
 			isTurnoP1 = !isTurnoP1;
+			if(isOnePlayer && !isTurnoP1)
+			{
+				delay_oneplayermode = 2.0f;
+			}
 			hud->SetTurno(isTurnoP1);
 
 			hud->SetStatePlayer1(cannon_p1->GetAngulo(),cannon_p1->GetVelocidad(),cannon_p1->GetVidas());
@@ -521,6 +551,17 @@ void Game::UpdateGame()
 		{	
 				
 		}		
+
+		if(isOnePlayer && !isTurnoP1 && isTurnoSec == 0 && delay_oneplayermode <= 0)
+		{
+			cannon_p2->SetAngulo(rand()%180);
+			cannon_p2->SetVelocidad(rand()%40+30);			
+			isTurnoSec = 2;
+		}
+		else if(delay_oneplayermode > 0)
+		{
+			delay_oneplayermode -= pWnd->GetFrameTime();
+		}
 	}
 }
 
@@ -532,7 +573,7 @@ void Game::Intro()
 
 	Event evt;
 
-	float maxIntro = 1.0;
+	float maxIntro = 7.0f;
 
 	while(maxIntro > 0)
 	{		
@@ -550,6 +591,7 @@ void Game::Intro()
 		
 		maxIntro -= pWnd->GetFrameTime();
 	}
+	MusicGame();
 }
 
 void Game::GameOver()
@@ -592,7 +634,7 @@ void Game::GameOver()
 void Game::Creditos()
 {	
 	Image img;
-	img.LoadFromFile("..//Imagenes//Creditos.png");
+	img.LoadFromFile("..//Imagenes//Salir.png");
 	Sprite intro;
 	intro.SetImage(img);
 	Event evt;
@@ -617,24 +659,23 @@ void Game::Creditos()
 }
 
 void Game::MusicGame()
-{
-	/*
-	if(musica.OpenFromFile("..//Musica//music.ogg"))
+{	
+	if(musica.OpenFromFile("..//Musica//AnOrangePlanet(loop).ogg"))
 	{
 		isMusicEnable = true;		
 		musica.SetLoop(true);
+		musica.SetAttenuation(2);
 		musica.Play();
-	}else
+	}
+	else
 	{
 		isMusicEnable = false;
-	}
-	*/
+	}	
 }
 
 void Game::MusicMenu()
 {
-	/*
-	if(musica.OpenFromFile("..//Musica//music2.ogg"))
+	if(musica.OpenFromFile("..//Musica//Dark swish.ogg"))
 	{
 		isMusicEnable = true;		
 		musica.SetLoop(true);
@@ -643,7 +684,6 @@ void Game::MusicMenu()
 	{
 		isMusicEnable = false;
 	}
-	*/
 }
 
 void Game::MusicGameOver()
@@ -678,6 +718,16 @@ void Game::ShowMenu()
 			{	
 				isQuit = true;
 			}
+			if(menu->GetState() == Menu::MENU_STATE::CREDITOS || menu->GetState() == Menu::MENU_STATE::AYUDA)
+			{
+				if(evt.Type == Event::KeyPressed)
+				{
+					if(evt.Key.Code == Key::Return)
+					{
+						menu->SetMenu(Menu::GENERAL);
+					}
+				}
+			}
 		}
 		
 		if(in->IsMouseButtonDown(Mouse::Left))
@@ -691,7 +741,7 @@ void Game::ShowMenu()
 				else if(menu->GetState() == Menu::MENU_STATE::JUGAR)
 				{
 					salir = true;
-				}
+				}				
 			}
 		}
 		else
@@ -741,11 +791,11 @@ void Game::ShowMenu()
 			break;
 	}
 
-	if(pWnd->IsOpened())
+	/*if(pWnd->IsOpened())
 	{	
 		StopMusic();
 		MusicGame();
-	}
+	}*/
 }
 
 

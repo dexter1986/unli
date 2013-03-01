@@ -53,7 +53,7 @@
       <AdditionalIncludeDirectories>C:\SFML-1.6\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>sfml-window-s-d.lib;sfml-system-s-d.lib;sfml-main.lib;sfml-graphics-s-d.lib;sfml-audio-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\SFML-1.6\lib\vc2008;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

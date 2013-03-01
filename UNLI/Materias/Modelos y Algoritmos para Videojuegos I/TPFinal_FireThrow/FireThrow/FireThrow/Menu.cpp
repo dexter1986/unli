@@ -1,6 +1,6 @@
 #include "Menu.h"
 
-Menu::Menu():GameObject(false,"..//Imagenes//Menu.png",3)
+Menu::Menu():GameObject(false,"..//Imagenes//Menu.png",5)
 {	
 	Enable(true);
 }
@@ -37,6 +37,12 @@ void Menu::SetMenu(MENU_TYPE type)
 	case MENU_TYPE::PLAY_AGAIN:
 		currentframe = 2;
 		break;
+	case MENU_TYPE::M_CREDITOS:
+		currentframe = 3;
+		break;
+	case MENU_TYPE::M_AYUDA:
+		currentframe = 4;
+		break;
 	}
 	menutype = type;
 	UpdateFrame();
@@ -71,8 +77,10 @@ bool Menu::Test(int x,int y,bool isTest)
 		}//AYUDA
 		else if(x >= 330 && y >= 250 && x <= 470 && y <= 270 )
 		{
-			if(!isTest )
+			if(!isTest ){
 				menustate = MENU_STATE::AYUDA;
+				SetMenu(MENU_TYPE::M_AYUDA);
+			}
 			tx = 329;
 			ty = 244;
 			bx = 474;
@@ -81,8 +89,10 @@ bool Menu::Test(int x,int y,bool isTest)
 		}//CREDITOS
 		else if(x >= 310 && y >= 300 && x <= 490 && y <= 320 )
 		{
-			if(!isTest )
+			if(!isTest ){
 				menustate = MENU_STATE::CREDITOS;
+				SetMenu(MENU_TYPE::M_CREDITOS);
+			}
 			tx = 306;
 			ty = 293;
 			bx = 494;
