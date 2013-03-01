@@ -19,16 +19,22 @@ private:
 	cada bloque tiene 100x80
 	Siendo la definicion 800x600
 	*/
+	Vector2f bloque_size;
 	Bloque bloques[mx_w][mx_h];
 	bool isInit;
+	Vector2f blink_bloque;
+	bool isBlink;
+	bool blink_fx;
+	float blinkTime;
 	void Builder(int width,int height);
 	void Make();
 public:
 	Edificio();
 	Vector2f* GetPos(bool isPalyer1);
+	bool Hit(Vector2f pos);
 	void Update(RenderWindow *app);
 	void Draw(RenderWindow *app);
-	void Init(RenderWindow *app);
+	void Init(RenderWindow *app);	
 };
 
 #endif

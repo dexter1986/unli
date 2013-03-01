@@ -11,6 +11,7 @@ private:
 	int sentido;
 public:
 	void Update(RenderWindow *app);
+	void InvPosX(int value);
 	Bala(Vector2f pos,Vector2f largocano,float rad,int force,float windforce);
 };
 

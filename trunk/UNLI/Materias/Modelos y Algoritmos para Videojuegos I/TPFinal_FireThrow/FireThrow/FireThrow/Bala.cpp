@@ -29,6 +29,18 @@ Bala::Bala(Vector2f pos,Vector2f largocano,float rad,int force,float windforce):
 	Move(x,y);	
 }
 
+void Bala::InvPosX(int value)
+{
+	int x = 0;
+	
+	if(pos.x < 0)
+		x = value - 10;
+	else if(pos.x > 0)
+		x = 10;
+
+	Move(x,pos.y);
+}
+
 void Bala::Update(RenderWindow *app)
 {
 	float time = app->GetFrameTime()*6;

@@ -10,7 +10,9 @@ public:
 	{
 		GENERAL=0,
 		PAUSA=1,
-		PLAY_AGAIN=2
+		PLAY_AGAIN=2,
+		M_AYUDA=3,
+		M_CREDITOS=4,
 	}MENU_TYPE;
 
 	typedef enum _MENU_STATE_

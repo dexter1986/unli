@@ -8,6 +8,9 @@ Edificio::Edificio():GameObject(false,"..//Imagenes//Edificio_bloque.png")
 
 void Edificio::Init(RenderWindow *app)
 {	
+	isBlink = false;
+	blink_fx = false;
+	blinkTime = 0;
 	if(!isInit)
 	{
 		isInit = true;
@@ -41,10 +44,47 @@ void Edificio::Draw(RenderWindow *app)
 		{
 			if(bloques[w][h].isActive)
 			{
-				app->Draw(bloques[w][h].sprite);
+				if(!isBlink)
+					app->Draw(bloques[w][h].sprite);
+				else if(isBlink && blink_fx && blink_bloque.x == w && blink_bloque.y == h  && blinkTime > 0 )
+					app->Draw(bloques[w][h].sprite);
+																
+				if(isBlink )
+				{
+					if(blinkTime <= 0)
+						isBlink = false;
+
+					blinkTime-= app->GetFrameTime();
+					blink_fx = !blink_fx;
+				}
 			}
 		}
 	}
+}
+
+bool Edificio::Hit(Vector2f pos)
+{
+	
+	for(int w=0;w<mx_w;w++)
+	{
+		for(int h=0;h<mx_h;h++)
+		{
+			if(bloques[w][h].isActive)
+			{
+				
+				if(bloques[w][h].pos_x < pos.x  && (bloques[w][h].pos_x + bloque_size.x) > pos.x &&
+				   bloques[w][h].pos_y < pos.y  && (bloques[w][h].pos_y + bloque_size.y) > pos.y)
+				{
+					blink_bloque.x = w;
+					blink_bloque.y = h;
+					isBlink = true;					
+					blinkTime = 2.0f;
+					return true;
+				}
+			}
+		}
+	}
+	return false;
 }
 
 void  Edificio::Make()
@@ -84,6 +124,8 @@ void Edificio::Builder(int p_width,int p_height)
 			bloques[w][h].sprite.SetPosition(bloques[w][h].pos_x,bloques[w][h].pos_y);
 		}
 	}
+
+	bloque_size = bloques[0][0].sprite.GetSize();
 }
 
 Vector2f* Edificio::GetPos(bool isPalyer1)
