@@ -1,0 +1,86 @@
+/*********************************************/
+/* Detalle de implementacion                 */
+/* 28-Feb-2013                               */
+/*                        Oscar Sanchez      */
+/*********************************************/
+En el juego Fire Throw se utilizo el concepto de
+tiro oblicuo y friccion por efecto del viento.
+Para la implementacion se utilizo el concepto de 
+integradores numericos.
+
+La clase que utiliza la implementacion es Bala.cpp
+la misma se utiliza para gestionar el lanzamiento
+de un proyectil.
+
+En el constructor de la misma se hace la conversion 
+de la velocidad que esta dada en coordenadas polares 
+(valor + angulo) a coordenadas catesianas.
+
+En primer lugar se convierte el angulo a radianes:
+	float a = (rad + 90) * 3.14f / 180;
+
+	El mismo tiene una compensacion por medio del valor 90
+    esto es asi porque las referencias de angulos son tomadas
+	en relacion al giro del cañon.
+
+Luego se obtiene los valores del seno y coseno para dicho angulo.
+	float _cos = cosf(a);
+	float _sin = sinf(a);
+
+Luego se posiciona el proyectil en el borde del cañon. Esto es solo
+para una mejor visualizacion.
+	float r =  largocano.y;
+	float x = pos.x - width/2 + _cos*r;
+	float y = pos.y - height/2 - _sin*r;
+
+Por ultimo se obtienen las velocidad relativas respecto a los ejes X y Y.
+	velocidad.x = force*_cos;
+	velocidad.y = force*_sin*-1;
+
+Para poder actualizar la posicion del proyectil y que este sea mostrado
+correctamente describiendo una parabola se utilza lo siguiente:
+
+Como el desplazamiento depende del tiempo obtenemos el tiempo que tardo el frame
+	float time = app->GetFrameTime()*6;
+
+	El numero 6 es solo para compensar que se muestre a una velocidad adecuada en pantalla.
+	Por una cuestion de escalas el movimiento se ve lento. A medida que se sube el numero
+	de compensacion se visualiza mas rapido por lo cual resulta mas agradable a la vista.
+
+Luego se afecta al proyecto por medio de la gravedad. En este caso se eligio un valor de g=5
+	velocidad.y += 5 * time;
+    
+	La formula teorica es  vel_y = vel_y - 9.6 * t, el cambio de signo en la implementacion es
+	porque las coordenadas estan invertidas. En la pantalla, arriba es cero y abajo es el valor maximo 
+	opuestamente a lo que ocurre en la realidad.
+	
+Luego se afecta a la velocidad de desplazamiento por fricion con el aire.
+	velocidad.x += windForce * sentido;
+   
+    La formula teorica es vel_x = vel_x - vel_viento, en este caso se usa la variable "sentido" 
+	para determinar el sentido del viento. Lo que se hace es ir disminuyendo o aumento la velocidad 
+	de desplazamiento. 
+   
+Luego se calcula la velocidad en cada uno de los ejes. 
+	float y = pos.y + velocidad.y * time;
+	Como es un tiro oblicuo el desplazamiento sobre el eje Y responde a un MRUV.
+	
+	Como es un tiro oblicuo el desplazamiento sobre el eje X responde a un MRU por esto mismo 
+	se obtiene el espacio recorrido de la siguiente forma:
+	float x = pos.x + velocidad.x * time;
+	
+	Esto responde a la formula teorica: Distancia = Distantancia + vel_a * tiempo
+
+Por ultimo se ubica la imagen donde corresponde.	
+	Move(x,y);
+
+
+
+
+
+
+
+
+
+
+
