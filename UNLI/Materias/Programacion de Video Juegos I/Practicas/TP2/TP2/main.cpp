@@ -22,8 +22,13 @@ int main(int argc, _TCHAR* argv[])
 
 	sprite->setPosition(300,200);
 
-	sf::Vector2f pos;
+	sf::Vector2f pos(300,200);
+	sf::Vector2f vel(0,0);
 
+	sf::Clock clock;
+	float G = 9.8f;
+
+	clock.restart();
 	while(window->isOpen())
 	{
 		sf::Event evt;
@@ -49,19 +54,31 @@ int main(int argc, _TCHAR* argv[])
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		{
-			if(sprite->getPosition().y > 2)
-				sprite->move(0,-5);
+			if(sprite->getPosition().y >= pos.y)
+			{
+				vel.y = 0;
+				sprite->move(0,-200);
+			}
 		}
 
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		{
-			if(sprite->getPosition().y < 600 - sprite->getLocalBounds().height/2)
-				sprite->move(0,5);
+		float time = clock.getElapsedTime().asSeconds();
+		clock.restart();
+
+		float y = sprite->getPosition().y;
+
+		if(y < pos.y)
+		{	
+			float tpos = vel.y * time;
+			
+			sprite->move(0,tpos);
+			
+			vel.y = vel.y + G * time * 5.0f;
 		}
-		
+
 		window->clear(sf::Color::Black);
 		window->draw(*sprite);
 		window->display();
+		
 	}
 
 	delete sprite;
