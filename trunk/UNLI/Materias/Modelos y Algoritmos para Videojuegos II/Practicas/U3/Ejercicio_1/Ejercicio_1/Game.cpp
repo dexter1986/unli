@@ -23,20 +23,15 @@ Game::Game(int ancho, int alto,std::string titulo)
 }
 
 
-void Game::Loop(){
-
-	
-	while(wnd->isOpen()){
-		
+void Game::Loop(){	
+	while(wnd->isOpen()){		
 		wnd->clear(clearColor);
 		DoEvents();
 		CheckCollitions();
 		UpdatePhysics();
 		DrawGame();
-		wnd->display();
-	
+		wnd->display();	
 	}
-
 }
 
 void Game::UpdatePhysics(){
@@ -54,8 +49,7 @@ void Game::DrawGame(){
 void Game::DoEvents(){
 
 	Event evt;
-	while(wnd->pollEvent(evt)){
-	
+	while(wnd->pollEvent(evt)){	
 		switch(evt.type){
 			case Event::Closed:
 				wnd->close();
@@ -66,9 +60,7 @@ void Game::DoEvents(){
 				Vector2f pos=wnd->mapPixelToCoords(sf::Vector2i(evt.mouseButton.x,evt.mouseButton.y));
 				body->SetTransform(b2Vec2(pos.x,pos.y),0.0f);
 				break;
-		}
-
-		
+		}		
 	}
 
 	//movemos el cuerpo	

@@ -8,15 +8,27 @@
 
 #include "SFMLRenderer.h"
 #include "Game.h"
+#include "GameImpl.h"
+#include "U3_EJ1.h";
+#include "U3_EJ3.h";
 
 using namespace std;
 
 int main(int argc, _TCHAR* argv[])
 {
-	Game *Juego;
-	Juego = new Game(800,600,"Physics kit");
-	Juego->Loop();
-	
+	/*GameBase *Juego;	
+	Juego = new GameImpl(800,600,"Physics kit");	
+	Juego->Loop();	
+	delete Juego;*/
+
+	/*U3_EJ1 u;
+	u.execute();*/
+
+	GameBase *Juego;	
+	Juego = new U3_EJ3(800,600,"U3 EJ 3");	
+	Juego->Loop();	
+	delete Juego;
+
 	return 0;
 }
 

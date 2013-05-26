@@ -1,6 +1,4 @@
 #include "GameImpl.h"
-#include "Box2DHelper.h"
-
 
 GameImpl::GameImpl(int ancho, int alto,std::string titulo):GameBase(ancho,alto,titulo)
 {
@@ -25,7 +23,7 @@ void GameImpl::UpdatePoolEvents(Event evt)
 			case Event::MouseButtonPressed:
 				b2Body *body=Box2DHelper::CreateTriangularDynamicBody(phyWorld,b2Vec2(0.0f,0.0f),10.0f,1.0f,4.0f,0.1f);				
 				//transformamos las coordenadas segun la vista activa
-				Vector2f pos=wnd->mapPixelToCoords(sf::Vector2i(evt.mouseButton.x,evt.mouseButton.y));
+				Vector2f pos= mapPixelToCoords(sf::Vector2i(evt.mouseButton.x,evt.mouseButton.y));
 				body->SetTransform(b2Vec2(pos.x,pos.y),0.0f);
 				break;
 		}
