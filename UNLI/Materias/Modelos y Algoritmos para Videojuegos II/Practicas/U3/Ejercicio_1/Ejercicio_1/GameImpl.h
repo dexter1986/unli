@@ -1,6 +1,6 @@
 #pragma once
 #include "gamebase.h"
-#include "Box2DHelper.h"
+
 class GameImpl :
 	public GameBase
 {

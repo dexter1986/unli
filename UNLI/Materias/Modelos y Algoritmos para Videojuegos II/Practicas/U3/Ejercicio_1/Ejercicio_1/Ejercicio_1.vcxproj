@@ -81,13 +81,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameBase.cpp" />
+    <ClCompile Include="GameImpl.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SFMLRenderer.cpp" />
+    <ClCompile Include="U3_EJ1.cpp" />
+    <ClCompile Include="U3_EJ3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Box2DHelper.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameBase.h" />
+    <ClInclude Include="GameImpl.h" />
     <ClInclude Include="SFMLRenderer.h" />
+    <ClInclude Include="U3_EJ1.h" />
+    <ClInclude Include="U3_EJ3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
