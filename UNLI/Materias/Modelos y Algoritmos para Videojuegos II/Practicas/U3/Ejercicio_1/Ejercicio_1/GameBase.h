@@ -3,7 +3,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include "SFMLRenderer.h"
-#include "Box2DHelper.h"
+#include "imageManager.h"
+#include "GameObject.h"
 
 using namespace sf;
 
@@ -12,21 +13,20 @@ class GameBase
 private:
 	//Propiedades de la ventana
 	int alto;
-	int ancho;	
+	int ancho;		
 	Color clearColor;		
-	SFMLRenderer *debugRender;
+	
 	//tiempo de frame
 	float frameTime;
 	int fps;
 	RenderWindow *wnd;
-	bool isEnableDebugPhysics;
-	
+	bool isEnableDebugPhysics;	
 	void InitWorldPhysics();
 	//Main game loop		
 	void UpdateWorldPhysics();
 	void DoEvents();	
 	void SetZoom();
-	void DrawWorld();
+	void DrawWorld(); 
 protected:	
 	b2World *phyWorld;
 	//Main game loop
@@ -36,13 +36,13 @@ protected:
 	virtual void CheckCollitions()=0;
 	virtual void InitPhysics()=0;	
 	virtual void UpdatePhysics()=0;	
-	virtual void InitSFML();
+	virtual void Init()=0;
 	void EnableDebugPhysics(bool isEnable);
 	void Draw(const Drawable& drawable);
 	Vector2f mapPixelToCoords(const Vector2i& point) const;
 	void CreateEnemy(int x, int y);	
-public:
-	//Constructores, destructores e inicializadores
+	void InitGameObject(GameObject& gameobject); 
+public:	
 	GameBase(int ancho, int alto,std::string titulo);
 	virtual ~GameBase(void);
 	void Loop();	

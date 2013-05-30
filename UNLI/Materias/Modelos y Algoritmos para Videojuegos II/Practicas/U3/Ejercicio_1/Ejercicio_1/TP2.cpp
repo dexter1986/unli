@@ -1,37 +1,31 @@
-#include "U3_EJ6.h"
+#include "TP2.h"
 
-U3_EJ6::U3_EJ6(int ancho, int alto,std::string titulo):GameBase(ancho,alto,titulo)
+TP2::TP2(int ancho, int alto,std::string titulo):GameBase(ancho,alto,titulo)
 {
 	EnableDebugPhysics(true);
 }
 
-U3_EJ6::~U3_EJ6(void)
-{
-	phyWorld->DestroyBody(controlBody);	
-	phyWorld->DestroyBody(groundBody);
-	for(int i=0;i<6;i++)
-	{
-		phyWorld->DestroyBody(obstaculoBody[i]);	
-	}
-	phyWorld->DestroyBody(baseBody);
-	phyWorld->DestroyBody(groundRightBody);
-	phyWorld->DestroyBody(groundLeftBody);
-	phyWorld->DestroyBody(groundTopBody);
+TP2::~TP2(void)
+{	
 }
 
+void TP2::Init()
+{
 
-void U3_EJ6::DrawGame()
+}
+
+void TP2::DrawGame()
 {
 	/*Draw(box);*/
 	//Draw(pelota);
 	//Draw(ground);
 }
 
-void U3_EJ6::UpdatePoolEvents(Event evt)
+void TP2::UpdatePoolEvents(Event evt)
 {	
 }
 
-void U3_EJ6::UpdateEvents()
+void TP2::UpdateEvents()
 {		
 	if(Keyboard::isKeyPressed(Keyboard::Up))
 		controlBody->SetLinearVelocity(b2Vec2(1000000000.0f,-1000.0f));//,controlBody->GetWorldCenter());
@@ -39,17 +33,18 @@ void U3_EJ6::UpdateEvents()
 		controlBody->ApplyLinearImpulse(b2Vec2(100000.0f,-10000.0f),controlBody->GetWorldCenter());
 }
 
-void U3_EJ6::CheckCollitions()
+void TP2::CheckCollitions()
 {
+
 }
 
-void U3_EJ6::UpdatePhysics()
+void TP2::UpdatePhysics()
 {		
 	/*b2Vec2 pos = controlBody->GetPosition();
 	box.setPosition(pos.x,pos.y);*/
 }
 
-void U3_EJ6::InitPhysics()
+void TP2::InitPhysics()
 {
 	//creamos un piso
 	groundBody = Box2DHelper::CreateRectangularStaticBody(phyWorld,150.0f,5.0f,10.0f,0.5f,0.3f);
@@ -66,10 +61,6 @@ void U3_EJ6::InitPhysics()
 
 	baseBody = Box2DHelper::CreateRectangularStaticBody(phyWorld,5.0f,10.0f,10.0f,0.5f,0.3f);
 	baseBody->SetTransform(b2Vec2(45.0f,132.0f),0.0f);	
-
-	//Creamos un círculo que controlaremos con el teclado
-	/*controlBody = Box2DHelper::CreateRectangularDynamicBody(phyWorld,10.0f,10.0f,1.0f,0.5,0.8f);		
-	controlBody->SetTransform(b2Vec2(100.0f,50.0f),0.0f);*/
 
 	controlBody = Box2DHelper::CreateCircularDynamicBody(phyWorld,5.0f,100000.0f,0.5f,0.1f);		
 	controlBody->SetTransform(b2Vec2(45.0f,120.0f),0.0f);		
@@ -91,12 +82,9 @@ void U3_EJ6::InitPhysics()
 	
 	obstaculoBody[5] = Box2DHelper::CreateRectangularDynamicBody(phyWorld,10.0f,10.0f,100.0f,0.5f,0.1f);		
 	obstaculoBody[5]->SetTransform(b2Vec2(150.0f,130.0f),0.0f);
-	
-
-	//controlBody->SetAwake(false);
 }
 
-void U3_EJ6::InitSFML()
+void TP2::InitSFML()
 {
 	/*ground.setSize(Vector2f(150.0f,5.0f));
 	ground.setFillColor(Color::Green);
