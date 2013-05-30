@@ -106,13 +106,13 @@ void Game::InitPhysics(){
 
 
 	//creamos un piso y paredes
-	b2Body* groundBody = Box2DHelper::CreateRectangularStaticBody(phyWorld,100,10);
+	b2Body* groundBody = Box2DHelper::CreateRectangularStaticBody(phyWorld,100,10,0,0,0);
 	groundBody->SetTransform(b2Vec2(50.0f,100.0f),0.0f);
 
-	b2Body* leftWallBody = Box2DHelper::CreateRectangularStaticBody(phyWorld,10,100);
+	b2Body* leftWallBody = Box2DHelper::CreateRectangularStaticBody(phyWorld,10,100,0,0,0);
 	leftWallBody->SetTransform(b2Vec2(0.0f,50.0f),0.0f);
 
-	b2Body* rightWallBody = Box2DHelper::CreateRectangularStaticBody(phyWorld,10,100);
+	b2Body* rightWallBody = Box2DHelper::CreateRectangularStaticBody(phyWorld,10,100,0,0,0);
 	rightWallBody->SetTransform(b2Vec2(100.0f,50.0f),0.0f);
 	
 	//Creamos un círculo que controlaremos con el teclado

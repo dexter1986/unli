@@ -11,6 +11,7 @@
 #include "GameImpl.h"
 #include "U3_EJ1.h";
 #include "U3_EJ3.h";
+#include "U3_EJ6.h";
 
 using namespace std;
 
@@ -25,7 +26,7 @@ int main(int argc, _TCHAR* argv[])
 	u.execute();*/
 
 	GameBase *Juego;	
-	Juego = new U3_EJ3(800,600,"U3 EJ 3");	
+	Juego = new U3_EJ6(800,600,"U3 EJ 3");	
 	Juego->Loop();	
 	delete Juego;
 
