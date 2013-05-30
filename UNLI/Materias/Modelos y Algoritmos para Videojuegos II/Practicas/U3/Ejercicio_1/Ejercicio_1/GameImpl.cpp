@@ -51,13 +51,13 @@ void GameImpl::CheckCollitions()
 void GameImpl::Init_Physics()
 {
 	//creamos un piso y paredes
-	groundBody = Box2DHelper::CreateRectangularStaticBody(phyWorld,100,10);
+	groundBody = Box2DHelper::CreateRectangularStaticBody(phyWorld,100,10,0,0,0);
 	groundBody->SetTransform(b2Vec2(50.0f,100.0f),0.0f);
 
-	leftWallBody = Box2DHelper::CreateRectangularStaticBody(phyWorld,10,100);
+	leftWallBody = Box2DHelper::CreateRectangularStaticBody(phyWorld,10,100,0,0,0);
 	leftWallBody->SetTransform(b2Vec2(0.0f,50.0f),0.0f);
 
-	rightWallBody = Box2DHelper::CreateRectangularStaticBody(phyWorld,10,100);
+	rightWallBody = Box2DHelper::CreateRectangularStaticBody(phyWorld,10,100,0,0,0);
 	rightWallBody->SetTransform(b2Vec2(100.0f,50.0f),0.0f);
 	
 	//Creamos un círculo que controlaremos con el teclado

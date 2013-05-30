@@ -48,16 +48,16 @@ void U3_EJ3::UpdatePhysics()
 void U3_EJ3::InitPhysics()
 {
 	//creamos un piso
-	groundBody = Box2DHelper::CreateRectangularStaticBody(phyWorld,150.0f,5.0f);
+	groundBody = Box2DHelper::CreateRectangularStaticBody(phyWorld,150.0f,5.0f,10.0f,0.5f,0.0f);
 	groundBody->SetTransform(b2Vec2(100.0f,140.0f),0.0f);
 
-	groundTopBody = Box2DHelper::CreateRectangularStaticBody(phyWorld,150.0f,5.0f);
+	groundTopBody = Box2DHelper::CreateRectangularStaticBody(phyWorld,150.0f,5.0f,10.0f,0.5f,0.0f);
 	groundTopBody->SetTransform(b2Vec2(100.0f,10.0f),0.0f);
 
-	groundLeftBody = Box2DHelper::CreateRectangularStaticBody(phyWorld,5.0f,135.0f);
+	groundLeftBody = Box2DHelper::CreateRectangularStaticBody(phyWorld,5.0f,135.0f,10.0f,0.5f,0.0f);
 	groundLeftBody->SetTransform(b2Vec2(22.0f,75.0f),0.0f);
 
-	groundRightBody = Box2DHelper::CreateRectangularStaticBody(phyWorld,5.0f,135.0f);
+	groundRightBody = Box2DHelper::CreateRectangularStaticBody(phyWorld,5.0f,135.0f,10.0f,0.5f,0.0f);
 	groundRightBody->SetTransform(b2Vec2(178.0f,75.0f),0.0f);
 	
 
