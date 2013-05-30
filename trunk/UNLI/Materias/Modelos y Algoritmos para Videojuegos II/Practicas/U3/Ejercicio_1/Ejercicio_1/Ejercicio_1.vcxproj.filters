@@ -18,25 +18,22 @@
     <ClCompile Include="SFMLRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameImpl.cpp">
+    <ClCompile Include="TP2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="U3_EJ1.cpp">
+    <ClCompile Include="ImageManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="U3_EJ3.cpp">
+    <ClCompile Include="PhysicManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="U3_EJ6.cpp">
+    <ClCompile Include="GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,22 +44,19 @@
     <ClInclude Include="Box2DHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameImpl.h">
+    <ClInclude Include="TP2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="U3_EJ1.h">
+    <ClInclude Include="GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="U3_EJ3.h">
+    <ClInclude Include="ImageManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="U3_EJ6.h">
+    <ClInclude Include="PhysicManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
