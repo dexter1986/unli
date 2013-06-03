@@ -5,6 +5,7 @@
 #include "SFMLRenderer.h"
 #include "imageManager.h"
 #include "GameObject.h"
+#include "PhysicManager.h"
 
 using namespace sf;
 
@@ -27,8 +28,7 @@ private:
 	void DoEvents();	
 	void SetZoom();
 	void DrawWorld(); 
-protected:	
-	b2World *phyWorld;
+protected:		
 	//Main game loop
 	virtual void DrawGame()=0;
 	virtual void UpdatePoolEvents(Event evt)=0; 

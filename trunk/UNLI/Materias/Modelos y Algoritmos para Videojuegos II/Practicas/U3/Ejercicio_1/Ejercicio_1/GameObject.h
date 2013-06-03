@@ -3,7 +3,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include "SFMLRenderer.h"
-#include "Box2DHelper.h"
 
 using namespace sf;
 using namespace std;
