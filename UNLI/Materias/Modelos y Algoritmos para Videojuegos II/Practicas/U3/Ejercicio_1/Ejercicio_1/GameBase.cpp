@@ -75,6 +75,7 @@ void GameBase::DoEvents(){
 
 void GameBase::EnableDebugPhysics(bool isEnable)
 {
+	PhysicManager::Instance()->EnableDebugPhysics(isEnable,wnd);
 	isEnableDebugPhysics = isEnable;
 }
 

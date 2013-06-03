@@ -12,7 +12,7 @@ GameObject::~GameObject()
 
 bool GameObject::Enable()
 {
-
+	return isEnable;
 }
 
 void GameObject::Draw()

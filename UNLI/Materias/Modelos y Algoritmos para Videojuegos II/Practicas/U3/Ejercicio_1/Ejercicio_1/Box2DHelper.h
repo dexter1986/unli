@@ -149,8 +149,8 @@ public:
 	//-------------------------------------------------------------
 	//Crea un body estático con un fixture rectangular centrado en el origen
 	//-------------------------------------------------------------
-	static b2Body* CreateRectangularStaticBody(b2World *phyWorld, float sizeX, float sizeY,float density, float friction, float restitution){
-			
+	static b2Body* CreateRectangularStaticBody(float sizeX, float sizeY,float density, float friction, float restitution){
+		
 		b2Body* body= CreateStaticBody(phyWorld);
 		b2FixtureDef box=CreateRectangularFixtureDef(sizeX,sizeY,density,friction,restitution);
 		body->CreateFixture(&box);

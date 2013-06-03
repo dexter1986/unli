@@ -89,7 +89,7 @@
     <ClCompile Include="TP2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Box2DHelper.h" />
+    <ClInclude Include="Constantes.h" />
     <ClInclude Include="GameBase.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="ImageManager.h" />
