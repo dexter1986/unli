@@ -8,11 +8,8 @@ private:
 	b2Body* controlBody;
 	b2Body* TargetBody;
 	//Nivel
-	b2Body* groundWallBody[20];
+	b2Body* groundWallBody[13];
 	
-	RectangleShape box;
-	RectangleShape ground;
-	CircleShape pelota;
 protected:	
 	virtual void DrawGame();
 	virtual void UpdatePoolEvents(Event evt); 

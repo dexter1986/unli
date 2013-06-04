@@ -37,13 +37,12 @@ void TP2::UpdateEvents()
 }
 
 void TP2::CheckCollitions()
-{
-	//Preguntar si controlBody choco contra algo
-	// si fue contra TargetBody, fin del programa
+{	
 }
 
 void TP2::UpdatePhysics()
 {
+
 }
 
 void TP2::InitPhysics()
@@ -99,18 +98,4 @@ void TP2::InitPhysics()
 
 void TP2::InitSFML()
 {
-	/*ground.setSize(Vector2f(150.0f,5.0f));
-	ground.setFillColor(Color::Green);
-	ground.setOrigin(75.0f,2.5f);
-	ground.setPosition(100.0f,140.0f);
-
-	box.setSize(Vector2f(10.0f,10.0f));
-	box.setFillColor(Color::Red);
-	box.setOrigin(5.0f,5.0f);
-	box.setPosition(100.0f,50.0f);
-
-	pelota.setRadius(5.0f);
-	pelota.setOrigin(5.0f,5.0f);
-	pelota.setFillColor(Color::Red);
-	pelota.setPosition(100.0f,50.0f);*/
 }
