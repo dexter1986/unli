@@ -1,17 +1,18 @@
 #pragma once
-
+#include <sstream>
 class C
 {
-
 public:
+	static const int POSICION_TERRENO_Y = 500;
+	static const int MAX_ASCENSO_SALTO_Y = 100;	
 
-	static float G()
+	template <typename T>
+	static std::string NumberToString ( T Number )
 	{
-		return 0.0f;
+		ostringstream ss;
+		ss << Number;
+		return ss.str();
 	}
-	
-	const int POSICION_TERRENO_Y = 500;
-	const int MAX_ASCENSO_SALTO_Y = 100;
-
-
 };
+
+

@@ -10,10 +10,14 @@ private:
 	GameObject* personaje;
 	GameObject* fondo;
 	GameObject* bloques[10];
-	
+	bool _c_bloques[10];
+	int _n_bloques[10];
+	int contador;
+	bool isGamePause;
 protected:	
 	virtual void DrawGame();
 	virtual void UpdatePoolEvents(Event& evt); 
+	virtual void UpdateState();	
 	virtual void UpdateEvents();
 	virtual void CheckCollitions();
 	virtual void InitPhysics();	

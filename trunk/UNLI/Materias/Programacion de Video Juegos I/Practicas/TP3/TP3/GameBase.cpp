@@ -22,6 +22,11 @@ GameBase::GameBase(int ancho, int alto,std::string titulo)
 	ImageManager::Instance()->addResourceDirectory("Recursos/imagenes/");
 }
 
+RenderWindow* GameBase::_Draw()
+{
+	return wnd;
+}
+
 void GameBase::InitWorldPhysics(){	
 	InitPhysics();
 }
@@ -43,6 +48,7 @@ void GameBase::Loop(){
 		UpdateWorldPhysics();
 		DrawWorld();
 		wnd->display();
+		UpdateState();
 	}
 }
 
