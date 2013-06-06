@@ -3,7 +3,7 @@
 Personaje::Personaje(void)
 {
 	_textureName = "jumper.png";
-	_position.x = 100;
+	_position.x = 400;
 	_position.y = POSICION_TERRENO_Y;
 
 	teclaSaltoPresionada = false;
@@ -13,6 +13,34 @@ Personaje::Personaje(void)
 
 Personaje::~Personaje(void)
 {
+}
+
+bool Personaje::TestCollitions(GameObject& target)
+{
+	FloatRect rect_t = target.GetBound();
+	Vector2<float> point;
+
+	if(_isRight)
+	{
+		point.x = _position.x+_width;
+		point.y = _position.y;
+	}
+	else
+	{
+		point.x = _position.x;
+		point.y = _position.y;
+	}
+
+	if(rect_t.contains(point))
+	{
+		return true;
+	}
+	return false;
+}
+
+void Personaje::Init()
+{
+	GameObject::Init();	
 }
 
 void Personaje::Update()

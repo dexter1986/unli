@@ -34,8 +34,10 @@ protected:
 	virtual void UpdateEvents()=0;
 	virtual void CheckCollitions()=0;
 	virtual void InitPhysics()=0;	
+	virtual void UpdateState()=0;	
 	virtual void UpdatePhysics()=0;	
 	virtual void Init()=0;
+	RenderWindow* _Draw();
 	void EnableDebugPhysics(bool isEnable);
 	void Draw(const Drawable& drawable);
 	Vector2f mapPixelToCoords(const Vector2i& point) const;
