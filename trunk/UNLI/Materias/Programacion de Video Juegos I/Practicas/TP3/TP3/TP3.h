@@ -11,9 +11,17 @@ private:
 	GameObject* fondo;
 	GameObject* bloques[10];
 	bool _c_bloques[10];
+	bool _c_ord_bloques[10];
 	int _n_bloques[10];
+	int _n_ord_bloques[10];
+	
+	Text textoContador;
 	int contador;
 	bool isGamePause;
+
+	float tiempoInicio;
+	float tiempoFin;
+	void ActualizarContador();
 protected:	
 	virtual void DrawGame();
 	virtual void UpdatePoolEvents(Event& evt); 

@@ -21,6 +21,11 @@ Bloque::~Bloque(void)
 void Bloque::Init()
 {
 	GameObject::Init();
+	CenterText();
+}
+
+void Bloque::CenterText()
+{
 	FloatRect rect = text.getLocalBounds();
 	text.setPosition(_position.x + (_width - rect.width)/2.0f - rect.left ,_position.y + (_height - rect.height)/2.0f - rect.top);
 }
@@ -38,7 +43,8 @@ void Bloque::SetNro(int nro,bool isOk)
 	if(isOk)
 		text.setColor(Color::Green);
 	else
-		text.setColor(Color::Yellow);
+		text.setColor(Color::Red);
+	CenterText();
 }
 
 int Bloque::GetIndex()

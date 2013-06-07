@@ -33,8 +33,11 @@ bool Personaje::TestCollitions(GameObject& target)
 
 	if(rect_t.contains(point))
 	{
+		if(saltoEnProceso && enAscenso)
+			enAscenso = false;
 		return true;
 	}
+
 	return false;
 }
 

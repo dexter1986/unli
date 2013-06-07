@@ -5,6 +5,7 @@ class C
 public:
 	static const int POSICION_TERRENO_Y = 500;
 	static const int MAX_ASCENSO_SALTO_Y = 100;	
+	static const int TIEMPO_JUEGO = 60; 
 
 	template <typename T>
 	static std::string NumberToString ( T Number )

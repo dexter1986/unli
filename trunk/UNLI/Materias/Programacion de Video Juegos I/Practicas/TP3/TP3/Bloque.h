@@ -7,6 +7,7 @@ private:
 	int _nro;
 	int _index;
 	Text text;
+	void CenterText();
 public:
 	Bloque(int nro,int index);
 	void Draw(RenderWindow* wnd);
