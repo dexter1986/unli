@@ -28,6 +28,7 @@ private:
 	void SetZoom();
 	void DrawWorld(); 
 protected:		
+	Clock _reloj;
 	//Main game loop
 	virtual void DrawGame()=0;
 	virtual void UpdatePoolEvents(Event& evt)=0; 
