@@ -83,6 +83,8 @@
   <ItemGroup>
     <ClCompile Include="Bloque.cpp" />
     <ClCompile Include="Cronometro.cpp" />
+    <ClCompile Include="Enemigo.cpp" />
+    <ClCompile Include="EnemigoManager.cpp" />
     <ClCompile Include="Fondo.cpp" />
     <ClCompile Include="GameBase.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -96,6 +98,8 @@
     <ClInclude Include="Bloque.h" />
     <ClInclude Include="Constantes.h" />
     <ClInclude Include="Cronometro.h" />
+    <ClInclude Include="EnemigoManager.h" />
+    <ClInclude Include="Enemigo.h" />
     <ClInclude Include="Fondo.h" />
     <ClInclude Include="GameBase.h" />
     <ClInclude Include="GameObject.h" />
