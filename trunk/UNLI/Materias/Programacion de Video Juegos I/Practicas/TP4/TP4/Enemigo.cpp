@@ -82,7 +82,7 @@ void Enemigo::LocalFlip()
 
 void Enemigo::ChangeVel()
 {
-	_vel = rand()%10 + (rand()%5+3);
+	_vel = rand()%5 + (rand()%5+2);
 }
 
 void Enemigo::MoveLeft()
