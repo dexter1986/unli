@@ -20,6 +20,9 @@ protected:
 	std::string _textureName;
 	Vector2f _position;
 public:
+	bool _isNoFlip;
+	bool _isManualFlip;
+	void ManualFlip();
 	const FloatRect& GetBound();
 	virtual const Drawable& DrawObject();
 	bool Enable();	

@@ -3,6 +3,15 @@
 Personaje::Personaje(void)
 {
 	_textureName = "jumper.png";
+	InitPosition();
+}
+
+Personaje::~Personaje(void)
+{
+}
+
+void Personaje::InitPosition()
+{
 	_position.x = 380;
 	_posicion_terreno_y = POSICION_TERRENO_Y;
 	_position.y = POSICION_TERRENO_Y;
@@ -12,13 +21,10 @@ Personaje::Personaje(void)
 	saltoEnProceso = false;
 }
 
-Personaje::~Personaje(void)
-{
-}
-
 bool Personaje::TestCollitions(GameObject& target)
 {
-	FloatRect rect_t = target.GetBound();
+	return GameObject::TestCollitions(target);
+	/*FloatRect rect_t = target.GetBound();
 	Vector2<float> point;
 
 	if(_isRight)
@@ -39,7 +45,7 @@ bool Personaje::TestCollitions(GameObject& target)
 		return true;
 	}
 
-	return false;
+	return false;*/
 }
 
 void Personaje::Init()

@@ -5,6 +5,8 @@ GameObject::GameObject()
 	_isEnable = true;
 	_isLeft = false;
 	_isRight = false;
+	_isNoFlip = false;
+	_isManualFlip = false;
 }
 
 GameObject::~GameObject()
@@ -24,7 +26,8 @@ void GameObject::Draw(RenderWindow* wnd)
 
 void GameObject::Move()
 {
-	Flip();
+	if(!_isManualFlip)
+		Flip();
 	_sprite.setPosition(_position);
 }
 
@@ -65,8 +68,17 @@ const FloatRect& GameObject::GetBound()
 bool GameObject::TestCollitions(GameObject& target)
 {
 	FloatRect rect_t = target.GetBound();
+	rect_t.height -= 15.0f;
+	rect_t.width -= 15.0f;
+	rect_t.top += 15.0f;
+	rect_t.left += 15.0f;
+
 	FloatRect rect = _sprite.getGlobalBounds();
-	
+	rect.height -= 15.0f;
+	rect.width -= 15.0f;
+	rect.top += 15.0f;
+	rect.left += 15.0f;
+
 	if(rect.intersects(rect_t))
 	{
 		return true;
@@ -121,6 +133,14 @@ void GameObject::Flip()
 		_isRight = false;
 		_isLeft = true;
 	}
+}
+
+void GameObject::ManualFlip()
+{
+	if(_isRight)
+		_sprite.setTextureRect(sf::IntRect(_width, 0,-_width,_height));
+	else if(_isLeft)
+		_sprite.setTextureRect(sf::IntRect(0, 0, _width, _height));
 }
 
 const Vector2f& GameObject::GetPosition()

@@ -6,6 +6,8 @@
 #include "Fondo.h"
 #include "Bloque.h"
 #include "Puerta.h"
+#include "EnemigoManager.h"
+
 
 class TP4 :	public GameBase
 {
@@ -15,20 +17,23 @@ private:
 	GameObject* puerta;
 	GameObject* fondo;
 	GameObject* bloques[10];
-	bool _c_bloques[10];
-	bool _c_ord_bloques[10];
-	int _n_bloques[10];
-	int _n_ord_bloques[10];
+	EnemigoManager* managers[9];
 	
-
 	Text text;
+	Text text_piso;
 	int contador;
 	bool isGamePause;
+
+	bool _is3;
+	bool _is5;
+	bool _is7;
 
 	float tiempoInicio;
 	float tiempoFin;
 	void ActualizarContador();
 protected:	
+	void CrearColas(int index,C::TipoUbicacion ubicacion,int piso);
+	void CrearPila(int index,C::TipoUbicacion ubicacion,int piso,bool isCreateData=false);
 	virtual void DrawGame();
 	virtual void UpdatePoolEvents(Event& evt); 
 	virtual void UpdateState();	

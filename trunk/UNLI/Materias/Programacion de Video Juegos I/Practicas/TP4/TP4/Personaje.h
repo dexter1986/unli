@@ -15,6 +15,7 @@ private:
 	float _max_ascenso_salto_y;
 public:
 	void Init();
+	void InitPosition();
 	virtual void Update();
 	bool TestCollitions(GameObject& target);
 	virtual void UpdatePoolEvents(Event& evt);
