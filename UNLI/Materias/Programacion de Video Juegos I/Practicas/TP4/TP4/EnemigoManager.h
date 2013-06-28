@@ -10,6 +10,7 @@ private:
 	Enemigo* _head;
 	Enemigo* _tail;
 	C::TipoUbicacion _ubicacion;
+	int _count;
 public:	
 	EnemigoManager(C::TipoUbicacion ubicacion);
 	~EnemigoManager(void);
@@ -18,6 +19,8 @@ public:
 	void Render(RenderWindow* app);
 
 	void InvertirSentido();
+	void OrdenarPorIndex();
+	C::TipoUbicacion getTipoUbicacion();
 
 	Enemigo* CrearEnemigo(int Piso);
 	void DestruirEnemigo(Enemigo* enemigo);

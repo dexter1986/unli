@@ -4,8 +4,8 @@
 Puerta::Puerta():GameObject()
 {
 	_textureName = "puerta.png";
-	_position.y = 26;
-	_position.x = 420;
+	_position.y = 26.0f;
+	_position.x = 200.0f + rand()%300 + rand()%200;
 }
 
 Puerta::~Puerta(void)
