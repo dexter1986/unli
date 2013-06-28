@@ -58,11 +58,11 @@ void Personaje::Update()
 {	
 	if(Keyboard::isKeyPressed(Keyboard::Left))
 	{
-		_position.x = _position.x - 5;
+		_position.x = _position.x - 3;
 	}
 	if(Keyboard::isKeyPressed(Keyboard::Right))	
 	{
-		_position.x = _position.x + 5;
+		_position.x = _position.x + 3;
 	}
 
 	//Se chequea si se presionó la tecla de salto y si el proceso aún no inicio.
@@ -93,7 +93,7 @@ void Personaje::Update()
 								
 				if(_position.y - _max_ascenso_salto_y < 0)
 				{
-					_max_ascenso_salto_y = 120;
+					_max_ascenso_salto_y = 170;
 					_position.y = _posicion_terreno_y - POSICION_PLATAFORMA_Y;
 				}
 				else

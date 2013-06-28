@@ -14,6 +14,7 @@ TP4::TP4(int ancho, int alto,std::string titulo):GameBase(ancho,alto,titulo)
 	_is3 =  true;
 	_is5 =  true;
 	_is7 =  true;
+		
 }
 
 TP4::~TP4(void)
@@ -61,7 +62,7 @@ void TP4::CrearColas(int index,C::TipoUbicacion ubicacion,int piso)
 	Enemigo* aux;	
 
 	managers[index] = new EnemigoManager(ubicacion);
-	int val = rand()%4+4;
+	int val = rand()%1+4;
 	for(int i=0;i<val;i++)
 	{
 		aux = managers[index]->CrearEnemigo(piso);
@@ -76,7 +77,7 @@ void TP4::CrearPila(int index,C::TipoUbicacion ubicacion,int piso,bool isCreateD
 	if(isCreateData)
 	{
 		Enemigo* aux;	
-		int val = rand()%4+4;
+		int val = rand()%1+4;
 		for(int i=0;i<val;i++)
 		{
 			aux = managers[index]->CrearEnemigo(piso);
@@ -129,11 +130,6 @@ void TP4::UpdatePoolEvents(Event& evt)
 
 void TP4::UpdateState()
 {
-	if(!isGamePause && (contador == 0 || tiempoFin == -1))
-	{
-		isGamePause = true;		
-	}
-
 	if(!isGamePause)
 	{
 		ActualizarContador();
