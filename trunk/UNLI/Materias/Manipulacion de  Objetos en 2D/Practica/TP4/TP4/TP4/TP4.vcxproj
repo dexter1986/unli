@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="intro.cpp" />
+    <ClCompile Include="TP4.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{AAC51658-038C-4627-9CF9-1A7F62E69D12}</ProjectGuid>

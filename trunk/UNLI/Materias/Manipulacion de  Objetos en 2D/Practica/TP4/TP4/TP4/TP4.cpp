@@ -37,11 +37,28 @@ void Display_cb() {
   int i;
   // triángulo (sólo si ya están los tres puntos)
   if (npuntos==3) {
-    // glPolygonMode(GL_FRONT_AND_BACK,GL_LINE); glLineWidth(2);
+	//Dibuja el fondo de color    
     glColor3f(.4f,.6f,.8f);
     glBegin(GL_TRIANGLES);
       for(i=0;i<npuntos;i++) glVertex2i(pt[2*i],pt[2*i+1]);
     glEnd();
+
+	//Dibuja los bordes
+	glEnable(GL_LINE_STIPPLE);
+	GLint factor=3;
+	GLushort pattern=0x3333;
+	glLineStipple(factor,pattern);       
+	glColor3f(.0f,.0f,.0f);
+	glLineWidth(2.0f);
+	glBegin(GL_LINE_LOOP);
+      for(i=0;i<npuntos;i++) 
+	  {
+		  glVertex2i(pt[2*i],pt[2*i+1]);
+	  }
+    glEnd();
+	
+	glDisable(GL_LINE_STIPPLE);
+
   }
   // puntos (después del triángulo, para que se vean encima)
   glColor3f(.1f,.2f,.3f);
@@ -77,10 +94,13 @@ void PassiveMotion_cb(int x, int y){
 
 // Drag (movimiento con algun boton apretado)
 void Motion_cb(int x, int y){
-  y=h-y; // el 0 está arriba
-  //cout << x << "," << y << endl;
-  pt[2*ep]=x;pt[2*ep+1]=y; // fija el punto editado en x,y
-  glutPostRedisplay(); // avisa que se debe redibujar
+	if(x >= 0 && x <= w && y >= 0 && y <= h)
+	{
+	  y=h-y; // el 0 está arriba
+	  //cout << x << "," << y << endl;
+	  pt[2*ep]=x;pt[2*ep+1]=y; // fija el punto editado en x,y
+	  glutPostRedisplay(); // avisa que se debe redibujar
+	}
 }
 
 // Botones picados o soltados
@@ -93,24 +113,41 @@ void Mouse_cb(int button, int state, int x, int y){
       //cout << x << "," << y << endl;
       ep=-1;
       // verifica si picó a menos de 5 pixeles de algún punto previo
-      for (int i=0;i<npuntos;i++){
-        int d=sqrt(pow(float(x-pt[2*i]),2)+pow(float(y-pt[2*i+1]),2)); // distancia euclidea
-        if (d>5) continue; // lejos
-        ep=i; // edita el punto i
-        glutMotionFunc(Motion_cb); // define el callback para los drags
-        return;
+      for (int i=0;i<npuntos;i++)
+	  {
+        
+		int d = 0;
+			//d = sqrt(pow(float(x-pt[2*i]),2) + pow(float(y-pt[2*i+1]),2)); // distancia euclidea
+			d = abs(float(x-pt[2*i]))+abs(float(y-pt[2*i+1])); // distancia metrica del rombo		
+
+		if (d>5) 
+		{
+			continue; // lejos
+		}
+		
+		ep=i; // edita el punto i
+        
+		glutMotionFunc(Motion_cb); // define el callback para los drags
+        
+		return;
       }
+
       // no pico cerca de otro
       if (npuntos==3) return; // ya hay 3 ==> no hace nada
       // agrega un punto
       pt[2*npuntos]=x; pt[2*npuntos+1]=y; npuntos++;
+
       Display_cb(); // Redibuja
       // y queda listo para editarlo hasta que suelte el botón izquierdo
+
       ep=npuntos-1; // edita el ultimo punto
+
       glutMotionFunc(Motion_cb); // define el callback para los drags
     } // fin clickeado
-    else if (state==GLUT_UP) // soltado
+    else if (state==GLUT_UP)
+	{// soltado
       glutMotionFunc(0); // anula el callback para los drags
+	}
   } // fin botón izquierdo
 }
 
@@ -128,6 +165,15 @@ void Keyboard_cb(unsigned char key,int x,int y) {
     glutPostRedisplay(); // avisa que se debe redibujar
     // Backspace borra para atras, DEL borra para adelante
     if (key==8) ep--; // ep pasa a ser el anterior
+  }
+  if(key == 27)
+  {
+	  npuntos = 0;
+	  for(int i=0;i<6;i++)
+	  {
+		pt[i] = 0;
+	  }
+	  glutPostRedisplay();
   }
 }
 
@@ -148,10 +194,10 @@ void inicializa() {
   //declara los callbacks, los que (aun) no se usan (aun) no se declaran
   glutDisplayFunc(Display_cb);
   glutReshapeFunc(Reshape_cb);
-  glutKeyboardFunc(Keyboard_cb);
+  glutKeyboardFunc(Keyboard_cb); 
   glutSpecialFunc(Special_cb);
   glutMouseFunc(Mouse_cb);
-   glutPassiveMotionFunc(PassiveMotion_cb);
+   //glutPassiveMotionFunc(PassiveMotion_cb);
 
   // OpenGL
   glClearColor(0.85f,0.9f,0.95f,1.f); // color de fondo
