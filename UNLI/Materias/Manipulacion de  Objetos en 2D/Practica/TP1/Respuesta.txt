@@ -1,0 +1,5 @@
+5- En términos de eficiencia, ¿qué aspectos cuestionaría respecto al callback de
+teclado?
+Dado que esta haciendo pooling a la cola de eventos de Windows esta mas orientado 
+a un sistema grafico a un video juego. En este ultimo caso es deseable el proceso
+en tiempo real leyendo directamente del dispositivo (mouse, teclado).
