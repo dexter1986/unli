@@ -30,7 +30,7 @@ void GameBase::InitWorldPhysics(){
 
 void GameBase::SetZoom(){
 	sf::View view1(sf::FloatRect(0.0f,0.0f,ancho/4.0f,alto/4.0f));
-	view1.zoom(1.0f);
+	view1.zoom(0.9f);
 	wnd->setView(view1);
 }
 
@@ -45,6 +45,7 @@ void GameBase::Loop(){
 		UpdateWorldPhysics();
 		DrawWorld();
 		wnd->display();
+		UpdateState();
 	}
 }
 

@@ -14,11 +14,19 @@ ImageManager* ImageManager::Instance()
 	return singleton;
 }
 
-ImageManager::ImageManager() : images_(), resource_directories_() {}
+ImageManager::ImageManager() : images_(), resource_directories_() 
+{
+	LoadFont();
+}
 
 ImageManager::~ImageManager() {
 	images_.clear();
 	resource_directories_.clear();
+}
+
+void ImageManager::LoadFont()
+{
+	_font.loadFromFile("Recursos/Fuentes/arialbd.ttf");
 }
 
 const sf::Texture& ImageManager::getImage( const std::string& filename ) {
@@ -102,4 +110,9 @@ void ImageManager::removeResourceDirectory( const std::string& directory ) {
 		else
 			++it;
 	}
+}
+
+const sf::Font& ImageManager::GetFont()
+{
+	return _font;
 }
