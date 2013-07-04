@@ -36,6 +36,7 @@ protected:
 	virtual void CheckCollitions()=0;
 	virtual void InitPhysics()=0;	
 	virtual void UpdatePhysics()=0;	
+	virtual void UpdateState()=0;
 	virtual void Init()=0;
 	void EnableDebugPhysics(bool isEnable);
 	void Draw(const Drawable& drawable);

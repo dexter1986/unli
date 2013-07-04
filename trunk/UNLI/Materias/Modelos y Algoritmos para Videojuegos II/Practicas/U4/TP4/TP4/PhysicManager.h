@@ -13,8 +13,9 @@ private:
 	b2World *phyWorld;
 	PhysicManager(void);
 	static PhysicManager* singleton;
-	std::map<std::string,b2Body*> objects_;
+	std::map<std::string,b2Body*> objects_;	
 public:
+	bool isPause;
 	b2Body* CreateDynamicBody();
 	b2Body* CreateStaticBody();
 	b2Body* CreateKinematicBody();

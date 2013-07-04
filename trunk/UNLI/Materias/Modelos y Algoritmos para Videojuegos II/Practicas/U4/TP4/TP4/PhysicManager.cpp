@@ -14,6 +14,7 @@ PhysicManager::PhysicManager(void):objects_()
 {
 	debugRender = NULL;
 	phyWorld = new b2World(b2Vec2(0.0f,C::G()),true);
+	isPause = false;
 }
 
 PhysicManager::~PhysicManager(void)
@@ -44,8 +45,11 @@ void PhysicManager::InitPhysics(float timeStep,int32 velocityIterations,int32 po
 
 void PhysicManager::UpdatePhysics()
 {
-	phyWorld->Step(timeStep,velocityIterations,positionIterations);
-	phyWorld->ClearForces();
+	if(!isPause)
+	{
+		phyWorld->Step(timeStep,velocityIterations,positionIterations);
+		phyWorld->ClearForces();
+	}
 }
 
 void PhysicManager::Draw()
