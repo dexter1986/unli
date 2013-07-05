@@ -82,9 +82,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Cronometro.cpp" />
+    <ClCompile Include="Fondo.cpp" />
     <ClCompile Include="GameBase.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="ImageManager.cpp" />
+    <ClCompile Include="Lata.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PhysicManager.cpp" />
     <ClCompile Include="SFMLRenderer.cpp" />
@@ -92,10 +94,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Constantes.h" />
+    <ClInclude Include="ContactListener.h" />
     <ClInclude Include="Cronometro.h" />
+    <ClInclude Include="Fondo.h" />
     <ClInclude Include="GameBase.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="ImageManager.h" />
+    <ClInclude Include="Lata.h" />
     <ClInclude Include="PhysicManager.h" />
     <ClInclude Include="QueryClass.h" />
     <ClInclude Include="SFMLRenderer.h" />

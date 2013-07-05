@@ -1,3 +1,4 @@
+#pragma once
 #include <Box2D\Box2D.h>
 class QueryDisparos: public b2QueryCallback {
 
@@ -14,13 +15,13 @@ public:
 		//los costados
 		b2Vec2 dir;
 		dir.y=0;
-		dir.x = (fixture->GetBody()->GetWorldCenter().x - mousePos.x)*10;
+		dir.x = (fixture->GetBody()->GetWorldCenter().x - mousePos.x)*20;
 		fixture->GetBody()->ApplyLinearImpulse(dir,fixture->GetBody()->GetWorldCenter());		
 
 		//luego le aplicamos una fuerza hacia arriba en el punto dónde se encuentra
 		//el mouse para lograr la rotación del objeto como producto del
 		//torque que le generamos
-		fixture->GetBody()->ApplyLinearImpulse(b2Vec2(0.0,-20.0),mousePos);		
+		fixture->GetBody()->ApplyLinearImpulse(b2Vec2(0.0,-50.0),mousePos);		
 		
 		return true;
 	}

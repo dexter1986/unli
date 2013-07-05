@@ -21,6 +21,8 @@ GameBase::GameBase(int ancho, int alto,std::string titulo)
 	wnd->setFramerateLimit(fps);
 	frameTime=1.0f/fps;	
 	EnableDebugPhysics(false);
+	_isGamePause = false;
+	ImageManager::Instance()->addResourceDirectory("Recursos/imagenes/");
 }
 
 void GameBase::InitWorldPhysics(){
@@ -41,12 +43,21 @@ void GameBase::Loop(){
 	while(wnd->isOpen()){		
 		wnd->clear(clearColor);
 		DoEvents();
-		CheckCollitions();
-		UpdateWorldPhysics();
+		if(!_isGamePause)
+		{
+			CheckCollitions();
+			UpdateWorldPhysics();
+		}
 		DrawWorld();
-		wnd->display();
-		UpdateState();
+		wnd->display();		
+		UpdateState();		
 	}
+}
+
+void GameBase::SetPause(bool isPause)
+{
+	_isGamePause = isPause;
+	PhysicManager::Instance()->isPause =  isPause;
 }
 
 void GameBase::DrawWorld()
