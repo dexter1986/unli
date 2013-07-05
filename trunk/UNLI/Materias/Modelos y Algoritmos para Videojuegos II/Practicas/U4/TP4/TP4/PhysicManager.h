@@ -15,6 +15,8 @@ private:
 	static PhysicManager* singleton;
 	std::map<std::string,b2Body*> objects_;	
 public:
+	void DestroyBody(b2Body* body);
+
 	bool isPause;
 	b2Body* CreateDynamicBody();
 	b2Body* CreateStaticBody();
@@ -48,6 +50,9 @@ public:
 	void QueryAABB(b2QueryCallback* callback,float x1,float y1,float x2, float y2);
 
 	b2AABB& Createb2AABB(float x1,float y1,float x2, float y2);
+
+	void SetContactListener(b2ContactListener* listener);
+
 	static PhysicManager* Instance();
 	void InitPhysics(float timeStep,int32 velocityIterations,int32 positionIterations);	
 	void EnableDebugPhysics(bool isEnable,RenderWindow *wnd);

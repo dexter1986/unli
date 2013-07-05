@@ -28,7 +28,9 @@ private:
 	void DoEvents();	
 	void SetZoom();
 	void DrawWorld(); 
-protected:		
+	bool _isGamePause;
+protected:			
+	void SetPause(bool isPause);
 	//Main game loop
 	virtual void DrawGame()=0;
 	virtual void UpdatePoolEvents(Event evt)=0; 

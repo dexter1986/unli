@@ -14,7 +14,17 @@ PhysicManager::PhysicManager(void):objects_()
 {
 	debugRender = NULL;
 	phyWorld = new b2World(b2Vec2(0.0f,C::G()),true);
-	isPause = false;
+	isPause = false;	
+}
+
+void PhysicManager::DestroyBody(b2Body* body)
+{
+	phyWorld->DestroyBody(body);	
+}
+
+void PhysicManager::SetContactListener(b2ContactListener* listener)
+{
+	phyWorld->SetContactListener(listener);
 }
 
 PhysicManager::~PhysicManager(void)

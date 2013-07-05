@@ -7,11 +7,25 @@ GameObject::GameObject()
 	_isRight = false;
 	_isNoFlip = false;
 	_isManualFlip = false;
+	_controlBody = NULL;
+	_fixture =  NULL;
+	_isInitPhysic = false;
 }
 
 GameObject::~GameObject()
 {
+	if(_isInitPhysic && _controlBody != NULL)
+	{
+		_controlBody->DestroyFixture(_fixture);
+		_fixture = NULL;
+		PhysicManager::Instance()->DestroyBody(_controlBody);
+		_controlBody = NULL;
+	}
+}
 
+void GameObject::Disable()
+{
+	_isEnable = false;
 }
 
 bool GameObject::Enable()
@@ -40,6 +54,36 @@ void GameObject::Init()
 	_height = (int)rect.height;
 }
 
+void GameObject::InitPhysic()
+{	
+
+	_isInitPhysic = true;
+
+	_fixture = &_controlBody->GetFixtureList()[0];
+
+	CenterOrigin();
+
+	SetPosition(_controlBody->GetPosition().x,_controlBody->GetPosition().y);
+	_sprite.setPosition(_position);
+
+	float m_angAux = _controlBody->GetAngle();
+	_sprite.setRotation(m_angAux*180/3.14f);
+		
+	b2PolygonShape* box= (b2PolygonShape*) _fixture->GetShape();
+	b2AABB boxAABB;
+	box->ComputeAABB(&boxAABB,b2Transform_identity);
+	
+	float sizeBx=2*boxAABB.GetExtents().x;
+	float sizeBy=2*boxAABB.GetExtents().y;
+
+	float scaleX= sizeBx/_width;
+	float scaleY= sizeBy/_height;
+
+	_sprite.setScale(scaleX,scaleY);
+	
+	_controlBody->SetUserData(this);
+}
+
 void GameObject::UpdatePoolEvents(Event& evt)
 {
 
@@ -47,7 +91,7 @@ void GameObject::UpdatePoolEvents(Event& evt)
 
 void GameObject::Update()
 {
-
+	
 }
 
 void GameObject::Rotate(float ang)
@@ -88,7 +132,13 @@ bool GameObject::TestCollitions(GameObject& target)
 
 void GameObject::UpdatePhysics()
 {
-
+	if(_isInitPhysic && _controlBody != NULL)
+	{
+		b2Vec2 pos = _controlBody->GetPosition();
+		SetPosition(pos.x,pos.y);
+		_sprite.setRotation(_controlBody->GetAngle()*180/3.14f);
+		_sprite.setPosition(_position);
+	}
 }
 
 void GameObject::CenterOrigin()
