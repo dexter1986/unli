@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C++ Express 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TP5", "TP5\TP5.vcxproj", "{409C5386-DFAA-40D3-A88D-8A62BA2B2BB9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{68C53BCC-145E-4381-8149-E0564AF36889}.Debug|Win32.ActiveCfg = Debug|Win32
+		{68C53BCC-145E-4381-8149-E0564AF36889}.Debug|Win32.Build.0 = Debug|Win32
+		{68C53BCC-145E-4381-8149-E0564AF36889}.Release|Win32.ActiveCfg = Release|Win32
+		{68C53BCC-145E-4381-8149-E0564AF36889}.Release|Win32.Build.0 = Release|Win32
+		{409C5386-DFAA-40D3-A88D-8A62BA2B2BB9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{409C5386-DFAA-40D3-A88D-8A62BA2B2BB9}.Debug|Win32.Build.0 = Debug|Win32
+		{409C5386-DFAA-40D3-A88D-8A62BA2B2BB9}.Release|Win32.ActiveCfg = Release|Win32
+		{409C5386-DFAA-40D3-A88D-8A62BA2B2BB9}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
