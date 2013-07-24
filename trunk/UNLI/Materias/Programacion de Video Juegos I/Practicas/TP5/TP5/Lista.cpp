@@ -152,13 +152,15 @@ void Lista::Remove(int value)
 		if(_first == n)
 		{
 			_first = n->_next;
-			_first->_prev = NULL;
+			if(_first != NULL)
+				_first->_prev = NULL;
 		}
 
 		if(_last == n )
 		{
 			_last = n->_prev;
-			_last->_next = NULL;
+			if(_last != NULL)
+				_last->_next = NULL;
 		}
 
 		if(_current == n)
@@ -168,6 +170,11 @@ void Lista::Remove(int value)
 		_length--;
 	}
 	n = NULL;
+}
+
+void Lista::Remove()
+{
+	Remove(_current->_value);
 }
 
 bool Lista::IsEmpty()

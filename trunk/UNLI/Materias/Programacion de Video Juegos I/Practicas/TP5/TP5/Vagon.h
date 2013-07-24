@@ -9,6 +9,7 @@ private:
 	void CenterText();
 public:
 	Vagon();
+	void SetValue(int value);
 	int GetValue();
 	void Init();
 	void Update();

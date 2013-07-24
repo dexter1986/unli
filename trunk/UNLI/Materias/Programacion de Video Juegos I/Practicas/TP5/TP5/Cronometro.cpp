@@ -3,6 +3,7 @@
 
 Cronometro::Cronometro(int segundos):GameObject()
 {
+	contador =  segundos;
 	_position.y = 330;		
 	text.setFont(ImageManager::Instance()->GetFont());	
 	text.setColor(Color::Black);
@@ -43,4 +44,10 @@ const Drawable& Cronometro::DrawObject()
 bool Cronometro::isEndTime()
 {
 	return final_count_seconds <= 0;
+}
+
+void Cronometro::ReStart()
+{
+	tiempoInicio = _reloj.getElapsedTime().asSeconds() + contador;
+	final_count_seconds = ((int)(tiempoInicio - tiempoFin));	
 }
