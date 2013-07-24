@@ -12,16 +12,21 @@ class TP5 :	public GameBase
 {
 private:	
 	GameObject* cronometro;	
+	GameObject* cronometro_5seg;	
 	GameObject* fondo;
 	Lista* lista;
 
 	Text text;
 	
+	int piso;
+	GameObject* vagones[5][8];	
+
 	int contador;
 	bool isGamePause;
+	bool isGameFinish;
 	float pos_x;
 	float pos_y;
-
+	float vel_x;
 	float tiempoInicio;
 	float tiempoFin;
 	void ActualizarContador();

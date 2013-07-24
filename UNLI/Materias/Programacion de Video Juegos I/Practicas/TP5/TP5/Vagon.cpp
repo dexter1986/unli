@@ -20,6 +20,18 @@ Vagon::~Vagon(void)
 
 }
 
+void Vagon::SetValue(int value)
+{	
+	_nro = value;
+	if(_nro == -1)
+		text.setString("");
+	else
+	{
+		std::string str= C::NumberToString<int>(_nro);
+		text.setString(str);
+	}
+}
+
 void Vagon::Update()
 {
 	Move();

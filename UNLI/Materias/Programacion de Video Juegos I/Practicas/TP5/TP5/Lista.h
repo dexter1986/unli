@@ -17,6 +17,7 @@ public:
 	GameObject* Search(int value);	
 	void Add(int value, GameObject* object);	
 	void Remove(int value);
+	void Remove();
 	bool IsEmpty(void);
 	bool IsNext(void);
 	Lista(void);

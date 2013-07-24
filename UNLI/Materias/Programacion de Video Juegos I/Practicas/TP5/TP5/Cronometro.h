@@ -15,6 +15,7 @@ public:
 	Cronometro(int segundos);		
 	void Init();	
 	void Update();
+	void ReStart();
 	bool isEndTime();
 	~Cronometro(void);
 };
