@@ -9,6 +9,7 @@ Cronometro::Cronometro(int segundos):GameObject()
 	text.setColor(Color::Black);
 	text.setCharacterSize(20);
 	text.setPosition(660,0);	
+	tiempoFin = 0;
 	tiempoInicio = _reloj.getElapsedTime().asSeconds() + segundos;
 	final_count_seconds = ((int)(tiempoInicio - tiempoFin));	
 }
