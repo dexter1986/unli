@@ -6,7 +6,7 @@ Vagon::Vagon():GameObject()
 	_textureName = "vagon.png";
 	_position.y = 52.0f;
 	_position.x = 100.0f;
-	_nro = rand()%100;	
+	_nro = rand()%99+1;	
 	text.setColor(Color::Yellow);
 	text.setFont(ImageManager::Instance()->GetFont());		
 	text.setCharacterSize(28);

@@ -228,30 +228,31 @@ void TP5::UpdatePoolEvents(Event& evt)
 					case Keyboard::Num9:
 						resultado_suma = 8;
 						break;
-					case Keyboard::Return:
-						resultado_suma = stoi(valor_suma);
-						if(ventana->GetValue() == resultado_suma)
-						{
-							valor_suma = "";
-							Vagon* v = (Vagon*)vagones[piso][vagon_index];
-							v->SetValue(resultado_suma);
-							lista->Add(resultado_suma,v);
-							vagones[piso][vagon_index] = NULL;
-						}
-						else
-						{
-							valor_suma = "";
-							resultado_suma = 0;
-							lista->Last();
-							lista->Remove();
-						}
-						Ordenar();
-						isGamePause = false;
+					case Keyboard::Return:						
+							resultado_suma = stoi(valor_suma);
+							if(ventana->GetValue() == resultado_suma)
+							{
+								valor_suma = "";
+								Vagon* v = (Vagon*)vagones[piso][vagon_index];
+								v->SetValue(resultado_suma);
+								lista->Add(resultado_suma,v);
+								vagones[piso][vagon_index] = NULL;
+							}
+							else
+							{
+								valor_suma = "";
+								resultado_suma = 0;
+								lista->Last();
+								lista->Remove();
+							}
+							Ordenar();
+							isGamePause = false;						
 						break;
 					default:
 						resultado_suma = -1;
 						break;
 				}
+
 				if(resultado_suma != -1)
 				{
 					valor_suma += C::NumberToString(resultado_suma);
@@ -348,6 +349,7 @@ void TP5::CheckCollitions()
 					valor_suma = "";
 					resultado_suma = 0;
 					((Cronometro*)cronometro_5seg)->ReStart();
+					return;
 				}
 			}
 		}
