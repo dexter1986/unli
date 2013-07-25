@@ -92,6 +92,7 @@
     <ClCompile Include="Locomotora.cpp" />
     <ClCompile Include="TP5.cpp" />
     <ClCompile Include="Vagon.cpp" />
+    <ClCompile Include="Ventana.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Constantes.h" />
@@ -105,6 +106,7 @@
     <ClInclude Include="Locomotora.h" />
     <ClInclude Include="TP5.h" />
     <ClInclude Include="Vagon.h" />
+    <ClInclude Include="Ventana.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
