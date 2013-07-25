@@ -19,6 +19,7 @@ TP5::TP5(int ancho, int alto,std::string titulo):GameBase(ancho,alto,titulo)
 	vel_x = 3;	
 	piso = 0;
 	resultado_suma= 0;
+	vagon_index = 0;
 }
 
 TP5::~TP5(void)
@@ -342,13 +343,13 @@ void TP5::CheckCollitions()
 			{
 				if(vagones[piso][i]->TestCollitions(*lista->First()))
 				{
-					vagon_index = i;
-					isGamePause = true;
+					vagon_index = i;					
 					ventana->ReStart();
 					txt_nro.setString("");
 					valor_suma = "";
 					resultado_suma = 0;
 					((Cronometro*)cronometro_5seg)->ReStart();
+					isGamePause = true;
 					return;
 				}
 			}
