@@ -6,7 +6,7 @@
 #include "locomotora.h"
 #include "vagon.h"
 #include "Lista.h"
-
+#include "Ventana.h"
 
 class TP5 :	public GameBase
 {
@@ -14,10 +14,15 @@ private:
 	GameObject* cronometro;	
 	GameObject* cronometro_5seg;	
 	GameObject* fondo;
+	Ventana* ventana;
 	Lista* lista;
 
 	Text text;
-	
+	Text txt_nro;
+	int resultado_suma;
+	string valor_suma;
+	int vagon_index;
+
 	int piso;
 	GameObject* vagones[5][8];	
 
