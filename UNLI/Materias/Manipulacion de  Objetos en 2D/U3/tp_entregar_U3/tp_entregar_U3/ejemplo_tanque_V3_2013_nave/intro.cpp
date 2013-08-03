@@ -6,7 +6,7 @@
 #include <cmath> // fabs
 #include <sstream>
 #include <GL/glut.h>
-#include "teclado.h"
+#include "Teclado.h"
 #include "uglyfont.h"
 
 using namespace std;
@@ -27,14 +27,15 @@ const double
   zAla=0.2,
   zAVION=0.1,
   zAVION_CUERPO=0.3,
-  zCABINA=0.4,
-  zFARO=0.4,
-  zTORRE=0.5,  
-  zCANON=0.7,
+  zCABINA=0.4,  
+  zMETRALLA=0.15,
   zPARED=0.0;
 
 const double PI=4*atan(1.0);
 bool cl_info=true; // informa por la linea de comandos
+
+Teclado teclado(' ', 'w', 's', ' ', ' ', 'a', 'd'); // para manejar la entrada por teclado
+
 
 //============================================================
 
@@ -80,6 +81,23 @@ void DibujarAla() {
   glEnd();
 }
 
+void DibujarMetralla()
+{
+	glColor3d(0.4,0.4,0.4);  
+	glBegin(GL_QUADS);
+	glVertex2d(0.0,0.0);
+	glVertex2d(5.0,0.0);
+	glVertex2d(5.0,40.0);
+	glVertex2d(0.0,40.0);  
+	glEnd();
+
+	glColor3f(0.0f,0.0f,0.0f);
+	glPointSize(3.0);
+	glBegin(GL_POINTS);
+	glVertex2d(3.0,36.0);
+	glEnd();
+}
+
 void DibujarAvion() {
   glPushMatrix();// inicio push1
 
@@ -114,6 +132,17 @@ void DibujarAvion() {
   DibujarCabina();
   glPopMatrix();
   
+  //Metralla
+  glPushMatrix();
+  glTranslated(25,-5,zMETRALLA);
+  DibujarMetralla();
+  glPopMatrix();
+
+  glPushMatrix();  
+  glScaled(-1,1,1);
+  glTranslated(25,-5,zMETRALLA);
+  DibujarMetralla();
+  glPopMatrix();
   
   // Luego de aplicar la traslacion (AvionX,AvionY) y la rotacion (AvionAng) inicial 
   // dibuja un punto en la posición 0,0 (es solo para ayuda)
@@ -225,12 +254,47 @@ void Display_cb() {
   }
 }
 
-void Idle_cb() {
-  static unsigned int lt=0;  	
+void Idle_cb() 
+{
+  
+	static unsigned int lt=0;  	
+  
   int dt = glutGet(GLUT_ELAPSED_TIME) - lt;
-  if(dt > 60) {
-	lt = glutGet(GLUT_ELAPSED_TIME);	
-	glutPostRedisplay();
+  
+  if(dt > 60) 
+  {
+	// Convierte AvionAng de grados a radianes
+	  double ang=AvionAng*PI/180.0;
+	  
+	  if(teclado.Salir())
+	  {
+		  exit(EXIT_SUCCESS);
+	  }
+	  
+	  if(teclado.Adelante())
+	  {
+		// double sin(double ang); // Calcula el seno de ang medido en radianes
+		AvionX-=5*sin(ang);
+		AvionY+=5*cos(ang);		
+	  }
+
+	  if(teclado.Atras())
+	  {
+		AvionX+=5*sin(ang);
+		AvionY-=5*cos(ang);
+	  }
+
+	  if(teclado.IzquierdaAux())
+	  {
+		AvionAng+=2;
+	  }
+
+	  if(teclado.DerechaAux())
+	  {
+		AvionAng-=2;		
+	  }
+	  lt = glutGet(GLUT_ELAPSED_TIME);	
+	  glutPostRedisplay();
   }
 }
 
@@ -249,43 +313,6 @@ void Reshape_cb(int width, int height){
   glutPostRedisplay(); // avisa que se debe redibujar
 }
 
-//------------------------------------------------------------
-// Teclado
-
-// Maneja pulsaciones del teclado (ASCII keys)
-// x,y posicion del mouse cuando se teclea (aqui no importan)
-void Keyboard_cb(unsigned char key,int x,int y) {
-  // Convierte AvionAng de grados a radianes
-  double ang=AvionAng*PI/180.0;
-  switch(key){
-  case 'w':
-  case 'W':
-    // double sin(double ang); // Calcula el seno de ang medido en radianes
-    AvionX-=5*sin(ang);
-    AvionY+=5*cos(ang);
-    glutPostRedisplay();
-    break;
-  case 's':
-  case 'S':
-    AvionX+=5*sin(ang);
-    AvionY-=5*cos(ang);
-    glutPostRedisplay();
-    break;
-  case 'a':
-  case 'A':
-    AvionAng+=2;
-    glutPostRedisplay();
-    break;
-  case 'd':
-  case 'D':
-    AvionAng-=2;
-    glutPostRedisplay();
-    break;
-  case 27:
-    exit(EXIT_SUCCESS);
-    break;
-  }
-}
 
 // Special keys (non-ASCII)
 // teclas de funcion, flechas, page up/dn, home/end, insert
@@ -303,10 +330,11 @@ void inicializa() {
 
   // declara los callbacks, los que (aun) no se usan (aun) no se declaran
   glutDisplayFunc(Display_cb);
-  glutReshapeFunc(Reshape_cb);
-  glutKeyboardFunc(Keyboard_cb);
+  glutReshapeFunc(Reshape_cb); 
   glutSpecialFunc(Special_cb);
   glutIdleFunc(Idle_cb);  //Idle
+
+  teclado.Iniciar();
 
   // OpenGL
 

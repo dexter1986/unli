@@ -62,6 +62,13 @@ bool Teclado::Izquierda( ) {
 bool Teclado::Derecha( ) {
 	return teclado[ mapa[4] ];
 }
+bool Teclado::IzquierdaAux( ) {
+	return teclado[ mapa[5] ];
+}
+bool Teclado::DerechaAux( ) {
+	return teclado[ mapa[6] ];
+}
+
 bool Teclado::Salir( ) {
 	return salir;
 }
