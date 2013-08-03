@@ -20,7 +20,8 @@ private:
 	// mapa[0] -> tecla utilizada para Disparar, mapa[1] -> tecla para avanzar, etc...
 	unsigned char mapa[7];
 public:
-	Teclado(unsigned char,unsigned char,unsigned char,unsigned char,unsigned char,unsigned char,unsigned char);
+	Teclado(unsigned char disparar,unsigned char adelante,unsigned char atras,
+	unsigned char izquierda,unsigned char derecha,unsigned char izqaux,unsigned char deraux);
 	
 	void Iniciar();
 	
@@ -33,6 +34,8 @@ public:
 	bool Atras( );
 	bool Izquierda( );
 	bool Derecha( );
+	bool IzquierdaAux( );
+	bool DerechaAux( );
 	bool Salir( );
 };
 
