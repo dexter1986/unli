@@ -16,6 +16,8 @@ using namespace std;
 int
   w=800,h=600; // tamanio inicial de la ventana
 
+
+
 double 
   AvionX=400, 
   AvionY=300, 
@@ -31,10 +33,18 @@ const double
   zMETRALLA=0.15,
   zPARED=0.0;
 
+double lightY = 0;
+double AngMetralla = -1;
+double MetrallaX = 0;
+double MetrallaY = 0;
+double incyMetralla = 0;
+double incxMetralla = 0;
+bool isFired = false;
+
 const double PI=4*atan(1.0);
 bool cl_info=true; // informa por la linea de comandos
 
-Teclado teclado(' ', 'w', 's', ' ', ' ', 'a', 'd'); // para manejar la entrada por teclado
+Teclado teclado('f', 'w', 's', ' ', ' ', 'a', 'd'); // para manejar la entrada por teclado
 
 
 //============================================================
@@ -68,6 +78,14 @@ void DibujarCuerpo() {
   glVertex2d(8,	35.0);
   glVertex2d(0.0,	70.0);
   glEnd();
+
+  glColor3f(0.9f,0.9f,0.9f);
+  glPointSize(2.0);
+  glBegin(GL_POINTS);
+	glVertex2d(5.0,20.0 + lightY);
+	glVertex2d(0.0,21.0 + lightY);
+	glVertex2d(-5.0,20.0 + lightY);
+  glEnd();
 }
 
 void DibujarAla() {
@@ -86,24 +104,65 @@ void DibujarMetralla()
 	glColor3d(0.4,0.4,0.4);  
 	glBegin(GL_QUADS);
 	glVertex2d(0.0,0.0);
-	glVertex2d(5.0,0.0);
-	glVertex2d(5.0,40.0);
+	glVertex2d(7.0,0.0);
+	glVertex2d(7.0,40.0);
 	glVertex2d(0.0,40.0);  
 	glEnd();
 
 	glColor3f(0.0f,0.0f,0.0f);
-	glPointSize(3.0);
+	glPointSize(2.5);
 	glBegin(GL_POINTS);
-	glVertex2d(3.0,36.0);
+		glVertex2d(2.5,36.0);
 	glEnd();
+	
+	glBegin(GL_POINTS);
+		glVertex2d(2.5,15.0 + lightY);		
+	glEnd();
+
 }
 
 void DibujarAvion() {
   glPushMatrix();// inicio push1
 
+  if(isFired)
+  {	  
+	  glPushMatrix();
+	  
+	  glTranslated(MetrallaX,MetrallaY,zAVION);
+	  glRotated(AngMetralla,0,0,1); 	  
+
+	 //Metralla
+	  glPushMatrix();	  
+	  glTranslated(25+incxMetralla,-5+incyMetralla,zMETRALLA);
+	  DibujarMetralla();
+	  glPopMatrix();
+
+	  glPushMatrix();  	  	   
+	  glTranslated(-35+incxMetralla,-5+incyMetralla,zMETRALLA);
+	  DibujarMetralla();
+	  glPopMatrix();
+
+	  glPopMatrix();
+  }
+
   // Posiciona y rota el Avion en el modelo
   glTranslated(AvionX,AvionY,zAVION);
   glRotated(AvionAng,0,0,1);  
+  
+  if(!isFired)  
+  {
+	  //Metralla
+	  glPushMatrix();
+	  glTranslated(25,-5,zMETRALLA);
+	  DibujarMetralla();
+	  glPopMatrix();
+
+	  glPushMatrix();  	  
+	  glTranslated(-35 ,-5,zMETRALLA);
+	  DibujarMetralla();
+	  glPopMatrix();
+  }
+
   
   //Dibujamos las distintas partes de la nave, aplicando las transformaciones necesarias
   //Ala derecha
@@ -132,18 +191,6 @@ void DibujarAvion() {
   DibujarCabina();
   glPopMatrix();
   
-  //Metralla
-  glPushMatrix();
-  glTranslated(25,-5,zMETRALLA);
-  DibujarMetralla();
-  glPopMatrix();
-
-  glPushMatrix();  
-  glScaled(-1,1,1);
-  glTranslated(25,-5,zMETRALLA);
-  DibujarMetralla();
-  glPopMatrix();
-  
   // Luego de aplicar la traslacion (AvionX,AvionY) y la rotacion (AvionAng) inicial 
   // dibuja un punto en la posición 0,0 (es solo para ayuda)
   glPushMatrix();
@@ -155,6 +202,9 @@ void DibujarAvion() {
   glEnd();
   glPopMatrix();
   
+ 
+  
+
   glPopMatrix();// fin push1
 }
 
@@ -257,12 +307,24 @@ void Display_cb() {
 void Idle_cb() 
 {
   
-	static unsigned int lt=0;  	
+  static unsigned int lt=0;  	
   
   int dt = glutGet(GLUT_ELAPSED_TIME) - lt;
   
   if(dt > 60) 
   {
+
+	  if(isFired)
+	  {
+		incyMetralla+=8;
+		if(incyMetralla < 0 || incyMetralla > h)
+			isFired = false;
+	  }
+
+	  lightY++;
+	  if(lightY > 20.0)
+		  lightY = 0.0;
+
 	// Convierte AvionAng de grados a radianes
 	  double ang=AvionAng*PI/180.0;
 	  
@@ -293,6 +355,17 @@ void Idle_cb()
 	  {
 		AvionAng-=2;		
 	  }
+
+	  if(!isFired && teclado.Disparar())
+	  {
+		  isFired = true;		
+		  MetrallaX = AvionX;
+		  MetrallaY = AvionY;
+		  incxMetralla = -sin(AvionAng);
+		  incyMetralla = cos(AvionAng);			  
+		  AngMetralla = AvionAng;
+	  }
+
 	  lt = glutGet(GLUT_ELAPSED_TIME);	
 	  glutPostRedisplay();
   }
@@ -359,6 +432,7 @@ int main(int argc,char** argv) {
   cout << "s: retrocede" << endl;
   cout << "d: gira en sentido horario" << endl;
   cout << "a: gira en sentido antihorario" << endl;
+  cout << "f: Disparar" << endl;
   
   
   glutInit(&argc,argv); // inicialización interna de GLUT
