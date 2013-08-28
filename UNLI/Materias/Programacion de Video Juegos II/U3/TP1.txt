@@ -1,0 +1,31 @@
+Programación de Videojuegos II
+
+Trabajo Práctico N° 1
+
+Elegir un personaje, modelarlo mediante una FSM y programarlo. 
+Pueden elegirse personajes de algún juego existente o inventar uno. El protagonista no necesariamente debe pertenecer a un juego de plataformas, sino que pueden modelarse entidades de otros géneros como RPG, Space Shooter, Pelea, u otro que el alumno desee. Tener en cuenta que este trabajo será utilizado como base para los trabajos prácticos siguientes. Si bien el estudiante tendrá la libertad de modelar a gusto el personaje elegido, debe procurarse que el mismo no sea demasiado simple ni demasiado complejo. Si existen dudas respecto a si la complejidad del modelo planteado es suficiente, se recomienda consultar a los docentes.
+En caso de que el alumno no se desee buscar/elegir/inventar un personaje, la cátedra propondrá dos opciones para ser implementadas.
+
+El trabajo constará de dos partes que deberán ser entregadas: la documentación del modelo y la implementación.
+
+
+Documentación del modelo
+
+Deberá presentarse un breve informe que describa lo siguiente:
+Alcance y limitaciones del modelo: una descripción corta de las acciones que el personaje realizará y cuales quedarán fuera de la representación.
+Los estados que tendrá la FSM con la que representaremos al personaje.
+La tabla de transición de estados de la/las FSM.
+No existe un formato particular que el documento deba respetar, sin embargo, se recomienda que mantenga cierto nivel de estructura y prolijidad.
+
+
+Implementación
+
+El personaje debe implementarse en lenguaje C++ utilizando la biblioteca SFML. Se sugiere (aunque no es obligatorio) utilizar las clases propuestas por la cátedra (Animation, SpriteSheetManager, o TiledSprite, AnimatedSprite, etc). 
+No será necesario desarrollar ningún tipo de escenario o nivel con el que el personaje pueda interactuar, simplemente deberá moverse por la ventana demostrando las acciones que es capaz de realizar. En caso de saltar, puede establecerse de antemano el nivel del suelo para saber cuándo el personaje lo toca. Podrá utilizarse, si se desea, una imagen de fondo.
+En caso de disparar algún tipo de proyectil u objeto, deben imponerse condiciones para que su número no crezca indiscriminadamente (por ejemplo: borrarlos al salir de la pantalla o al pasar cierta cantidad de tiempo).
+De ninguna forma se aceptará código que no compile.
+
+
+Características Opcionales
+
+Si el alumno desea, puede agregar características adicionales al programa, por ejemplo, que exista un enemigo al cual el personaje pueda atacar, o que el personaje tenga distintos tipos de disparos. Estas características podrán sumar puntos al trabajo dependiendo de su pertinencia y nivel de dificultad.
