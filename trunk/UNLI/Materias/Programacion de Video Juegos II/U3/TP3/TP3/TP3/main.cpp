@@ -11,6 +11,7 @@ using namespace std;
 int main(int argc, char *argv[]) {
 	// creamos la ventana y definimos la porcion visible del plano
 	sf::RenderWindow w(VideoMode(1000,500),"Prince");
+	w.SetFramerateLimit(60);
 	sf::FloatRect viewRect(0,0,300,150);
 	sf::View v(viewRect);
 	w.SetView(v);

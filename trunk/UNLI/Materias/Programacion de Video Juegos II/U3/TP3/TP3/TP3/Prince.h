@@ -9,10 +9,16 @@ class Prince :
 private:
 
 	enum Estado{
-		PARADO = 0,
-		CORRIENDO = 1,		
-		SALTANDO = 2,
-		SALTANDO_Y_MOVIENDOSE = 3,		
+		PARADO_D = 0,
+		PARADO_I = 1,
+		GIRO_D = 2,
+		GIRO_I = 3,
+		CORRIENDO_D = 4,
+		CORRIENDO_I = 5,
+		DETENERSE_D = 6,
+		DETENERSE_I = 7,
+		SALTANDO = 8,
+		SALTANDO_Y_MOVIENDOSE = 9,		
 	};
 
 protected:	

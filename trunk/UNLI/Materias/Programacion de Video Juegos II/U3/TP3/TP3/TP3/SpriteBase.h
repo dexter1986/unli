@@ -12,6 +12,10 @@ class SpriteBase :
 	public Sprite
 {
 protected:
+	
+	float v0;		// velocidad inicial al comenzar el salto 
+	float gravity;	// gravedad
+	
 	int estado_Actual;
 	Vector2f velocidad;
 	Vector2f posicion;
@@ -23,7 +27,7 @@ protected:
 	AnimatedBase *animaciones;
 	
 	// inicializa las animaciones, es llamado en el constructor
-	
+	bool AnimationEnded();
 	virtual void InicializarAnimaciones()=0;
 	virtual void Internal_Mover_y_Animar()=0;
 	// cambia el estado y hace algunas operaciones necesarias
