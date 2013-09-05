@@ -106,7 +106,9 @@
     <None Include="disparo.png" />
     <None Include="megaman_sprites.png" />
     <None Include="prince.png" />
-    <None Include="prince.xml" />
+    <None Include="prince.xml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

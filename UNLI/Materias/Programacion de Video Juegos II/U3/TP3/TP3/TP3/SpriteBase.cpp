@@ -9,6 +9,8 @@ SpriteBase::SpriteBase(int cant_estados,const string &filename)
 	posicion_inicial.x = 0.0f;
 	posicion_inicial.y = 0.0f;
 	estado_Actual = 0;
+	gravity =  512.0f;
+	v0 = -256.0f;
 	animaciones = new AnimatedBase[cant_estados];
 
 	const sf::Image &tex = TextureManager::GetInstance().GetTexture(filename);	
@@ -21,9 +23,26 @@ SpriteBase::~SpriteBase(void)
 	delete[] animaciones;
 }
 
-void SpriteBase::Mover_y_Animar(Joystick j, float dt)
+void SpriteBase::CambiarEstado(int nuevoEstado, bool continueFromCurrent)
 {
-	InicializarAnimaciones();
+	int viejoEstado=estado_Actual;
+	estado_Actual=nuevoEstado;
+	animaciones[nuevoEstado].Reset();
+	if(continueFromCurrent){
+		// seteamos el frame de la nueva animacion
+		animaciones[nuevoEstado].SetCurrentFrameNum(animaciones[viejoEstado].GetCurrentFrameNum());
+		// seteamos el tiempo del frame de la nueva animacion al mismo tiempo que tenia la anterior
+		animaciones[nuevoEstado].Animate(animaciones[viejoEstado].GetCurrentFrameElapsedTime());
+	}
+}
+
+bool SpriteBase::AnimationEnded()
+{
+	return animaciones[estado_Actual].Ended();
+}
+
+void SpriteBase::Mover_y_Animar(Joystick j, float dt)
+{	
 	//Actualiza Delta de tiempo
 	this->dt =  dt;
 	
@@ -37,8 +56,8 @@ void SpriteBase::Mover_y_Animar(Joystick j, float dt)
 
 	//Anima el objeto
 	Internal_Mover_y_Animar();
-
-	SetSubRect((animaciones+estado_Actual)->GetCurrentFrameRect());
+	
+	SetSubRect((animaciones+estado_Actual)->Animate(dt));
 }
 
 void SpriteBase::Inicializar()
