@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:0c36893fd1031836113d1f3c0bde070d:1/1$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+-->
+<TextureAtlas imagePath="prince.png" width="512" height="512">
+    <sprite n="a00.png" x="2" y="2" w="10" h="45"/>
+    <sprite n="a01.png" x="14" y="2" w="16" h="43"/>
+    <sprite n="a02.png" x="32" y="2" w="19" h="41"/>
+    <sprite n="a03.png" x="53" y="2" w="16" h="43"/>
+    <sprite n="a04.png" x="71" y="2" w="10" h="45"/>
+    <sprite n="a05.png" x="83" y="2" w="16" h="44"/>
+    <sprite n="a06.png" x="101" y="2" w="23" h="41"/>
+    <sprite n="a07.png" x="126" y="2" w="26" h="40"/>
+    <sprite n="a08.png" x="154" y="2" w="24" h="38"/>
+    <sprite n="a09.png" x="180" y="2" w="26" h="40"/>
+    <sprite n="a10.png" x="208" y="2" w="23" h="41"/>
+    <sprite n="a11.png" x="233" y="2" w="16" h="44"/>
+    <sprite n="a12.png" x="251" y="2" w="10" h="45"/>
+    <sprite n="c00.png" x="263" y="2" w="13" h="40"/>
+    <sprite n="c01.png" x="278" y="2" w="16" h="40"/>
+    <sprite n="c02.png" x="296" y="2" w="18" h="40"/>
+    <sprite n="c03.png" x="316" y="2" w="24" h="39"/>
+    <sprite n="c04.png" x="342" y="2" w="23" h="38"/>
+    <sprite n="c05.png" x="367" y="2" w="23" h="39"/>
+    <sprite n="c06.png" x="392" y="2" w="31" h="39"/>
+    <sprite n="c07.png" x="425" y="2" w="31" h="40"/>
+    <sprite n="c08.png" x="458" y="2" w="23" h="39"/>
+    <sprite n="c09.png" x="483" y="2" w="24" h="38"/>
+    <sprite n="c10.png" x="2" y="49" w="29" h="39"/>
+    <sprite n="c11.png" x="33" y="49" w="31" h="40"/>
+    <sprite n="c12.png" x="66" y="49" w="21" h="38"/>
+    <sprite n="c13.png" x="89" y="49" w="23" h="39"/>
+    <sprite n="g00.png" x="114" y="49" w="27" h="40"/>
+    <sprite n="g01.png" x="143" y="49" w="20" h="39"/>
+    <sprite n="g02.png" x="165" y="49" w="37" h="39"/>
+    <sprite n="g03.png" x="204" y="49" w="27" h="38"/>
+    <sprite n="g04.png" x="233" y="49" w="27" h="37"/>
+    <sprite n="g05.png" x="262" y="49" w="31" h="37"/>
+    <sprite n="g06.png" x="295" y="49" w="28" h="32"/>
+    <sprite n="g07.png" x="325" y="49" w="33" h="35"/>
+    <sprite n="g08.png" x="360" y="49" w="28" h="36"/>
+    <sprite n="g09.png" x="390" y="49" w="29" h="37"/>
+    <sprite n="g10.png" x="421" y="49" w="27" h="36"/>
+    <sprite n="lc0.png" x="450" y="49" w="29" h="39"/>
+    <sprite n="lc1.png" x="2" y="91" w="31" h="40"/>
+    <sprite n="lc2.png" x="35" y="91" w="21" h="38"/>
+    <sprite n="lc3.png" x="58" y="91" w="23" h="39"/>
+    <sprite n="lc4.png" x="83" y="91" w="31" h="39"/>
+    <sprite n="lc5.png" x="116" y="91" w="31" h="40"/>
+    <sprite n="lc6.png" x="149" y="91" w="23" h="39"/>
+    <sprite n="lc7.png" x="174" y="91" w="23" h="38"/>
+    <sprite n="p0.png" x="199" y="91" w="27" h="40"/>
+    <sprite n="p1.png" x="228" y="91" w="20" h="39"/>
+    <sprite n="p2.png" x="250" y="91" w="37" h="39"/>
+    <sprite n="p3.png" x="289" y="91" w="27" h="38"/>
+    <sprite n="p4.png" x="318" y="91" w="18" h="39"/>
+    <sprite n="p5.png" x="338" y="91" w="12" h="39"/>
+    <sprite n="pa0.png" x="352" y="91" w="11" h="40"/>
+    <sprite n="pa1.png" x="365" y="91" w="11" h="39"/>
+    <sprite n="pa2.png" x="378" y="91" w="16" h="38"/>
+    <sprite n="pa3.png" x="396" y="91" w="24" h="37"/>
+    <sprite n="pa4.png" x="422" y="91" w="26" h="37"/>
+    <sprite n="pa5.png" x="450" y="91" w="16" h="39"/>
+    <sprite n="pa6.png" x="468" y="91" w="11" h="40"/>
+    <sprite n="pa7.png" x="481" y="91" w="10" h="40"/>
+    <sprite n="s0.png" x="2" y="133" w="24" h="37"/>
+    <sprite n="s1.png" x="28" y="133" w="36" h="38"/>
+    <sprite n="s2.png" x="66" y="133" w="14" h="40"/>
+    <sprite n="s3.png" x="82" y="133" w="32" h="43"/>
+    <sprite n="s4.png" x="116" y="133" w="42" h="39"/>
+    <sprite n="s5.png" x="160" y="133" w="47" h="26"/>
+    <sprite n="s6.png" x="209" y="133" w="38" h="24"/>
+    <sprite n="s7.png" x="249" y="133" w="40" h="34"/>
+    <sprite n="s8.png" x="291" y="133" w="29" h="32"/>
+    <sprite n="s9.png" x="322" y="133" w="23" h="39"/>
+    <sprite n="sa00.png" x="347" y="133" w="14" h="40"/>
+    <sprite n="sa01.png" x="363" y="133" w="20" h="39"/>
+    <sprite n="sa02.png" x="385" y="133" w="27" h="31"/>
+    <sprite n="sa03.png" x="414" y="133" w="27" h="31"/>
+    <sprite n="sa04.png" x="443" y="133" w="24" h="32"/>
+    <sprite n="sa05.png" x="469" y="133" w="36" h="34"/>
+    <sprite n="sa06.png" x="2" y="178" w="47" h="32"/>
+    <sprite n="sa07.png" x="51" y="178" w="48" h="28"/>
+    <sprite n="sa08.png" x="101" y="178" w="38" h="27"/>
+    <sprite n="sa09.png" x="141" y="178" w="30" h="26"/>
+    <sprite n="sa10.png" x="173" y="178" w="20" h="24"/>
+    <sprite n="sa11.png" x="195" y="178" w="24" h="29"/>
+    <sprite n="sa12.png" x="221" y="178" w="20" h="32"/>
+    <sprite n="sa13.png" x="243" y="178" w="15" h="39"/>
+    <sprite n="sa14.png" x="260" y="178" w="11" h="39"/>
+    <sprite n="su00.png" x="273" y="178" w="11" h="44"/>
+    <sprite n="su01.png" x="286" y="178" w="11" h="44"/>
+    <sprite n="su02.png" x="299" y="178" w="23" h="38"/>
+    <sprite n="su03.png" x="324" y="178" w="23" h="31"/>
+    <sprite n="su04.png" x="349" y="178" w="31" h="22"/>
+    <sprite n="su05.png" x="382" y="178" w="30" h="19"/>
+    <sprite n="su06.png" x="414" y="178" w="30" h="24"/>
+    <sprite n="su07.png" x="446" y="178" w="28" h="21"/>
+    <sprite n="su08.png" x="476" y="178" w="23" h="24"/>
+    <sprite n="su09.png" x="2" y="224" w="28" h="27"/>
+    <sprite n="su10.png" x="32" y="224" w="24" h="30"/>
+    <sprite n="su11.png" x="58" y="224" w="8" h="40"/>
+    <sprite n="t00.png" x="68" y="224" w="9" h="40"/>
+    <sprite n="t01.png" x="79" y="224" w="10" h="40"/>
+    <sprite n="t02.png" x="91" y="224" w="17" h="39"/>
+    <sprite n="t03.png" x="110" y="224" w="20" h="39"/>
+    <sprite n="t04.png" x="132" y="224" w="18" h="37"/>
+    <sprite n="t05.png" x="152" y="224" w="15" h="35"/>
+    <sprite n="t06.png" x="169" y="224" w="21" h="32"/>
+    <sprite n="t07.png" x="192" y="224" w="15" h="38"/>
+    <sprite n="t08.png" x="209" y="224" w="14" h="47"/>
+    <sprite n="t09.png" x="225" y="224" w="17" h="48"/>
+    <sprite n="t10.png" x="244" y="224" w="10" h="40"/>
+    <sprite n="t11.png" x="256" y="224" w="10" h="40"/>
+    <sprite n="v0.png" x="268" y="224" w="10" h="39"/>
+    <sprite n="v1.png" x="280" y="224" w="14" h="40"/>
+    <sprite n="v2.png" x="296" y="224" w="18" h="40"/>
+    <sprite n="v3.png" x="316" y="224" w="18" h="39"/>
+    <sprite n="v4.png" x="336" y="224" w="12" h="39"/>
+    <sprite n="v5.png" x="350" y="224" w="10" h="40"/>
+</TextureAtlas>
