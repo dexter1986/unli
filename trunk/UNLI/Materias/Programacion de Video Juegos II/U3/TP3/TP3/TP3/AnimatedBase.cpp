@@ -16,6 +16,11 @@ void AnimatedBase::AddFrame(IntRect &rect, float frameLenght){
 	nFrames++;
 }
 
+void AnimatedBase::AddFrame(int x, int y, int w, int h, float frameLenght)
+{
+	AddFrame(IntRect(x,y,x+w,y+h),frameLenght);
+}
+
 // avanza la animacion en base al tiempo transcurrido
 // tiene en cuenta si debe hacer un loop o finalizar
 // ademas devuelve un puntero a la imagen actual de

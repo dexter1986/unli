@@ -7,21 +7,23 @@ class Prince :
 	public SpriteBase
 {
 private:
-
+	float vx;
+	float vy;
 	enum Estado{
-		PARADO_D = 0,
-		PARADO_I = 1,
-		GIRO_D = 2,
-		GIRO_I = 3,
-		CORRIENDO_D = 4,
-		CORRIENDO_I = 5,
-		DETENERSE_D = 6,
-		DETENERSE_I = 7,
-		SALTANDO = 8,
-		SALTANDO_Y_MOVIENDOSE = 9,		
+		PARADO=0,
+		CAMINAR,
+		AGARRARSE,
+		GIRAR,
+		GIRO,		
+		PARAR,
+		PASO,
+		SALTO,
+		SALTAR,
+		SUBIR,
+		TREPAR
 	};
 
-protected:	
+protected:			
 	// inicializa las animaciones, es llamado en el constructor
 	void InicializarAnimaciones();	
 	// algunas acciones
