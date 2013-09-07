@@ -20,7 +20,7 @@ private:
 
 public:		
 	void AddFrame(IntRect &rect, float lenght);		
-	
+	void AddFrame(int x, int y, int w, int h, float frameLenght);
 	IntRect &AnimatedBase::Animate(float dt);
 	void SetLoop(bool loop);
 	bool GetLoop();

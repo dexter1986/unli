@@ -2,15 +2,19 @@
 
 SpriteBase::SpriteBase(int cant_estados,const string &filename)
 {
+	
 	velocidad.x = 0.0f;
 	velocidad.y = 0.0f;
 	posicion.x = 0.0f;
-	posicion.y = 0.0f;
+	posicion.y = GetPosition().y;
 	posicion_inicial.x = 0.0f;
 	posicion_inicial.y = 0.0f;
 	estado_Actual = 0;
 	gravity =  512.0f;
 	v0 = -256.0f;
+	
+	velocidad.y=v0;
+
 	animaciones = new AnimatedBase[cant_estados];
 
 	const sf::Image &tex = TextureManager::GetInstance().GetTexture(filename);	
@@ -39,6 +43,11 @@ void SpriteBase::CambiarEstado(int nuevoEstado, bool continueFromCurrent)
 bool SpriteBase::AnimationEnded()
 {
 	return animaciones[estado_Actual].Ended();
+}
+
+int SpriteBase::AnimationCurrentFrame()
+{
+	return animaciones[estado_Actual].GetCurrentFrameNum();
 }
 
 void SpriteBase::Mover_y_Animar(Joystick j, float dt)
