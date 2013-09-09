@@ -20,7 +20,9 @@ private:
 		SALTO,
 		SALTAR,
 		SUBIR,
-		TREPAR
+		TREPAR,
+		TREPANDO,
+		BAJANDOTREPAR
 	};
 
 protected:			

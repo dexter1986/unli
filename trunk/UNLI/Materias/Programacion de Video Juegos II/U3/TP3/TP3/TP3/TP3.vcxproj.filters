@@ -24,12 +24,6 @@
     <ClCompile Include="Animation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Disparos.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Megaman.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SpriteSheetManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -50,9 +44,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Disparos.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="AnimatedSprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -60,9 +51,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SpriteSheetManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Megaman.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TiledSprite.h">
@@ -82,15 +70,11 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="disparo.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="megaman_sprites.png">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="prince.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="prince.xml" />
+    <None Include="prince.xml">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

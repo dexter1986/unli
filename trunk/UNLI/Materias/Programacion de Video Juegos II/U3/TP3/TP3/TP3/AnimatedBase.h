@@ -32,6 +32,7 @@ public:
 	void SetCurrentFrameNum(int i);
 	int GetCurrentFrameNum();
 	IntRect &GetCurrentFrameRect();
+	void Stop();
 
 public:
 	AnimatedBase(bool loop=true);

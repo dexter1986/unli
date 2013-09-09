@@ -45,6 +45,11 @@ bool SpriteBase::AnimationEnded()
 	return animaciones[estado_Actual].Ended();
 }
 
+void SpriteBase::AnimationStop()
+{
+	animaciones[estado_Actual].Stop();
+}
+
 int SpriteBase::AnimationCurrentFrame()
 {
 	return animaciones[estado_Actual].GetCurrentFrameNum();
