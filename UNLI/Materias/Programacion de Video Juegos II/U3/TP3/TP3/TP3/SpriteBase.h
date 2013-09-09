@@ -28,6 +28,7 @@ protected:
 	
 	// inicializa las animaciones, es llamado en el constructor
 	bool AnimationEnded();
+	void AnimationStop();
 	int AnimationCurrentFrame();
 	virtual void InicializarAnimaciones()=0;
 	virtual void Internal_Mover_y_Animar()=0;

@@ -78,3 +78,8 @@ float AnimatedBase::GetCurrentFrameElapsedTime(){
 }
 
 
+void AnimatedBase::Stop(){
+	end = true;
+}
+
+
