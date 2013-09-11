@@ -1,0 +1,15 @@
+
+-Poner el makefile en el directorio de arriba (donde estan los fuentes)
+
+-Para compilar, desde ese directorio:
+        make
+
+-Para limpiar lo compilado: 
+        make clean
+
+-Para ejecutar el programa:
+        ./intro
+
+-NOTA:
+	Si no compila verificar que los path de las librerias sean correctos en
+	el makefile. Los path difieren en algunas distribuciones de GNU/Linux.
