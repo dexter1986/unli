@@ -19,11 +19,15 @@ Tanque::Tanque(double x,double y,ManagerTexture& manager)
 	contadorDisparosFSM = 0;
 	contadorAnguloApuntarFSM = 0;
 	velocidadTanque = 5;
+	radioAtaque = 400;
+	contadorIntervaloDisparo = 0;
 	
-	estadoActual = TanqueFSM::Estados::Parar;
+	estadoActual = TanqueFSM::Estados::Parar;	
+	fx = new EfectoParticulas(0,0,0.00,0.0f,0.0f,8, 350, 200, 0.0f, 15, 0);
+	//fx->SetColor(0,0,0);
 }
 
-void Tanque::Update(int dt)
+void Tanque::Update(int dt,float target_x,float target_y)
 {
 	//Actualizamos las posiciones de los proyectiles
     list<Bala>::iterator p = proyectil.begin();
@@ -36,6 +40,16 @@ void Tanque::Update(int dt)
     }
 
 	Mover(dt);
+
+	//Si detecta a el avion dentro del rango visual
+	if(estadoActual != TanqueFSM::Estados::Apuntar && CalcularAlcance(target_x,target_y))
+	{
+		estadoActual = TanqueFSM::Estados::Apuntar;
+		contadorPasosFSM = 0;
+	}
+
+	/* fx->Actualizar();	
+	 fx->SetPosicion(TanqueX,TanqueY);*/
 }
 
 void Tanque::DibujarTanque() {
@@ -83,17 +97,6 @@ void Tanque::DibujarTanque() {
   glVertex2d(0,0);
   glEnd();*/
   
-  //Dibujamos los proyectiles
-  list<Bala>::iterator p=proyectil.begin();
-  glPointSize(5);
-  glColor3ub(25,25,25);
-  glBegin(GL_POINTS);
-  while( p != proyectil.end() ) {
-    p->Draw();
-    p++;
-  }
-  glEnd();
-
    glPopMatrix();
 }
 
@@ -202,17 +205,27 @@ void Tanque::DibujarCuerpo() {
 
 Tanque::~Tanque(void)
 {
+	if(fx != 0)
+	{
+		delete fx;
+		fx = 0;
+	}
 }
 
 void Tanque::Disparar()
 {
-	double ang1,ang3;
+	double ang1,ang3,ang2;
 
 	ang1=(TanqueAng)*PI/180.0;
-    ang3=(TanqueAng-ArmaAng)*PI/180.0;
+    ang3=(TanqueAng+ArmaAng)*PI/180.0;
+	ang2=(ArmaAng*PI/180.0);
     //proyectil.push_back( Bala( (VehiculoX), (VehiculoY), 30, 0) );//la bala sale desde el centro del tanque
     //la bala sale desde la base del arma
-    proyectil.push_back( Bala( (TanqueX-20*Tanque_Escala*cos(ang1)), (TanqueY+20*Tanque_Escala*sin(ang1)), 5*cos(ang3), -5*sin(ang3)) );
+    //proyectil.push_back( Bala( (TanqueX-20*Tanque_Escala*cos(ang3)), (TanqueY+20*Tanque_Escala*sin(ang3)), 10*cos(ang3), -10*sin(ang3)) );
+	
+	ang3 += PI/2;
+
+    proyectil.push_back( Bala(TanqueX+cos(ang3)*90, TanqueY+sin(ang3)*90, 15*cos(ang3), 15*sin(ang3)) );//la bala sale desde la base del arma
 }
 
 void Tanque::Dibujar()
@@ -220,7 +233,23 @@ void Tanque::Dibujar()
 	glPushMatrix();
 	glTranslated(TanqueX,TanqueY,0);
 	glRotated(TanqueAng,0,0,1);  
+	
+	/*fx->Dibujar();*/
+
 	DibujarTanque();
+	glPopMatrix();
+
+	glPushMatrix();
+		//Dibujamos los proyectiles
+	  list<Bala>::iterator p=proyectil.begin();
+	  glColor3f(0.6f,0.2f,0.0f);
+	  glPointSize(10.0*Escala);
+	  glBegin(GL_POINTS);
+	  while( p != proyectil.end() ) {
+		p->Draw();
+		p++;
+	  }
+	  glEnd();
 	glPopMatrix();
 }
 
@@ -231,6 +260,12 @@ void Tanque::Mover(int dt)
 	switch(estadoActual)
 	{
 		case TanqueFSM::Estados::Mover:
+
+			/*if(!fx->GetActivo()) 
+			{
+				fx->ToggleActivo();
+			}*/
+
 			if(contadorPasosFSM > 0)
 			{
 				//Moverse		
@@ -277,18 +312,35 @@ void Tanque::Mover(int dt)
 				CambiarEstado();
 			}
 			break;
-		case TanqueFSM::Estados::Apuntar:
+		case TanqueFSM::Estados::Apuntar:	
+			/*if(fx->GetActivo()) 
+			{
+				fx->ToggleActivo();
+			}*/
 			if(contadorAnguloApuntarFSM > 0)
 			{
-				//Apuntar
-				ArmaAng+=2;				
+				if(direccionApuntar > 0)
+				{
+					ArmaAng +=5;				
+				}
+				else if(direccionApuntar < 0)
+				{
+					ArmaAng -= 5;
+				}							
+
+				contadorAnguloApuntarFSM-=5;
 				
-				//ArmaAng-=2;				
-				contadorAnguloApuntarFSM--;
+				if(contadorIntervaloDisparo <= 0)
+				{
+					contadorIntervaloDisparo = 5;
+					contadorDisparosFSM = 1;
+					Disparar();	
+				}
+				contadorIntervaloDisparo--;
 			}
 			else
 			{
-				estadoActual = TanqueFSM::Estados::Disparar;
+				CambiarEstado();					
 			}
 			break;
 		case TanqueFSM::Estados::Disparar:
@@ -299,11 +351,14 @@ void Tanque::Mover(int dt)
 			}
 			else
 			{	
-				contadorDisparosFSM = rand()%6+3;
-				CambiarEstado();			
+				CambiarEstado();
 			}
 			break;
 		case TanqueFSM::Estados::Parar:
+			/*if(fx->GetActivo()) 
+			{
+				fx->ToggleActivo();
+			}*/
 			if(contadorPasosFSM > 0)
 			{
 				contadorPasosFSM--;
@@ -341,14 +396,8 @@ void Tanque::Mover(int dt)
 		direccionPaso = -direccionPaso;
 	}
 
-	//Si detecta a el avion dentro del rango visual
-	if(CalcularAlcance())
-	{
-		estadoActual = TanqueFSM::Estados::Apuntar;
-		contadorAnguloApuntarFSM = 0; //Calcular el angulo con respecto al avion
-	}
+	
 }
-
 void Tanque::CambiarEstado()
 {
 	//Si es menor a 0 se elije una nuevo estado
@@ -356,8 +405,8 @@ void Tanque::CambiarEstado()
 	{
 		direccionAngulo = rand()%2 == 0 ? 1:-1;
 		direccionPaso = rand()%2 == 0 ? 1:-1;
-		contadorPasosFSM = rand()% 240 + 120;
-		contadorAnguloFSM = rand()% 60;
+		contadorPasosFSM = rand()% 50 + 50;
+		contadorAnguloFSM = rand()% 30;
 		velocidadTanque =  rand()%10 + 3;
 		switch(rand()% 2)
 		{
@@ -366,14 +415,36 @@ void Tanque::CambiarEstado()
 				contadorPasosFSM = contadorPasosFSM / 2;
 				break;
 			case 0:
-				estadoActual =  TanqueFSM::Estados::Mover;		
-				contadorPasosFSM *= 2;
+				estadoActual =  TanqueFSM::Estados::Mover;						
 				break;
 		}		
 	}
 }
 
-bool Tanque::CalcularAlcance()
+bool Tanque::CalcularAlcance(float target_x,float target_y)
 {
+	float ang = Helper::CheckVisibility(TanqueX,TanqueY,target_x,target_y,radioAtaque);
+	if(ang != 0)
+	{
+		float current_ang =(TanqueAng+ArmaAng)*PI/180.0;
+
+		float total = fabs(ang+current_ang);
+
+		if(ang > current_ang)
+		{
+			direccionApuntar = -1; 
+		}
+		else if(ang < current_ang)
+		{
+			direccionApuntar = +1;
+		}
+		else
+		{
+			direccionApuntar = 0;
+		}
+
+		contadorAnguloApuntarFSM = total; //Calcular el angulo con respecto al avion
+		return true;
+	}
 	return false;
 }

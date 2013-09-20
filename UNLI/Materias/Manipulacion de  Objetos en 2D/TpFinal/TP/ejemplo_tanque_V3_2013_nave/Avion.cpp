@@ -195,7 +195,7 @@ void Avion::DibujarCuerpo() {
   glEnd();
 
   glColor3f(0.9f,0.9f,0.9f);
-  glPointSize(2.0);
+  glPointSize(2.0*Escala);
   glBegin(GL_POINTS);
 	glVertex2d(5.0,20.0 + lightY);
 	glVertex2d(0.0,21.0 + lightY);
@@ -229,7 +229,7 @@ void Avion::DibujarMetralla()
 	glEnd();
 
 	glColor3f(0.0f,0.0f,0.0f);
-	glPointSize(2.5);
+	glPointSize(2.5*Escala);
 	glBegin(GL_POINTS);
 		glVertex2d(2.5,36.0);
 	glEnd();
@@ -332,7 +332,7 @@ void Avion::DibujarAvion() {
   glPushMatrix();
   glTranslated(0,0,zCABINA);
   glColor3f(0.0f,0.0f,0.0f);
-  glPointSize(5.0);
+  glPointSize(5.0*Escala);
   glBegin(GL_POINTS);
   glVertex2d(0.0,0.0);
   glEnd();

@@ -12,6 +12,8 @@
 #include "Teclado.h"
 #include "Helper.h"
 #include "ManagerTexture.h"
+#include "EfectoParticulas.h"
+
 
 using namespace std;
 
@@ -51,6 +53,7 @@ private:
 			//Si esta fuera de la pantalla, elimino la bala
 			return ( x > (wm)/2 || x < (-wm)/2 || y > (hm)/2 || y < (-hm)/2 );
 		  }
+
 		  void Draw() {
 			glVertex2d(x,y);
 		  }
@@ -68,14 +71,20 @@ private:
 
 	float Tanque_Escala;
 	int Energia;
-	
+
+	float radioAtaque;
+
 	int direccionAngulo,
 		direccionPaso,
+		direccionApuntar,
 		contadorPasosFSM,
 		contadorAnguloFSM,
 		contadorDisparosFSM,
+		contadorIntervaloDisparo,
 		contadorAnguloApuntarFSM,
 		velocidadTanque;
+
+	EfectoParticulas* fx;
 
 	list<Bala> proyectil;
 	ManagerTexture* managerText;
@@ -91,11 +100,11 @@ private:
 	void DibujarFaro(void);
 	void Disparar(void);
 	void CambiarEstado(void);
-	bool CalcularAlcance(void);
+	bool CalcularAlcance(float target_x,float target_y);
 public:
 	void Dibujar();
 	void Mover(int dt);
-	void Update(int dt);
+	void Update(int dt,float target_x,float target_y);
 	Tanque(double x,double y,ManagerTexture& manager);
 	~Tanque(void);
 };

@@ -1,5 +1,4 @@
-#include <cstdlib>
-#include <cmath>
+
 #include "Particula.h"
 
 void Particula::Inicializar(float pX, float pY, float Velocidad, float r, float g, float b, int amplitud, int direccion, int vida)

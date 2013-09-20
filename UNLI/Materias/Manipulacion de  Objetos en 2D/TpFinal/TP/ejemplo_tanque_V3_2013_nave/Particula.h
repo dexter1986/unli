@@ -1,3 +1,11 @@
+#ifndef PARTICULA_H
+#define PARTICULA_H
+
+#include <cstdlib>
+#include <cmath>
+
+using namespace std;
+
 // Clase que representa una particula del efecto de particulas.
 // Esta disenada para ser usada por la clase EfectoParticulas
 class Particula
@@ -34,3 +42,5 @@ class Particula
 		// Inicializa la particula cuando es recien lanzada
 		void Inicializar(float pX, float pY, float Velocidad, float r, float g, float b, int amplitud, int direccion, int vida);
 };
+
+#endif
