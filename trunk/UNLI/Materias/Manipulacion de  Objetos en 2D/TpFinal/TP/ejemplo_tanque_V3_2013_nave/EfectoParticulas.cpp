@@ -1,6 +1,5 @@
-#include <GL/glut.h>
 #include "EfectoParticulas.h"
-#include "Particula.h"
+
 
 EfectoParticulas::EfectoParticulas(float x, float y,float z, float _aceleracionY, float _aceleracionX,
 	int _tamano, int _cantidad, int _vida, float _velocidad,

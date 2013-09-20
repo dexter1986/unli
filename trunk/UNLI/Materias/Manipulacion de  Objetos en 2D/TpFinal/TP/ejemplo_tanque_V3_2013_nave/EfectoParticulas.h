@@ -1,5 +1,17 @@
-class Particula;
-extern float Escala;
+#ifndef FX_H
+#define FX_H
+
+#include <cmath>
+#include <sstream>
+#include <iostream>
+#include <fstream>
+#include <list>
+
+#include <GL\glut.h>
+#include "Particula.h"
+#include "Helper.h"
+
+using namespace std;
 
 // Clase que representa un efecto de particulas
 // Con el que se puede simular de forma simple efectos de humo, fuego, chispas, etc
@@ -131,3 +143,5 @@ class EfectoParticulas
 		// Si el efecto esta activo actualmente
 		bool activo;
 };
+
+#endif

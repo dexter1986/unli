@@ -4,7 +4,7 @@
 #include <sstream>
 #include <iostream>
 #include <fstream>
-#include <cstdlib> // exit
+#include <cstdlib> 
 #include <cmath>
 
 using namespace std;
@@ -60,6 +60,26 @@ public:
 	  gluBuild2DMipmaps(GL_TEXTURE_2D, 4, wt, ht,  GL_RGBA, GL_UNSIGNED_BYTE, imga);
 	  delete[] imga;
 	  return true;
+	}
+
+	//Si el objetivo esta en alcance retorna el angulo de separacion en radianes
+	float static CheckVisibility(float posicion_x,float posicion_y,float target_x,float target_y,float max_distancia)
+	{
+		//Calcular distancia
+		float d_x = target_x - posicion_x;
+		float d_y = target_y - posicion_y;
+		float d = sqrtf(powf(d_x,2)+powf(d_y,2));
+		
+		if(d < max_distancia)
+		{
+			float phi= atan((target_y - posicion_y)/(target_y - posicion_x));
+			if(target_x-posicion_x<0)
+			{
+			   phi = phi + PI;
+			}
+			return phi;
+		}
+		return 0;
 	}
 };
 
