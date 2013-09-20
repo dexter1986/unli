@@ -11,8 +11,10 @@ using namespace std;
 
 const double PI=4*atan(1.0);
 const int wm=10000, hm=10000;
+extern float Escala;
 class Helper
 {
+private:
 public:
 
 	void static print_text(string cadena, int x, int y, int espacio=10) {

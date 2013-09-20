@@ -28,6 +28,8 @@ public:
 	static void KeyPressed_cb(unsigned char key,int x,int y);
 	static void KeyRelease_cb(unsigned char key, int x, int y);
 	static void Special_cb(int key,int xm,int ym);
+
+	bool IsKeyPressed(char key);
 	
 	bool Disparar( );
 	bool Adelante( );

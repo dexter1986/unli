@@ -1,4 +1,5 @@
 class Particula;
+extern float Escala;
 
 // Clase que representa un efecto de particulas
 // Con el que se puede simular de forma simple efectos de humo, fuego, chispas, etc
@@ -8,7 +9,7 @@ class EfectoParticulas
 		
 		// Contructor del efecto de particulas.
 		// Se le deben especificar las propiedades basicas del efecto
-		EfectoParticulas(float x, float y,float _aceleracionY = 0.0f, 
+		EfectoParticulas(float x, float y,float z,float _aceleracionY = 0.0f, float _aceleracionX = 0.0f,
 		int _tamano = 4, int _cantidad = 150, int _vida = 20, float _velocidad = 2.0f,
 		int _amplitud = 90, int _direccion = 45);
 		
@@ -87,9 +88,13 @@ class EfectoParticulas
 		
 		// Posicion Y del efecto
 		float posicionY;
+
+		float posicionZ;
 		
 		// Aceleracion en el eje Y
 		float aceleracionY;
+
+		float aceleracionX;
 		
 		// Tamano de las particulas
 		int tamano;
