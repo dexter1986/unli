@@ -69,6 +69,11 @@ bool Teclado::DerechaAux( ) {
 	return teclado[ mapa[6] ];
 }
 
+bool Teclado::IsKeyPressed(char key)
+{
+	return Teclado::teclado[key];
+}
+
 bool Teclado::Salir( ) {
 	return salir;
 }

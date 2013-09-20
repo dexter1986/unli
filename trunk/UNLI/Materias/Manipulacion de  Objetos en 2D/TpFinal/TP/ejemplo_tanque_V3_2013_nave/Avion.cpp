@@ -8,13 +8,12 @@ Avion::Avion(int width,int height,ManagerTexture& manager)
 
 	isReady = false;
 
-	zAla=0.2;
-	zAVION=0.1;
-	zAVION_CUERPO=0.3;
-	zCABINA=0.4;
-	zMETRALLA=0.15;
-	zPARED=0.0;
-
+	zAla=0.03;
+	zAVION=0.02;
+	zAVION_CUERPO=0.01;
+	zCABINA=0.04;
+	zMETRALLA=0.015;
+	
 	AvionX=400;
 	AvionY=300; 
 	AvionAng=0; 
@@ -37,7 +36,7 @@ Avion::Avion(int width,int height,ManagerTexture& manager)
 
 	managerText = &manager;
 
-	fx = new EfectoParticulas(20, 0, 0.0f, 8, 500, 100, 1.0f, 20, 0);
+	fx = new EfectoParticulas(0,0,0.001,0.0f,0.0f,4, 150, 50, 0.0f, 45, 0);
 	fx->SetColor(1,1,1);
 }
 
@@ -45,8 +44,8 @@ void Avion::Mover(int dt,Teclado& teclado)
 {
 	  if(isFired)
 	  {
-		incyMetralla+=28;
-		if(incyMetralla < 0 || incyMetralla > height*2)
+		incyMetralla+=20;
+		if(incyMetralla < 0 || incyMetralla > 1000)
 			isFired = false;
 	  }
 
@@ -67,8 +66,8 @@ void Avion::Mover(int dt,Teclado& teclado)
 		  // double sin(double ang); // Calcula el seno de ang medido en radianes
 		  if(teclado.Atras()) //Turbo
 		  {
-			  AvionX-=15*sin(ang);
-			  AvionY+=15*cos(ang);
+			  AvionX-=12*sin(ang);
+			  AvionY+=12*cos(ang);
 			  lightY +=5;
 			  isTurbo = true;
 		  }
@@ -111,8 +110,7 @@ void Avion::Mover(int dt,Teclado& teclado)
 		if(!fx->GetActivo()) 
 		{
 			fx->ToggleActivo();
-		}
-		fx->Actualizar();			
+		}		
 	  }
 	  else
 	  {
@@ -121,6 +119,9 @@ void Avion::Mover(int dt,Teclado& teclado)
 			fx->ToggleActivo();
 		}
 	  }
+
+	  fx->Actualizar();	
+	  fx->SetPosicion(AvionX,AvionY);	  	  
 }
 
 void Avion::DibujaTexto()
@@ -160,6 +161,9 @@ void Avion::DibujaTexto()
 
 void Avion::Dibujar()
 {
+	
+	fx->Dibujar();
+  
 	DibujarAvion();
 	DibujaTexto();
 }
@@ -237,17 +241,7 @@ void Avion::DibujarMetralla()
 }
 
 void Avion::DibujarAvion() {
-
 	
-  if(isTurbo)
-	{
-		
-		fx->Dibujar();
-	}
-
-  fx->SetPosicion(AvionX,AvionY);
-  fx->SetDireccion(AvionAng);
-
   glPushMatrix();// inicio push1
 
   if(isFired)
@@ -274,9 +268,11 @@ void Avion::DibujarAvion() {
 
   // Posiciona y rota el Avion en el modelo
   glTranslated(AvionX,AvionY,zAVION); 
-
+  
   glRotated(AvionAng,0,0,1);
-   
+  
+ 
+
   if(!isFired)  
   {
 	  //Metralla

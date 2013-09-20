@@ -20,6 +20,8 @@
 
 using namespace std;
 
+float Escala;
+
 //------------------------------------------------------------
 // variables globales
 int
@@ -41,7 +43,8 @@ bool cl_info=true; // informa por la linea de comandos
 
 Teclado teclado('f', 'w', 's', ' ', ' ', 'a', 'd'); // para manejar la entrada por teclado
 
-float escala=1,escala0, // escala de los objetos window/modelo pixeles/unidad. Inicialmente es 1
+float escala1=0.67,
+	  escala0=0.08, // escala de los objetos window/modelo pixeles/unidad. Inicialmente es 1
 	  eye[]={0,0,1}, target[]={0,0,0}, up[]={0,1,0}, // camara
 	  znear=.001, zfar=10; //clipping planes cercano y alejado de la camara
 
@@ -111,7 +114,7 @@ void DibujarPared() {
 
   glPopMatrix();  
 
-  glLineWidth(5.0);
+  glLineWidth(5.0*Escala);
   glBegin(GL_LINES);
   glVertex2i(325,400); glVertex2i(325,200);
   glVertex2i(325,200); glVertex2i(475,200);
@@ -162,8 +165,13 @@ void DibujarObjetos()
 
 // arma un un nuevo buffer (back) y reemplaza el framebuffer
 void Display_cb() {
+
+  glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+ 
   // arma el back-buffer
-  glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);// rellena con color de fondo
+  glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+  
+  // rellena con color de fondo
   glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 
   glPushMatrix();
@@ -217,7 +225,7 @@ void regen() {
   glLoadIdentity();
 
   // aplica la escala que se setea con el mouse
-  double w0=(double)w/2/escala,h0=(double)h/2/escala; // semiancho y semialto en el target
+  double w0=(double)w/2/Escala,h0=(double)h/2/Escala; // semiancho y semialto en el target
 
   // proyeccion ortogonal
   glOrtho(-w0,w0,-h0,h0,znear,zfar);
@@ -239,14 +247,24 @@ void Idle_cb()
   
   if(dt > 30) 
   {
-	  avion.Mover(dt,teclado);
-	  
-	  ActualizaObjetos(dt);
-
-	  if(teclado.Salir())
+	  if(teclado.Salir()) 
 	  {
 		  exit(EXIT_SUCCESS);
 	  }
+
+	  if(teclado.IsKeyPressed('z') ||teclado.IsKeyPressed('Z'))
+	  {
+		  Escala = escala1;
+	  }
+
+	  if(teclado.IsKeyPressed('x') ||teclado.IsKeyPressed('X'))
+	  {
+		  Escala = escala0;
+	  }
+
+	  avion.Mover(dt,teclado);
+	  
+	  ActualizaObjetos(dt);
 
 	  lt = glutGet(GLUT_ELAPSED_TIME);	
 
@@ -260,6 +278,7 @@ void Idle_cb()
     regen();
   }
 }
+
 
 //------------------------------------------------------------
 // Maneja cambios de ancho y alto de la ventana
@@ -280,48 +299,18 @@ void Special_cb(int key,int xm=0,int ym=0) {
     exit(EXIT_SUCCESS);
 }
 
-// permite hacer zoom manual
-void Motion_cb(int xm, int ym){ // drag
-  if (boton==GLUT_LEFT_BUTTON){
-    if (modifiers==GLUT_ACTIVE_SHIFT){ // cambio de escala
-      escala=escala0*exp((yclick-ym)/100.0);
-      regen();
-    }
-  }
-}
-
-// Clicks del mouse
-// GLUT LEFT BUTTON, GLUT MIDDLE BUTTON, or GLUT RIGHT BUTTON
-// The state parameter is either GLUT UP or GLUT DOWN
-// glutGetModifiers may be called to determine the state of modifier keys
-void Mouse_cb(int button, int state, int x, int y){
-  if (button==GLUT_LEFT_BUTTON){
-    if (state==GLUT_DOWN) {
-      xclick=x; yclick=y;
-      boton=button;
-      get_modifiers();
-      glutMotionFunc(Motion_cb);
-      if (modifiers==GLUT_ACTIVE_SHIFT) escala0=escala; // escala      
-    }
-    else if (state==GLUT_UP){
-      boton=-1;
-      glutMotionFunc(NULL);
-    }
-  }
-}
-
 //------------------------------------------------------------
 void inicializa() {
   // GLUT
   glutInitDisplayMode(GLUT_RGBA|GLUT_ALPHA|GLUT_DOUBLE|GLUT_DEPTH);// pide color RGB y double buffering
-  glutInitWindowSize(w,h); glutInitWindowPosition(10,10);
+  glutInitWindowSize(w,h); 
+  glutInitWindowPosition(10,10);
   glutCreateWindow("TP Final"); // crea el main window
 
   // declara los callbacks, los que (aun) no se usan (aun) no se declaran
   glutDisplayFunc(Display_cb);
   glutReshapeFunc(Reshape_cb); 
-  glutSpecialFunc(Special_cb);
-  glutMouseFunc(Mouse_cb); // botones picados  
+  glutSpecialFunc(Special_cb);   
   glutIdleFunc(Idle_cb);  //Idle
 
   teclado.Iniciar();
@@ -336,7 +325,8 @@ void inicializa() {
 
   glEnable(GL_NORMALIZE); // para que el scaling no moleste
   glDisable(GL_AUTO_NORMAL); // para nurbs??
-  glEnable(GL_POLYGON_OFFSET_FILL); glPolygonOffset (1,1); // coplanaridad
+  glEnable(GL_POLYGON_OFFSET_FILL); 
+  glPolygonOffset (1,1); // coplanaridad
   glEnable(GL_POINT_SMOOTH); glEnable(GL_LINE_SMOOTH); glEnable(GL_POLYGON_SMOOTH);
 
   glHint(GL_POINT_SMOOTH_HINT,GL_NICEST);
@@ -353,10 +343,13 @@ void inicializa() {
   glClearColor(0.01f,0.01f,0.01f,1.f);
   
    // direccion de los poligonos
-  glFrontFace(GL_CCW); glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);  
+  glFrontFace(GL_CCW); 
+  glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);  
   glCullFace(GL_BACK); // se habilita por objeto (cerrado o abierto)
   
   managertext.LoadTexture();
+
+  Escala = escala1;
 
   // las operaciones subsiguientes se aplican a la matriz de modelado GL_MODELVIEW
   regen();

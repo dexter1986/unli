@@ -2,14 +2,15 @@
 #include "EfectoParticulas.h"
 #include "Particula.h"
 
-EfectoParticulas::EfectoParticulas(float x, float y, float _aceleracionY, 
+EfectoParticulas::EfectoParticulas(float x, float y,float z, float _aceleracionY, float _aceleracionX,
 	int _tamano, int _cantidad, int _vida, float _velocidad,
 	int _amplitud, int _direccion):
-		posicionX(x), posicionY(y), aceleracionY(_aceleracionY), tamano(_tamano),
+		posicionX(x), posicionY(y), posicionZ(z), aceleracionY(_aceleracionY), tamano(_tamano),
 		cantidad(_cantidad), vida(_vida), velocidad(_velocidad), amplitud(_amplitud),
-		direccion(_direccion)
+		direccion(_direccion),aceleracionX(_aceleracionX)
 
-{
+{	
+
 	dt = 1.0f;
 	r = 0.6f;
 	g = 0.2f;
@@ -36,14 +37,11 @@ void EfectoParticulas::Actualizar()
 		particulas[i].red   = r;  //se asignan los colores de la particula que se dibujara luego
 		particulas[i].green = g;
 		particulas[i].blue  = b;	
-
-		if(particulas[i].life > 10)
-		{
-			particulas[i].x    += particulas[i].vX * dt; //la particula avanza
-			particulas[i].y    += particulas[i].vY * dt;		
-			particulas[i].vX   += 1; //aceleracion horizontal cero
-			particulas[i].vY   -= aceleracionY; //aceleracion vertical configurable		
-		}
+		
+		particulas[i].x    += particulas[i].vX * dt; //la particula avanza
+		particulas[i].y    += particulas[i].vY * dt;		
+		particulas[i].vX   += aceleracionX; //aceleracion horizontal cero
+		particulas[i].vY   -= aceleracionY; //aceleracion vertical configurable				
 		
 		particulas[i].life -= 1; //decrementa la vida =>la particula se extingue, al decrementarse el alpha
 		//cout << "particles[i].life: " << particles[i].life << endl;
@@ -52,22 +50,31 @@ void EfectoParticulas::Actualizar()
 
 void EfectoParticulas::Dibujar()
 {
-	// dibujamos el origen del efecto de particulas
-	glPointSize(tamano/2);
-	glBegin(GL_POINTS);
-	glVertex2f(posicionX,posicionY);
-	glEnd();
-	
+	glPushMatrix();
+	//// dibujamos el origen del efecto de particulas
+	//glPointSize(tamano/2);
+	//glBegin(GL_POINTS);
+	//glVertex2f(posicionX,posicionY);
+	//glEnd();
+	//
 	// dibujamos las particulas
+
+	glTranslated(0,0,posicionZ);
+
+	glPointSize(tamano*Escala);
+	glBegin(GL_POINTS);
 	for(int i=0; i<cantidad ; i++)
 	{	
-		glColor4f(particulas[i].red, particulas[i].green, particulas[i].blue, (float(particulas[i].life)/particulas[i].life_initial));
-		
-		glPointSize(tamano);
-		glBegin(GL_POINTS);
+		glColor4f(particulas[i].red, particulas[i].green, particulas[i].blue, (float(particulas[i].life)/particulas[i].life_initial));				
 		glVertex2f(particulas[i].x, particulas[i].y);
-		glEnd();
+		glVertex2f(particulas[i].x+2, particulas[i].y+2);
+		glVertex2f(particulas[i].x-2, particulas[i].y-2);
+		glVertex2f(particulas[i].x+2, particulas[i].y-2);
+		glVertex2f(particulas[i].x-2, particulas[i].y+2);
 	}
+	glEnd();
+
+	glPopMatrix();
 }
 
 void EfectoParticulas::ToggleActivo()
