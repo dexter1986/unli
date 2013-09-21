@@ -13,12 +13,24 @@
 
 using namespace std;
 
+namespace EfectoParticulasConfig
+{
+	enum EfectoParticulasTypeFX
+	{
+		Propulsion,
+		HuellaVehiculo,
+		Incendio
+	};
+}
+
 // Clase que representa un efecto de particulas
 // Con el que se puede simular de forma simple efectos de humo, fuego, chispas, etc
 class EfectoParticulas
 {
 	public:
 		
+		EfectoParticulasConfig::EfectoParticulasTypeFX tipoEfecto;
+
 		// Contructor del efecto de particulas.
 		// Se le deben especificar las propiedades basicas del efecto
 		EfectoParticulas(float x, float y,float z,float _aceleracionY = 0.0f, float _aceleracionX = 0.0f,

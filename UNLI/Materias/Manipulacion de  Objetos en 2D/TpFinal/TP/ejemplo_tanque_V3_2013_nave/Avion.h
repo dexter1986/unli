@@ -53,6 +53,8 @@ private:
 		*/
 		EfectoParticulas* fx;
 
+		EfectoParticulas* fx2;
+
 	double lpos[4];
 	int width,
 		height;

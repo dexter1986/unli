@@ -85,6 +85,7 @@ private:
 		velocidadTanque;
 
 	EfectoParticulas* fx;
+	EfectoParticulas* fx2;
 
 	list<Bala> proyectil;
 	ManagerTexture* managerText;
