@@ -19,6 +19,8 @@ EfectoParticulas::EfectoParticulas(float x, float y,float z, float _aceleracionY
 	
 	particulas = new Particula[cantidad];
 	
+	tipoEfecto = EfectoParticulasConfig::EfectoParticulasTypeFX::Propulsion;
+
 	for(int i=0; i < cantidad ; ++i)
 		particulas[i].Inicializar(posicionX, posicionY, velocidad, r, g, b, amplitud, direccion, vida);
 }
@@ -59,17 +61,31 @@ void EfectoParticulas::Dibujar()
 	// dibujamos las particulas
 
 	glTranslated(0,0,posicionZ);
-
-	glPointSize(tamano*Escala);
+	int tam = tamano*Escala;
+	glPointSize(tam);
 	glBegin(GL_POINTS);
 	for(int i=0; i<cantidad ; i++)
 	{	
 		glColor4f(particulas[i].red, particulas[i].green, particulas[i].blue, (float(particulas[i].life)/particulas[i].life_initial));				
-		glVertex2f(particulas[i].x, particulas[i].y);
-		glVertex2f(particulas[i].x+2, particulas[i].y+2);
-		glVertex2f(particulas[i].x-2, particulas[i].y-2);
-		glVertex2f(particulas[i].x+2, particulas[i].y-2);
-		glVertex2f(particulas[i].x-2, particulas[i].y+2);
+		
+		switch(tipoEfecto)
+		{
+			case EfectoParticulasConfig::EfectoParticulasTypeFX::Propulsion:
+				glVertex2f(particulas[i].x, particulas[i].y);
+				glVertex2f(particulas[i].x+2, particulas[i].y+2);
+				glVertex2f(particulas[i].x-2, particulas[i].y-2);
+				glVertex2f(particulas[i].x+2, particulas[i].y-2);
+				glVertex2f(particulas[i].x-2, particulas[i].y+2);
+				break;
+			case EfectoParticulasConfig::EfectoParticulasTypeFX::HuellaVehiculo:
+				glVertex2f(particulas[i].x+2, particulas[i].y+2);										
+				glVertex2f(particulas[i].x-2, particulas[i].y-2);
+				glVertex2f(particulas[i].x, particulas[i].y);
+				
+				break;
+			case EfectoParticulasConfig::EfectoParticulasTypeFX::Incendio:
+				break;
+		}
 	}
 	glEnd();
 

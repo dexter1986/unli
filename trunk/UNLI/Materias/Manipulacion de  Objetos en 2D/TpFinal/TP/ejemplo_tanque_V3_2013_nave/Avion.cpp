@@ -8,11 +8,11 @@ Avion::Avion(int width,int height,ManagerTexture& manager)
 
 	isReady = false;
 
-	zAla=0.03;
-	zAVION=0.02;
-	zAVION_CUERPO=0.01;
-	zCABINA=0.04;
-	zMETRALLA=0.015;
+	zAla=0.95;
+	zAVION=0.04;
+	zAVION_CUERPO=0.94;
+	zCABINA=0.95;
+	zMETRALLA=0.9;
 	
 	AvionX=400;
 	AvionY=300; 
@@ -36,8 +36,12 @@ Avion::Avion(int width,int height,ManagerTexture& manager)
 
 	managerText = &manager;
 
-	fx = new EfectoParticulas(0,0,0.001,0.0f,0.0f,4, 150, 50, 0.0f, 45, 0);
+	fx = new EfectoParticulas(0,0,0.8,0.0f,0.0f,4, 20, 20, 0.0f, 45, 0);
+	fx2 = new EfectoParticulas(0,0,0.8,0.0f,0.0f,4, 20, 20, 0.0f, 45, 0);
 	fx->SetColor(1,1,1);
+	fx2->SetColor(1,1,1);
+	fx->tipoEfecto = EfectoParticulasConfig::EfectoParticulasTypeFX::Propulsion;
+	fx2->tipoEfecto = EfectoParticulasConfig::EfectoParticulasTypeFX::Propulsion;
 }
 
 void Avion::Mover(int dt,Teclado& teclado)
@@ -46,7 +50,16 @@ void Avion::Mover(int dt,Teclado& teclado)
 	  {
 		incyMetralla+=20;
 		if(incyMetralla < 0 || incyMetralla > 1000)
+		{
 			isFired = false;
+		}
+		if(!fx2->GetActivo()) 
+		{
+			fx2->ToggleActivo();
+		}
+
+		fx2->SetPosicion(incxMetralla,MetrallaY+incyMetralla);
+
 	  }
 
 	  lightY++;
@@ -97,6 +110,11 @@ void Avion::Mover(int dt,Teclado& teclado)
 
 	  if(!isFired && teclado.Disparar())
 	  {
+		  if(fx2->GetActivo()) 
+		  {
+			fx2->ToggleActivo();
+		  }
+
 		  isFired = true;		
 		  MetrallaX = AvionX;
 		  MetrallaY = AvionY;
@@ -119,9 +137,12 @@ void Avion::Mover(int dt,Teclado& teclado)
 			fx->ToggleActivo();
 		}
 	  }
-
-	  fx->Actualizar();	
-	  fx->SetPosicion(AvionX,AvionY);	  	  
+	  if(fx->GetActivo())
+	  {
+		fx->SetPosicion(AvionX,AvionY);				 
+	  }
+	  fx->Actualizar();
+	  fx2->Actualizar();
 }
 
 void Avion::DibujaTexto()
@@ -160,10 +181,9 @@ void Avion::DibujaTexto()
 }
 
 void Avion::Dibujar()
-{
-	
+{	
 	fx->Dibujar();
-  
+	fx2->Dibujar();
 	DibujarAvion();
 	DibujaTexto();
 }
@@ -264,14 +284,11 @@ void Avion::DibujarAvion() {
 
 	  glPopMatrix();
   }
- 
 
   // Posiciona y rota el Avion en el modelo
   glTranslated(AvionX,AvionY,zAVION); 
-  
   glRotated(AvionAng,0,0,1);
   
- 
 
   if(!isFired)  
   {
@@ -344,4 +361,5 @@ void Avion::DibujarAvion() {
 Avion::~Avion()
 {
 	delete fx;
+	delete fx2;
 }

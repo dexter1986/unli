@@ -72,7 +72,7 @@ public:
 		
 		if(d < max_distancia)
 		{
-			float phi= atan((target_y - posicion_y)/(target_y - posicion_x));
+			float phi= atan((target_y - posicion_y)/(target_x - posicion_x));
 			if(target_x-posicion_x<0)
 			{
 			   phi = phi + PI;

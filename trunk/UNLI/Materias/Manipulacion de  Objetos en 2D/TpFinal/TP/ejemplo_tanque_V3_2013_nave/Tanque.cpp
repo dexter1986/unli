@@ -23,8 +23,15 @@ Tanque::Tanque(double x,double y,ManagerTexture& manager)
 	contadorIntervaloDisparo = 0;
 	
 	estadoActual = TanqueFSM::Estados::Parar;	
-	fx = new EfectoParticulas(0,0,0.00,0.0f,0.0f,8, 350, 200, 0.0f, 15, 0);
-	//fx->SetColor(0,0,0);
+	
+	fx = new EfectoParticulas(TanqueX,TanqueY,0.1,0,0,10,25,80,0,0,0);
+	
+	fx2 = new EfectoParticulas(TanqueX,TanqueY,0.1,0,0,10,25,80,0,0,0);
+
+	fx->SetColor(0,0,0);
+	fx2->SetColor(0,0,0);
+	fx->tipoEfecto = EfectoParticulasConfig::EfectoParticulasTypeFX::HuellaVehiculo;
+	fx2->tipoEfecto = EfectoParticulasConfig::EfectoParticulasTypeFX::HuellaVehiculo;
 }
 
 void Tanque::Update(int dt,float target_x,float target_y)
@@ -47,9 +54,17 @@ void Tanque::Update(int dt,float target_x,float target_y)
 		estadoActual = TanqueFSM::Estados::Apuntar;
 		contadorPasosFSM = 0;
 	}
-
-	/* fx->Actualizar();	
-	 fx->SetPosicion(TanqueX,TanqueY);*/
+	
+	fx->Actualizar();	
+	fx2->Actualizar();
+	
+	if(fx->GetActivo())
+	{
+		double ang1=(TanqueAng)*PI/180.0;
+		//ang1 += PI/2;
+		 fx->SetPosicion(TanqueX+45*cosf(ang1)+65*sinf(ang1)*direccionPaso,TanqueY+45*sinf(ang1)-65*cosf(ang1)*direccionPaso);
+		 fx2->SetPosicion(TanqueX-45*cosf(ang1)+65*sinf(ang1)*direccionPaso,TanqueY-45*sinf(ang1)-65*cosf(ang1)*direccionPaso);
+	}
 }
 
 void Tanque::DibujarTanque() {
@@ -125,6 +140,9 @@ void Tanque::DibujarFaro() {
 
 // Dibuja el canion
 void Tanque::DibujarArma() {
+  glPushMatrix();
+  glTranslatef(0.0f,0.0f, 0.1f);
+  
   glColor3f(0.2f,0.45f,0.0f);
   
   glBegin(GL_QUADS);
@@ -133,6 +151,7 @@ void Tanque::DibujarArma() {
   glVertex2d(6.0,45.0);
   glVertex2d(-6.0,45.0);
   glEnd();
+  glPopMatrix();
 }
 
 // Dibuja la torre, que tiene radio 40
@@ -205,11 +224,8 @@ void Tanque::DibujarCuerpo() {
 
 Tanque::~Tanque(void)
 {
-	if(fx != 0)
-	{
-		delete fx;
-		fx = 0;
-	}
+	delete fx;	
+	delete fx2;	
 }
 
 void Tanque::Disparar()
@@ -229,16 +245,16 @@ void Tanque::Disparar()
 }
 
 void Tanque::Dibujar()
-{
-	glPushMatrix();
-	glTranslated(TanqueX,TanqueY,0);
-	glRotated(TanqueAng,0,0,1);  
+{	
 	
-	/*fx->Dibujar();*/
+	fx->Dibujar();	
+	fx2->Dibujar();		
 
+	glPushMatrix();
+	glTranslated(TanqueX,TanqueY,0.5);	
+	glRotated(TanqueAng,0,0,1);  
 	DibujarTanque();
 	glPopMatrix();
-
 	glPushMatrix();
 		//Dibujamos los proyectiles
 	  list<Bala>::iterator p=proyectil.begin();
@@ -261,10 +277,11 @@ void Tanque::Mover(int dt)
 	{
 		case TanqueFSM::Estados::Mover:
 
-			/*if(!fx->GetActivo()) 
+			if(!fx->GetActivo()) 
 			{
 				fx->ToggleActivo();
-			}*/
+				fx2->ToggleActivo();
+			}
 
 			if(contadorPasosFSM > 0)
 			{
@@ -313,10 +330,11 @@ void Tanque::Mover(int dt)
 			}
 			break;
 		case TanqueFSM::Estados::Apuntar:	
-			/*if(fx->GetActivo()) 
+			if(fx->GetActivo()) 
 			{
 				fx->ToggleActivo();
-			}*/
+				fx2->ToggleActivo();
+			}
 			if(contadorAnguloApuntarFSM > 0)
 			{
 				if(direccionApuntar > 0)
@@ -355,10 +373,11 @@ void Tanque::Mover(int dt)
 			}
 			break;
 		case TanqueFSM::Estados::Parar:
-			/*if(fx->GetActivo()) 
+			if(fx->GetActivo()) 
 			{
 				fx->ToggleActivo();
-			}*/
+				fx2->ToggleActivo();
+			}
 			if(contadorPasosFSM > 0)
 			{
 				contadorPasosFSM--;
@@ -398,6 +417,7 @@ void Tanque::Mover(int dt)
 
 	
 }
+
 void Tanque::CambiarEstado()
 {
 	//Si es menor a 0 se elije una nuevo estado

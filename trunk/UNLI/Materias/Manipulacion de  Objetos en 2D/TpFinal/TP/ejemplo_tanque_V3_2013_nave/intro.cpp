@@ -5,6 +5,7 @@
 #include <cmath> // atan sqrt fabs
 #include <fstream> // file io
 #include <list>
+#include <vector>
 #include <GL/glut.h>
 #include <iostream> // cout
 #include <sstream>
@@ -57,24 +58,24 @@ float escala1=0.67,
 
 void InicializaObjetos()
 {
-	/*
-	tanques.push_back(Tanque(2000,-2000,managertext));
-	tanques.push_back(Tanque(3000,3000,managertext));
-	tanques.push_back(Tanque(-4000,500,managertext));	
-	tanques.push_back(Tanque(-4000,4000,managertext));
+	
+	tanques.push_back(*(new Tanque(2000,-2000,managertext)));
+	tanques.push_back(*(new Tanque(3000,3000,managertext)));
+	tanques.push_back(*(new Tanque(-4000,500,managertext)));	
+	tanques.push_back(*(new Tanque(-4000,4000,managertext)));
 
-	tanques.push_back(Tanque(-4000,1000,managertext));
-	tanques.push_back(Tanque(4000,-4000,managertext));
-	tanques.push_back(Tanque(-1000,2000,managertext));
-	tanques.push_back(Tanque(-4000,-4000,managertext));
+	tanques.push_back(*(new Tanque(-4000,1000,managertext)));
+	tanques.push_back(*(new Tanque(4000,-4000,managertext)));
+	tanques.push_back(*(new Tanque(-1000,2000,managertext)));
+	tanques.push_back(*(new Tanque(-4000,-4000,managertext)));
 
-	tanques.push_back(Tanque(-1000,-1000,managertext));
-	tanques.push_back(Tanque(-2000,-2000,managertext));
-	tanques.push_back(Tanque(-3000,-3000,managertext));
-	tanques.push_back(Tanque(-3000,-1500,managertext));
-	*/
-
-	tanques.push_back(Tanque(1000,1000,managertext));
+	tanques.push_back(*(new Tanque(-1000,-1000,managertext)));
+	tanques.push_back(*(new Tanque(-2000,-2000,managertext)));
+	tanques.push_back(*(new Tanque(-3000,-3000,managertext)));
+	tanques.push_back(*(new Tanque(-3000,-1500,managertext)));
+	
+	
+	//tanques.push_back(*(new Tanque(1000,1000,managertext)));
 
 	//Inicializa el Random
 	srand(time(NULL));
