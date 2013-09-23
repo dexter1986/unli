@@ -34,6 +34,9 @@
     <ClInclude Include="..\Particula.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\CurvaBezier.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\intro.cpp">
@@ -58,6 +61,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Particula.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CurvaBezier.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

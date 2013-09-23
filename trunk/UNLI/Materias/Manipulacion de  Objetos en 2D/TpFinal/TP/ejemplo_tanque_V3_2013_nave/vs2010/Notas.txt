@@ -1,11 +1,12 @@
 
 - Agregar varios tanques que soporten AI (moverse solo) -> Listo
-- Agregar varios tanques que soporten AI (disparar si esta cerca) -> InProgress
-- Colision entre tanques (cambian de estado si ocurre)
-- Eliminar tanque o avion si recibe un impacto  
+- Agregar varios tanques que soporten AI (disparar si esta cerca) -> Listo
+- Colision entre tanques (cambian de estado si ocurre) 
+- Eliminar tanque o avion si recibe un impacto  (Colision)
 - Cuando el avion entra en turbo poner FX de particulas simulando una estela -> Listo
-- FX cuando algun objeto recibe un impacto
+- FX cuando algun objeto recibe un impacto  
 - Implementar bezier en el disparo de los misiles del avion
 - Agregar informacion de estado del avion de los tanques (Energia)
 - Agregar Detalles como nubes y agua.
 - Agregar Radar con la visualizacion de los tanques
+- FX propulsion de los misiles -> inprogress

@@ -42,6 +42,9 @@ const double
 float lpos[]={2,1,5,1};
 bool cl_info=true; // informa por la linea de comandos
 
+bool isModoZoom = false;
+
+
 Teclado teclado('f', 'w', 's', ' ', ' ', 'a', 'd'); // para manejar la entrada por teclado
 
 float escala1=0.67,
@@ -258,11 +261,21 @@ void Idle_cb()
 	  if(teclado.IsKeyPressed('z') ||teclado.IsKeyPressed('Z'))
 	  {
 		  Escala = escala1;
+		  isModoZoom = false;
 	  }
 
 	  if(teclado.IsKeyPressed('x') ||teclado.IsKeyPressed('X'))
 	  {
 		  Escala = escala0;
+
+		  eye[0]=0;
+		  eye[1]=0;
+		  eye[2]=1;
+		  target[0]=0;
+		  target[1]=0;		  
+		  target[2]=0;
+
+		  isModoZoom = true;
 	  }
 
 	  avion.Mover(dt,teclado);
@@ -271,13 +284,15 @@ void Idle_cb()
 
 	  lt = glutGet(GLUT_ELAPSED_TIME);	
 
+	if(!isModoZoom)
+	{
 	  eye[0]=avion.AvionX;
 	  eye[1]=avion.AvionY;
       eye[2]=1;
       target[0]=avion.AvionX;
       target[1]=avion.AvionY;
       target[2]=0;
-
+	}
     regen();
   }
 }
