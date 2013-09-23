@@ -1,11 +1,13 @@
-#pragma once
+#ifndef CURVA_H
+#define CURVA_H
 
 #include <vector>
 #include <string>
 #include <cmath>
-
 #include <GL/glut.h>
-extern const double PI;
+#include "Helper.h"
+
+
 //Clase que represeta un color mediante el espacio de colores rgb
 class Color
 {
@@ -112,3 +114,4 @@ public:
 	//t es el parametro en el cual se evalua la curva con el algoritmo
 	void DibujarMetodoDeCasteljau(float t);
 };
+#endif

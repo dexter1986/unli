@@ -37,6 +37,8 @@ private:
 		MetrallaY,
 		incyMetralla,
 		incxMetralla,
+		velMetralla_x,
+		velMetralla_y,
 		isFired;
 		// Creamos el unico efecto de particulas que tendremos en este demo
 		/*
@@ -51,9 +53,7 @@ private:
 		amplitud del sistema (cutoff)
 		direccion (angle)
 		*/
-		EfectoParticulas* fx;
-
-		EfectoParticulas* fx2;
+		EfectoParticulas* fx[2];
 
 	double lpos[4];
 	int width,

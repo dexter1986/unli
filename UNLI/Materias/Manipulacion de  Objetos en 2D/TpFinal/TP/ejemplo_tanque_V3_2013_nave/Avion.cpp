@@ -26,6 +26,8 @@ Avion::Avion(int width,int height,ManagerTexture& manager)
 	MetrallaY = 0;
 	incyMetralla = 0;
 	incxMetralla = 0;
+	velMetralla_x = 0;
+	velMetralla_y = 0;
 	isFired = false;
 	isTurbo = false;
 	
@@ -36,30 +38,52 @@ Avion::Avion(int width,int height,ManagerTexture& manager)
 
 	managerText = &manager;
 
-	fx = new EfectoParticulas(0,0,0.8,0.0f,0.0f,4, 20, 20, 0.0f, 45, 0);
-	fx2 = new EfectoParticulas(0,0,0.8,0.0f,0.0f,4, 20, 20, 0.0f, 45, 0);
-	fx->SetColor(1,1,1);
-	fx2->SetColor(1,1,1);
-	fx->tipoEfecto = EfectoParticulasConfig::EfectoParticulasTypeFX::Propulsion;
-	fx2->tipoEfecto = EfectoParticulasConfig::EfectoParticulasTypeFX::Propulsion;
+	fx[0] = new EfectoParticulas(0,0,0.8,0.0f,0.0f,4, 20, 20, 0.0f, 45, 0);
+	fx[1] = new EfectoParticulas(0,0,0.8,0.0f,0.0f,4, 50,50, 0.0f, 100, 45);
+	fx[0]->SetColor(1,1,1);
+	fx[1]->SetColor(1,1,1);
+	fx[0]->tipoEfecto = EfectoParticulasConfig::EfectoParticulasTypeFX::Propulsion;
+	fx[1]->tipoEfecto = EfectoParticulasConfig::EfectoParticulasTypeFX::Propulsion;
 }
 
 void Avion::Mover(int dt,Teclado& teclado)
 {
+	  fx[0]->Actualizar();
+	  
+
 	  if(isFired)
 	  {
-		incyMetralla+=20;
-		if(incyMetralla < 0 || incyMetralla > 1000)
+		MetrallaX += velMetralla_x;
+		MetrallaY += velMetralla_y;
+		
+		incxMetralla += velMetralla_x;
+		incyMetralla += velMetralla_y;
+
+		if(abs(incyMetralla) > 1000 || abs(incxMetralla) > 1000)
 		{
 			isFired = false;
+			MetrallaX = 0;
+			MetrallaY = 0;
+			incyMetralla = 0;
+			incxMetralla = 0;
 		}
-		if(!fx2->GetActivo()) 
+
+		
+		fx[1]->SetPosicion(MetrallaX,MetrallaY+15);
+		fx[1]->Actualizar();
+		
+		fx[1]->SetPosicion(MetrallaX,MetrallaY-15);
+		fx[1]->Actualizar();
+
+		if(!fx[1]->GetActivo()) 
 		{
-			fx2->ToggleActivo();
+			fx[1]->ToggleActivo();
 		}
 
-		fx2->SetPosicion(incxMetralla,MetrallaY+incyMetralla);
-
+	  }
+	  else
+	  {
+		  fx[1]->Actualizar();
 	  }
 
 	  lightY++;
@@ -110,39 +134,44 @@ void Avion::Mover(int dt,Teclado& teclado)
 
 	  if(!isFired && teclado.Disparar())
 	  {
-		  if(fx2->GetActivo()) 
+		  if(fx[1]->GetActivo()) 
 		  {
-			fx2->ToggleActivo();
+			fx[1]->ToggleActivo();
 		  }
 
 		  isFired = true;		
-		  MetrallaX = AvionX;
-		  MetrallaY = AvionY;
-		  incxMetralla = -sin(AvionAng);
-		  incyMetralla = cos(AvionAng);			  
 		  AngMetralla = AvionAng;
+
+		  double ang3=(AngMetralla)*PI/180.0;
+		  ang3 += PI/2;
+
+		  MetrallaX = AvionX+cos(ang3)*20;
+		  MetrallaY = AvionY+sin(ang3)*20;
+		  		 
+		  velMetralla_x = 18*cos(ang3);
+		  velMetralla_y = 18*sin(ang3);
+		 
 	  }
 
 	  if(isTurbo)
 	  { 
-		if(!fx->GetActivo()) 
+		if(!fx[0]->GetActivo()) 
 		{
-			fx->ToggleActivo();
+			fx[0]->ToggleActivo();
 		}		
 	  }
 	  else
 	  {
-		if(fx->GetActivo()) 
+		if(fx[0]->GetActivo()) 
 		{
-			fx->ToggleActivo();
+			fx[0]->ToggleActivo();
 		}
 	  }
-	  if(fx->GetActivo())
+	  if(fx[0]->GetActivo())
 	  {
-		fx->SetPosicion(AvionX,AvionY);				 
+		fx[0]->SetPosicion(AvionX,AvionY);				 
 	  }
-	  fx->Actualizar();
-	  fx2->Actualizar();
+	 
 }
 
 void Avion::DibujaTexto()
@@ -182,8 +211,8 @@ void Avion::DibujaTexto()
 
 void Avion::Dibujar()
 {	
-	fx->Dibujar();
-	fx2->Dibujar();
+	fx[0]->Dibujar();
+	fx[1]->Dibujar();
 	DibujarAvion();
 	DibujaTexto();
 }
@@ -224,9 +253,9 @@ void Avion::DibujarCuerpo() {
 }
 
 void Avion::DibujarAla() {
-  glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D, managerText->texid[Manager::AVION]);  
   glColor3d(0.7,0.7,0.7);
+  glBindTexture(GL_TEXTURE_2D, managerText->texid[Manager::AVION]);  
+  glEnable(GL_TEXTURE_2D);  
   glBegin( GL_TRIANGLE_FAN );
   glTexCoord2f(0.0, 0.0); glVertex2d(35,10);
   glTexCoord2f(0.5, 0.5); glVertex2d(0.0,20.0); 
@@ -234,7 +263,6 @@ void Avion::DibujarAla() {
   glTexCoord2f(0.6, 1.0); glVertex2d(35,4);
   glTexCoord2f(1.0, 1.0); glVertex2d(50.0,0.0);
   glEnd();
-
    glDisable(GL_TEXTURE_2D);
 }
 
@@ -269,16 +297,16 @@ void Avion::DibujarAvion() {
 	  glPushMatrix();
 	  
 	  glTranslated(MetrallaX,MetrallaY,zAVION);
-	  glRotated(AngMetralla,0,0,1); 	  
+	  glRotated(AngMetralla,0,0,1); 	 
 
 	 //Metralla
 	  glPushMatrix();	  
-	  glTranslated(25+incxMetralla,-5+incyMetralla,zMETRALLA);
+	  glTranslated(-15,0,zMETRALLA);	  
 	  DibujarMetralla();
 	  glPopMatrix();
 
 	  glPushMatrix();  	  	   
-	  glTranslated(-35+incxMetralla,-5+incyMetralla,zMETRALLA);
+	  glTranslated(15,0,zMETRALLA);
 	  DibujarMetralla();
 	  glPopMatrix();
 
@@ -288,7 +316,6 @@ void Avion::DibujarAvion() {
   // Posiciona y rota el Avion en el modelo
   glTranslated(AvionX,AvionY,zAVION); 
   glRotated(AvionAng,0,0,1);
-  
 
   if(!isFired)  
   {
@@ -360,6 +387,6 @@ void Avion::DibujarAvion() {
 
 Avion::~Avion()
 {
-	delete fx;
-	delete fx2;
+	delete fx[0];	
+	delete fx[1];
 }

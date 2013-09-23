@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Avion.h" />
+    <ClInclude Include="..\CurvaBezier.h" />
     <ClInclude Include="..\EfectoParticulas.h" />
     <ClInclude Include="..\Helper.h" />
     <ClInclude Include="..\ManagerTexture.h" />
@@ -22,6 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Avion.cpp" />
+    <ClCompile Include="..\CurvaBezier.cpp" />
     <ClCompile Include="..\EfectoParticulas.cpp" />
     <ClCompile Include="..\intro.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
