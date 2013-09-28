@@ -1,0 +1,24 @@
+Programación de Videojuegos II
+
+Trabajo Práctico N° 2
+
+El objetivo del trabajo es crear un personaje que interactúe con un nivel o escenario.
+
+La idea es que se tome como base lo realizado en el Trabajo Práctico N°1 pero, si el alumno desea o cree conveniente, puede desarrollar un personaje nuevo para este trabajo basándose en los conocimientos adquiridos anteriormente.
+
+El genero del juego, es nuevamente libre (RPG, plataformas, carreras, etc). El nivel deberá ser implementado utilizando un tile map y el personaje deberá ser capaz de colisionar con el mismo.
+
+El tamaño del nivel deberá ser mayor al de la pantalla, haciendo necesario utilizar scrolling para que la vista siga al personaje a medida que se desplaza a través del mismo. La implementación de parallax scrolling no es obligatoria.
+
+Además, se deberá implementar al menos una de las siguientes características:
+
+    Que algunos tiles puedan ser destruidos por el personaje.
+    Que existan enemigos o items distribuidos en el nivel cuya posición inicial se indique en el tilemap (es decir se indique en cuál tile está posicionado)
+    Que exista uno o varios tiles no sólidos que al colisionar con el personaje principal desencadenen algún tipo de evento (se pase de nivel, aparezca un enemigo, desaparezca algún tile que actúe como puerta, etc.)
+    Tiles que al ser pisados por el personaje le produzcan daño.
+
+Los alumnos pueden consultar a la cátedra para proponer, como característica obligatoria para su trabajo, la implementación de alguna otra característica que no se encuentre mencionada en la lista anterior.
+
+Es válido agregar características adicionales al programa, por ejemplo, que exista un enemigo al cual el personaje pueda atacar, o existan varios niveles. Estas características podrán sumar puntos al trabajo dependiendo de su pertinencia y dificultad de implementación.
+
+En caso de que las consignas especificadas anteriormente no se correspondan con el personaje o género que el alumno eligió desarrollar en su trabajo (por ejemplo: un juego de peleas, en el cual no tiene mucho sentido diseñar un nivel con tilemaps, u otra situación similar) podrá consultar a la cátedra para pautar, entre ambas partes, un plan de trabajo acorde al tipo de trabajo que al alumno le interese realizar.
