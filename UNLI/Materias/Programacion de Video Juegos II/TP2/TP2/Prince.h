@@ -6,7 +6,8 @@
 class Prince :
 	public SpriteBase
 {
-private:	
+private:
+	static const int CLIM_VEL = 10;
 	enum Estado{
 		NORMAL,
 		TURN,		
@@ -20,6 +21,9 @@ private:
 		CRAW,
 		SNEAK,
 		CLIM,
+		CLIM_UP,
+		CLIM_DOWN,
+		SLIDE,		
 		SPRINT,
 		KICK,
 		THROW,
@@ -38,6 +42,8 @@ private:
 	};
 
 	float delayToBreak;
+	bool IsDisparoStart;
+	bool IsJumpStart;
 	bool DelayToBreak(bool reset=false,float value=0.1f);
 
 protected:			
@@ -47,6 +53,8 @@ protected:
 	void Saltar();	
 	bool ColisionaConSuelo();	
 	void Internal_Mover_y_Animar();
+	void DisparoArma1();
+	bool IsColisionPared();
 public:
 	Prince(void);
 	~Prince(void);		
