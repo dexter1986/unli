@@ -1,6 +1,6 @@
 #include "Prince.h"
 
-Prince::Prince(void):SpriteBase(30,"personaje.png")
+Prince::Prince(void):SpriteBase(30,"personaje.png")//,0.5,0.5)
 {
 	currentState = Estado::NORMAL;	
 	direccion = Direccion::RIGHT;
@@ -8,6 +8,8 @@ Prince::Prince(void):SpriteBase(30,"personaje.png")
 	delayToBreak = 0;
 	IsDisparoStart = false;
 	IsJumpStart = false;
+	IsTirarStart = false;
+	IsClim_TO_JUMP = false;
 }
 
 Prince::~Prince(void)
@@ -67,6 +69,9 @@ void Prince::InicializarAnimaciones()
 	animaciones[Estado::DUCK].SetLoop(false);
 	animaciones[Estado::DUCK].AddFrame(xo,yo,w,h,framelengh,0.0,-16.0,0.0,-16.0);
 
+	animaciones[Estado::TURN_DUCK].SetLoop(false);
+	animaciones[Estado::TURN_DUCK].AddFrame(xo,yo,w,h,0.2,0.0,-16.0,0.0,-16.0);
+
 	xo = 58;
 	yo = 298;
 	w = 31;
@@ -122,7 +127,43 @@ void Prince::InicializarAnimaciones()
 	{
 		animaciones[Estado::CLIM_DOWN].AddFrame(xo+w*i,yo,w,h,framelengh);
 	}
-	
+		
+	xo = 15;
+	yo = 157;
+	w = 50;
+	h = 31;
+	for(int i=0;i<6;i++)
+	{
+		animaciones[Estado::CRAW_AND_WALK].AddFrame(xo+w*i,yo,w,h,framelengh,0,-26.0f,20.0f,-26.0f);
+	}
+
+	animaciones[Estado::CRAW].SetLoop(false);
+	animaciones[Estado::CRAW].AddFrame(xo,yo,w,h,framelengh,0,-26.0f,20.0f,-26.0f);
+
+	xo = 147;
+	yo = 217;
+	w = 29;
+	h = 49;
+	for(int i=0;i<6;i++)
+	{
+		animaciones[Estado::SNEAK_AND_RUN].AddFrame(xo+w*i,yo,w,h,framelengh,0,-8.3f,0,-8.3f);
+	}	
+	animaciones[Estado::SNEAK].SetLoop(false);
+	animaciones[Estado::SNEAK].AddFrame(xo,yo,w,h,framelengh,0,-8.3f,0,-8.3f);
+	//Add Kick
+	//joytick.b when is Normal and Is near a door
+	//Add Throw
+	//joytick.b when is Normal (throw Stone)
+	xo = 13;
+	yo = 818;
+	w = 53;
+	h = 57;
+	for(int i=0;i<6;i++)
+	{
+		animaciones[Estado::THROW].AddFrame(xo+w*i,yo,w,h,framelengh,5.0f,0,22.0f);
+	}
+	animaciones[Estado::THROW].SetLoop(false);
+
 }
 
 void Prince::Internal_Mover_y_Animar()
@@ -135,39 +176,53 @@ void Prince::Internal_Mover_y_Animar()
 				CambiarEstado(Estado::NORMAL);				
 			}
 			break;
-		case NORMAL:
+		case TURN_DUCK:
+			if(IsAnimationEnded())
+			{
+				CambiarEstado(Estado::DUCK);				
+			}
+			break;
+		case NORMAL:			
 			if(joystick.right)
 			{	
 				if(direccion != Direccion::RIGHT)
 				{
+					direccion = Direccion::RIGHT;
 					CambiarEstado(Estado::TURN);
 				}
 				else
 				{
 					CambiarEstado(Estado::RUN);						
 				}
-				direccion = Direccion::RIGHT;
 			}
 			if(joystick.left)
 			{
 				if(direccion != Direccion::LEFT)
 				{
+					direccion = Direccion::LEFT;
 					CambiarEstado(Estado::TURN);
 				}
 				else
 				{
 					CambiarEstado(Estado::RUN);								
 				}
-				direccion = Direccion::LEFT;
-			}
+			}			
 			if(joystick.down)
 			{	
 				CambiarEstado(Estado::DUCK);				
 			}
+			
 			if(joystick.a)
 			{	
 				CambiarEstado(Estado::NORMAL_AND_ARM1);				
 			}
+
+			if(!IsTirarStart && joystick.b)
+			{	
+				IsTirarStart = true;
+				CambiarEstado(Estado::THROW);				
+			}
+
 			if(joystick.up)
 			{
 				CambiarEstado(Estado::JUMP_UP);
@@ -199,6 +254,45 @@ void Prince::Internal_Mover_y_Animar()
 			}
 			DisparoArma1();
 			break;
+		case THROW:			
+			if(IsAnimationEnded())
+			{
+				ArrojarPiedra();
+				CambiarEstado(Estado::NORMAL);
+			}
+			break;
+		case CRAW_AND_WALK:
+			if(!joystick.down)
+			{
+				CambiarEstado(Estado::NORMAL);
+			}
+			if(!joystick.left && direccion == Direccion::LEFT || !joystick.right && direccion == Direccion::RIGHT)
+			{
+				CambiarEstado(Estado::CRAW);
+			}
+			break;
+		case CRAW:
+			if(!joystick.down)
+			{
+				CambiarEstado(Estado::NORMAL);
+			}
+			if(joystick.left && direccion == Direccion::LEFT)
+			{
+				CambiarEstado(Estado::CRAW_AND_WALK);
+			}
+			if(joystick.right && direccion == Direccion::LEFT)
+			{
+				CambiarEstado(Estado::TURN_DUCK);				
+			}
+			if(joystick.right && direccion == Direccion::RIGHT)
+			{
+				CambiarEstado(Estado::CRAW_AND_WALK);
+			}
+			if(joystick.left && direccion == Direccion::RIGHT)
+			{
+				CambiarEstado(Estado::TURN_DUCK);				
+			}
+			break;
 		case RUN:
 			if(!joystick.right && direccion == Direccion::RIGHT || !joystick.left && direccion == Direccion::LEFT)
 			{	
@@ -213,6 +307,44 @@ void Prince::Internal_Mover_y_Animar()
 			{
 				CambiarEstado(Estado::JUMP_AND_RUN_UP);
 				Saltar();				
+			}
+			if(joystick.down)
+			{
+				CambiarEstado(Estado::SNEAK);
+			}
+			break;
+		case SNEAK:
+			if(!joystick.down)
+			{
+				CambiarEstado(Estado::NORMAL);
+			}
+			if(joystick.right)
+			{	
+				CambiarEstado(Estado::SNEAK_AND_RUN);
+				direccion = Direccion::RIGHT;
+			}
+			if(joystick.left)
+			{
+				CambiarEstado(Estado::SNEAK_AND_RUN);
+				direccion = Direccion::LEFT;			
+			}
+			break;
+		case SNEAK_AND_RUN:
+			if(!joystick.down)
+			{
+				CambiarEstado(Estado::RUN);
+			}
+			if(joystick.right)
+			{	
+				direccion = Direccion::RIGHT;
+			}
+			if(joystick.left)
+			{
+				direccion = Direccion::LEFT;			
+			}
+			if(!joystick.right && direccion == Direccion::RIGHT || !joystick.left && direccion == Direccion::LEFT)
+			{	
+				CambiarEstado(Estado::SNEAK);					
 			}
 			break;
 		case RUN_AND_ARM1:
@@ -233,17 +365,33 @@ void Prince::Internal_Mover_y_Animar()
 			DisparoArma1();
 			break;
 		case DUCK:
+			if(joystick.right)
+			{	
+				if(direccion != Direccion::RIGHT)
+				{
+					direccion = Direccion::RIGHT;
+					CambiarEstado(Estado::TURN_DUCK);
+				}
+				else
+				{
+					CambiarEstado(Estado::CRAW_AND_WALK);						
+				}				
+			}
+			if(joystick.left)
+			{
+				if(direccion != Direccion::LEFT)
+				{
+					direccion = Direccion::LEFT;
+					CambiarEstado(Estado::TURN_DUCK);
+				}
+				else
+				{
+					CambiarEstado(Estado::CRAW_AND_WALK);								
+				}				
+			}
 			if(!joystick.down)
 			{
 				CambiarEstado(Estado::NORMAL);				
-			}	
-			if(joystick.left)
-			{
-				direccion = Direccion::LEFT;				
-			}
-			if(joystick.right)
-			{
-				direccion = Direccion::RIGHT;				
 			}
 			if(joystick.a)
 			{
@@ -271,12 +419,12 @@ void Prince::Internal_Mover_y_Animar()
 			break;	
 		case JUMP_UP:
 			if(velocidad.y > 0)
-			{
+			{	
 				CambiarEstado(Estado::JUMP_DOWN);			
 			}
 			if(!IsJumpStart && joystick.b && IsColisionPared())
 			{	
-				CambiarEstado(Estado::CLIM);				
+				CambiarEstado(Estado::CLIM);								
 			}
 			break;
 		case JUMP_DOWN:			
@@ -286,7 +434,7 @@ void Prince::Internal_Mover_y_Animar()
 			}
 			if(!IsJumpStart && joystick.b &&  IsColisionPared())
 			{	
-				CambiarEstado(Estado::CLIM);				
+				CambiarEstado(Estado::CLIM);					
 			}
 			break;
 		case JUMP_AND_RUN_UP:
@@ -294,7 +442,7 @@ void Prince::Internal_Mover_y_Animar()
 			{
 				CambiarEstado(Estado::JUMP_AND_RUN_DOWN);				
 			}
-			if(!IsJumpStart && joystick.b && IsColisionPared())
+			if(joystick.b && IsColisionPared())
 			{	
 				CambiarEstado(Estado::CLIM);				
 			}
@@ -304,68 +452,57 @@ void Prince::Internal_Mover_y_Animar()
 			{
 				CambiarEstado(Estado::NORMAL);				
 			}
-			if(!IsJumpStart && joystick.b &&  IsColisionPared())
-			{
-				CambiarEstado(Estado::CLIM);				
+			if(joystick.b && IsColisionPared())
+			{	
+				CambiarEstado(Estado::CLIM);								
 			}
 			break;
 		case CLIM:
-			if(joystick.b && joystick.left)
+			/*if(!IsJumpStart && joystick.b && joystick.left)
 			{	
-				DelayToBreak(true,0.2);
+				IsJumpStart = true;
 				CambiarEstado(Estado::JUMP_AND_RUN_DOWN);
 				direccion = Direccion::LEFT;				
 			}
-			if(joystick.b && joystick.right)
+			if(!IsJumpStart && joystick.b && joystick.right)
 			{	
-				DelayToBreak(true,0.2);
+				IsJumpStart = true;
 				CambiarEstado(Estado::JUMP_AND_RUN_DOWN);
 				direccion = Direccion::RIGHT;				
-			}
-			if(joystick.b && joystick.down)
-			{
-				CambiarEstado(Estado::SLIDE);				
-			}
+			}*/			
 			if(joystick.up)
 			{
 				 CambiarEstado(CLIM_UP);				 
 			}
-			if(!ColisionaConSuelo() && joystick.down)
+			if(joystick.down)
 			{
 				 CambiarEstado(CLIM_DOWN);				 
 			}
-			if(ColisionaConSuelo() && (joystick.left || joystick.right))
+			if(ColisionaConSuelo())
 			{
-				CambiarEstado(Estado::NORMAL);				
-			}
+				CambiarEstado(Estado::NORMAL);
+			}			
 			break;
-		case CLIM_UP:			
-			if(joystick.down)
-			{
-				CambiarEstado(Estado::CLIM_DOWN);			
-			}
-			if(!joystick.up)
+		case CLIM_UP:						
+			if(!joystick.up || joystick.down)
 			{
 				CambiarEstado(Estado::CLIM);				
 			}
 			break;
 		case CLIM_DOWN:
-			if(joystick.b && joystick.down)
+			if(joystick.b)
 			{
 				CambiarEstado(Estado::SLIDE);				
+				Slide();
 			}
-			if(joystick.up)
+			if(joystick.up || !joystick.down || ColisionaConSuelo())
 			{
-				 CambiarEstado(CLIM_UP);				 
-			}			
-			if(!joystick.down || ColisionaConSuelo())
-			{
-				CambiarEstado(Estado::CLIM);				
-			}
+				 CambiarEstado(Estado::CLIM);				 
+			}						
 			break;	
 		case SLIDE:
 			if(!joystick.b)
-			{
+			{	
 				CambiarEstado(Estado::CLIM);
 			}
 			if(ColisionaConSuelo())
@@ -385,14 +522,25 @@ void Prince::Internal_Mover_y_Animar()
 		IsDisparoStart = true;
 	}
 
-	if(!joystick.b  && DelayToBreak())
+	if(!joystick.b)// && DelayToBreak())
 	{
-		IsJumpStart = false;
+		IsJumpStart = false;		
 	}
 
-	if(joystick.b && (currentState == Estado::JUMP_UP || currentState == Estado::JUMP_DOWN || currentState == Estado::JUMP_AND_RUN_UP  || currentState == Estado::JUMP_AND_RUN_DOWN))
+	if(!joystick.b)
+	{
+		IsTirarStart = false;
+	}
+
+	if(joystick.b && (currentState == Estado::JUMP_UP || currentState == Estado::JUMP_DOWN || 
+		              currentState == Estado::JUMP_AND_RUN_UP  || currentState == Estado::JUMP_AND_RUN_DOWN))
 	{
 		IsJumpStart = true;
+	}
+
+	if(joystick.b && currentState == Estado::SLIDE)
+	{
+		IsTirarStart = true;
 	}
 
 	if(currentState == Estado::CLIM_UP)
@@ -421,11 +569,18 @@ void Prince::Internal_Mover_y_Animar()
 			Move(velocidad.x * dt, 0);		
 	}
 
-	if(currentState == Estado::JUMP_UP || currentState == Estado::JUMP_DOWN || currentState == Estado::SLIDE)
+	if(currentState == Estado::JUMP_UP || currentState == Estado::JUMP_DOWN)
 	{
 		velocidad.y += gravity*dt;
 		Move(0,velocidad.y * dt);				
 	}
+
+	 if(currentState == Estado::SLIDE)
+	 {
+		velocidad.y += gravity*dt;
+		Move(0,velocidad.y * dt);
+		Move(0,SLIDE_VEL * dt);
+	 }
 
 	if(currentState == Estado::JUMP_AND_RUN_UP  || currentState == Estado::JUMP_AND_RUN_DOWN)
 	{
@@ -437,6 +592,23 @@ void Prince::Internal_Mover_y_Animar()
 		else if(direccion == Direccion::RIGHT)
 			vx = velocidad.x * dt;
 		Move(vx,vy);
+	}
+
+	if(currentState == Estado::CRAW_AND_WALK)
+	{
+		if(direccion == Direccion::LEFT)
+			Move(-CRAW_VEL * dt, 0);		
+		else if(direccion == Direccion::RIGHT)
+			Move(CRAW_VEL * dt, 0);	
+	}
+
+	
+	if(currentState == Estado::SNEAK_AND_RUN)
+	{
+		if(direccion == Direccion::LEFT)
+			Move(-SNEAK_VEL * dt, 0);		
+		else if(direccion == Direccion::RIGHT)
+			Move(SNEAK_VEL * dt, 0);	
 	}
 }
 
@@ -474,6 +646,15 @@ bool Prince::DelayToBreak(bool reset,float value)
 void Prince::Saltar(){
 	velocidad.y=v0;	
 	posicion.y=GetPosition().y;
+}
+
+void Prince::Slide()
+{
+	velocidad.y = SLIDE_VEL;
+}
+
+void Prince::ArrojarPiedra()
+{
 }
 
 // detecta si hubo colision con el suelo y ajusta la coordenada y del sprite
