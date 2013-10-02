@@ -1,6 +1,6 @@
 #include "SpriteBase.h"
 
-SpriteBase::SpriteBase(int cant_estados,const string &filename)
+SpriteBase::SpriteBase(int cant_estados,const string &filename,float scale_x,float scale_y)
 {
 	
 	velocidad.x = 0.0f;
@@ -19,7 +19,7 @@ SpriteBase::SpriteBase(int cant_estados,const string &filename)
 
 	const sf::Image &tex = TextureManager::GetInstance().GetTexture(filename);	
 	SetImage(tex);
-	//SetScale(0.5,0.5);
+	SetScale(scale_x,scale_y);
 }
 
 SpriteBase::~SpriteBase(void)

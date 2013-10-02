@@ -46,7 +46,7 @@ protected:
 	bool DelayTransition(bool reset=false);
 public:
 	void Inicializar();
-	SpriteBase(int cant_estados,const string &filename);
+	SpriteBase(int cant_estados,const string &filename,float scale_x=0,float scale_y=0);
 	void Mover_y_Animar(Joystick j, float dt);	
 	virtual ~SpriteBase(void);
 };

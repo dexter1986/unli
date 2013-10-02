@@ -8,9 +8,13 @@ class Prince :
 {
 private:
 	static const int CLIM_VEL = 10;
+	static const int CRAW_VEL = 10;
+	static const int SNEAK_VEL = 15;
+	static const int SLIDE_VEL = 0;
 	enum Estado{
 		NORMAL,
-		TURN,		
+		TURN,
+		TURN_DUCK,
 		WALK,		
 		RUN,
 		JUMP_UP,
@@ -20,6 +24,7 @@ private:
 		CRAW_AND_WALK,		
 		CRAW,
 		SNEAK,
+		SNEAK_AND_RUN,
 		CLIM,
 		CLIM_UP,
 		CLIM_DOWN,
@@ -27,7 +32,7 @@ private:
 		SPRINT,
 		KICK,
 		THROW,
-		DUCK,
+		DUCK,		
 		ATTACK1,
 		ATTACK2,
 		ARM1,
@@ -43,7 +48,9 @@ private:
 
 	float delayToBreak;
 	bool IsDisparoStart;
+	bool IsTirarStart;
 	bool IsJumpStart;
+	bool IsClim_TO_JUMP;
 	bool DelayToBreak(bool reset=false,float value=0.1f);
 
 protected:			
@@ -54,7 +61,9 @@ protected:
 	bool ColisionaConSuelo();	
 	void Internal_Mover_y_Animar();
 	void DisparoArma1();
+	void ArrojarPiedra();	
 	bool IsColisionPared();
+	void Slide();
 public:
 	Prince(void);
 	~Prince(void);		
