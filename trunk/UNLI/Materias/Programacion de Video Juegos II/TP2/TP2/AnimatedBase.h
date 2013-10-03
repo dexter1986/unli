@@ -20,7 +20,6 @@ private:
 
 	int estado;
 	
-
 public:		
 	void AddFrame(IntRect &rect, float lenght,float offset_x,float offset_y,float flipoffset_x ,float flipoffset_y);		
 	void AddFrame(int x, int y, int w, int h, float frameLenght,float offset_x=0,float offset_y=0,float flipoffset_x=0 ,float flipoffset_y=0);

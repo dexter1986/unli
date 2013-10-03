@@ -2,20 +2,25 @@
 #include <SFML/Graphics.hpp>
 #include "SpriteSheetManager.h"
 #include "Animation.h"
-#include "Megaman.h"
-#include "Disparos.h"
+#include "Nivel.h"
 #include "Prince.h"
 
 using namespace std;
 
+int const resx=800, resy=600;
+
 int main(int argc, char *argv[]) {
 	// creamos la ventana y definimos la porcion visible del plano
-	sf::RenderWindow w(VideoMode(1000,500),"Prince");
-	w.SetFramerateLimit(60);
-	sf::FloatRect viewRect(0,0,300,150);
-	sf::View v(viewRect);
-	w.SetView(v);
+	sf::RenderWindow w(VideoMode(resx,resy),"TP2");	
+
+	Nivel nivel("../data/Mylevel.lev");
+
+	nivel.InitLevelView(resx, resy);
 	
+	//sf::FloatRect viewRect(0,0,300,150);
+	w.SetView(nivel.GetView());
+
+	w.SetFramerateLimit(60);
 	// creamos e inicializamos nuestra estructura joystick
 	Joystick j;
 	j.up=j.down=j.left=j.right=j.a=j.b=0;
@@ -28,7 +33,7 @@ int main(int argc, char *argv[]) {
 	//megaman.SetPosition(150,100);
 	
 	Prince prince;
-	prince.Inicializar();
+	prince.Inicializar(&nivel);
 	prince.SetPosition(150,80);
 	
 	sf::Clock clk;
@@ -64,17 +69,24 @@ int main(int argc, char *argv[]) {
 			
 		}
 		
-		// actualizamos el estado de Megaman y los proyectiles
-		//megaman.Mover_y_Animar(j, clk.GetElapsedTime());
-		//disparos.MoverDisparos(clk.GetElapsedTime(), viewRect);
+		// actualizamos el estado del personaje y los proyectiles
 		prince.Mover_y_Animar(j,clk.GetElapsedTime());
+		nivel.SetViewCenter(prince.GetPosition());
+		//disparos.MoverDisparos(clk.GetElapsedTime(), viewRect);
+
 		clk.Reset();
 		
 		// dibujamos
-		w.Clear(Color(255,255,255));
+		w.Clear(Color(255,255,255));		
+		nivel.Draw(w);
+		nivel.DrawGrid(w);
 		//disparos.DibujarDisparos(w);
-		//w.Draw(megaman);
+		
 		w.Draw(prince);
+
+		FloatRect bb=prince.GetAABB();
+		w.Draw(sf::Shape::Rectangle(bb.Left, bb.Top, bb.Right, bb.Bottom, sf::Color(0,0,0,0), 1, sf::Color(255,0,0)));
+
 		w.Display();
 	}
 	return 0;
