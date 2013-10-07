@@ -7,7 +7,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "ParallaxLayer.h"
 using namespace std;
-
+using namespace sf;
 
 class Nivel{
 private:
@@ -62,7 +62,8 @@ public:
 	void Draw(sf::RenderWindow &w);
 	
 	// probar si hay colision del nivel con el rectangulo r
-	bool HayColision(sf::FloatRect r, sf::FloatRect &areaColision);
+	bool HayColision(sf::FloatRect &r, sf::FloatRect &areaColision);
+	bool HayColision2(FloatRect &r,FloatRect &collisionRec,FloatRect &areaColision);
 	
 	// funciones para inicializar la vista
 	sf::View &InitLevelView(int res_x, int res_y, int tiles_x=-1, int tiles_y=-1);

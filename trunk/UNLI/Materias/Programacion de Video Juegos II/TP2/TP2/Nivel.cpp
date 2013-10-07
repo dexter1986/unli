@@ -1,7 +1,7 @@
 #include "Nivel.h"
 #include <fstream>
 #include <iomanip>
-using namespace std;
+
 
 // Constructor: inicializa el Nivel
 // tileset_filename: el nombre del archivo que contiene el tileset
@@ -167,24 +167,11 @@ void Nivel::Save(string filename){
 	salida.close();
 }
 
-
-// llena el vector ovTiles con las coordenadas de los tiles que se superponen
-// con el rectangulo r, nos es util para detectar colisiones y para saber que
-// tiles debemos renderizar en caso de que no estemos viendo todo el nivel
-void Nivel::GetOverlappingTiles(sf::FloatRect r, vector<sf::Vector2i> &ovTiles){
-	// tanto i como j comienzan con las coordenadas (en tiles) del rectangulo r
-	for(int i=r.Top/tileSize.y; i<r.Bottom/tileSize.y; i++){
-		for(int j=r.Left/tileSize.x; j<r.Right/tileSize.x; j++){
-			ovTiles.push_back(sf::Vector2i(i, j));
-		}
-	}
-}
-
-
 // dibuja el tilemap del nivel en la ventana w, para ello utiliza
 // la funcion GetOverlappingTiles() para saber que tiles aparecen
 // en la vista actual del nivel
 void Nivel::Draw(sf::RenderWindow &w){
+	
 	for(unsigned i=0; i<capasParallax.size(); i++){
 		capasParallax[i]->Draw(w);
 	}
@@ -198,15 +185,33 @@ void Nivel::Draw(sf::RenderWindow &w){
 			w.Draw(temp);
 		}
 	}
+
+	/*int i = 15;
+	temp=tiles[_tiles[i].x][_tiles[i].y];
+	if(temp.iImage!=-1){
+			w.Draw(temp);
+	}*/
+	
 }
 
+// llena el vector ovTiles con las coordenadas de los tiles que se superponen
+// con el rectangulo r, nos es util para detectar colisiones y para saber que
+// tiles debemos renderizar en caso de que no estemos viendo todo el nivel
+void Nivel::GetOverlappingTiles(sf::FloatRect r, vector<sf::Vector2i> &ovTiles){
+	// tanto i como j comienzan con las coordenadas (en tiles) del rectangulo r
+	for(int i=r.Top/tileSize.y; i<r.Bottom/tileSize.y; i++){
+		for(int j=r.Left/tileSize.x; j<r.Right/tileSize.x; j++){
+			ovTiles.push_back(sf::Vector2i(i, j));
+		}
+	}
+}
 
 // revisa si hay o no colision del rectangulo r con algun tile solido
 // devuelve verdadero o falso segun haya colision o no
 // devuelve en areaColision el area de interpenetracion con el tile
 // en caso de haber colision con mas de un tile, devuelve
 // el area de colision con el tile que tenga mayor area de colision
-bool Nivel::HayColision(sf::FloatRect r, sf::FloatRect &areaColision){
+bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision){
 	vector<sf::Vector2i> _tiles;
 	GetOverlappingTiles(r, _tiles);
 	sf::FloatRect tempResp; float maxResponse=0, sresponse;
@@ -221,27 +226,112 @@ bool Nivel::HayColision(sf::FloatRect r, sf::FloatRect &areaColision){
 			}
 		}
 	}
-	return maxResponse>0;
+	return maxResponse > 0;
 }
 
+// revisa si hay o no colision del rectangulo r con algun tile solido
+// devuelve verdadero o falso segun haya colision o no
+// devuelve en areaColision el area de interpenetracion con el tile
+// en caso de haber colision con mas de un tile, devuelve
+// el area de colision con el tile que tenga mayor area de colision
+bool Nivel::HayColision2(FloatRect &r,FloatRect &collisionRec,FloatRect &areaColision)
+{
+	areaColision.Top = 0;
+	areaColision.Bottom = 0;
+	areaColision.Left = 0;
+	areaColision.Right = 0;
+
+	//Calcular los tiles de las coordenadas	
+	IntRect collTiles,normalTiles;
+
+	collTiles.Top = floor(collisionRec.Top / tileSize.y);
+	collTiles.Left = floor(collisionRec.Left / tileSize.x);
+	collTiles.Right = floor(collisionRec.Right / tileSize.x);
+	collTiles.Bottom = floor(collisionRec.Bottom / tileSize.y);
+
+	normalTiles.Top = floor(r.Top / tileSize.y);
+	normalTiles.Left = floor(r.Left / tileSize.x);
+	normalTiles.Right = floor(r.Right / tileSize.x);
+	normalTiles.Bottom = floor(r.Bottom / tileSize.y);
+
+	//Obtiene los todos los tiles incluyendo los intermedios
+	vector<Vector2i> vectTiles;
+	
+	for(int y=collTiles.Top;y<=collTiles.Bottom;y++)
+	{
+		for(int x=collTiles.Left;x<=collTiles.Right;x++)
+		{
+			vectTiles.push_back(Vector2i(x,y));
+		}
+	}
+	
+	//Verifica si alguno de los tiles es solido
+	vector<Vector2i> vectTilesCol;
+
+	int lenght = vectTiles.size();
+	for(int i=0;i<lenght;i++)
+	{
+		if(tiles[vectTiles[i].y][vectTiles[i].x].solid)
+		{
+			vectTilesCol.push_back(vectTiles[i]);
+		}
+	}
+
+	//Calcula el rectangulo exterior
+	lenght = vectTilesCol.size();
+	
+	IntRect externAABB(-1,-1,-1,-1);
+	int aux_x,aux_y;
+	for(int i=0;i<lenght;i++)
+	{
+		aux_x =  vectTilesCol[i].x;
+		aux_y = vectTilesCol[i].y;
+
+		if(aux_y < normalTiles.Top)
+		{	
+			externAABB.Top = aux_y - 1;			
+		}
+		if(aux_y > normalTiles.Bottom)
+		{
+			externAABB.Bottom = aux_y - 1;
+		}
+		if(aux_x < normalTiles.Left)
+		{
+			externAABB.Left = aux_x - 1;
+		}
+		if(aux_x > normalTiles.Right)
+		{
+			externAABB.Right = aux_x - 1;
+		}
+	}
+
+	//Calcular los limites
+	areaColision.Top =  (externAABB.Top + 1) * tileSize.y;
+	areaColision.Bottom = (externAABB.Bottom + 1) * tileSize.y;
+	areaColision.Left =  (externAABB.Left + 1) * tileSize.x;
+	areaColision.Right =  (externAABB.Right + 1) * tileSize.y;
+
+	if(lenght > 0)
+		return true;
+
+	return false;
+	
+}
 
 // devuelve el tamano del tile
 sf::Vector2i Nivel::GetTileSize(){
 	return tileSize;
 }
 
-
 // devuelve el tamano del nivel (en cantidad de tiles)
 sf::Vector2i Nivel::GetLevelSize(){
 	return levelSize;
 }
 
-
 // devuelve la vista actual del nivel
 sf::View &Nivel::GetView(){
 	return levelView;
 }
-
 
 // Mueve el centro de la vista a las coordenadas
 // (newCenter.x, newCenter.y). Si la nueva vista se
@@ -273,7 +363,6 @@ void Nivel::SetViewCenter(sf::Vector2f newCenter){
 	levelView.SetCenter(newCenter);
 }
 
-
 // Cumple la misma funcion que ScrollView() pero suavizando el scroll
 // con un factor, tambien necesitamos el tiempo transcurrido
 void Nivel::SetViewCenterSmooth(sf::Vector2f newCenter, float factor, float dt){
@@ -293,7 +382,6 @@ void Nivel::SetViewCenterSmooth(sf::Vector2f newCenter, float factor, float dt){
 	// seteamos el nuevo centro corrigiendolo si se sale fuera del nivel
 	SetViewCenter(newCenter);
 }
-
 
 // inicializa la vista del nivel para que abarque todo el escenario
 sf::View &Nivel::InitLevelView(){
@@ -350,7 +438,6 @@ sf::View &Nivel::InitLevelView(int res_x, int res_y, int tiles_x, int tiles_y){
 	return levelView;
 }
 
-
 // dibuja una grilla sobre los tiles
 void Nivel::DrawGrid(sf::RenderWindow &w){
 	// coordenadas de la vista actual en tiles
@@ -374,7 +461,6 @@ void Nivel::DrawGrid(sf::RenderWindow &w){
 	}
 }
 
-
 // genera y guarda una imagen con el tilemap
 void Nivel::SaveToImage(string filename){
 	// crea una imagen
@@ -390,3 +476,4 @@ void Nivel::SaveToImage(string filename){
 	// guarda la imagen
 	imagen.SaveToFile(filename);
 }
+

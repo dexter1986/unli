@@ -58,11 +58,11 @@ protected:
 	void InicializarAnimaciones();	
 	// algunas acciones
 	void Saltar();	
-	bool ColisionaConSuelo();	
+	bool VerifyFall();
+	bool VerifyFallAndRun();	
 	void Internal_Mover_y_Animar();
 	void DisparoArma1();
-	void ArrojarPiedra();	
-	bool IsColisionPared();
+	void ArrojarPiedra();		
 	void Slide();
 public:
 	Prince(void);

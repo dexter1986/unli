@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
 	//sf::FloatRect viewRect(0,0,300,150);
 	w.SetView(nivel.GetView());
 
-	w.SetFramerateLimit(60);
+	w.SetFramerateLimit(30);
 	// creamos e inicializamos nuestra estructura joystick
 	Joystick j;
 	j.up=j.down=j.left=j.right=j.a=j.b=0;
@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
 	
 	Prince prince;
 	prince.Inicializar(&nivel);
-	prince.SetPosition(150,80);
+	prince.SetPosition(100,0);
 	
 	sf::Clock clk;
 	sf::Event e;
