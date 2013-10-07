@@ -10,11 +10,13 @@ SpriteBase::SpriteBase(int cant_estados,const string &filename,float scale_x,flo
 	posicion_inicial.x = 0.0f;
 	posicion_inicial.y = 0.0f;
 	currentState = 0;
-	gravity =  512.0f;
+	gravity = 512.0f;
 	v0 = -256.0f;
 	direccion = Direccion::RIGHT;
 	velocidad.y=v0;
 	delay = 0;
+	ajustaColision_x = 0;
+	ajustaColision_y = 0;
 	scale.x = scale_x;
 	scale.y = scale_y;
 	
@@ -102,6 +104,8 @@ void SpriteBase::Mover_y_Animar(Joystick j, float dt)
 			SetCenter(animaciones[currentState].GetCurrentFrameFlipOffset());
 			SetOffsetAABB(animaciones[currentState].GetCurrentFrameFlipOffset());
 		}
+
+		AjustaBottomColision();
 	}
 }
 
@@ -116,13 +120,16 @@ void SpriteBase::CalculateAABB()
 	Vector2f size = GetSize();
 	aabb.Top =  pos.y;
 	aabb.Left = pos.x;
-	aabb.Bottom = aabb.Top + size.y;
-	aabb.Right = aabb.Left + size.x;
+	/*aabb.Bottom = aabb.Top + size.y;
+	aabb.Right = aabb.Left + size.x;*/
 
-	aabb.Top += 3.0f * scale.y;
+	aabb.Bottom = aabb.Top +  min(28.0f,size.y);
+	aabb.Right = aabb.Left + min(11.0f, size.x);
+
+	/*aabb.Top += 3.0f * scale.y;
 	aabb.Left += 6.0f * scale.x;
 	aabb.Right -= 6.0f * scale.x;
-	aabb.Bottom -= 2.0f * scale.y;
+	aabb.Bottom -= 2.0f * scale.y;*/
 }
 
 FloatRect &SpriteBase::GetAABB()
@@ -159,91 +166,133 @@ void SpriteBase::Inicializar(Nivel *n)
 	this->nivel = n;
 }
 
-
 // saber si choca con alguna pared por derecha o por izquierda
-bool SpriteBase::ChocaraPared(float dt, float &distAjuste){
-	//// creamos rectangulos para el bounding box actual
-	//// y el area de colision
-	//FloatRect aabb, areaColision;
-	//
-	//// conseguimos el bounding box en la posicion actual
-	//aabb=GetAABB();
-	//bool chocaPared;
-	//
-	//// la distancia que nos moveriamos
-	//float despl=dt*vx*direccion;
-	//
-	//// buscamos el bounding box que tendriamos
-	//// si nos moviesemos, preguntamos si
-	//// colisionamos y la distancia
-	//// que nos podriamos mover sin colisionar (ajuste)
-	//aabb.Left+=despl;
-	//aabb.Right+=despl;
-	//// calculamos si habria colision
-	//chocaPared=n->HayColision(aabb, areaColision);
-	//distAjuste=direccion*(dt*vx-areaColision.GetWidth());
-	//return chocaPared;
-	return false;
-}
+bool SpriteBase::ColisionaPared(){
+	// creamos rectangulos para el bounding box actual
+	// y el area de colision
+	FloatRect aabb_tmp, areaColision;
+	
+	bool chocaPared;
+	
+	// la distancia que nos moveriamos
+	float despl = GetDireccionY() * dt * velocidad.x;
+	
+	// buscamos el bounding box que tendriamos
+	// si nos moviesemos, preguntamos si
+	// colisionamos y la distancia
+	// que nos podriamos mover sin colisionar (ajuste)
+	aabb_tmp.Left =  aabb.Left + despl;
+	aabb_tmp.Right = aabb.Right + despl;
+	aabb_tmp.Top = aabb.Top;
+	aabb_tmp.Bottom = aabb.Bottom;
+	
+	// calculamos si habria colision
+	chocaPared=nivel->HayColision2(aabb, aabb_tmp, areaColision);
 
+	if(areaColision.Left == 0 && areaColision.Right == 0)
+	{
+		chocaPared = false;
+	}
+
+	if(areaColision.Left != 0)
+		ajustaColision_x = -areaColision.Left;
+
+	if(areaColision.Right != 0)
+		ajustaColision_x = areaColision.Right;	
+
+	if(ajustaColision_y != 0)
+	{	
+		chocaPared = true;
+	}
+	
+	
+	return chocaPared;	
+}
 
 // saber si choca con el techo
-bool SpriteBase::ChocaraTecho(float dt, float &distAjuste){
-	//bool chocaConTecho;
-	//// calculamos la velocidad que tendriamos
-	//float newvy=vy+gravity*dt;
-	//// si estamos cayendo, no podemos chocar con
-	//// el suelo
-	//if(newvy>0) return false;
-	//else{
-	//	FloatRect aabb, areaColision;
-	//	
-	//	// la distancia que nos vamos a mover
-	//	float despl=dt*newvy;
-	//	
-	//	// conseguimos el AABB actual y calculamos
-	//	// el que tendriamos en un instante de tiempo
-	//	aabb=GetAABB();
-	//	aabb=aabb;
-	//	aabb.Top+=despl;
-	//	aabb.Bottom+=despl;
-	//	// calculamos si habria colision
-	//	chocaConTecho=n->HayColision(aabb, areaColision);
-	//	distAjuste=despl+areaColision.GetHeight();
-	//}
-	//return chocaConTecho;
-	return false;
+bool SpriteBase::ColisionaTecho(){
+	bool chocaConTecho = false;
+	// calculamos la velocidad que tendriamos
+	float newvy=velocidad.y+gravity*dt;
+	// si estamos cayendo, no podemos chocar con
+	// el suelo
+	if(newvy<0)
+	{
+		FloatRect aabb_tmp, areaColision;
+		
+		// la distancia que nos vamos a mover
+		float despl=dt*newvy;
+		
+		// conseguimos el AABB actual y calculamos
+		// el que tendriamos en un instante de tiempo
+		aabb_tmp.Bottom = aabb.Bottom + despl;
+		aabb_tmp.Top = aabb.Top + despl;
+		aabb_tmp.Left = aabb.Left;
+		aabb_tmp.Right = aabb.Right;
+		
+		// calculamos si habria colision
+		chocaConTecho=nivel->HayColision2(aabb,aabb_tmp, areaColision);
+		ajustaColision_y = -areaColision.Top;
+	}
+	return chocaConTecho;	
 }
-
 
 // saber si chocara con el suelo cuando esta cayendo,
 // o si hay suelo debajo
-bool SpriteBase::ChocaraSuelo(float dt, float &distAjuste){
-	bool chocaConSuelo;
+bool SpriteBase::ColisionaSuelo(){
+	bool chocaConSuelo = false;
+	ajustaColision_x = 0;
+	ajustaColision_y = 0;
 	// calculamos la velocidad que tendriamos
 	float newvy=velocidad.y+gravity*dt;
 	// si estamos subiendo, no podemos chocar con
 	// el suelo
-	if(newvy<0) return false;
-	else{
-		FloatRect areaColision;
+	if(newvy>0)
+	{
+		FloatRect aabb_tmp,areaColision;
 		
 		// la distancia que nos vamos a mover
-		float despl=dt*newvy;
+		float despl= dt * newvy;
 
 		// conseguimos el AABB actual y calculamos
 		// el que tendriamos en un instante de tiempo
 		
-		/*aabb.Top+=despl;
-		aabb.Bottom+=despl;*/
+		aabb_tmp.Top = aabb.Top + despl;
+		aabb_tmp.Bottom =  aabb.Bottom + despl;
+		aabb_tmp.Left = aabb.Left;
+		aabb_tmp.Right = aabb.Right;
 
 		// calculamos si habria colision
-		chocaConSuelo=nivel->HayColision(aabb, areaColision);
-		distAjuste=despl-areaColision.GetHeight();
+		chocaConSuelo = nivel->HayColision2(aabb,aabb_tmp, areaColision);
 		
-		//Restauramos el AABB actual
-		/*aabb.Top-=despl;
-		aabb.Bottom-=despl;*/
+		ajustaColision_y = areaColision.Bottom;	
+
+		if(ajustaColision_y != 0)
+		{	
+			chocaConSuelo = true;
+		}
 	}
+	
 	return chocaConSuelo;	
+}
+
+void SpriteBase::AjustaBottomColision()
+{
+	if(ajustaColision_y != 0)
+	{
+		SetY(ajustaColision_y - aabb.GetHeight());				
+	}
+
+	if(ajustaColision_x != 0)
+	{
+		SetX(ajustaColision_x - aabb.GetWidth());				
+	}
+}
+
+int SpriteBase::GetDireccionY()
+{
+	if(direccion == Direccion::LEFT)
+			return -1;
+	else if(direccion == Direccion::RIGHT)
+			return 1;
 }

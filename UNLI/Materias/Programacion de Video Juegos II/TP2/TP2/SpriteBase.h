@@ -25,6 +25,7 @@ protected:
 	float v0;		// velocidad inicial al comenzar el salto 
 	float gravity;	// gravedad
 	float delay;
+	float ajustaColision_y,ajustaColision_x; // ajuste de colision
 	int currentState;
 	Vector2f velocidad;
 	Vector2f posicion;
@@ -51,9 +52,11 @@ protected:
 	bool DelayTransition(bool reset=false);
 	void CalculateAABB();
 	void SetOffsetAABB(Vector2f &offset);
-	bool ChocaraPared(float dt, float &distAjuste);
-	bool ChocaraTecho(float dt, float &distAjuste);
-	bool ChocaraSuelo(float dt, float &distAjuste);
+	bool ColisionaPared();
+	bool ColisionaTecho();
+	bool ColisionaSuelo();
+	void AjustaBottomColision();
+	int GetDireccionY();
 public:
 	FloatRect &GetAABB();
 	void Inicializar(Nivel *n);
