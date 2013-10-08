@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) {
 		clk.Reset();
 		
 		// dibujamos
-		w.Clear(Color(255,255,255));		
+		w.Clear(Color(0,0,0));		
 		nivel.Draw(w);
 		nivel.DrawGrid(w);
 		//disparos.DibujarDisparos(w);

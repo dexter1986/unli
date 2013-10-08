@@ -1,5 +1,9 @@
 #include "SpriteBase.h"
 
+#ifndef round
+ #define round(r) r-int(r)>=0.5?int(r)+1:int(r)
+#endif
+
 SpriteBase::SpriteBase(int cant_estados,const string &filename,float scale_x,float scale_y)
 {
 	
@@ -91,9 +95,7 @@ void SpriteBase::Mover_y_Animar(Joystick j, float dt)
 		(animaciones+currentState)->Animate(dt);
 		IntRect rect = animaciones[currentState].GetCurrentFrameRect();
 		SetSubRect(rect);
-			
-		CalculateAABB();		
-
+		
 		if(direccion == Direccion::RIGHT)
 		{	
 			SetCenter(animaciones[currentState].GetCurrentFrameOffset());
@@ -105,7 +107,8 @@ void SpriteBase::Mover_y_Animar(Joystick j, float dt)
 			SetOffsetAABB(animaciones[currentState].GetCurrentFrameFlipOffset());
 		}
 
-		AjustaBottomColision();
+		CalculateAABB();
+
 	}
 }
 
@@ -115,21 +118,13 @@ void SpriteBase::SetOffsetAABB(Vector2f &offset)
 }
 
 void SpriteBase::CalculateAABB()
-{
+{	
 	Vector2f pos = GetPosition();
-	Vector2f size = GetSize();
-	aabb.Top =  pos.y;
-	aabb.Left = pos.x;
-	/*aabb.Bottom = aabb.Top + size.y;
-	aabb.Right = aabb.Left + size.x;*/
 
-	aabb.Bottom = aabb.Top +  min(28.0f,size.y);
-	aabb.Right = aabb.Left + min(11.0f, size.x);
-
-	/*aabb.Top += 3.0f * scale.y;
-	aabb.Left += 6.0f * scale.x;
-	aabb.Right -= 6.0f * scale.x;
-	aabb.Bottom -= 2.0f * scale.y;*/
+	aabb.Top =  pos.y+2;
+	aabb.Left = pos.x+2;
+	aabb.Bottom = pos.y + 26;
+	aabb.Right = pos.x + 10;
 }
 
 FloatRect &SpriteBase::GetAABB()
@@ -172,10 +167,10 @@ bool SpriteBase::ColisionaPared(){
 	// y el area de colision
 	FloatRect aabb_tmp, areaColision;
 	
-	bool chocaPared;
+	bool chocaPared = false;
 	
 	// la distancia que nos moveriamos
-	float despl = GetDireccionY() * dt * velocidad.x;
+	float despl = GetDireccionX() * dt * velocidad.x;
 	
 	// buscamos el bounding box que tendriamos
 	// si nos moviesemos, preguntamos si
@@ -187,25 +182,11 @@ bool SpriteBase::ColisionaPared(){
 	aabb_tmp.Bottom = aabb.Bottom;
 	
 	// calculamos si habria colision
-	chocaPared=nivel->HayColision2(aabb, aabb_tmp, areaColision);
-
-	if(areaColision.Left == 0 && areaColision.Right == 0)
-	{
-		chocaPared = false;
-	}
-
-	if(areaColision.Left != 0)
-		ajustaColision_x = -areaColision.Left;
-
-	if(areaColision.Right != 0)
-		ajustaColision_x = areaColision.Right;	
-
-	if(ajustaColision_y != 0)
-	{	
-		chocaPared = true;
-	}
+	//chocaPared=nivel->HayColision2(aabb, aabb_tmp, areaColision);
+	chocaPared = nivel->HayColision(aabb_tmp, areaColision);
 	
-	
+	ajustaColision_x = GetDireccionX() * (dt*velocidad.x-areaColision.GetWidth());
+
 	return chocaPared;	
 }
 
@@ -231,8 +212,8 @@ bool SpriteBase::ColisionaTecho(){
 		aabb_tmp.Right = aabb.Right;
 		
 		// calculamos si habria colision
-		chocaConTecho=nivel->HayColision2(aabb,aabb_tmp, areaColision);
-		ajustaColision_y = -areaColision.Top;
+		chocaConTecho=nivel->HayColision(aabb_tmp, areaColision);
+		ajustaColision_y = despl+areaColision.GetHeight();
 	}
 	return chocaConTecho;	
 }
@@ -263,33 +244,26 @@ bool SpriteBase::ColisionaSuelo(){
 		aabb_tmp.Right = aabb.Right;
 
 		// calculamos si habria colision
-		chocaConSuelo = nivel->HayColision2(aabb,aabb_tmp, areaColision);
-		
-		ajustaColision_y = areaColision.Bottom;	
+		//chocaConSuelo = nivel->HayColision2(aabb,aabb_tmp, areaColision);
+		chocaConSuelo = nivel->HayColision(aabb_tmp, areaColision);
 
-		if(ajustaColision_y != 0)
-		{	
-			chocaConSuelo = true;
-		}
+		ajustaColision_y = despl - areaColision.GetHeight();					
 	}
 	
 	return chocaConSuelo;	
 }
 
-void SpriteBase::AjustaBottomColision()
-{
-	if(ajustaColision_y != 0)
-	{
-		SetY(ajustaColision_y - aabb.GetHeight());				
-	}
-
-	if(ajustaColision_x != 0)
-	{
-		SetX(ajustaColision_x - aabb.GetWidth());				
-	}
+void SpriteBase::AjustaColisionX()
+{	
+	Move(ajustaColision_x, 0);					
 }
 
-int SpriteBase::GetDireccionY()
+void SpriteBase::AjustaColisionY()
+{
+	Move(0, ajustaColision_y);
+}
+
+int SpriteBase::GetDireccionX()
 {
 	if(direccion == Direccion::LEFT)
 			return -1;
