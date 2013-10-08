@@ -1,6 +1,7 @@
 #ifndef SPRITEBASE_H
 #define SPRITEBASE_H
 
+#include <math.h>
 #include "AnimatedBase.h"
 #include "Nivel.h"
 
@@ -55,8 +56,9 @@ protected:
 	bool ColisionaPared();
 	bool ColisionaTecho();
 	bool ColisionaSuelo();
-	void AjustaBottomColision();
-	int GetDireccionY();
+	void AjustaColisionX();
+	void AjustaColisionY();
+	int GetDireccionX();
 public:
 	FloatRect &GetAABB();
 	void Inicializar(Nivel *n);
