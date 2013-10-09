@@ -7,10 +7,10 @@ class Prince :
 	public SpriteBase
 {
 private:
-	static const int CLIM_VEL = 10;
-	static const int CRAW_VEL = 10;
-	static const int SNEAK_VEL = 15;
-	static const int SLIDE_VEL = 0;
+	static const int CLIM_VEL = 20;
+	static const int CRAW_VEL = 20;
+	static const int SNEAK_VEL = 25;
+	static const int SLIDE_VEL = 20;
 	enum Estado{
 		NORMAL,
 		TURN,

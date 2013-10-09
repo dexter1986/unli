@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
 
 	Nivel nivel("../data/Mylevel.lev");
 
-	nivel.InitLevelView(resx, resy);
+	nivel.InitLevelView(resx, resy,10,10);
 	
 	//sf::FloatRect viewRect(0,0,300,150);
 	w.SetView(nivel.GetView());
@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
 	
 	Prince prince;
 	prince.Inicializar(&nivel);
-	prince.SetPosition(100,0);
+	prince.SetPosition(64,64);
 	
 	sf::Clock clk;
 	sf::Event e;

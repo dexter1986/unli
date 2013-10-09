@@ -120,11 +120,11 @@ void SpriteBase::SetOffsetAABB(Vector2f &offset)
 void SpriteBase::CalculateAABB()
 {	
 	Vector2f pos = GetPosition();
-
-	aabb.Top =  pos.y+2;
-	aabb.Left = pos.x+2;
-	aabb.Bottom = pos.y + 26;
-	aabb.Right = pos.x + 10;
+	FloatRect rec = animaciones[currentState].GetAABB();
+	aabb.Top =  pos.y + rec.Top;
+	aabb.Left = pos.x + rec.Left;
+	aabb.Bottom = pos.y + rec.Bottom;
+	aabb.Right = pos.x + rec.Right;
 }
 
 FloatRect &SpriteBase::GetAABB()
