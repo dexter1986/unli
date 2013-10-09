@@ -17,7 +17,7 @@ private:
 	float currentFrameElapsed;	
 	int iframe, nFrames;	
 	bool loop, end;	
-
+	FloatRect aabb;
 	int estado;
 	
 public:		
@@ -34,6 +34,8 @@ public:
 	int GetEstado();
 	float GetCurrentFrameElapsedTime();
 	void SetCurrentFrameNum(int i);
+	void SetAABB(FloatRect &rect);
+	FloatRect &GetAABB();
 	int GetCurrentFrameNum();
 	IntRect &GetCurrentFrameRect();
 	Vector2f &GetCurrentFrameOffset();

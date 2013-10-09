@@ -123,4 +123,17 @@ void AnimatedBase::Stop(){
 	end = true;
 }
 
+void AnimatedBase::SetAABB(FloatRect &rect)
+{
+	aabb.Top = rect.Top;
+	aabb.Bottom = rect.Bottom;
+	aabb.Left = rect.Left;
+	aabb.Right = rect.Right;
+}
+
+FloatRect &AnimatedBase::GetAABB()
+{
+	return aabb;
+}
+
 
