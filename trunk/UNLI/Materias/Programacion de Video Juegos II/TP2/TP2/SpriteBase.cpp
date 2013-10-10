@@ -34,8 +34,24 @@ SpriteBase::SpriteBase(int cant_estados,const string &filename,float scale_x,flo
 
 SpriteBase::~SpriteBase(void)
 {
-	delete[] animaciones;
+	delete[] animaciones;	
 }
+
+void SpriteBase::Disparar(float shootTime,float vel_misiles)
+{	
+	Vector2f pos = GetPosition();
+	IntRect rect = animaciones[currentState].GetCurrentFrameRect();
+	Vector2f vect = animaciones[currentState].GetCurrentFrameOffset();
+	if(direccion == Direccion::RIGHT)
+	{
+		Disparar(aabb.Right , aabb.Top + aabb.GetHeight()/4-2 ,shootTime,vel_misiles);
+	}
+	else if(direccion == Direccion::LEFT)
+	{
+		Disparar(aabb.Left , aabb.Top + aabb.GetHeight()/4-2 ,shootTime,vel_misiles);
+	}
+}
+
 
 void SpriteBase::CambiarEstado(int nuevoEstado, bool continueFromCurrent)
 {
@@ -108,13 +124,14 @@ void SpriteBase::Mover_y_Animar(Joystick j, float dt)
 		}
 
 		CalculateAABB();
-
 	}
+
+	if(!SecuenciaDisparoFinalizada()) shootTime-=dt;
 }
 
 void SpriteBase::SetOffsetAABB(Vector2f &offset)
 {
-	aabb.Offset(-offset.x * scale.x ,-offset.y * scale.y);
+	//aabb.Offset(-offset.x * scale.x ,-offset.y * scale.y);
 }
 
 void SpriteBase::CalculateAABB()
@@ -154,11 +171,22 @@ void SpriteBase::AnimationReverse(bool reverse)
 	animaciones[currentState].reverse = reverse;
 }
 
-void SpriteBase::Inicializar(Nivel *n)
+void SpriteBase::Inicializar(ManejadorDisparos *d,Nivel *n)
 {
 	InicializarAnimaciones();
 
 	this->nivel = n;
+	this->disparos = d;
+}
+
+// para saber si ya expiro el tiempo que dura la secuencia de disparo
+bool SpriteBase::SecuenciaDisparoFinalizada(){
+	return shootTime<0;
+}
+
+void SpriteBase::Disparar(float x, float y,float shoot_time,float velmisiles){
+	shootTime=shoot_time;
+	disparos->AgregarDisparo(x, y, velmisiles*GetDireccionX());
 }
 
 // saber si choca con alguna pared por derecha o por izquierda

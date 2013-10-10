@@ -11,6 +11,9 @@ private:
 	static const int CRAW_VEL = 20;
 	static const int SNEAK_VEL = 25;
 	static const int SLIDE_VEL = 20;
+	float SHOOT_TIME;
+	static const int VEL_MISILES=200;
+
 	enum Estado{
 		NORMAL,
 		TURN,
@@ -52,6 +55,7 @@ private:
 	bool IsJumpStart;
 	bool IsClim_TO_JUMP;
 	bool DelayToBreak(bool reset=false,float value=0.1f);
+	
 
 protected:			
 	// inicializa las animaciones, es llamado en el constructor

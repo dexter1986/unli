@@ -1,27 +1,24 @@
 #include "Disparos.h"
 
-sf::Image Disparo::imgDisparo;
+
 bool Disparo::init=false;
 
-Disparo::Disparo(float x0, float y0, float vel){
-	// cargamos la imagen solo una vez, por eso tanto la imagen como
-	// init son estaticas
-	if(!init){
-		imgDisparo.LoadFromFile("../disparo.png");
-		init=true;
-	}
+Disparo::Disparo(float x0, float y0, float vel){	
 	// inicializamos posicion, vel e imagen del disparo
+	const sf::Image &imgDisparo = TextureManager::GetInstance().GetTexture("../data/disparo.png");
 	SetPosition(x0, y0);
 	SetImage(imgDisparo);
+	SetScale(0.9,0.9);
 	velx=vel;
 };
 
 
 // recorre la lista de disparos, si el disparo se encuentra fuera de la region
 // dada por r, el disparo se elimina de la lista, sino se mueve
-void ManejadorDisparos::MoverDisparos(float dt, sf::FloatRect &r){
+void ManejadorDisparos::MoverDisparos(float dt, sf::View &v){
 	list<Disparo>::iterator p=disparos.begin();
 	float misilx;
+	sf::FloatRect r=v.GetRect();
 	while(p!=disparos.end()){
 		misilx=(*p).GetPosition().x;
 		if(misilx<r.Left || misilx>r.Right){
