@@ -4,6 +4,7 @@
 #include "Animation.h"
 #include "Nivel.h"
 #include "Prince.h"
+#include "Disparos.h"
 
 using namespace std;
 
@@ -18,22 +19,19 @@ int main(int argc, char *argv[]) {
 	nivel.InitLevelView(resx, resy,10,10);
 	
 	//sf::FloatRect viewRect(0,0,300,150);
-	w.SetView(nivel.GetView());
+	View &v = nivel.GetView();
+	w.SetView(v);
 
 	w.SetFramerateLimit(30);
 	// creamos e inicializamos nuestra estructura joystick
 	Joystick j;
 	j.up=j.down=j.left=j.right=j.a=j.b=0;
 	
-	// creamos el manejador para los disparos
-	//ManejadorDisparos disparos;
-	
-	// creamos e inicializamos a megaman
-	//Megaman megaman(&disparos);
-	//megaman.SetPosition(150,100);
-	
+	//creamos el manejador para los disparos
+	ManejadorDisparos disparos;
+		
 	Prince prince;
-	prince.Inicializar(&nivel);
+	prince.Inicializar(&disparos,&nivel);
 	prince.SetPosition(64,64);
 	
 	sf::Clock clk;
@@ -72,20 +70,23 @@ int main(int argc, char *argv[]) {
 		// actualizamos el estado del personaje y los proyectiles
 		prince.Mover_y_Animar(j,clk.GetElapsedTime());
 		nivel.SetViewCenter(prince.GetPosition());
-		//disparos.MoverDisparos(clk.GetElapsedTime(), viewRect);
+
+		disparos.MoverDisparos(clk.GetElapsedTime(), v);
 
 		clk.Reset();
 		
 		// dibujamos
 		w.Clear(Color(0,0,0));		
 		nivel.Draw(w);
-		nivel.DrawGrid(w);
-		//disparos.DibujarDisparos(w);
+		
+		//nivel.DrawGrid(w);
+		
+		disparos.DibujarDisparos(w);
 		
 		w.Draw(prince);
 
-		FloatRect bb=prince.GetAABB();
-		w.Draw(sf::Shape::Rectangle(bb.Left, bb.Top, bb.Right, bb.Bottom, sf::Color(0,0,0,0), 1, sf::Color(255,0,0)));
+		/*FloatRect bb=prince.GetAABB();
+		w.Draw(sf::Shape::Rectangle(bb.Left, bb.Top, bb.Right, bb.Bottom, sf::Color(0,0,0,0), 1, sf::Color(255,0,0)));*/
 
 		w.Display();
 	}

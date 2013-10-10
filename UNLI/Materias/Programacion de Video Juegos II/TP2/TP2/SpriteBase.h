@@ -4,6 +4,7 @@
 #include <math.h>
 #include "AnimatedBase.h"
 #include "Nivel.h"
+#include "Disparos.h"
 
 // una estructura simple para pasarle los controles a megaman
 struct Joystick{
@@ -40,6 +41,9 @@ protected:
 	FloatRect aabb;
 	
 	Nivel *nivel;
+	
+	ManejadorDisparos *disparos;
+	float shootTime;
 
 	// inicializa las animaciones, es llamado en el constructor
 	bool IsAnimationEnded();
@@ -59,9 +63,12 @@ protected:
 	void AjustaColisionX();
 	void AjustaColisionY();
 	int GetDireccionX();
+	bool SecuenciaDisparoFinalizada();
+	void Disparar(float x, float y,float shoot_time,float velmisiles);
+	void Disparar(float shootTime,float vel_misiles);
 public:
 	FloatRect &GetAABB();
-	void Inicializar(Nivel *n);
+	void Inicializar(ManejadorDisparos *d,Nivel *n);
 	SpriteBase(int cant_estados,const string &filename,float scale_x=0,float scale_y=0);
 	void Mover_y_Animar(Joystick j, float dt);	
 	virtual ~SpriteBase(void);

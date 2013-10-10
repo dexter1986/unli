@@ -1,6 +1,6 @@
 #include "Prince.h"
 
-Prince::Prince(void):SpriteBase(30,"personaje.png",0.5,0.5)
+Prince::Prince(void):SpriteBase(30,"../data/personaje.png",0.5,0.5)
 {
 	currentState = Estado::NORMAL;	
 	direccion = Direccion::RIGHT;
@@ -10,6 +10,8 @@ Prince::Prince(void):SpriteBase(30,"personaje.png",0.5,0.5)
 	IsJumpStart = false;
 	IsTirarStart = false;
 	IsClim_TO_JUMP = false;
+	SHOOT_TIME = 0.5f;
+	shootTime=SHOOT_TIME;
 }
 
 Prince::~Prince(void)
@@ -843,16 +845,6 @@ void Prince::Internal_Mover_y_Animar()
 			break;
 	}
 
-	if(!joystick.a)
-	{
-		IsDisparoStart = false;
-	}
-
-	if(joystick.a)
-	{
-		IsDisparoStart = true;
-	}
-
 	if(IsJumpStart && !joystick.b)
 	{
 		IsJumpStart = false;		
@@ -928,9 +920,9 @@ void Prince::Internal_Mover_y_Animar()
 
 void Prince::DisparoArma1()
 {
-	if(!IsDisparoStart)
+	if(SecuenciaDisparoFinalizada())
 	{
-
+		Disparar(SHOOT_TIME,VEL_MISILES);
 	}
 }
 

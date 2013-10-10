@@ -5,12 +5,13 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <list>
+#include "TextureManager.h"
 
 using namespace std;
 
 class Disparo: public sf::Sprite{
 	private:
-	static sf::Image imgDisparo;	// compartimos 1 imagen entre todas las instancias
+	
 	static bool init; 				// para saber si ya cargamos o no la imagen
 	float velx;						// la velocidad del disparo
 	
@@ -26,7 +27,7 @@ private:
 	list<Disparo> disparos;								// guardamos una lista de disparos
 
 public:
-	void MoverDisparos(float dt, sf::FloatRect &r);			// mueve los disparos y revisa que esten dentro de la pantalla
+	void MoverDisparos(float dt, sf::View &v);			// mueve los disparos y revisa que esten dentro de la pantalla
 	void AgregarDisparo(float x, float y, float vel);	// agrega un nuevo disparo
 	void DibujarDisparos(sf::RenderWindow &w);				// Dibuja todos los disparos en la ventana w
 };
