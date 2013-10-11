@@ -29,6 +29,7 @@ ParallaxLayer::ParallaxLayer(sf::Image &img, float factor_x, bool repeat_x, floa
 	
 	// ajustamos la posicion de la capa
 	Sprite::SetPosition(offset_x, offset_y);
+	SetScale(0.5,0.5);
 }
 
 
