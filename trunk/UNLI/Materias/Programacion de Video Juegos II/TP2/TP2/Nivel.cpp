@@ -71,19 +71,63 @@ void Nivel::Init(){
 		tiles.push_back(filaTemp);
 	}
 	
-	sf::Image *i=new sf::Image;
+	/*sf::Image *i=new sf::Image;
 	sf::Image *j=new sf::Image;
-	sf::Image *k=new sf::Image;
+	sf::Image *k=new sf::Image;*/
 	sf::Image *l=new sf::Image;
-	i->LoadFromFile("../data/parallax1.png");
-	j->LoadFromFile("../data/parallax2.png");
-	k->LoadFromFile("../data/parallax3.png");
-	l->LoadFromFile("../data/parallax4.png");
+	/*i->LoadFromFile("../data/parallax1.png");*/
+	/*i->LoadFromFile("../data/parallax5.png");*/
+	/*j->LoadFromFile("../data/parallax2.png");*/
+	/*k->LoadFromFile("../data/parallax3.png");*/
+	/*l->LoadFromFile("../data/parallax4.png");*/
+	/*i->LoadFromFile("../data/parallax6.png");
+	j->LoadFromFile("../data/parallax7.png");*/
+	//l->LoadFromFile("../data/parallax8.png");
+	//l->LoadFromFile("../data/parallax-1-800x200.png");
+	
 
-	capasParallax.push_back(new ParallaxLayer(*l, 0.0005, true, 0, 0, false, -5));
-	capasParallax.push_back(new ParallaxLayer(*k, 0.0015, true, 0, 0, false, 15));
+	/*capasParallax.push_back(new ParallaxLayer(*l, 0.0005, true, 0, 0, false, -5));*/
+	
+	//capasParallax.push_back(new ParallaxLayer(*i, 0.001, true, 0, 0, false, 0));
+	//capasParallax.push_back(new ParallaxLayer(*j, 0.001, true, 0, 0, false, 30));
+	/*capasParallax.push_back(new ParallaxLayer(*l, 0.000, false, 0, 0, true, 40));*/
+	//capasParallax.push_back(new ParallaxLayer(*l, 0.001, true, 0, 0.0001, false, 0));
+	
+	/*capasParallax.push_back(new ParallaxLayer(*k, 0.0015, true, 0, 0, false, 15));
 	capasParallax.push_back(new ParallaxLayer(*j, 0.002, true, 0, 0, false, 40));
-	capasParallax.push_back(new ParallaxLayer(*i, 0.0035, true, 0, 0, false, 110));
+	capasParallax.push_back(new ParallaxLayer(*i, 0.0035, true, 0, 0, false, 110));*/
+
+	/*capasParallax.push_back(new ParallaxLayer(*l, 0.0035, true, 0, 0, false, 0));*/
+
+	const int len = 2;
+	char *archivosCapas[]={ "../data/parallax-1-800x200.png",
+							"../data/parallax-2-800x120.png"};
+	
+	// cargamos las imagenes de las capas
+	sf::Image imgCapas[len];
+	for(unsigned i=0; i<len; i++)
+		imgCapas[i].LoadFromFile(archivosCapas[i]);
+	
+	//l->LoadFromFile("../data/parallax-1-800x200.png");
+
+	// los offsets y velocidades de las capas
+	float offsetYCapas[]={0,50,150};
+	float offsetXCapas[]={0,0,0};
+	/*float offsetYCapas[]={0,10,20,30,40};*/
+	float velCapas[]={0.0010, 0.0015, 0.0015};
+	
+	// inicializamos las capas del parallax
+	sf::Image *img;
+	ParallaxLayer *capas[len];
+	for(unsigned i=0; i<len; i++)
+	{
+		 img=new sf::Image;
+		 img->LoadFromFile(archivosCapas[i]);		 
+		capasParallax.push_back(new ParallaxLayer(*img, velCapas[i], true, offsetXCapas[i],
+												0, false, offsetYCapas[i]));
+	}
+
+	
 }
 
 
@@ -135,7 +179,6 @@ void Nivel::Load(string filename){
 	}
 }
 
-
 // guardamos el nivel en un archivo
 void Nivel::Save(string filename){
 	// abrimos el archivo de salida
@@ -172,9 +215,9 @@ void Nivel::Save(string filename){
 // en la vista actual del nivel
 void Nivel::Draw(sf::RenderWindow &w){
 	
-	/*for(unsigned i=0; i<capasParallax.size(); i++){
+	for(unsigned i=0; i<capasParallax.size(); i++){
 		capasParallax[i]->Draw(w);
-	}*/
+	}
 	
 	vector<sf::Vector2i> _tiles;
 	GetOverlappingTiles(levelView.GetRect(), _tiles);
@@ -230,7 +273,6 @@ bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision){
 }
 
 
-
 // devuelve el tamano del tile
 sf::Vector2i Nivel::GetTileSize(){
 	return tileSize;
@@ -270,6 +312,7 @@ void Nivel::SetViewCenter(sf::Vector2f newCenter){
 		capasParallax[i]->SetPosition(levelView);
 		capasParallax[i]->Move(-(oldCenter.x-newCenter.x), oldCenter.y-newCenter.y);
 	}
+
 	oldCenter=newCenter;
 	
 	// seteamos el nuevo centro de la vista
@@ -332,7 +375,7 @@ sf::View &Nivel::InitLevelView(int res_x, int res_y, int tiles_x, int tiles_y){
 			realtiles_y=(res_y*tiles_x)/float(res_x);
 		}
 	}else{
-		// si la ventana es mas alta que anca
+		// si la ventana es mas alta que ancha
 		// hacemos lo mismo que antes, el menor lado de la ventana
 		// le asignamos el menor lado del nivel
 		if(tiles_x>tiles_y){

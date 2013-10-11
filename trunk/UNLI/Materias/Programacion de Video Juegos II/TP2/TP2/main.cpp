@@ -14,9 +14,9 @@ int main(int argc, char *argv[]) {
 	// creamos la ventana y definimos la porcion visible del plano
 	sf::RenderWindow w(VideoMode(resx,resy),"TP2");	
 
-	Nivel nivel("../data/Mylevel.lev");
+	Nivel nivel("../data/level1.lev");
 
-	nivel.InitLevelView(resx, resy,10,10);
+	nivel.InitLevelView(resx, resy,10,8);
 	
 	//sf::FloatRect viewRect(0,0,300,150);
 	View &v = nivel.GetView();
