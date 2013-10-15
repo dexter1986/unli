@@ -1,9 +1,9 @@
-#ifndef PRINCE_H
-#define PRINCE_H
+#ifndef PERSONAJE_H
+#define PERSONAJE_H
 
 #include "SpriteBase.h"
 
-class Prince :
+class Personaje :
 	public SpriteBase
 {
 private:
@@ -69,8 +69,8 @@ protected:
 	void ArrojarPiedra();		
 	void Slide();
 public:
-	Prince(void);
-	~Prince(void);		
+	Personaje(void);
+	~Personaje(void);		
 };
 
 #endif

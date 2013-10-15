@@ -87,7 +87,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Nivel.cpp" />
     <ClCompile Include="ParallaxLayer.cpp" />
-    <ClCompile Include="Prince.cpp" />
+    <ClCompile Include="Personaje.cpp" />
     <ClCompile Include="SpriteBase.cpp" />
     <ClCompile Include="SpriteSheetManager.cpp" />
     <ClCompile Include="TextureManager.cpp" />
@@ -100,7 +100,7 @@
     <ClInclude Include="Disparos.h" />
     <ClInclude Include="Nivel.h" />
     <ClInclude Include="ParallaxLayer.h" />
-    <ClInclude Include="Prince.h" />
+    <ClInclude Include="Personaje.h" />
     <ClInclude Include="SpriteBase.h" />
     <ClInclude Include="SpriteSheetManager.h" />
     <ClInclude Include="TextureManager.h" />

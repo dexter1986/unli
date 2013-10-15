@@ -52,7 +52,6 @@ void SpriteBase::Disparar(float shootTime,float vel_misiles)
 	}
 }
 
-
 void SpriteBase::CambiarEstado(int nuevoEstado, bool continueFromCurrent)
 {
 	int viejoEstado=currentState;
