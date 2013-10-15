@@ -24,12 +24,10 @@ Nivel::Nivel(string tileset_filename, int tileset_nw, int tileset_nh, unsigned l
 	Init();
 }
 
-
 // Constructor: cargar el nivel desde el archivo level_file
 Nivel::Nivel(string level_file){
 	Load(level_file);
 }
-
 
 // inicializa la matriz de tiles
 void Nivel::Init(){
@@ -37,6 +35,9 @@ void Nivel::Init(){
 	// a Load() mas de una vez)
 	tiles.clear();
 	tiles.resize(0);
+
+	tiles_overlayer.clear();
+	tiles_overlayer.resize(0);
 	
 	// variables temporales para ir llenando la matriz
 	// una fila y un tile
@@ -63,12 +64,15 @@ void Nivel::Init(){
 			
 			// inicializamos el numero de imagen
 			tileTemp.iImage=-1;
-			
+			tileTemp.iOverLayer=-1;
+			tileTemp.isAnim=false;
+						
 			// insertamos al tile en la fila
 			filaTemp.push_back(tileTemp);
 		}
 		// insertamos la fila en la matriz
 		tiles.push_back(filaTemp);
+		tiles_overlayer.push_back(filaTemp);
 	}
 	
 	/*sf::Image *i=new sf::Image;
@@ -111,7 +115,7 @@ void Nivel::Init(){
 	//l->LoadFromFile("../data/parallax-1-800x200.png");
 
 	// los offsets y velocidades de las capas
-	float offsetYCapas[]={0,50,150};
+	float offsetYCapas[]={0,20,110};
 	float offsetXCapas[]={0,0,0};
 	/*float offsetYCapas[]={0,10,20,30,40};*/
 	float velCapas[]={0.0010, 0.0015, 0.0015};
@@ -129,7 +133,6 @@ void Nivel::Init(){
 
 	
 }
-
 
 // carga un nivel desde un archivo de nivel
 void Nivel::Load(string filename){
@@ -149,20 +152,45 @@ void Nivel::Load(string filename){
 	// inicializamos la matriz de tiles
 	Init();
 	
+	int aux = 0;
+
 	// leemos la matriz de numeros de imagenes
 	for(unsigned i=0; i<levelSize.y; i++){
 		for(unsigned j=0; j<levelSize.x; j++){
-			entrada>>tiles[i][j].iImage;
+			entrada>>aux;
+			tiles[i][j].iImage = aux-1;			
 		}
 	}
 	
 	// leemos la matriz que nos indica cuales
 	// tiles son solidos
+	aux = 0;
 	for(unsigned i=0; i<levelSize.y; i++){
 		for(unsigned j=0; j<levelSize.x; j++){
-			entrada>>tiles[i][j].solid;
+			entrada>>aux;
+			tiles[i][j].solid = aux;
 		}
 	}
+
+
+	// leemos la matriz que nos indica cuales
+	// tiles son overlay
+	aux = 0;
+	for(unsigned i=0; i<levelSize.y; i++){
+		for(unsigned j=0; j<levelSize.x; j++){
+			entrada>>aux;
+			tiles_overlayer[i][j].iOverLayer = aux-1;
+		}
+	}
+
+	//// leemos la matriz que nos indica que tipo
+	//// de tile overlay es
+	//for(unsigned i=0; i<levelSize.y; i++){
+	//	for(unsigned j=0; j<levelSize.x; j++){
+	//		entrada>>tiles[i][j].iType;
+	//	}
+	//}
+
 	// cerramos el archivo
 	entrada.close();
 	
@@ -174,6 +202,10 @@ void Nivel::Load(string filename){
 			iImg=tiles[i][j].iImage;
 			if(iImg!=-1){
 				tiles[i][j].SetImage(sm[iImg]);
+			}
+			iImg=tiles_overlayer[i][j].iOverLayer;
+			if(iImg!=-1){
+				tiles_overlayer[i][j].SetImage(sm[iImg]);
 			}
 		}
 	}
@@ -222,9 +254,10 @@ void Nivel::Draw(sf::RenderWindow &w){
 	vector<sf::Vector2i> _tiles;
 	GetOverlappingTiles(levelView.GetRect(), _tiles);
 	Tile temp;
-	for(unsigned i=0; i<_tiles.size(); i++){
-		temp=tiles[_tiles[i].x][_tiles[i].y];
-		if(temp.iImage!=-1){
+	for(unsigned i=0; i<_tiles.size(); i++){		
+		temp=tiles[_tiles[i].x][_tiles[i].y];		
+		if(temp.iImage != -1)
+		{
 			w.Draw(temp);
 		}
 	}
@@ -237,14 +270,36 @@ void Nivel::Draw(sf::RenderWindow &w){
 	
 }
 
+void Nivel::DrawOverLayer(sf::RenderWindow &w)
+{
+	vector<sf::Vector2i> _tiles;
+	GetOverlappingTiles(levelView.GetRect(), _tiles);
+	Tile temp;
+	for(unsigned i=0; i<_tiles.size(); i++){
+		temp=tiles_overlayer[_tiles[i].x][_tiles[i].y];		
+		if(temp.iOverLayer != -1)
+		{
+			w.Draw(temp);
+		}
+	}
+}
+
 // llena el vector ovTiles con las coordenadas de los tiles que se superponen
 // con el rectangulo r, nos es util para detectar colisiones y para saber que
 // tiles debemos renderizar en caso de que no estemos viendo todo el nivel
 void Nivel::GetOverlappingTiles(sf::FloatRect r, vector<sf::Vector2i> &ovTiles){
 	// tanto i como j comienzan con las coordenadas (en tiles) del rectangulo r
-	for(int i=r.Top/tileSize.y; i<r.Bottom/tileSize.y; i++){
-		for(int j=r.Left/tileSize.x; j<r.Right/tileSize.x; j++){
-			ovTiles.push_back(sf::Vector2i(i, j));
+	float xo = r.Top/tileSize.y;
+	float xf = r.Bottom/tileSize.y;
+	float yo = r.Left/tileSize.x;
+	float yf = r.Right/tileSize.x;
+
+	for(int i=xo; i<xf; i++){
+		for(int j=yo; j<yf; j++){
+			if( i >= 0 && j >= 0)
+			{
+				ovTiles.push_back(sf::Vector2i(i, j));
+			}
 		}
 	}
 }
@@ -258,20 +313,25 @@ bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision){
 	vector<sf::Vector2i> _tiles;
 	GetOverlappingTiles(r, _tiles);
 	sf::FloatRect tempResp; float maxResponse=0, sresponse;
-	for(unsigned i=0; i<_tiles.size(); i++){
-		if(tiles[_tiles[i].x][_tiles[i].y].solid){
-			if(r.Intersects(tiles[_tiles[i].x][_tiles[i].y].rect, &tempResp)){
-				sresponse=tempResp.GetWidth()*tempResp.GetHeight();
-				if(sresponse>maxResponse){
-					maxResponse=sresponse;
-					areaColision=tempResp;
+	int x,y;
+	for(unsigned i=0; i<_tiles.size(); i++){		
+		x = _tiles[i].x;
+		y = _tiles[i].y;
+		if(x > -1 && x < levelSize.y && y < levelSize.x  && y > -1)
+		{
+			if(tiles[_tiles[i].x][_tiles[i].y].solid){
+				if(r.Intersects(tiles[_tiles[i].x][_tiles[i].y].rect, &tempResp)){
+					sresponse=tempResp.GetWidth()*tempResp.GetHeight();
+					if(sresponse>maxResponse){
+						maxResponse=sresponse;
+						areaColision=tempResp;
+					}
 				}
 			}
 		}
 	}
 	return maxResponse > 0;
 }
-
 
 // devuelve el tamano del tile
 sf::Vector2i Nivel::GetTileSize(){
@@ -302,10 +362,14 @@ void Nivel::SetViewCenter(sf::Vector2f newCenter){
 	levelSizeCoords.y=levelSize.y*tileSize.y;
 	
 	// si el nuevo centro se sale fuera del nivel, lo corregimos
-	if(newCenter.x-halfSize.x<0) newCenter.x=halfSize.x;
-	if(newCenter.x+halfSize.x>levelSizeCoords.x) newCenter.x=levelSizeCoords.x-halfSize.x; 
-	if(newCenter.y-halfSize.y<0) newCenter.y=halfSize.y;
-	if(newCenter.y+halfSize.y>levelSizeCoords.y) newCenter.y=levelSizeCoords.y-halfSize.y;
+	if(newCenter.x-halfSize.x<0) 
+		newCenter.x=halfSize.x;
+	if(newCenter.x+halfSize.x>levelSizeCoords.x) 
+		newCenter.x=levelSizeCoords.x-halfSize.x; 
+	if(newCenter.y-halfSize.y<0) 
+		newCenter.y=halfSize.y;
+	if(newCenter.y+halfSize.y > levelSizeCoords.y) 
+		newCenter.y=levelSizeCoords.y-halfSize.y;
 	
 	// actualiza las capas de parallax scrolling
 	for(unsigned i=0; i<capasParallax.size(); i++){
@@ -316,7 +380,7 @@ void Nivel::SetViewCenter(sf::Vector2f newCenter){
 	oldCenter=newCenter;
 	
 	// seteamos el nuevo centro de la vista
-	levelView.SetCenter(newCenter);
+	levelView.SetCenter(newCenter);	
 }
 
 // Cumple la misma funcion que ScrollView() pero suavizando el scroll
@@ -409,7 +473,7 @@ void Nivel::DrawGrid(sf::RenderWindow &w){
 		sf::Shape Line = sf::Shape::Line(i*tileSize.x, y1*tileSize.y, i*tileSize.x, y2*tileSize.y, 1, sf::Color(255,255,255));
 		w.Draw(Line);
 	}
-
+	
 	// dibuja las lineas horizontales
 	for(unsigned i=y1; i<=y2; i++){
 		sf::Shape Line = sf::Shape::Line(x1*tileSize.x, i*tileSize.y, x2*tileSize.x, i*tileSize.y, 1, sf::Color(255,255,255));

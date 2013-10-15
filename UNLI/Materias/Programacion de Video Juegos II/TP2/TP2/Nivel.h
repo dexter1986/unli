@@ -6,16 +6,52 @@
 #include "SpriteSheetManager.h"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "ParallaxLayer.h"
+#include "AnimatedBase.h"
+
 using namespace std;
 using namespace sf;
 
+namespace Tiletype
+{
+	enum Tiletype
+	{
+		NOTHING = 0,
+		SOLID = 1
+	};
+};
+
 class Nivel{
 private:
-	// la estructura para representar un tile
-	class Tile: public sf::Sprite{
-	public:
+	
+	class Tile : public Sprite
+	{	
+		public:
+		/*Sprite normal;
+		Sprite overlayer;*/
+
+		/*void Draw(sf::RenderWindow &w)
+		{
+			if(iImage != 0)
+				w.Draw(normal);
+		};
+
+		void DrawOverLayer(sf::RenderWindow &w)
+		{
+			if(iOverLayer != 0)
+				w.Draw(overlayer);
+		};
+
+		void SetPosition(float X, float Y)
+		{
+			normal.SetPosition(X,Y);
+			overlayer.SetPosition(X,Y);
+		};*/
+		
 		int iImage;			// el numero de imagen
 		bool solid;			// si se puede chocar con el tile
+		int iOverLayer;
+		bool isAnim;
+		int iType;
 		sf::FloatRect rect; // para facilitar la deteccion de colisiones
 	};
 	
@@ -24,7 +60,11 @@ private:
 	// manejador de las imagenes del tileset
 	SpriteSheetManager sm;
 	// la matriz (o vector de vectores) de tiles
-	vector< vector<Tile> > tiles;
+	vector<vector<Tile>>tiles;
+	
+	// la matriz (o vector de vectores) de tiles
+	vector<vector<Tile>>tiles_overlayer;
+
 	// tamano del nivel en tiles (ancho x alto)
 	sf::Vector2i levelSize;
 	// tamano del tileset en tiles (ancho x alto)
@@ -36,7 +76,6 @@ private:
 	sf::View levelView;
 	
 	vector<ParallaxLayer *> capasParallax;
-	
 	
 	// inicializa la matriz de tiles
 	void Init();
@@ -60,6 +99,7 @@ public:
 	
 	// dibujar el nivel en pantalla
 	void Draw(sf::RenderWindow &w);
+	void DrawOverLayer(sf::RenderWindow &w);
 	
 	// probar si hay colision del nivel con el rectangulo r
 	bool HayColision(sf::FloatRect &r, sf::FloatRect &areaColision);
@@ -86,4 +126,5 @@ public:
 };
 
 #endif
+
 

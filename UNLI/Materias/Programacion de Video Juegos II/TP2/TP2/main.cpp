@@ -3,7 +3,7 @@
 #include "SpriteSheetManager.h"
 #include "Animation.h"
 #include "Nivel.h"
-#include "Prince.h"
+#include "Personaje.h"
 #include "Disparos.h"
 
 using namespace std;
@@ -30,9 +30,19 @@ int main(int argc, char *argv[]) {
 	//creamos el manejador para los disparos
 	ManejadorDisparos disparos;
 		
-	Prince prince;
+	Personaje prince;
+
+	Personaje guadias[3];
+
+	guadias[0].Inicializar(&disparos,&nivel);
+	guadias[0].SetColor(Color::Red);
+	guadias[0].SetPosition(384,32);
+	/*guadias[1].Inicializar(&disparos,&nivel);
+	guadias[2].Inicializar(&disparos,&nivel);*/
+
+
 	prince.Inicializar(&disparos,&nivel);
-	prince.SetPosition(64,64);
+	prince.SetPosition(64,96);
 	
 	sf::Clock clk;
 	sf::Event e;
@@ -69,6 +79,9 @@ int main(int argc, char *argv[]) {
 		
 		// actualizamos el estado del personaje y los proyectiles
 		prince.Mover_y_Animar(j,clk.GetElapsedTime());
+		
+		guadias[0].Mover_y_Animar(j,clk.GetElapsedTime());
+
 		nivel.SetViewCenter(prince.GetPosition());
 
 		disparos.MoverDisparos(clk.GetElapsedTime(), v);
@@ -84,10 +97,14 @@ int main(int argc, char *argv[]) {
 		disparos.DibujarDisparos(w);
 		
 		w.Draw(prince);
+		w.Draw(guadias[0]);
+
+		nivel.DrawOverLayer(w);
 
 		/*FloatRect bb=prince.GetAABB();
 		w.Draw(sf::Shape::Rectangle(bb.Left, bb.Top, bb.Right, bb.Bottom, sf::Color(0,0,0,0), 1, sf::Color(255,0,0)));*/
 
+		
 		w.Display();
 	}
 	return 0;

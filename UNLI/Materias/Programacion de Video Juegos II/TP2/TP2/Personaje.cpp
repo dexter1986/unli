@@ -1,12 +1,11 @@
-#include "Prince.h"
+#include "Personaje.h"
 
-Prince::Prince(void):SpriteBase(30,"../data/personaje.png",0.5,0.5)
+Personaje::Personaje(void):SpriteBase(30,"../data/personaje.png",0.5,0.5)
 {
 	currentState = Estado::NORMAL;	
 	direccion = Direccion::RIGHT;
 	velocidad.x = 45.0f;
 	delayToBreak = 0;
-	IsDisparoStart = false;
 	IsJumpStart = false;
 	IsTirarStart = false;
 	IsClim_TO_JUMP = false;
@@ -14,11 +13,11 @@ Prince::Prince(void):SpriteBase(30,"../data/personaje.png",0.5,0.5)
 	shootTime=SHOOT_TIME;
 }
 
-Prince::~Prince(void)
+Personaje::~Personaje(void)
 {
 }
 
-void Prince::InicializarAnimaciones()
+void Personaje::InicializarAnimaciones()
 {
 	int w;
 	int h;
@@ -196,7 +195,7 @@ void Prince::InicializarAnimaciones()
 
 }
 
-void Prince::Internal_Mover_y_Animar()
+void Personaje::Internal_Mover_y_Animar()
 {
 	float distAjuste = 0;
 	switch(currentState)
@@ -918,7 +917,7 @@ void Prince::Internal_Mover_y_Animar()
 	}
 }
 
-void Prince::DisparoArma1()
+void Personaje::DisparoArma1()
 {
 	if(SecuenciaDisparoFinalizada())
 	{
@@ -926,7 +925,7 @@ void Prince::DisparoArma1()
 	}
 }
 
-bool Prince::VerifyFall()
+bool Personaje::VerifyFall()
 {	
 	if(!ColisionaSuelo())
 	{
@@ -937,7 +936,7 @@ bool Prince::VerifyFall()
 	return false;
 }
 
-bool Prince::VerifyFallAndRun()
+bool Personaje::VerifyFallAndRun()
 {	
 	if(!ColisionaSuelo())
 	{
@@ -948,7 +947,7 @@ bool Prince::VerifyFallAndRun()
 	return false;
 }
 
-bool Prince::DelayToBreak(bool reset,float value)
+bool Personaje::DelayToBreak(bool reset,float value)
 {
 	if(reset)
 	{
@@ -966,15 +965,15 @@ bool Prince::DelayToBreak(bool reset,float value)
 	}
 }
 
-void Prince::Saltar(){
+void Personaje::Saltar(){
 	velocidad.y=v0;		
 }
 
-void Prince::Slide()
+void Personaje::Slide()
 {
 	velocidad.y = SLIDE_VEL;
 }
 
-void Prince::ArrojarPiedra()
+void Personaje::ArrojarPiedra()
 {
 }
