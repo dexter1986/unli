@@ -2,7 +2,7 @@
 
 
 // Constructor
-ParallaxLayer::ParallaxLayer(sf::Image &img, float factor_x, bool repeat_x, float offset_x, float factor_y, bool repeat_y, float offset_y){
+ParallaxLayer::ParallaxLayer(const sf::Image &img, float factor_x, bool repeat_x, float offset_x, float factor_y, bool repeat_y, float offset_y){
 	SetImage(img);
 	
 	// calculamos el ancho y alto de la imagen, esto

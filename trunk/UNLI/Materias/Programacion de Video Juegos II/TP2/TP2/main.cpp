@@ -10,40 +10,43 @@ using namespace std;
 
 int const resx=800, resy=600;
 
+void IntLevel(ManejadorDisparos &disparos,Personaje &prince,string fileLevel,RenderWindow &w, Nivel &nivel);
+
 int main(int argc, char *argv[]) {
+	
 	// creamos la ventana y definimos la porcion visible del plano
 	sf::RenderWindow w(VideoMode(resx,resy),"TP2");	
-
-	Nivel nivel("../data/level1.lev");
-
-	nivel.InitLevelView(resx, resy,10,8);
+	w.SetFramerateLimit(60);
 	
-	//sf::FloatRect viewRect(0,0,300,150);
-	View &v = nivel.GetView();
-	w.SetView(v);
-
-	w.SetFramerateLimit(30);
 	// creamos e inicializamos nuestra estructura joystick
 	Joystick j;
 	j.up=j.down=j.left=j.right=j.a=j.b=0;
 	
 	//creamos el manejador para los disparos
 	ManejadorDisparos disparos;
-		
+
 	Personaje prince;
-
-	Personaje guadias[3];
-
-	guadias[0].Inicializar(&disparos,&nivel);
-	guadias[0].SetColor(Color::Red);
-	guadias[0].SetPosition(384,32);
-	/*guadias[1].Inicializar(&disparos,&nivel);
-	guadias[2].Inicializar(&disparos,&nivel);*/
-
-
-	prince.Inicializar(&disparos,&nivel);
-	prince.SetPosition(64,96);
 	
+	Personaje guardia;
+	
+
+	Nivel nivel;
+
+	IntLevel(disparos,prince,"../data/level1.lev",w,nivel);
+	View &v = w.GetDefaultView();
+	
+	prince.Inicializar(&disparos,&nivel);
+	guardia.Inicializar(&disparos,&nivel);
+	guardia.SetColor(Color::Red);
+	guardia.SetPosition(384,32);
+
+	/*Nivel nivel("../data/level1.lev");*/
+	/*nivel.InitLevelView(resx, resy,10,8);*/
+	
+	//= nivel.GetView();
+	//w.SetView(v);
+	//prince.Inicializar(&disparos,&nivel);
+
 	sf::Clock clk;
 	sf::Event e;
 	
@@ -76,11 +79,10 @@ int main(int argc, char *argv[]) {
 			}
 			
 		}
-		
 		// actualizamos el estado del personaje y los proyectiles
 		prince.Mover_y_Animar(j,clk.GetElapsedTime());
 		
-		guadias[0].Mover_y_Animar(j,clk.GetElapsedTime());
+		guardia.Mover_y_Animar_NPC(clk.GetElapsedTime());
 
 		nivel.SetViewCenter(prince.GetPosition());
 
@@ -97,15 +99,30 @@ int main(int argc, char *argv[]) {
 		disparos.DibujarDisparos(w);
 		
 		w.Draw(prince);
-		w.Draw(guadias[0]);
+		w.Draw(guardia);
 
 		nivel.DrawOverLayer(w);
 
 		/*FloatRect bb=prince.GetAABB();
 		w.Draw(sf::Shape::Rectangle(bb.Left, bb.Top, bb.Right, bb.Bottom, sf::Color(0,0,0,0), 1, sf::Color(255,0,0)));*/
-
-		
+				
 		w.Display();
-	}
+
+		if(nivel.isNeedNextLoadLevel)
+		{
+			string file = nivel.fileNextLevel;						
+			IntLevel(disparos,prince,file,w,nivel);
+		}
+	}	
 	return 0;
+}
+
+void IntLevel(ManejadorDisparos &disparos, Personaje &prince, string fileLevel, RenderWindow &w, Nivel &nivel)
+{
+	disparos.Init();
+	nivel.Load(fileLevel);
+	nivel.InitLevelView(resx, resy,10,8);
+	View &v = nivel.GetView();
+	w.SetView(v);
+	prince.SetPosition(nivel.vEntryPoint);
 }

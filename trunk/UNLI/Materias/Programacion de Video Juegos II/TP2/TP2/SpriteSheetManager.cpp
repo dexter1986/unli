@@ -1,10 +1,11 @@
 #include "SpriteSheetManager.h"
+#include "TextureManager.h"
 
 void SpriteSheetManager::Load(string filename, unsigned nCols, unsigned nRows){
 	
-	sf::Image sheet;
 	// cargamos 
-	sheet.LoadFromFile(filename);	
+	const sf::Image &sheet = TextureManager::GetInstance().GetTexture(filename);
+	
 	// segun la cantidad de filas/columnas calculamos el tamanio
 	// de las subimagenes
 	unsigned subimgw, subimgh;

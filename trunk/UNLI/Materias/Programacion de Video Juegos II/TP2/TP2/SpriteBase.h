@@ -37,6 +37,8 @@ protected:
 	Joystick joystick;
 	Direccion direccion;// si apunta a la der o izq (flip horizontal de la textura)
 
+	int vidas;
+
 	AnimatedBase *animaciones;
 	FloatRect aabb;
 	
@@ -71,6 +73,7 @@ public:
 	void Inicializar(ManejadorDisparos *d,Nivel *n);
 	SpriteBase(int cant_estados,const string &filename,float scale_x=0,float scale_y=0);
 	void Mover_y_Animar(Joystick j, float dt);	
+	void Mover_y_Animar_NPC(float dt);	
 	virtual ~SpriteBase(void);
 };
 
