@@ -12,6 +12,10 @@ Disparo::Disparo(float x0, float y0, float vel){
 	velx=vel;
 };
 
+void ManejadorDisparos::Init()
+{
+	disparos.clear();	
+};
 
 // recorre la lista de disparos, si el disparo se encuentra fuera de la region
 // dada por r, el disparo se elimina de la lista, sino se mueve

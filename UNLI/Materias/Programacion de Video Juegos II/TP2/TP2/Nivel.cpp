@@ -2,6 +2,9 @@
 #include <fstream>
 #include <iomanip>
 
+Nivel::Nivel()
+{
+}
 
 // Constructor: inicializa el Nivel
 // tileset_filename: el nombre del archivo que contiene el tileset
@@ -31,6 +34,11 @@ Nivel::Nivel(string level_file){
 
 // inicializa la matriz de tiles
 void Nivel::Init(){
+	isNeedNextLoadLevel = false;
+	fileNextLevel = "";
+	iPortales = 0;
+	iEnemigos = 0;
+	
 	// vaciamos la matriz de tiles (por las dudas si se llama
 	// a Load() mas de una vez)
 	tiles.clear();
@@ -39,6 +47,9 @@ void Nivel::Init(){
 	tiles_overlayer.clear();
 	tiles_overlayer.resize(0);
 	
+	nextLevels.clear();
+	nextLevels.resize(0);
+
 	// variables temporales para ir llenando la matriz
 	// una fila y un tile
 	vector<Tile> filaTemp;
@@ -66,6 +77,12 @@ void Nivel::Init(){
 			tileTemp.iImage=-1;
 			tileTemp.iOverLayer=-1;
 			tileTemp.isAnim=false;
+			tileTemp.isBomb=false;
+			tileTemp.iPortal=-1;
+			tileTemp.iEnemigo = -1;
+			tileTemp.isEntryPoint = false;			
+			tileTemp.solid = false;
+			tileTemp.iType = -1;
 						
 			// insertamos al tile en la fila
 			filaTemp.push_back(tileTemp);
@@ -108,9 +125,11 @@ void Nivel::Init(){
 							"../data/parallax-2-800x120.png"};
 	
 	// cargamos las imagenes de las capas
-	sf::Image imgCapas[len];
+	/*sf::Image imgCapas[len];
 	for(unsigned i=0; i<len; i++)
+	{
 		imgCapas[i].LoadFromFile(archivosCapas[i]);
+	}*/
 	
 	//l->LoadFromFile("../data/parallax-1-800x200.png");
 
@@ -121,14 +140,13 @@ void Nivel::Init(){
 	float velCapas[]={0.0010, 0.0015, 0.0015};
 	
 	// inicializamos las capas del parallax
-	sf::Image *img;
+	const sf::Image *img;
 	ParallaxLayer *capas[len];
 	for(unsigned i=0; i<len; i++)
-	{
-		 img=new sf::Image;
-		 img->LoadFromFile(archivosCapas[i]);		 
-		capasParallax.push_back(new ParallaxLayer(*img, velCapas[i], true, offsetXCapas[i],
-												0, false, offsetYCapas[i]));
+	{	 
+		 img = &TextureManager::GetInstance().GetTexture(archivosCapas[i]);		
+		 capasParallax.push_back(new ParallaxLayer(*img, velCapas[i], true, offsetXCapas[i],
+												    0, false, offsetYCapas[i]));
 	}
 
 	
@@ -136,6 +154,7 @@ void Nivel::Init(){
 
 // carga un nivel desde un archivo de nivel
 void Nivel::Load(string filename){
+	
 	// abrimos el archivo
 	ifstream entrada(filename.c_str());
 	// leemos el nombre del archivo de tilesets
@@ -162,13 +181,42 @@ void Nivel::Load(string filename){
 		}
 	}
 	
+	//01 solid
+	//03 bomb
+	//70 Enemigo
+	//10-20 portal
+	//99 Enter Point
 	// leemos la matriz que nos indica cuales
 	// tiles son solidos
 	aux = 0;
 	for(unsigned i=0; i<levelSize.y; i++){
 		for(unsigned j=0; j<levelSize.x; j++){
 			entrada>>aux;
-			tiles[i][j].solid = aux;
+			if(aux == 1)
+			{
+				tiles[i][j].solid = true;
+			}
+			else if(aux == 3)
+			{
+				tiles[i][j].isBomb = true;				
+			}
+			else if(aux >= 10 && aux <= 20)
+			{
+				iPortales++;
+				tiles[i][j].iPortal = aux;
+			}
+			else if(aux == 70)
+			{
+				iEnemigos++;
+				tiles[i][j].iEnemigo = aux;
+			}
+			else if(aux == 99)
+			{
+				tiles[i][j].isEntryPoint = true;
+				vEntryPoint.x = tileSize.x * j;
+				vEntryPoint.y = tileSize.y * i;
+
+			}
 		}
 	}
 
@@ -182,14 +230,17 @@ void Nivel::Load(string filename){
 			tiles_overlayer[i][j].iOverLayer = aux-1;
 		}
 	}
-
-	//// leemos la matriz que nos indica que tipo
-	//// de tile overlay es
-	//for(unsigned i=0; i<levelSize.y; i++){
-	//	for(unsigned j=0; j<levelSize.x; j++){
-	//		entrada>>tiles[i][j].iType;
-	//	}
-	//}
+	aux = 0;
+	string file;
+	Level templevel;
+	//Cargamos los link a los niveles
+	for(unsigned i=0; i<iPortales; i++){		
+		entrada>>aux;
+		entrada>>file;
+		templevel.index = aux;
+		templevel.file = file;
+		nextLevels.push_back(templevel);
+	}
 
 	// cerramos el archivo
 	entrada.close();
@@ -309,7 +360,7 @@ void Nivel::GetOverlappingTiles(sf::FloatRect r, vector<sf::Vector2i> &ovTiles){
 // devuelve en areaColision el area de interpenetracion con el tile
 // en caso de haber colision con mas de un tile, devuelve
 // el area de colision con el tile que tenga mayor area de colision
-bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision){
+bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo){
 	vector<sf::Vector2i> _tiles;
 	GetOverlappingTiles(r, _tiles);
 	sf::FloatRect tempResp; float maxResponse=0, sresponse;
@@ -319,10 +370,35 @@ bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision){
 		y = _tiles[i].y;
 		if(x > -1 && x < levelSize.y && y < levelSize.x  && y > -1)
 		{
-			if(tiles[_tiles[i].x][_tiles[i].y].solid){
-				if(r.Intersects(tiles[_tiles[i].x][_tiles[i].y].rect, &tempResp)){
+			Tile tile = tiles[_tiles[i].x][_tiles[i].y];
+			if(tile.isBomb)
+			{
+				tipo = 3;
+				return true;
+			}
+			else if(tile.iPortal != -1)
+			{
+				tipo = tile.iPortal;
+				if(!isNeedNextLoadLevel)
+				{
+					isNeedNextLoadLevel = true;
+					for(int i=0;i<iPortales;i++)
+					{
+						if(nextLevels[i].index == tipo)
+						{
+							fileNextLevel = nextLevels[i].file;
+						}
+					}
+				}					
+				return true;
+			} 
+			else if(tiles[_tiles[i].x][_tiles[i].y].solid)
+			{
+				if(r.Intersects(tiles[_tiles[i].x][_tiles[i].y].rect, &tempResp))
+				{
 					sresponse=tempResp.GetWidth()*tempResp.GetHeight();
-					if(sresponse>maxResponse){
+					if(sresponse>maxResponse)
+					{
 						maxResponse=sresponse;
 						areaColision=tempResp;
 					}

@@ -24,6 +24,8 @@ SpriteBase::SpriteBase(int cant_estados,const string &filename,float scale_x,flo
 	scale.x = scale_x;
 	scale.y = scale_y;
 	
+	vidas = 100;
+
 	animaciones = new AnimatedBase[cant_estados];
 	
 	const sf::Image &tex = TextureManager::GetInstance().GetTexture(filename);	
@@ -176,6 +178,8 @@ void SpriteBase::Inicializar(ManejadorDisparos *d,Nivel *n)
 
 	this->nivel = n;
 	this->disparos = d;
+
+	SetPosition(this->nivel->vEntryPoint);
 }
 
 // para saber si ya expiro el tiempo que dura la secuencia de disparo
@@ -210,9 +214,23 @@ bool SpriteBase::ColisionaPared(){
 	
 	// calculamos si habria colision
 	//chocaPared=nivel->HayColision2(aabb, aabb_tmp, areaColision);
-	chocaPared = nivel->HayColision(aabb_tmp, areaColision);
+	int tipo=-1;
+	chocaPared = nivel->HayColision(aabb_tmp, areaColision,tipo);
 	
 	ajustaColision_x = GetDireccionX() * (dt*velocidad.x-areaColision.GetWidth());
+
+	if(chocaPared)
+	{
+		if(tipo == 3)
+		{
+			cout<<"Toco una bomba - Vitalidad: "<< vidas<<"\n";
+			vidas--;
+		}
+		else if(tipo>= 10 && tipo <=20)
+		{
+			cout<<"Cargar Nivel"<<"\n";
+		}
+	}
 
 	return chocaPared;	
 }
@@ -239,10 +257,72 @@ bool SpriteBase::ColisionaTecho(){
 		aabb_tmp.Right = aabb.Right;
 		
 		// calculamos si habria colision
-		chocaConTecho=nivel->HayColision(aabb_tmp, areaColision);
+		int tipo = -1;
+		chocaConTecho=nivel->HayColision(aabb_tmp, areaColision,tipo);
+
+		if(chocaConTecho)
+		{
+			if(tipo == 3)
+			{
+				cout<<"Toco una bomba - Vitalidad: "<< vidas<<"\n";
+				vidas--;
+			}
+			else if(tipo>= 10 && tipo <=20)
+			{
+				cout<<"Cargar Nivel"<<"\n";
+			}
+		}
+
 		ajustaColision_y = despl+areaColision.GetHeight();
 	}
 	return chocaConTecho;	
+}
+
+void SpriteBase::Mover_y_Animar_NPC(float dt)
+{
+	//Actualiza Delta de tiempo
+	this->dt =  dt;
+
+	this->joystick.a =false;
+	this->joystick.b =false;
+	this->joystick.down =false;
+	this->joystick.left =false;
+	this->joystick.right =false;	
+	this->joystick.up =false;
+
+	Internal_Mover_y_Animar();
+
+	if(direccion == Direccion::RIGHT)
+	{
+		FlipX(false);				
+	}
+	else if(direccion == Direccion::LEFT)
+	{	
+		FlipX(true);				
+	}
+
+	if(!DelayTransition())
+	{
+		//Anima el objeto
+		(animaciones+currentState)->Animate(dt);
+		IntRect rect = animaciones[currentState].GetCurrentFrameRect();
+		SetSubRect(rect);
+		
+		if(direccion == Direccion::RIGHT)
+		{	
+			SetCenter(animaciones[currentState].GetCurrentFrameOffset());
+			SetOffsetAABB(animaciones[currentState].GetCurrentFrameOffset());
+		}
+		else if(direccion == Direccion::LEFT)
+		{
+			SetCenter(animaciones[currentState].GetCurrentFrameFlipOffset());
+			SetOffsetAABB(animaciones[currentState].GetCurrentFrameFlipOffset());
+		}
+
+		CalculateAABB();
+	}
+
+	if(!SecuenciaDisparoFinalizada()) shootTime-=dt;
 }
 
 // saber si chocara con el suelo cuando esta cayendo,
@@ -272,8 +352,22 @@ bool SpriteBase::ColisionaSuelo(){
 
 		// calculamos si habria colision
 		//chocaConSuelo = nivel->HayColision2(aabb,aabb_tmp, areaColision);
-		chocaConSuelo = nivel->HayColision(aabb_tmp, areaColision);
+		int tipo = -1;
+		chocaConSuelo = nivel->HayColision(aabb_tmp, areaColision,tipo);
 
+		if(chocaConSuelo)
+		{
+			if(tipo == 3)
+			{
+				cout<<"Toco una bomba - Vitalidad: "<< vidas<<"\n";
+				vidas--;
+			}
+			else if(tipo>= 10 && tipo <=20)
+			{
+				cout<<"Cargar Nivel"<<"\n";
+			}
+		}
+		
 		ajustaColision_y = despl - areaColision.GetHeight();					
 	}
 	

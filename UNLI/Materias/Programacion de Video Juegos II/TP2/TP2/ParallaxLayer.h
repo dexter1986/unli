@@ -19,7 +19,7 @@ private:
 	
 public:
 	// constructor
-	ParallaxLayer(	sf::Image &img, float factor_x, bool repeat_x=true,
+	ParallaxLayer(const	sf::Image &img, float factor_x, bool repeat_x=true,
 									float offset_x=0, float factor_y=0,
 									bool repeat_y=false, float offset_y=0);
 	// mover la capa segun el tiempo

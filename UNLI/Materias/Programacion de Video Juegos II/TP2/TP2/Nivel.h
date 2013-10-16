@@ -25,36 +25,30 @@ private:
 	
 	class Tile : public Sprite
 	{	
-		public:
-		/*Sprite normal;
-		Sprite overlayer;*/
-
-		/*void Draw(sf::RenderWindow &w)
-		{
-			if(iImage != 0)
-				w.Draw(normal);
-		};
-
-		void DrawOverLayer(sf::RenderWindow &w)
-		{
-			if(iOverLayer != 0)
-				w.Draw(overlayer);
-		};
-
-		void SetPosition(float X, float Y)
-		{
-			normal.SetPosition(X,Y);
-			overlayer.SetPosition(X,Y);
-		};*/
-		
+		public:			
 		int iImage;			// el numero de imagen
 		bool solid;			// si se puede chocar con el tile
-		int iOverLayer;
-		bool isAnim;
-		int iType;
+		int  iPortal;	//indice si es una puerta a otro nivel
+		bool isBomb; // indica si es una bomba
+		int iOverLayer; //indica si debe pintarse sobre
+		bool isAnim; //indica si esta animado
+		int iEnemigo; //indica si es un enemigo
+		bool isEntryPoint; //punto en el cual aparece el personaje cuando empieza el nivel
+		int iType; //
 		sf::FloatRect rect; // para facilitar la deteccion de colisiones
 	};
+
+	class Level
+	{
+		public:
+		int index;
+		string file;
+	};
 	
+	int iPortales;
+	int iEnemigos;
+	
+
 	// nombre del archivo tileset
 	string tileset_filename;
 	// manejador de las imagenes del tileset
@@ -64,6 +58,10 @@ private:
 	
 	// la matriz (o vector de vectores) de tiles
 	vector<vector<Tile>>tiles_overlayer;
+
+	//Matriz con los jump a los 
+	//otro niveles
+	vector<Level> nextLevels;
 
 	// tamano del nivel en tiles (ancho x alto)
 	sf::Vector2i levelSize;
@@ -85,10 +83,16 @@ private:
 	void GetOverlappingTiles(sf::FloatRect r, vector<sf::Vector2i> &_tiles);
 	
 public:
+
+	bool isNeedNextLoadLevel;
+	string fileNextLevel;
+
+	Vector2f vEntryPoint;
+	
 	// constructores
 	Nivel(string tileset_file, int ntilesx, int ntilesy, unsigned levelSize_w, unsigned levelSize_h);
 	Nivel(string level_file);
-	
+	Nivel();
 	// salvar y guardar un nivel
 	void Load(string file);
 	void Save(string file);
@@ -102,7 +106,7 @@ public:
 	void DrawOverLayer(sf::RenderWindow &w);
 	
 	// probar si hay colision del nivel con el rectangulo r
-	bool HayColision(sf::FloatRect &r, sf::FloatRect &areaColision);
+	bool HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo);
 	bool HayColision2(FloatRect &r,FloatRect &collisionRec,FloatRect &areaColision);
 	
 	// funciones para inicializar la vista

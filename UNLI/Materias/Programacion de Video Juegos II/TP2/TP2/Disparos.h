@@ -27,6 +27,7 @@ private:
 	list<Disparo> disparos;								// guardamos una lista de disparos
 
 public:
+	void Init();
 	void MoverDisparos(float dt, sf::View &v);			// mueve los disparos y revisa que esten dentro de la pantalla
 	void AgregarDisparo(float x, float y, float vel);	// agrega un nuevo disparo
 	void DibujarDisparos(sf::RenderWindow &w);				// Dibuja todos los disparos en la ventana w
