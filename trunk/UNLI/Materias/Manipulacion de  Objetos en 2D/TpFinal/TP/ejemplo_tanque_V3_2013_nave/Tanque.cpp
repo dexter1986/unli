@@ -219,7 +219,34 @@ void Tanque::DibujarCuerpo() {
   glColor3f(0.5,0.5,0.5);
   glLineWidth(2);
   YsDrawUglyFont("ARMY",0);
-  glPopMatrix();  
+  glPopMatrix(); 
+
+
+  glPushMatrix();  
+  glColor3f(1.0,1.0,1.0);  
+  glLineWidth(1.0);
+  glBegin(GL_LINES);
+  glVertex2i(0,-60);
+  glVertex2i(50,-95);
+  glEnd(); 
+  
+  glTranslatef(90.0f,-100.0f, 0.0f);
+
+  stringstream ss;	
+  ss << Energia;
+  string s;
+  s = ss.str();
+  s += " %";
+
+  glRotated(-180.0,0.0,0.0,1.0); 		  
+
+	  
+  glScaled(10.0,10.0,10.0);
+
+  YsDrawUglyFont(s.c_str(),0);
+
+  glPopMatrix(); 
+
 }
 
 Tanque::~Tanque(void)
@@ -413,9 +440,7 @@ void Tanque::Mover(int dt)
 	if(isLimite)
 	{	
 		direccionPaso = -direccionPaso;
-	}
-
-	
+	}	
 }
 
 void Tanque::CambiarEstado()

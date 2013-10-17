@@ -74,6 +74,8 @@ public:
 	  AvionX,
 	  AvionY,
 	  AvionAng;
+
+	int energia,combustible;
 		
 	Avion(int width,int height,ManagerTexture& manager);
 	~Avion();

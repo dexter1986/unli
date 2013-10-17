@@ -92,6 +92,7 @@ void ActualizaObjetos(int dt)
 		t->Update(dt,avion.AvionX,avion.AvionY);
         t++;
     }
+	//Detectar colisiones
 }
 
 void DibujarPared() {
