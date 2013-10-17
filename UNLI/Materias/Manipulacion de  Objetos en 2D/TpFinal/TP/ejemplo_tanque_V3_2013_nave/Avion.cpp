@@ -6,6 +6,9 @@ Avion::Avion(int width,int height,ManagerTexture& manager)
 	this->width = width;
 	this->height = height;
 
+	energia = 100;
+	combustible = 1000;
+
 	isReady = false;
 
 	zAla=0.95;
@@ -68,11 +71,12 @@ void Avion::Mover(int dt,Teclado& teclado)
 			incxMetralla = 0;
 		}
 
+		double ang1=(AngMetralla)*PI/180.0;
 		
-		fx[1]->SetPosicion(MetrallaX,MetrallaY+15);
+		fx[1]->SetPosicion(MetrallaX+20*cosf(ang1)+sinf(ang1),MetrallaY+20*sinf(ang1)-cosf(ang1));
 		fx[1]->Actualizar();
 		
-		fx[1]->SetPosicion(MetrallaX,MetrallaY-15);
+		fx[1]->SetPosicion(MetrallaX-12*cosf(ang1)+sinf(ang1),MetrallaY-12*sinf(ang1)-cosf(ang1));		
 		fx[1]->Actualizar();
 
 		if(!fx[1]->GetActivo()) 
@@ -250,6 +254,42 @@ void Avion::DibujarCuerpo() {
 	glVertex2d(0.0,21.0 + lightY);
 	glVertex2d(-5.0,20.0 + lightY);
   glEnd();
+
+
+  glPushMatrix();  
+
+  glColor3f(1.0,1.0,1.0);  
+  glLineWidth(1.0);
+  glBegin(GL_LINES);
+  glVertex2i(0,0);
+  glVertex2i(20,-65);
+  glEnd(); 
+    
+  double ang1=(AvionAng)*PI/180.0;
+  ang1 = cosf(ang1);
+  stringstream ss;	
+  ss << energia;
+  string s;
+  s = ss.str();
+  s += " %";
+
+  if(ang1 >= 0)  
+  {
+	  glTranslatef(0.0f,-80.0f, 0.0f);
+	  glRotated(0,0.0,0.0,1.0);       
+  }
+  else
+  {
+	  glTranslatef(40.0f,-70.0f, 0.0f);
+	  glRotated(180.0,0.0,0.0,1.0); 		  
+  }
+  
+  glScaled(10.0,10.0,10.0); 
+
+  YsDrawUglyFont(s.c_str(),0);
+
+  glPopMatrix(); 
+
 }
 
 void Avion::DibujarAla() {
