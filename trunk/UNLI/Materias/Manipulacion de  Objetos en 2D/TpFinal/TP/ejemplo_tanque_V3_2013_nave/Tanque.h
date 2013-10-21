@@ -13,6 +13,7 @@
 #include "Helper.h"
 #include "ManagerTexture.h"
 #include "EfectoParticulas.h"
+#include "Avion.h"
 
 
 using namespace std;
@@ -29,7 +30,7 @@ namespace TanqueFSM
 	};
 };
 
-class Tanque
+class Tanque 
 {
 private:
 
@@ -39,17 +40,23 @@ private:
 		  double y;
 		  double incrementox;
 		  double incrementoy;
+		  Avion* enemigo;
 		public:
-		  Bala(double posX, double posY, double incX, double incY) : x(posX), y(posY), incrementox(incX), incrementoy(incY) {}
+		  Bala(double posX, double posY, double incX, double incY, Avion* avion) : 
+								x(posX), y(posY), incrementox(incX), incrementoy(incY)
+		  {
+			  enemigo =  avion;
+		  }
+
 		  bool Update() {
 			x+=incrementox;
 			y+=incrementoy;
-			////Me fijo si hay colision de la bala con una torre enemiga
-			//if( fabs(x-EnemigoX)+fabs(y-EnemigoY) < 50 ) {
-			//  Energia-=10;
-			//  cout << endl << "Energia del enemigo: " << Energia << endl;
-			//  return true;
-			//}
+			//Me fijo si hay colision de la bala con el avion
+			if( fabs(x-enemigo->AvionX)+fabs(y-enemigo->AvionY) < 50 ) {
+			  enemigo->RecibirImpacto(25);
+			  cout << endl << "Energia del Avion: " << enemigo->energia << endl;
+			  return true;
+			}
 			//Si esta fuera de la pantalla, elimino la bala
 			return ( x > (wm)/2 || x < (-wm)/2 || y > (hm)/2 || y < (-hm)/2 );
 		  }
@@ -61,13 +68,12 @@ private:
 
 	TanqueFSM::Estados estadoActual;
 
-	double TanqueX, 
-	  TanqueY, 
-	  Oruga1,
-	  Oruga2,
-	  TanqueAng, 
-	  ArmaAng,
-	  ArmaTamanio;
+	
+	double Oruga1,
+		Oruga2,
+		TanqueAng, 
+		ArmaAng,
+		ArmaTamanio;
 
 	float Tanque_Escala;
 	int Energia;
@@ -89,6 +95,9 @@ private:
 
 	list<Bala> proyectil;
 	ManagerTexture* managerText;
+	Avion* enemigo;
+
+	bool isDead;
 
 	unsigned int* orugatext;
 
@@ -103,10 +112,13 @@ private:
 	void CambiarEstado(void);
 	bool CalcularAlcance(float target_x,float target_y);
 public:
+	double TanqueX, 
+		   TanqueY;
 	void Dibujar();
 	void Mover(int dt);
+	void RecibirImpacto(int energia);
 	void Update(int dt,float target_x,float target_y);
-	Tanque(double x,double y,ManagerTexture& manager);
+	Tanque(double x,double y,ManagerTexture& manager, Avion& avion);
 	~Tanque(void);
 };
 

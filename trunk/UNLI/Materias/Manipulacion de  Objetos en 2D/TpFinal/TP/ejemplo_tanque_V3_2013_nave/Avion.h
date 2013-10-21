@@ -32,9 +32,7 @@ private:
 	bool isTurbo;
 
 	double lightY,
-		AngMetralla,
-		MetrallaX,
-		MetrallaY,
+		AngMetralla,		
 		incyMetralla,
 		incxMetralla,
 		velMetralla_x,
@@ -53,7 +51,7 @@ private:
 		amplitud del sistema (cutoff)
 		direccion (angle)
 		*/
-		EfectoParticulas* fx[2];
+		EfectoParticulas* fx[3];
 
 	double lpos[4];
 	int width,
@@ -73,10 +71,13 @@ public:
 	double 
 	  AvionX,
 	  AvionY,
-	  AvionAng;
-
+	  AvionAng,
+	  MetrallaX,
+		MetrallaY;
+	bool isDead;
+	void MetrallaOff();
 	int energia,combustible;
-		
+	void RecibirImpacto(int energia);
 	Avion(int width,int height,ManagerTexture& manager);
 	~Avion();
 	void Dibujar();
