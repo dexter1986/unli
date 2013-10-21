@@ -33,6 +33,7 @@ Avion::Avion(int width,int height,ManagerTexture& manager)
 	velMetralla_y = 0;
 	isFired = false;
 	isTurbo = false;
+	isDead = false;
 	
 	lpos[0] = 2;
 	lpos[1] = 1;
@@ -43,16 +44,27 @@ Avion::Avion(int width,int height,ManagerTexture& manager)
 
 	fx[0] = new EfectoParticulas(0,0,0.8,0.0f,0.0f,4, 20, 20, 0.0f, 45, 0);
 	fx[1] = new EfectoParticulas(0,0,0.8,0.0f,0.0f,4, 50,50, 0.0f, 100, 45);
+	fx[2] = new EfectoParticulas(8,10,0,0.0f,0.0f,8, 50, 20, 5.0f, 100, 45);
 	fx[0]->SetColor(1,1,1);
 	fx[1]->SetColor(1,1,1);
+	fx[2]->SetColor(0,0,0);
 	fx[0]->tipoEfecto = EfectoParticulasConfig::EfectoParticulasTypeFX::Propulsion;
 	fx[1]->tipoEfecto = EfectoParticulasConfig::EfectoParticulasTypeFX::Propulsion;
+	fx[2]->tipoEfecto = EfectoParticulasConfig::EfectoParticulasTypeFX::Propulsion;	
+
+	fx[2]->ToggleActivo();	
 }
 
 void Avion::Mover(int dt,Teclado& teclado)
 {
+	if(isDead)
+	{
+		//Mostrar explosion
+	}
+	else
+	{
 	  fx[0]->Actualizar();
-	  
+	  fx[2]->Actualizar();
 
 	  if(isFired)
 	  {
@@ -175,7 +187,36 @@ void Avion::Mover(int dt,Teclado& teclado)
 	  {
 		fx[0]->SetPosicion(AvionX,AvionY);				 
 	  }
-	 
+
+	  if(fx[2]->GetActivo())
+	  {
+		fx[2]->SetPosicion(AvionX,AvionY);				 
+	  }
+	}
+}
+
+void Avion::MetrallaOff()
+{
+	isFired = false;
+}
+
+void Avion::RecibirImpacto(int energia)
+{
+	this->energia -= energia;
+
+	if(this->energia <= 0)
+	{
+		isDead = true;
+	}
+	else if(this->energia < 100 && this->energia >= 75) 
+	{
+		fx[2]->ToggleActivo();
+	}
+	else if(this->energia < 50 && this->energia >= 30) 
+	{
+		fx[2]->SetTamano(20);
+		fx[2]->SetCantidad(150);
+	}
 }
 
 void Avion::DibujaTexto()
@@ -215,10 +256,18 @@ void Avion::DibujaTexto()
 
 void Avion::Dibujar()
 {	
-	fx[0]->Dibujar();
-	fx[1]->Dibujar();
-	DibujarAvion();
-	DibujaTexto();
+	if(isDead)
+	{
+		//Mostrar imgen de la explosion
+	}
+	else
+	{
+		fx[0]->Dibujar();
+		fx[1]->Dibujar();
+		fx[2]->Dibujar();
+		DibujarAvion();
+		DibujaTexto();
+	}
 }
 
 void Avion::DibujarCabina() {
@@ -429,4 +478,5 @@ Avion::~Avion()
 {
 	delete fx[0];	
 	delete fx[1];
+	delete fx[3];
 }

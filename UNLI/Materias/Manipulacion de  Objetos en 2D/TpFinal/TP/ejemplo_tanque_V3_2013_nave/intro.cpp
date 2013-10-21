@@ -57,31 +57,43 @@ float escala1=0.67,
 	Avion avion(w,h,managertext);
 
 	list<Tanque> tanques;
-
+		
 
 void InicializaObjetos()
-{
-	
-	tanques.push_back(*(new Tanque(2000,-2000,managertext)));
-	tanques.push_back(*(new Tanque(3000,3000,managertext)));
-	tanques.push_back(*(new Tanque(-4000,500,managertext)));	
-	tanques.push_back(*(new Tanque(-4000,4000,managertext)));
+{	
+	tanques.push_back(*(new Tanque(2000,-2000,managertext,avion)));
+	tanques.push_back(*(new Tanque(3000,3000,managertext,avion)));
+	tanques.push_back(*(new Tanque(-4000,500,managertext,avion)));	
+	tanques.push_back(*(new Tanque(-4000,4000,managertext,avion)));
 
-	tanques.push_back(*(new Tanque(-4000,1000,managertext)));
-	tanques.push_back(*(new Tanque(4000,-4000,managertext)));
-	tanques.push_back(*(new Tanque(-1000,2000,managertext)));
-	tanques.push_back(*(new Tanque(-4000,-4000,managertext)));
+	tanques.push_back(*(new Tanque(-4000,1000,managertext,avion)));
+	tanques.push_back(*(new Tanque(4000,-4000,managertext,avion)));
+	tanques.push_back(*(new Tanque(-1000,2000,managertext,avion)));
+	tanques.push_back(*(new Tanque(-4000,-4000,managertext,avion)));
 
-	tanques.push_back(*(new Tanque(-1000,-1000,managertext)));
-	tanques.push_back(*(new Tanque(-2000,-2000,managertext)));
-	tanques.push_back(*(new Tanque(-3000,-3000,managertext)));
-	tanques.push_back(*(new Tanque(-3000,-1500,managertext)));
+	tanques.push_back(*(new Tanque(-1000,-1000,managertext,avion)));
+	tanques.push_back(*(new Tanque(-2000,-2000,managertext,avion)));
+	tanques.push_back(*(new Tanque(-3000,-3000,managertext,avion)));
+	tanques.push_back(*(new Tanque(-3000,-1500,managertext,avion)));
 	
 	
 	//tanques.push_back(*(new Tanque(1000,1000,managertext)));
 
 	//Inicializa el Random
-	srand(time(NULL));
+	srand(time(NULL));	
+}
+
+void DetectarColisiones()
+{
+	list<Tanque>::iterator t = tanques.begin();
+	while( t != tanques.end())
+	{
+		if( fabs(avion.MetrallaX-t->TanqueX)+fabs(avion.MetrallaY-t->TanqueY) < 50 ) {
+			  t->RecibirImpacto(100);	
+			  avion.MetrallaOff();
+			}
+		t++;
+	}
 }
 
 void ActualizaObjetos(int dt)
@@ -89,11 +101,14 @@ void ActualizaObjetos(int dt)
 	//Actualizamos el estado de los tanques
     list<Tanque>::iterator t = tanques.begin();
     while( t != tanques.end() ) {
-		t->Update(dt,avion.AvionX,avion.AvionY);
+		t->Update(dt,avion.AvionX,avion.AvionY);		
         t++;
     }
 	//Detectar colisiones
+	DetectarColisiones();
 }
+
+
 
 void DibujarPared() {
   glColor3f(0.9f,0.9f,0.9f);
@@ -279,9 +294,10 @@ void Idle_cb()
 		  isModoZoom = true;
 	  }
 
-	  avion.Mover(dt,teclado);
-	  
+	  avion.Mover(dt,teclado);	  
 	  ActualizaObjetos(dt);
+
+	  DetectarColisiones();
 
 	  lt = glutGet(GLUT_ELAPSED_TIME);	
 

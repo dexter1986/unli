@@ -5,11 +5,13 @@
 - Cuando el avion entra en turbo poner FX de particulas simulando una estela -> Listo
 - Agregar Texto informativo de Energia (Avion, tanques) y combustible (Avion) -> Listo
 - Agregar informacion de estado del avion de los tanques (Energia) -> Listo
+- Colision entre tanques (cambian de estado si ocurre) -> No se va implementar
+- Eliminar tanque o avion si recibe un impacto  (Colision) -> Listo
+- Agregar Radar con la visualizacion de los tanques -> no se va implementar
 
-- Colision entre tanques (cambian de estado si ocurre) -> Inprogress
+- Agregar Detalles como nubes y agua. -> solo detalles de nubes -> inprogress
+- Implementar bezier en el disparo de los misiles del avion 
+- FX cuando algun objeto recibe un impacto  -> ??
 
-- Eliminar tanque o avion si recibe un impacto  (Colision)
-- FX cuando algun objeto recibe un impacto  
-- Implementar bezier en el disparo de los misiles del avion
-- Agregar Detalles como nubes y agua.
-- Agregar Radar con la visualizacion de los tanques
+
+

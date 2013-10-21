@@ -1,6 +1,6 @@
 #include "Tanque.h"
 
-Tanque::Tanque(double x,double y,ManagerTexture& manager)
+Tanque::Tanque(double x,double y,ManagerTexture& manager, Avion& avion)
 {
 	TanqueX=x;
 	TanqueY=y;
@@ -10,6 +10,7 @@ Tanque::Tanque(double x,double y,ManagerTexture& manager)
 	ArmaAng=0;
 	ArmaTamanio=0;	
 	managerText = &manager; 
+	enemigo = &avion;
 	Tanque_Escala=0.25;
 	Energia=100;
 	direccionAngulo = 0; 
@@ -22,6 +23,8 @@ Tanque::Tanque(double x,double y,ManagerTexture& manager)
 	radioAtaque = 400;
 	contadorIntervaloDisparo = 0;
 	
+	isDead = false;
+
 	estadoActual = TanqueFSM::Estados::Parar;	
 	
 	fx = new EfectoParticulas(TanqueX,TanqueY,0.1,0,0,10,25,80,0,0,0);
@@ -36,34 +39,51 @@ Tanque::Tanque(double x,double y,ManagerTexture& manager)
 
 void Tanque::Update(int dt,float target_x,float target_y)
 {
-	//Actualizamos las posiciones de los proyectiles
-    list<Bala>::iterator p = proyectil.begin();
-    while( p != proyectil.end() ) {
-      //Si esta fuera del mapa o impacta con el enemigo eliminamos el proyectil
-      if( p->Update() )
-        p = proyectil.erase(p);
-      else
-        p++;
-    }
-
-	Mover(dt);
-
-	//Si detecta a el avion dentro del rango visual
-	if(estadoActual != TanqueFSM::Estados::Apuntar && CalcularAlcance(target_x,target_y))
+	if(isDead)
 	{
-		estadoActual = TanqueFSM::Estados::Apuntar;
-		contadorPasosFSM = 0;
+		//Mostrar explosion
 	}
-	
-	fx->Actualizar();	
-	fx2->Actualizar();
-	
-	if(fx->GetActivo())
+	else
 	{
-		double ang1=(TanqueAng)*PI/180.0;
-		//ang1 += PI/2;
-		 fx->SetPosicion(TanqueX+45*cosf(ang1)+65*sinf(ang1)*direccionPaso,TanqueY+45*sinf(ang1)-65*cosf(ang1)*direccionPaso);
-		 fx2->SetPosicion(TanqueX-45*cosf(ang1)+65*sinf(ang1)*direccionPaso,TanqueY-45*sinf(ang1)-65*cosf(ang1)*direccionPaso);
+		//Actualizamos las posiciones de los proyectiles
+		list<Bala>::iterator p = proyectil.begin();
+		while( p != proyectil.end() ) {
+		  //Si esta fuera del mapa o impacta con el enemigo eliminamos el proyectil
+		  if( p->Update() )
+			p = proyectil.erase(p);
+		  else
+			p++;
+		}
+
+		Mover(dt);
+
+		//Si detecta a el avion dentro del rango visual
+		if(estadoActual != TanqueFSM::Estados::Apuntar && CalcularAlcance(target_x,target_y))
+		{
+			estadoActual = TanqueFSM::Estados::Apuntar;
+			contadorPasosFSM = 0;
+		}
+	
+		fx->Actualizar();	
+		fx2->Actualizar();
+	
+		if(fx->GetActivo())
+		{
+			double ang1=(TanqueAng)*PI/180.0;
+			//ang1 += PI/2;
+			 fx->SetPosicion(TanqueX+45*cosf(ang1)+65*sinf(ang1)*direccionPaso,TanqueY+45*sinf(ang1)-65*cosf(ang1)*direccionPaso);
+			 fx2->SetPosicion(TanqueX-45*cosf(ang1)+65*sinf(ang1)*direccionPaso,TanqueY-45*sinf(ang1)-65*cosf(ang1)*direccionPaso);
+		}
+	}
+}
+
+void Tanque::RecibirImpacto(int energia)
+{
+	this->Energia -= Energia;
+	
+	if(this->Energia <= 0)
+	{
+		isDead = true;
 	}
 }
 
@@ -268,32 +288,38 @@ void Tanque::Disparar()
 	
 	ang3 += PI/2;
 
-    proyectil.push_back( Bala(TanqueX+cos(ang3)*90, TanqueY+sin(ang3)*90, 15*cos(ang3), 15*sin(ang3)) );//la bala sale desde la base del arma
+    proyectil.push_back(Bala(TanqueX+cos(ang3)*90, TanqueY+sin(ang3)*90, 15*cos(ang3), 15*sin(ang3),enemigo));//la bala sale desde la base del arma
 }
 
 void Tanque::Dibujar()
 {	
-	
-	fx->Dibujar();	
-	fx2->Dibujar();		
+	if(isDead)
+	{
+		//Mostrar imagen de la explosion
+	}
+	else
+	{
+		fx->Dibujar();	
+		fx2->Dibujar();		
 
-	glPushMatrix();
-	glTranslated(TanqueX,TanqueY,0.5);	
-	glRotated(TanqueAng,0,0,1);  
-	DibujarTanque();
-	glPopMatrix();
-	glPushMatrix();
-		//Dibujamos los proyectiles
-	  list<Bala>::iterator p=proyectil.begin();
-	  glColor3f(0.6f,0.2f,0.0f);
-	  glPointSize(10.0*Escala);
-	  glBegin(GL_POINTS);
-	  while( p != proyectil.end() ) {
-		p->Draw();
-		p++;
-	  }
-	  glEnd();
-	glPopMatrix();
+		glPushMatrix();
+		glTranslated(TanqueX,TanqueY,0.5);	
+		glRotated(TanqueAng,0,0,1);  
+		DibujarTanque();
+		glPopMatrix();
+		glPushMatrix();
+			//Dibujamos los proyectiles
+		  list<Bala>::iterator p=proyectil.begin();
+		  glColor3f(0.6f,0.2f,0.0f);
+		  glPointSize(10.0*Escala);
+		  glBegin(GL_POINTS);
+		  while( p != proyectil.end() ) {
+			p->Draw();
+			p++;
+		  }
+		  glEnd();
+		glPopMatrix();
+	}
 }
 
 void Tanque::Mover(int dt)
@@ -313,7 +339,7 @@ void Tanque::Mover(int dt)
 			if(contadorPasosFSM > 0)
 			{
 				//Moverse		
-				if(direccionPaso == 1)
+				/*if(direccionPaso == 1)
 				{
 					TanqueX-=velocidadTanque*sin(ang);
 					TanqueY+=velocidadTanque*cos(ang);
@@ -326,7 +352,15 @@ void Tanque::Mover(int dt)
 					TanqueY-=velocidadTanque*cos(ang);
 					Oruga1-=0.15;
 					Oruga2-=0.15;
-				}
+				}*/
+
+
+				TanqueX+=-velocidadTanque*sin(ang)*direccionPaso;
+				TanqueY+=velocidadTanque*cos(ang)*direccionPaso;
+
+				Oruga1+=0.15*direccionPaso;
+				Oruga2+=0.15*direccionPaso;
+
 				contadorPasosFSM--;
 			}
 			else
