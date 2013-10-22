@@ -47,12 +47,11 @@ Avion::Avion(int width,int height,ManagerTexture& manager)
 	fx[2] = new EfectoParticulas(8,10,0,0.0f,0.0f,8, 50, 20, 5.0f, 100, 45);
 	fx[0]->SetColor(1,1,1);
 	fx[1]->SetColor(1,1,1);
-	fx[2]->SetColor(0,0,0);
+	fx[2]->SetColor(0.5,0.5,0.5);
 	fx[0]->tipoEfecto = EfectoParticulasConfig::EfectoParticulasTypeFX::Propulsion;
 	fx[1]->tipoEfecto = EfectoParticulasConfig::EfectoParticulasTypeFX::Propulsion;
 	fx[2]->tipoEfecto = EfectoParticulasConfig::EfectoParticulasTypeFX::Propulsion;	
 
-	fx[2]->ToggleActivo();	
 }
 
 void Avion::Mover(int dt,Teclado& teclado)
@@ -210,18 +209,21 @@ void Avion::RecibirImpacto(int energia)
 	}
 	else if(this->energia < 100 && this->energia >= 75) 
 	{
-		fx[2]->ToggleActivo();
+		fx[2]->ToggleActivo();		
 	}
-	else if(this->energia < 50 && this->energia >= 30) 
+	else if(this->energia < 75 && this->energia >= 50) 
 	{
-		fx[2]->SetTamano(20);
-		fx[2]->SetCantidad(150);
+		fx[2]->SetColor(0.3,0.3,0.3);		
+	}
+	else if(this->energia < 50 && this->energia >= 25) 
+	{	
+		fx[2]->SetColor(0,0,0);		
 	}
 }
 
 void Avion::DibujaTexto()
 {
-	glPushMatrix();
+	/*glPushMatrix();
 	glTranslated(0,0,0.5);
 
 	static int i=10, j=570;
@@ -251,7 +253,7 @@ void Avion::DibujaTexto()
 
 	Helper::print_text(s, i, j, 10);	
 
-	glPopMatrix();	
+	glPopMatrix();	*/
 }
 
 void Avion::Dibujar()
@@ -306,14 +308,14 @@ void Avion::DibujarCuerpo() {
 
 
   glPushMatrix();  
-
+  glEnable(GL_BLEND);
   glColor3f(1.0,1.0,1.0);  
   glLineWidth(1.0);
   glBegin(GL_LINES);
   glVertex2i(0,0);
   glVertex2i(20,-65);
   glEnd(); 
-    
+  glDisable(GL_BLEND);
   double ang1=(AvionAng)*PI/180.0;
   ang1 = cosf(ang1);
   stringstream ss;	

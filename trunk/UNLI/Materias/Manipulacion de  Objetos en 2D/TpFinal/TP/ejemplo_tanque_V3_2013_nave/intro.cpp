@@ -31,6 +31,7 @@ int
 
 short modifiers=0;  // ctrl, alt, shift (de GLUT)
 inline short get_modifiers() {return modifiers=(short)glutGetModifiers();}
+int cant_tanques;
 
 int
   boton=-1, // boton del mouse clickeado
@@ -43,7 +44,11 @@ float lpos[]={2,1,5,1};
 bool cl_info=true; // informa por la linea de comandos
 
 bool isModoZoom = false;
+bool isGameOver = false;
+bool isGameWin = false;
+bool isGameStart = false;
 
+float Timer = 181;
 
 Teclado teclado('f', 'w', 's', ' ', ' ', 'a', 'd'); // para manejar la entrada por teclado
 
@@ -76,6 +81,7 @@ void InicializaObjetos()
 	tanques.push_back(*(new Tanque(-3000,-3000,managertext,avion)));
 	tanques.push_back(*(new Tanque(-3000,-1500,managertext,avion)));
 	
+	cant_tanques = 12;
 	
 	//tanques.push_back(*(new Tanque(1000,1000,managertext)));
 
@@ -88,10 +94,14 @@ void DetectarColisiones()
 	list<Tanque>::iterator t = tanques.begin();
 	while( t != tanques.end())
 	{
-		if( fabs(avion.MetrallaX-t->TanqueX)+fabs(avion.MetrallaY-t->TanqueY) < 50 ) {
-			  t->RecibirImpacto(100);	
-			  avion.MetrallaOff();
-			}
+		if(!t->isDead)
+		{
+			if( fabs(avion.MetrallaX-t->TanqueX)+fabs(avion.MetrallaY-t->TanqueY) < 50 ) {
+				  t->RecibirImpacto(100);	
+				  avion.MetrallaOff();
+				  cant_tanques--;
+				}
+		}
 		t++;
 	}
 }
@@ -106,9 +116,17 @@ void ActualizaObjetos(int dt)
     }
 	//Detectar colisiones
 	DetectarColisiones();
+
+	if(avion.isDead || Timer <= 0)
+	{
+		isGameOver = true;
+	}
+
+	if(cant_tanques == 0)
+	{
+		isGameWin = true;
+	}
 }
-
-
 
 void DibujarPared() {
   glColor3f(0.9f,0.9f,0.9f);
@@ -162,22 +180,84 @@ void DibujarPiso() {
   glEnd();
 
   glDisable(GL_TEXTURE_2D);
+  
 }
 
 void DibujarObjetos()
-{
-	
+{	
   DibujarPiso();
    
   DibujarPared();
 
-  list<Tanque>::iterator t=tanques.begin();
-  while( t != tanques.end() ) {
-    t->Dibujar();
-    t++;
-  }
+  if(!isGameOver && !isGameWin)
+  {
+	  list<Tanque>::iterator t=tanques.begin();
+	  while( t != tanques.end() ) {
+		t->Dibujar();
+		t++;
+	  }
+	  avion.Dibujar();
+   }
+}
 
-  avion.Dibujar();
+void DibujarHUD()
+{	 
+	if(!isModoZoom)
+	{
+		int x = -w/2;
+		int y = h/2;
+		glPushMatrix();
+		glColor3f(0.9f,0.9f,0.9f);
+		glTranslated(target[0],target[1],0.5);
+	
+		glScalef(1.35,1.3,0);
+		stringstream ss;
+		string s;
+		if(isGameOver)
+		{	
+			x = -w/4;
+			y = h/3;
+			s = "GAME OVER\n\n";
+			Helper::print_text(s,x,y, 20,true);
+
+			y -= 50;
+			s = "Presiona Escape para salir...";
+			Helper::print_text(s,x,y, 20,true);			
+		}
+		else if(isGameWin)
+		{	
+			x = -w/4;
+			y = h/3;
+			s = "EL JUGADOR GANA EL JUEGO\n\n";					
+			Helper::print_text(s,x,y, 20,true);
+			y -= 50;
+			s = "Presiona Escape para salir...";
+			Helper::print_text(s,x,y, 20,true);
+		}
+		else if(!isGameStart)
+		{	
+			x = -w/4;
+			y = h/3;
+			s = "Presiona W para comenzar";					
+			Helper::print_text(s,x,y, 20,true);
+		}
+		else
+		{	
+			s = "CANTIDAD DE TANQUES: ";					
+			ss << cant_tanques;
+			s+= ss.str();
+			Helper::print_text(s,x,y, 20,true);
+						
+			ss.str(std::string());
+			ss.clear();
+			ss << (int) Timer;
+			s = "TIEMPO: ";
+			s += ss.str();
+			x = w/3;
+			Helper::print_text(s,x,y, 20,true);
+		}
+		glPopMatrix();
+	}
 }
 
 //============================================================
@@ -198,9 +278,13 @@ void Display_cb() {
 
   glPushMatrix();
    
-  DibujarObjetos();
+
+	DibujarObjetos();
+  
 
   glPopMatrix();
+
+  DibujarHUD();
 
   glutSwapBuffers(); // lo manda al monitor
   
@@ -267,6 +351,8 @@ void Idle_cb()
   
   int dt = glutGet(GLUT_ELAPSED_TIME) - lt;
   
+  
+
   if(dt > 30) 
   {
 	  if(teclado.Salir()) 
@@ -274,32 +360,48 @@ void Idle_cb()
 		  exit(EXIT_SUCCESS);
 	  }
 
-	  if(teclado.IsKeyPressed('z') ||teclado.IsKeyPressed('Z'))
+	  if(!isGameOver && !isGameWin)
 	  {
-		  Escala = escala1;
-		  isModoZoom = false;
-	  }
+		  if(teclado.IsKeyPressed('z') ||teclado.IsKeyPressed('Z'))
+		  {
+			  Escala = escala1;
+			  isModoZoom = false;
+		  }
 
-	  if(teclado.IsKeyPressed('x') ||teclado.IsKeyPressed('X'))
-	  {
-		  Escala = escala0;
+		  if(teclado.IsKeyPressed('x') ||teclado.IsKeyPressed('X'))
+		  {
+			  Escala = escala0;
 
-		  eye[0]=0;
-		  eye[1]=0;
-		  eye[2]=1;
-		  target[0]=0;
-		  target[1]=0;		  
-		  target[2]=0;
+			  eye[0]=0;
+			  eye[1]=0;
+			  eye[2]=1;
+			  target[0]=0;
+			  target[1]=0;		  
+			  target[2]=0;
 
-		  isModoZoom = true;
-	  }
+			  isModoZoom = true;
+		  }
 
-	  avion.Mover(dt,teclado);	  
-	  ActualizaObjetos(dt);
+		  avion.Mover(dt,teclado);	 
 
-	  DetectarColisiones();
+		  if(!isGameStart && avion.isReady)
+		  {
+			  isGameStart = true;
+		  }
 
-	  lt = glutGet(GLUT_ELAPSED_TIME);	
+		  if(isGameStart)
+		  {
+			Timer = Timer - (dt/1000.0f);
+			ActualizaObjetos(dt);
+			DetectarColisiones();	 
+		  }
+	}
+	else
+	{
+		isModoZoom = false;
+	}
+
+	lt = glutGet(GLUT_ELAPSED_TIME);	
 
 	if(!isModoZoom)
 	{
@@ -373,6 +475,7 @@ void inicializa() {
   // transparencias
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);  
+  glDisable(GL_BLEND);
 
   //glClearColor(0.23f,0.20f,0.01f,1.f); // color de fondo
   glClearColor(0.01f,0.01f,0.01f,1.f);
@@ -399,10 +502,12 @@ int main(int argc,char** argv) {
   // teclas a utilizar
   cout << "Teclas a utilizar:" << endl;
   cout << "w: avanza" << endl;
-  cout << "s: retrocede" << endl;
+  cout << "s: modo turbo" << endl;
   cout << "d: gira en sentido horario" << endl;
   cout << "a: gira en sentido antihorario" << endl;
   cout << "f: Disparar" << endl;
+  cout << "z: Zoom in" << endl;
+  cout << "x: Zoom out" << endl;
   
   
   glutInit(&argc,argv); // inicialización interna de GLUT

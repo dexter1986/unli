@@ -20,7 +20,8 @@ namespace Manager
 const int TANQUE1d = 0,
 		   AVION = 1,
 		   CUBO = 2,
-		   PASTO = 3;
+		   PASTO = 3,
+		   TANQUE_BLAST = 4;
 }
 class ManagerTexture
 {

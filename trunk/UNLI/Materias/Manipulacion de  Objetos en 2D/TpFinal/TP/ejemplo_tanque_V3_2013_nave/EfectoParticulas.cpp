@@ -15,7 +15,7 @@ EfectoParticulas::EfectoParticulas(float x, float y,float z, float _aceleracionY
 	g = 0.2f;
 	b = 0.0f;
 	
-	activo = true;
+	activo = false;
 	
 	particulas = new Particula[cantidad];
 	
@@ -51,45 +51,49 @@ void EfectoParticulas::Actualizar()
 
 void EfectoParticulas::Dibujar()
 {
-	glPushMatrix();
-	//// dibujamos el origen del efecto de particulas
-	//glPointSize(tamano/2);
-	//glBegin(GL_POINTS);
-	//glVertex2f(posicionX,posicionY);
-	//glEnd();
-	//
-	// dibujamos las particulas
+	if(activo)
+	{
+		glPushMatrix();
+		//// dibujamos el origen del efecto de particulas
+		//glPointSize(tamano/2);
+		//glBegin(GL_POINTS);
+		//glVertex2f(posicionX,posicionY);
+		//glEnd();
+		//
+		// dibujamos las particulas
 
-	glTranslated(0,0,posicionZ);
-	int tam = tamano*Escala;
-	glPointSize(tam);
-	glBegin(GL_POINTS);
-	for(int i=0; i<cantidad ; i++)
-	{	
-		glColor4f(particulas[i].red, particulas[i].green, particulas[i].blue, (float(particulas[i].life)/particulas[i].life_initial));				
+		glTranslated(0,0,posicionZ);
+		glEnable(GL_BLEND);
+		int tam = tamano*Escala;
+		glPointSize(tam);
+		glBegin(GL_POINTS);
+		for(int i=0; i<cantidad ; i++)
+		{	
+			glColor4f(particulas[i].red, particulas[i].green, particulas[i].blue, (float(particulas[i].life)/particulas[i].life_initial));				
 		
-		switch(tipoEfecto)
-		{
-			case EfectoParticulasConfig::EfectoParticulasTypeFX::Propulsion:
-				glVertex2f(particulas[i].x, particulas[i].y);
-				glVertex2f(particulas[i].x+2, particulas[i].y+2);
-				glVertex2f(particulas[i].x-2, particulas[i].y-2);
-				glVertex2f(particulas[i].x+2, particulas[i].y-2);
-				glVertex2f(particulas[i].x-2, particulas[i].y+2);
-				break;
-			case EfectoParticulasConfig::EfectoParticulasTypeFX::HuellaVehiculo:
-				glVertex2f(particulas[i].x+2, particulas[i].y+2);										
-				glVertex2f(particulas[i].x-2, particulas[i].y-2);
-				glVertex2f(particulas[i].x, particulas[i].y);
+			switch(tipoEfecto)
+			{
+				case EfectoParticulasConfig::EfectoParticulasTypeFX::Propulsion:
+					glVertex2f(particulas[i].x, particulas[i].y);
+					glVertex2f(particulas[i].x+2, particulas[i].y+2);
+					glVertex2f(particulas[i].x-2, particulas[i].y-2);
+					glVertex2f(particulas[i].x+2, particulas[i].y-2);
+					glVertex2f(particulas[i].x-2, particulas[i].y+2);
+					break;
+				case EfectoParticulasConfig::EfectoParticulasTypeFX::HuellaVehiculo:
+					glVertex2f(particulas[i].x+2, particulas[i].y+2);										
+					glVertex2f(particulas[i].x-2, particulas[i].y-2);
+					glVertex2f(particulas[i].x, particulas[i].y);
 				
-				break;
-			case EfectoParticulasConfig::EfectoParticulasTypeFX::Incendio:
-				break;
+					break;
+				case EfectoParticulasConfig::EfectoParticulasTypeFX::Incendio:
+					break;
+			}
 		}
+		glEnd();
+		glDisable(GL_BLEND);
+		glPopMatrix();
 	}
-	glEnd();
-
-	glPopMatrix();
 }
 
 void EfectoParticulas::ToggleActivo()

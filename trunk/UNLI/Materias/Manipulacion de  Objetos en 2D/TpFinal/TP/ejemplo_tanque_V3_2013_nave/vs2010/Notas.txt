@@ -8,10 +8,12 @@
 - Colision entre tanques (cambian de estado si ocurre) -> No se va implementar
 - Eliminar tanque o avion si recibe un impacto  (Colision) -> Listo
 - Agregar Radar con la visualizacion de los tanques -> no se va implementar
+- Agregar Detalles como nubes y agua. -> solo detalles de nubes -> no se va implementar
+- Agregar marca de explosion cuando se impacta un tanque -> Listo
+- FX cuando algun objeto recibe un impacto  -> No se va implementar.
+- Implementar bezier en el disparo de los misiles del avion -> no se va implementar
+- Implementar HUD  -> Listo
 
-- Agregar Detalles como nubes y agua. -> solo detalles de nubes -> inprogress
-- Implementar bezier en el disparo de los misiles del avion 
-- FX cuando algun objeto recibe un impacto  -> ??
 
 
 

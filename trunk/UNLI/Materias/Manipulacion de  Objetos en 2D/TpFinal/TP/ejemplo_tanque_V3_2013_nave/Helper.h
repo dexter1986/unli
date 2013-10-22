@@ -17,10 +17,17 @@ class Helper
 private:
 public:
 
-	void static print_text(string cadena, int x, int y, int espacio=10) {
+	void static print_text(string cadena, int x, int y, int espacio=10,bool highFont = false) {
 		for(unsigned int i=0; i < cadena.size(); i++) {
 			glRasterPos2i( x + i*espacio, y );
-			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10,(int)cadena[i]);//GLUT_BITMAP_9_BY_15//GLUT_BITMAP_TIMES_ROMAN_10
+			if(!highFont)
+			{
+				glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10,(int)cadena[i]);//GLUT_BITMAP_9_BY_15//GLUT_BITMAP_TIMES_ROMAN_10
+			}
+			else
+			{
+				glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,(int)cadena[i]);//GLUT_BITMAP_9_BY_15//GLUT_BITMAP_TIMES_ROMAN_10
+			}
 		}
 	}
 
@@ -53,8 +60,8 @@ public:
 		r=imga[4*i+0]=img[3*i+0];
 		g=imga[4*i+1]=img[3*i+1];
 		b=imga[4*i+2]=img[3*i+2];
-		imga[4*i+3]=((r+g+b==765)? 0: 255);
-		//imga[4*i+3]=255-(r+g+b)/3;
+		//imga[4*i+3]=((r+g+b==765)? 0: 255);
+		imga[4*i+3]=255-(r+g+b)/3;
 	  }
 	  delete[] img;
 	  gluBuild2DMipmaps(GL_TEXTURE_2D, 4, wt, ht,  GL_RGBA, GL_UNSIGNED_BYTE, imga);
