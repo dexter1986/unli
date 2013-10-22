@@ -97,7 +97,7 @@ private:
 	ManagerTexture* managerText;
 	Avion* enemigo;
 
-	bool isDead;
+	
 
 	unsigned int* orugatext;
 
@@ -112,6 +112,7 @@ private:
 	void CambiarEstado(void);
 	bool CalcularAlcance(float target_x,float target_y);
 public:
+	bool isDead;
 	double TanqueX, 
 		   TanqueY;
 	void Dibujar();

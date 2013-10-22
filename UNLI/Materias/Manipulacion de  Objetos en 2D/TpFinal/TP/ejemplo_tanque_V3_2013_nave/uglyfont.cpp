@@ -632,7 +632,7 @@ void YsDrawUglyFont(const char str[],int centering,int useDisplayList)
 	l=strlen(str);
 
 	glPushMatrix();
-
+	glEnable(GL_BLEND);
 	if(centering)
 	{
 		glTranslated(-(double)l/2.0,-0.5,0);
@@ -656,7 +656,7 @@ void YsDrawUglyFont(const char str[],int centering,int useDisplayList)
 			YsDrawUglyFontPattern(YsUglyFontSet[((unsigned char *)str)[i]]);
 		}
 	}
-
+	glDisable(GL_BLEND);
 	glPopMatrix();
 }
 

@@ -57,8 +57,6 @@ private:
 	int width,
 		height;
 	
-	bool isReady;//true, el avion vuela de forma automatica
-	
 	ManagerTexture* managerText;
 
 	void DibujarCabina();
@@ -68,6 +66,7 @@ private:
 	void DibujarAvion();
 	void DibujaTexto();
 public:
+	bool isReady;//true, el avion vuela de forma automatica
 	double 
 	  AvionX,
 	  AvionY,
