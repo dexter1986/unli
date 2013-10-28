@@ -476,7 +476,7 @@ void Personaje::Internal_Mover_y_Animar()
 				CambiarEstado(Estado::DUCK_AND_ARM1);				
 			}
 			break;	
-		case RUN:
+		case RUN:			
 			if(ColisionaPared())
 			{	
 				CambiarEstado(Estado::NORMAL);	

@@ -54,8 +54,7 @@ private:
 	bool IsTirarStart;
 	bool IsJumpStart;
 	bool IsClim_TO_JUMP;
-	bool DelayToBreak(bool reset=false,float value=0.1f);
-	
+	bool DelayToBreak(bool reset=false,float value=0.1f);	
 
 protected:			
 	// inicializa las animaciones, es llamado en el constructor

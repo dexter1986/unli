@@ -380,7 +380,7 @@ void Nivel::GetOverlappingTiles(sf::FloatRect r, vector<sf::Vector2i> &ovTiles){
 // devuelve en areaColision el area de interpenetracion con el tile
 // en caso de haber colision con mas de un tile, devuelve
 // el area de colision con el tile que tenga mayor area de colision
-bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo){
+bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,bool isNPC){
 	vector<sf::Vector2i> _tiles;
 	GetOverlappingTiles(r, _tiles);
 	sf::FloatRect tempResp; float maxResponse=0, sresponse;
@@ -391,28 +391,32 @@ bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo)
 		if(x > -1 && x < levelSize.y && y < levelSize.x  && y > -1)
 		{
 			Tile tile = tiles[_tiles[i].x][_tiles[i].y];
-			if(tile.isBomb)
+			if(!isNPC)
 			{
-				tipo = 3;
-				return true;
-			}
-			else if(tile.iPortal != -1)
-			{
-				tipo = tile.iPortal;
-				if(!isNeedNextLoadLevel)
+				if(tile.isBomb)
 				{
-					isNeedNextLoadLevel = true;
-					for(int i=0;i<iPortales;i++)
+					tipo = 3;
+					return true;
+				}
+				else if(tile.iPortal != -1)
+				{
+					tipo = tile.iPortal;
+					if(!isNeedNextLoadLevel)
 					{
-						if(nextLevels[i].index == tipo)
+						isNeedNextLoadLevel = true;
+						for(int i=0;i<iPortales;i++)
 						{
-							fileNextLevel = nextLevels[i].file;
+							if(nextLevels[i].index == tipo)
+							{
+								fileNextLevel = nextLevels[i].file;
+							}
 						}
-					}
-				}					
-				return true;
-			} 
-			else if(tiles[_tiles[i].x][_tiles[i].y].solid)
+					}					
+					return true;
+				}
+			}
+			
+			if(tiles[_tiles[i].x][_tiles[i].y].solid)
 			{
 				if(r.Intersects(tiles[_tiles[i].x][_tiles[i].y].rect, &tempResp))
 				{

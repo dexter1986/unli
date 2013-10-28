@@ -84,6 +84,7 @@
     <ClCompile Include="AnimatedBase.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Disparos.cpp" />
+    <ClCompile Include="Enemigo.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Nivel.cpp" />
     <ClCompile Include="ParallaxLayer.cpp" />
@@ -98,6 +99,7 @@
     <ClInclude Include="AnimatedBase.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Disparos.h" />
+    <ClInclude Include="Enemigo.h" />
     <ClInclude Include="Nivel.h" />
     <ClInclude Include="ParallaxLayer.h" />
     <ClInclude Include="Personaje.h" />
