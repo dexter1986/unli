@@ -37,6 +37,9 @@ protected:
 	Joystick joystick;
 	Direccion direccion;// si apunta a la der o izq (flip horizontal de la textura)
 
+	bool isNPC;
+	bool isHitWall;
+
 	int vidas;
 
 	AnimatedBase *animaciones;
@@ -68,10 +71,11 @@ protected:
 	bool SecuenciaDisparoFinalizada();
 	void Disparar(float x, float y,float shoot_time,float velmisiles);
 	void Disparar(float shootTime,float vel_misiles);
-public:
+	virtual void AiNpc();
+public:	
 	FloatRect &GetAABB();
-	void Inicializar(ManejadorDisparos *d,Nivel *n);
-	SpriteBase(int cant_estados,const string &filename,float scale_x=0,float scale_y=0);
+	virtual void Inicializar(ManejadorDisparos *d,Nivel *n);
+	SpriteBase(int cant_estados,const string &filename,float scale_x=0,float scale_y=0,bool NPC=false);
 	void Mover_y_Animar(Joystick j, float dt);	
 	void Mover_y_Animar_NPC(float dt);	
 	virtual ~SpriteBase(void);

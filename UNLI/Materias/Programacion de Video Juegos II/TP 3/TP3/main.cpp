@@ -4,6 +4,7 @@
 #include "Animation.h"
 #include "Nivel.h"
 #include "Personaje.h"
+#include "Enemigo.h"
 #include "Disparos.h"
 
 using namespace std;
@@ -18,6 +19,8 @@ int main(int argc, char *argv[]) {
 	sf::RenderWindow w(VideoMode(resx,resy),"TP3");	
 	w.SetFramerateLimit(60);
 	
+	srand(time(0));
+
 	// creamos e inicializamos nuestra estructura joystick
 	Joystick j;
 	j.up=j.down=j.left=j.right=j.a=j.b=0;
@@ -27,7 +30,7 @@ int main(int argc, char *argv[]) {
 
 	Personaje prince;
 	
-	Personaje guardia;
+	Enemigo guardia;
 	
 	Nivel nivel;
 
@@ -37,9 +40,9 @@ int main(int argc, char *argv[]) {
 	
 	prince.Inicializar(&disparos,&nivel);
 	guardia.Inicializar(&disparos,&nivel);
-	guardia.SetColor(Color::Red);
-	guardia.SetPosition(384,32);
 
+	guardia.AiTracker(&prince);
+	
 	/*Nivel nivel("../data/level1.lev");*/
 	/*nivel.InitLevelView(resx, resy,10,8);*/
 	
@@ -82,7 +85,7 @@ int main(int argc, char *argv[]) {
 		// actualizamos el estado del personaje y los proyectiles
 		prince.Mover_y_Animar(j,clk.GetElapsedTime());
 		
-		guardia.Mover_y_Animar_NPC(clk.GetElapsedTime());
+		guardia.Mover_y_Animar(j,clk.GetElapsedTime());
 
 		nivel.SetViewCenter(prince.GetPosition());
 

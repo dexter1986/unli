@@ -106,7 +106,7 @@ public:
 	void DrawOverLayer(sf::RenderWindow &w);
 	
 	// probar si hay colision del nivel con el rectangulo r
-	bool HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo);
+	bool HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,bool isNPC);
 	bool HayColision2(FloatRect &r,FloatRect &collisionRec,FloatRect &areaColision);
 	
 	// funciones para inicializar la vista

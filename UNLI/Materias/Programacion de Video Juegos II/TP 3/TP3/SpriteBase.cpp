@@ -4,9 +4,9 @@
  #define round(r) r-int(r)>=0.5?int(r)+1:int(r)
 #endif
 
-SpriteBase::SpriteBase(int cant_estados,const string &filename,float scale_x,float scale_y)
+SpriteBase::SpriteBase(int cant_estados,const string &filename,float scale_x,float scale_y,bool NPC)
 {
-	
+	isNPC = NPC;
 	velocidad.x = 0.0f;
 	velocidad.y = 0.0f;
 	posicion.x = 0.0f;
@@ -23,7 +23,7 @@ SpriteBase::SpriteBase(int cant_estados,const string &filename,float scale_x,flo
 	ajustaColision_y = 0;
 	scale.x = scale_x;
 	scale.y = scale_y;
-	
+	isHitWall = false;
 	vidas = 100;
 
 	animaciones = new AnimatedBase[cant_estados];
@@ -32,6 +32,14 @@ SpriteBase::SpriteBase(int cant_estados,const string &filename,float scale_x,flo
 	SetImage(tex);
 
 	SetScale(scale_x,scale_y);
+
+	this->joystick.a = false;
+	this->joystick.b = false;
+	this->joystick.down = false;
+	this->joystick.left = false;
+	this->joystick.right = false;	
+	this->joystick.up = false;
+
 }
 
 SpriteBase::~SpriteBase(void)
@@ -87,13 +95,27 @@ void SpriteBase::Mover_y_Animar(Joystick j, float dt)
 	//Actualiza Delta de tiempo
 	this->dt =  dt;
 	
-	//Actualiza el estado del control
-	this->joystick.a =j.a;
-	this->joystick.b =j.b;
-	this->joystick.down =j.down;
-	this->joystick.left =j.left;
-	this->joystick.right =j.right;	
-	this->joystick.up =j.up;
+	if(!isNPC)
+	{
+		//Actualiza el estado del control
+		this->joystick.a = j.a;
+		this->joystick.b = j.b;
+		this->joystick.down = j.down;
+		this->joystick.left = j.left;
+		this->joystick.right = j.right;	
+		this->joystick.up = j.up;
+	}
+	else
+	{
+		this->joystick.a = false;
+		this->joystick.b = false;
+		this->joystick.down = false;
+		this->joystick.left = false;
+		this->joystick.right = false;	
+		this->joystick.up = false;
+
+		AiNpc();
+	}
 
 	Internal_Mover_y_Animar();
 
@@ -128,6 +150,11 @@ void SpriteBase::Mover_y_Animar(Joystick j, float dt)
 	}
 
 	if(!SecuenciaDisparoFinalizada()) shootTime-=dt;
+}
+
+void SpriteBase::AiNpc()
+{
+	
 }
 
 void SpriteBase::SetOffsetAABB(Vector2f &offset)
@@ -199,6 +226,7 @@ bool SpriteBase::ColisionaPared(){
 	FloatRect aabb_tmp, areaColision;
 	
 	bool chocaPared = false;
+	isHitWall = false;
 	
 	// la distancia que nos moveriamos
 	float despl = GetDireccionX() * dt * velocidad.x;
@@ -215,12 +243,13 @@ bool SpriteBase::ColisionaPared(){
 	// calculamos si habria colision
 	//chocaPared=nivel->HayColision2(aabb, aabb_tmp, areaColision);
 	int tipo=-1;
-	chocaPared = nivel->HayColision(aabb_tmp, areaColision,tipo);
+	chocaPared = nivel->HayColision(aabb_tmp, areaColision,tipo,isNPC);
 	
 	ajustaColision_x = GetDireccionX() * (dt*velocidad.x-areaColision.GetWidth());
 
 	if(chocaPared)
 	{
+		isHitWall = true;
 		if(tipo == 3)
 		{
 			cout<<"Toco una bomba - Vitalidad: "<< vidas<<"\n";
@@ -258,7 +287,7 @@ bool SpriteBase::ColisionaTecho(){
 		
 		// calculamos si habria colision
 		int tipo = -1;
-		chocaConTecho=nivel->HayColision(aabb_tmp, areaColision,tipo);
+		chocaConTecho=nivel->HayColision(aabb_tmp, areaColision,tipo,isNPC);
 
 		if(chocaConTecho)
 		{
@@ -353,7 +382,7 @@ bool SpriteBase::ColisionaSuelo(){
 		// calculamos si habria colision
 		//chocaConSuelo = nivel->HayColision2(aabb,aabb_tmp, areaColision);
 		int tipo = -1;
-		chocaConSuelo = nivel->HayColision(aabb_tmp, areaColision,tipo);
+		chocaConSuelo = nivel->HayColision(aabb_tmp, areaColision,tipo,isNPC);
 
 		if(chocaConSuelo)
 		{
