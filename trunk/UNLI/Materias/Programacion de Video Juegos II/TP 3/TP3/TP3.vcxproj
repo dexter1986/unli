@@ -50,13 +50,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\libs\SFML-1.6\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\libs\SFML-1.6\include;C:\libs\glew</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\libs\SFML-1.6\lib\vc2010</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\libs\SFML-1.6\lib\vc2010;C:\libs\glew</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-audio-s-d.lib;sfml-graphics-s-d.lib;sfml-main-d.lib;sfml-network-s-d.lib;sfml-system-s-d.lib;sfml-window-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -69,25 +69,30 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\libs\SFML-1.6\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\libs\SFML-1.6\include;C:\libs\glew</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\libs\SFML-1.6\lib\vc2010</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\libs\SFML-1.6\lib\vc2010;C:\libs\glew</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-audio-s-d.lib;sfml-graphics-s-d.lib;sfml-main-d.lib;sfml-network-s-d.lib;sfml-system-s-d.lib;sfml-window-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Affectors.cpp" />
     <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="AnimatedBase.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Disparos.cpp" />
+    <ClCompile Include="Emitter.cpp" />
     <ClCompile Include="Enemigo.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Nivel.cpp" />
     <ClCompile Include="ParallaxLayer.cpp" />
+    <ClCompile Include="ParticleSystem.cpp" />
+    <ClCompile Include="ParticleSystemManager.cpp" />
     <ClCompile Include="Personaje.cpp" />
     <ClCompile Include="SpriteBase.cpp" />
     <ClCompile Include="SpriteSheetManager.cpp" />
@@ -95,13 +100,18 @@
     <ClCompile Include="TiledSprite.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Affector.h" />
+    <ClInclude Include="Affectors.h" />
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="AnimatedBase.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Disparos.h" />
+    <ClInclude Include="Emitter.h" />
     <ClInclude Include="Enemigo.h" />
     <ClInclude Include="Nivel.h" />
     <ClInclude Include="ParallaxLayer.h" />
+    <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="ParticleSystemManager.h" />
     <ClInclude Include="Personaje.h" />
     <ClInclude Include="SpriteBase.h" />
     <ClInclude Include="SpriteSheetManager.h" />
