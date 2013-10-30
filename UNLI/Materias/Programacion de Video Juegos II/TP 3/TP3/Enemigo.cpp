@@ -142,7 +142,7 @@ void Enemigo::ModoPatrulla()
 			currentState = BUSCAR;
 			break;
 		}
-		contadorPasos = rand()%100+100;
+		contadorPasos = rand()%20+20;
 	}
 	else if(currentState == BUSCAR)
 	{
@@ -151,8 +151,8 @@ void Enemigo::ModoPatrulla()
 		if(isTargetInRange)
 		{
 			currentState = DISPARAR;	
-			contadorDisparos = rand()%10+10;
-			contadorPasos += rand()%50+50;
+			contadorDisparos = rand()%20+20;
+			contadorPasos = rand()%50+50;
 		}
 	}
 	else if(currentState == GIRAR)
@@ -211,7 +211,17 @@ void Enemigo::ModoMercenario()
 {
 	if(currentState == DETENIDO)
 	{
-		currentState = BUSCAR;
+		int opcion = rand()%2;
+		
+		switch(opcion)
+		{
+		case 0:
+			currentState = BUSCAR;
+			break;
+		case 1:
+			currentState = GIRAR;
+			break;
+		}
 		contadorPasos = rand()%20+20;
 	}
 	else if(currentState == BUSCAR)
@@ -220,21 +230,18 @@ void Enemigo::ModoMercenario()
 
 		if(isTargetInRange)
 		{
-			int opcion = rand()%3;
+			int opcion = rand()%2;
 
 			switch(opcion)
-			{
+			{			
 			case 0:
-				currentState = CORRER;
-				break;
-			case 1:
 				currentState = DISPARAR;
 				break;
-			case 2:
+			case 1:
 				currentState = CORRER_Y_DISPARAR;
 				break;
 			}				
-			contadorDisparos = rand()%5+5;
+			contadorDisparos = rand()%20+20;
 			contadorPasos += rand()%10+10;
 		}
 	}
@@ -290,10 +297,11 @@ void Enemigo::ModoMercenario()
 		}
 	}
 
-	if(contadorPasos <= 0)
+	if(contadorPasos < 0)
 	{
 		currentState = DETENIDO;
-	}else
+	}
+	else
 	{
 		contadorPasos--;
 	}
@@ -301,6 +309,22 @@ void Enemigo::ModoMercenario()
 
 bool Enemigo::CheckTargetVisibility()
 {
-	return true;
+	Vector2f pos = GetPosition();
+	Vector2f targetpos = target->GetPosition();
+	
+	int dir  = GetDireccionX();
+	
+	if(dir < 0 && pos.x > targetpos.x || dir > 0 && pos.x < targetpos.x)
+	{
+		if(abs(pos.y - targetpos.y) <= 20)
+		{
+			//6 tiles de separacion
+			if(abs(pos.x - targetpos.x) <= 192.0f)
+			{
+				return true;
+			}
+		}
+	}	
+	return false;
 }
 

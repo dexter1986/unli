@@ -6,6 +6,7 @@
 #include "Personaje.h"
 #include "Enemigo.h"
 #include "Disparos.h"
+#include "ParticleSystemManager.h"
 
 using namespace std;
 
@@ -50,6 +51,17 @@ int main(int argc, char *argv[]) {
 	//w.SetView(v);
 	//prince.Inicializar(&disparos,&nivel);
 
+	unsigned const nMaxParticles=2000;	
+	
+	float spawnRate=1000;
+	// obtiene el manejador de sistemas de particulas
+	ParticleSystemManager *mg=&ParticleSystemManager::GetManager();
+	
+	Affector *g=new Gravity(0,1000);
+	Affector *f1=new Fade(0.5);
+	
+	Emitter *em2;
+	bool isEmitterCreated = false;
 	sf::Clock clk;
 	sf::Event e;
 	
@@ -82,33 +94,71 @@ int main(int argc, char *argv[]) {
 			}
 			
 		}
+
+		if(j.b)
+		{
+			if(!isEmitterCreated)
+			{
+				em2=&mg->AddParticleSystem(5);
+				em2->Spawn(false);
+				em2->SetImage(TextureManager::GetInstance().GetTexture("../data/particula.png"));
+				em2->SetEmmitVel(200,200);
+				em2->SetEmmitLife(1, 1);
+				em2->SetBlendMode(sf::Blend::Add);
+				em2->SetSpawnRate(100);
+				em2->AddAffector(*g);
+				em2->AddAffector(*f1);			
+				em2->isOneTime = true;	
+				em2->SetPosition(64,64);
+				em2->Spawn(true);
+				isEmitterCreated = true;
+			}
+		}
+		else
+		{
+			if(isEmitterCreated)
+			{
+				em2->Spawn(false);
+				em2->Kill();
+				isEmitterCreated = false;
+			}
+		}
+
 		// actualizamos el estado del personaje y los proyectiles
-		prince.Mover_y_Animar(j,clk.GetElapsedTime());
+
+		float dt = clk.GetElapsedTime();
+
+		prince.Mover_y_Animar(j,dt);
 		
-		guardia.Mover_y_Animar(j,clk.GetElapsedTime());
+		guardia.Mover_y_Animar(j,dt);	
+
+		disparos.MoverDisparos(dt, v);
+
+		mg->Simulate(dt);
 
 		nivel.SetViewCenter(prince.GetPosition());
-
-		disparos.MoverDisparos(clk.GetElapsedTime(), v);
 
 		clk.Reset();
 		
 		// dibujamos
 		w.Clear(Color(0,0,0));		
+		
 		nivel.Draw(w);
 		
 		//nivel.DrawGrid(w);
 		
-		disparos.DibujarDisparos(w);
-		
 		w.Draw(prince);
 		w.Draw(guardia);
 
-		nivel.DrawOverLayer(w);
-
+		disparos.DibujarDisparos(w);
+		
 		/*FloatRect bb=prince.GetAABB();
 		w.Draw(sf::Shape::Rectangle(bb.Left, bb.Top, bb.Right, bb.Bottom, sf::Color(0,0,0,0), 1, sf::Color(255,0,0)));*/
-				
+	
+		mg->Render(w);
+
+		nivel.DrawOverLayer(w);
+
 		w.Display();
 
 		if(nivel.isNeedNextLoadLevel)
@@ -117,6 +167,10 @@ int main(int argc, char *argv[]) {
 			IntLevel(disparos,prince,file,w,nivel);
 		}
 	}	
+	
+	delete g;
+	delete f1;	
+	delete mg;
 	return 0;
 }
 

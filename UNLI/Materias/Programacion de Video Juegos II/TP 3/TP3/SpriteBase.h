@@ -66,13 +66,13 @@ protected:
 	bool ColisionaTecho();
 	bool ColisionaSuelo();
 	void AjustaColisionX();
-	void AjustaColisionY();
-	int GetDireccionX();
+	void AjustaColisionY();	
 	bool SecuenciaDisparoFinalizada();
 	void Disparar(float x, float y,float shoot_time,float velmisiles);
 	void Disparar(float shootTime,float vel_misiles);
 	virtual void AiNpc();
 public:	
+	int GetDireccionX();
 	FloatRect &GetAABB();
 	virtual void Inicializar(ManejadorDisparos *d,Nivel *n);
 	SpriteBase(int cant_estados,const string &filename,float scale_x=0,float scale_y=0,bool NPC=false);
