@@ -80,7 +80,7 @@ private:
 	
 	// nos da los tiles que se solapan con el rectangulo r
 	// (para detectar colisiones e evitar dibujar todo el escenario)
-	void GetOverlappingTiles(sf::FloatRect r, vector<sf::Vector2i> &_tiles);
+	void GetOverlappingTiles(sf::FloatRect r, vector<sf::Vector2i *> &_tiles);
 	
 public:
 
@@ -107,6 +107,7 @@ public:
 	
 	// probar si hay colision del nivel con el rectangulo r
 	bool HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,bool isNPC);
+	bool HayColision(float x, float y,int &tipo);
 	bool HayColision2(FloatRect &r,FloatRect &collisionRec,FloatRect &areaColision);
 	
 	// funciones para inicializar la vista

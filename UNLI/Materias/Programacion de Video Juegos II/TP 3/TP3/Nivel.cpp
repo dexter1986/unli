@@ -320,11 +320,11 @@ void Nivel::Draw(sf::RenderWindow &w){
 		capasParallax[i]->Draw(w);
 	}
 	
-	vector<sf::Vector2i> _tiles;
-	GetOverlappingTiles(levelView.GetRect(), _tiles);
-	Tile temp;
-	for(unsigned i=0; i<_tiles.size(); i++){		
-		temp=tiles[_tiles[i].x][_tiles[i].y];		
+	vector<sf::Vector2i *> *_tiles = new  vector<sf::Vector2i *>();
+	GetOverlappingTiles(levelView.GetRect(), *_tiles);
+	
+	for(unsigned i=0; i<_tiles->size(); i++){		
+		Tile &temp=tiles[(*_tiles)[i]->x][(*_tiles)[i]->y];		
 		if(temp.iImage != -1)
 		{
 			sm.GetImage(temp.iImage,temp.rect);
@@ -337,28 +337,42 @@ void Nivel::Draw(sf::RenderWindow &w){
 	if(temp.iImage!=-1){
 			w.Draw(temp);
 	}*/
+
+	for(unsigned i=0; i<_tiles->size(); i++)
+	{
+		delete (*_tiles)[i];
+	}
+	_tiles->clear();
+	delete _tiles;
 	
 }
 
 void Nivel::DrawOverLayer(sf::RenderWindow &w)
 {
-	vector<sf::Vector2i> _tiles;
-	GetOverlappingTiles(levelView.GetRect(), _tiles);
-	Tile temp;
-	for(unsigned i=0; i<_tiles.size(); i++){
-		temp=tiles_overlayer[_tiles[i].x][_tiles[i].y];		
+	vector<sf::Vector2i *> *_tiles = new vector<sf::Vector2i *>();
+	GetOverlappingTiles(levelView.GetRect(), *_tiles);
+	
+	for(unsigned i=0; i<_tiles->size(); i++){
+		Tile &temp=tiles_overlayer[(*_tiles)[i]->x][(*_tiles)[i]->y];		
 		if(temp.iOverLayer != -1)
 		{
 			sm.GetImage(temp.iOverLayer,temp.rect);
 			w.Draw(sm);
 		}
 	}
+
+	for(unsigned i=0; i<_tiles->size(); i++)
+	{
+		delete (*_tiles)[i];
+	}
+	_tiles->clear();
+	delete _tiles;
 }
 
 // llena el vector ovTiles con las coordenadas de los tiles que se superponen
 // con el rectangulo r, nos es util para detectar colisiones y para saber que
 // tiles debemos renderizar en caso de que no estemos viendo todo el nivel
-void Nivel::GetOverlappingTiles(sf::FloatRect r, vector<sf::Vector2i> &ovTiles){
+void Nivel::GetOverlappingTiles(sf::FloatRect r, vector<sf::Vector2i *> &ovTiles){
 	// tanto i como j comienzan con las coordenadas (en tiles) del rectangulo r
 	float xo = r.Top/tileSize.y;
 	float xf = r.Bottom/tileSize.y;
@@ -369,7 +383,7 @@ void Nivel::GetOverlappingTiles(sf::FloatRect r, vector<sf::Vector2i> &ovTiles){
 		for(int j=yo; j<yf; j++){
 			if( i >= 0 && j >= 0)
 			{
-				ovTiles.push_back(sf::Vector2i(i, j));
+				ovTiles.push_back(new sf::Vector2i(i, j));
 			}
 		}
 	}
@@ -381,16 +395,17 @@ void Nivel::GetOverlappingTiles(sf::FloatRect r, vector<sf::Vector2i> &ovTiles){
 // en caso de haber colision con mas de un tile, devuelve
 // el area de colision con el tile que tenga mayor area de colision
 bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,bool isNPC){
-	vector<sf::Vector2i> _tiles;
-	GetOverlappingTiles(r, _tiles);
+	vector<sf::Vector2i *> *_tiles = new vector<sf::Vector2i *>();
+	GetOverlappingTiles(r, *_tiles);
 	sf::FloatRect tempResp; float maxResponse=0, sresponse;
 	int x,y;
-	for(unsigned i=0; i<_tiles.size(); i++){		
-		x = _tiles[i].x;
-		y = _tiles[i].y;
+	for(unsigned i=0; i<_tiles->size(); i++){		
+		x = (*_tiles)[i]->x;
+		y = (*_tiles)[i]->y;
 		if(x > -1 && x < levelSize.y && y < levelSize.x  && y > -1)
 		{
-			Tile tile = tiles[_tiles[i].x][_tiles[i].y];
+			//Tile &tile = tiles[_tiles[i].x][_tiles[i].y];
+			Tile &tile = tiles[x][y];
 			if(!isNPC)
 			{
 				if(tile.isBomb)
@@ -416,9 +431,9 @@ bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,
 				}
 			}
 			
-			if(tiles[_tiles[i].x][_tiles[i].y].solid)
+			if(tiles[x][y].solid)
 			{
-				if(r.Intersects(tiles[_tiles[i].x][_tiles[i].y].rect, &tempResp))
+				if(r.Intersects(tiles[x][y].rect, &tempResp))
 				{
 					sresponse=tempResp.GetWidth()*tempResp.GetHeight();
 					if(sresponse>maxResponse)
@@ -430,7 +445,31 @@ bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,
 			}
 		}
 	}
+
+
+	for(unsigned i=0; i<_tiles->size(); i++)
+	{
+		delete (*_tiles)[i];
+	}
+	_tiles->clear();
+	delete _tiles;
+
 	return maxResponse > 0;
+}
+
+bool Nivel::HayColision(float x, float y,int &tipo)
+{
+	int xo = x / tileSize.y;
+	int yo = y / tileSize.x;
+	if(xo >= 0 && yo >= 0 && xo < levelSize.x && yo < levelSize.y)
+	{
+		Tile &tile = tiles[yo][xo];
+		if(tile.solid)
+		{			
+			return true;
+		}
+	}
+	return false;
 }
 
 // devuelve el tamano del tile

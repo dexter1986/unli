@@ -1,5 +1,6 @@
 #include "glew.h"
 #include "ParticleSystemManager.h"
+#include "TextureManager.h"
 #include <iostream>
 using namespace std;
 
@@ -32,6 +33,7 @@ ParticleSystemManager::~ParticleSystemManager() {
 		delete *ps;
 	}
 	//delete globalManager;
+	ClearAffectors();
 }
 
 
@@ -123,4 +125,44 @@ unsigned ParticleSystemManager::GetNumParticles(){
 		ps++;
 	}
 	return numParticles;
+}
+
+void ParticleSystemManager::AddAffector(Affector *a)
+{
+	affectors.push_back(a);
+}
+
+void ParticleSystemManager::ClearAffectors()
+{
+	for(int i=0;i<affectors.size();i++)
+	{
+		Affector *a = affectors[i];
+		if(a)
+		{
+			delete a;
+			a = NULL;
+		}
+	}
+	affectors.clear();
+}
+
+void ParticleSystemManager::CreateEmiterOneShoot(float x, float y)
+{
+	Emitter &e = AddParticleSystem(5);
+	e.Spawn(false);
+	e.SetImage(TextureManager::GetInstance().GetTexture("../data/particula.png"));
+	e.SetEmmitVel(200,200);
+	e.SetEmmitLife(1, 1);
+	e.SetBlendMode(sf::Blend::Add);
+	e.SetSpawnRate(100);
+
+	for(int i=0;i< affectors.size();i++)
+	{
+		e.AddAffector(*affectors[i]);
+	}
+	
+	e.isOneTime = true;	
+	e.SetPosition(x,y);
+	e.Spawn(true);		
+	e.Kill();
 }

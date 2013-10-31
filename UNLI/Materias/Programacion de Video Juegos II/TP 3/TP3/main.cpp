@@ -26,42 +26,36 @@ int main(int argc, char *argv[]) {
 	Joystick j;
 	j.up=j.down=j.left=j.right=j.a=j.b=0;
 	
+
+	Nivel nivel;
+
 	//creamos el manejador para los disparos
 	ManejadorDisparos disparos;
+
+	disparos.SetLevelManager(&nivel);
 
 	Personaje prince;
 	
 	Enemigo guardia;
 	
-	Nivel nivel;
-
 	IntLevel(disparos,prince,"../data/level1.lev",w,nivel);
 
 	View &v = w.GetDefaultView();
 	
 	prince.Inicializar(&disparos,&nivel);
+	
 	guardia.Inicializar(&disparos,&nivel);
-
 	guardia.AiTracker(&prince);
 	
-	/*Nivel nivel("../data/level1.lev");*/
-	/*nivel.InitLevelView(resx, resy,10,8);*/
-	
-	//= nivel.GetView();
-	//w.SetView(v);
-	//prince.Inicializar(&disparos,&nivel);
-
-	unsigned const nMaxParticles=2000;	
-	
-	float spawnRate=1000;
 	// obtiene el manejador de sistemas de particulas
 	ParticleSystemManager *mg=&ParticleSystemManager::GetManager();
 	
 	Affector *g=new Gravity(0,1000);
 	Affector *f1=new Fade(0.5);
-	
-	Emitter *em2;
-	bool isEmitterCreated = false;
+
+	mg->AddAffector(g);
+	mg->AddAffector(f1);
+
 	sf::Clock clk;
 	sf::Event e;
 	
@@ -94,36 +88,7 @@ int main(int argc, char *argv[]) {
 			}
 			
 		}
-
-		if(j.b)
-		{
-			if(!isEmitterCreated)
-			{
-				em2=&mg->AddParticleSystem(5);
-				em2->Spawn(false);
-				em2->SetImage(TextureManager::GetInstance().GetTexture("../data/particula.png"));
-				em2->SetEmmitVel(200,200);
-				em2->SetEmmitLife(1, 1);
-				em2->SetBlendMode(sf::Blend::Add);
-				em2->SetSpawnRate(100);
-				em2->AddAffector(*g);
-				em2->AddAffector(*f1);			
-				em2->isOneTime = true;	
-				em2->SetPosition(64,64);
-				em2->Spawn(true);
-				isEmitterCreated = true;
-			}
-		}
-		else
-		{
-			if(isEmitterCreated)
-			{
-				em2->Spawn(false);
-				em2->Kill();
-				isEmitterCreated = false;
-			}
-		}
-
+		
 		// actualizamos el estado del personaje y los proyectiles
 
 		float dt = clk.GetElapsedTime();
@@ -167,9 +132,7 @@ int main(int argc, char *argv[]) {
 			IntLevel(disparos,prince,file,w,nivel);
 		}
 	}	
-	
-	delete g;
-	delete f1;	
+		
 	delete mg;
 	return 0;
 }

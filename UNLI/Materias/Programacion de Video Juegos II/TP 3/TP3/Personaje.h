@@ -12,7 +12,7 @@ private:
 	static const int SNEAK_VEL = 25;
 	static const int SLIDE_VEL = 20;
 	float SHOOT_TIME;
-	static const int VEL_MISILES=200;
+	static const int VEL_MISILES=400;
 
 	enum Estado{
 		NORMAL,
