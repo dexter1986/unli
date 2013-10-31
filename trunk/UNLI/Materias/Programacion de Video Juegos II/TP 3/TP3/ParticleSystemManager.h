@@ -22,8 +22,16 @@ private:
 
 	ParticleSystemManager();
 	
+	vector<Affector *> affectors;
+
 	
 public:
+
+	void AddAffector(Affector *a);
+	void ClearAffectors();
+
+	void CreateEmiterOneShoot(float x, float y);
+
 	~ParticleSystemManager();
 	// devuelve el manejador global
 	static ParticleSystemManager &GetManager();
