@@ -4,6 +4,7 @@
 
 Nivel::Nivel()
 {
+	occlusion_tiles = NULL;
 }
 
 // Constructor: inicializa el Nivel
@@ -25,14 +26,35 @@ Nivel::Nivel(string tileset_filename, int tileset_nw, int tileset_nh, unsigned l
 	Vector2f size = sm.GetSize();
 	tileSize.x= size.x;
 	tileSize.y= size.y;
-	
+	occlusion_tiles = NULL;
 	// inicializamos la matriz de tiles
 	Init();
 }
 
 // Constructor: cargar el nivel desde el archivo level_file
 Nivel::Nivel(string level_file){
+	occlusion_tiles = NULL;
 	Load(level_file);
+}
+
+void Nivel::GetOcclusionTiles()
+{
+	if(occlusion_tiles != NULL)
+	{
+		for(unsigned i=0; i<occlusion_tiles->size(); i++)
+		{
+			delete (*occlusion_tiles)[i];
+		}
+		occlusion_tiles->clear();
+		delete occlusion_tiles;
+	}
+	occlusion_tiles = new  vector<sf::Vector2i *>();	
+	GetOverlappingTiles(levelView.GetRect(), *occlusion_tiles);
+}
+
+void Nivel::PrepareNivel()
+{
+	GetOcclusionTiles();
 }
 
 // inicializa la matriz de tiles
@@ -47,8 +69,8 @@ void Nivel::Init(){
 	tiles.clear();
 	tiles.resize(0);
 
-	tiles_overlayer.clear();
-	tiles_overlayer.resize(0);
+	/*tiles_overlayer.clear();
+	tiles_overlayer.resize(0);*/
 	
 	nextLevels.clear();
 	nextLevels.resize(0);
@@ -201,9 +223,9 @@ void Nivel::Load(string filename){
 	
 	//01 solid
 	//03 bomb
-	//70 Enemigo
+	//60-70 Enemigo
 	//10-20 portal
-	//99 Enter Point
+	//99 Enter Point - es donde aparece el player
 	// leemos la matriz que nos indica cuales
 	// tiles son solidos
 	aux = 0;
@@ -223,7 +245,7 @@ void Nivel::Load(string filename){
 				iPortales++;
 				tiles[i][j].iPortal = aux;
 			}
-			else if(aux == 70)
+			else if(aux >= 60 && aux <= 70)
 			{
 				iEnemigos++;
 				tiles[i][j].iEnemigo = aux;
@@ -233,7 +255,6 @@ void Nivel::Load(string filename){
 				tiles[i][j].isEntryPoint = true;
 				vEntryPoint.x = tileSize.x * j;
 				vEntryPoint.y = tileSize.y * i;
-
 			}
 		}
 	}
@@ -245,7 +266,8 @@ void Nivel::Load(string filename){
 	for(unsigned i=0; i<levelSize.y; i++){
 		for(unsigned j=0; j<levelSize.x; j++){
 			entrada>>aux;
-			tiles_overlayer[i][j].iOverLayer = aux-1;
+			//tiles_overlayer[i][j].iOverLayer = aux-1;
+			tiles[i][j].iOverLayer = aux-1;
 		}
 	}
 	aux = 0;
@@ -320,11 +342,8 @@ void Nivel::Draw(sf::RenderWindow &w){
 		capasParallax[i]->Draw(w);
 	}
 	
-	vector<sf::Vector2i *> *_tiles = new  vector<sf::Vector2i *>();
-	GetOverlappingTiles(levelView.GetRect(), *_tiles);
-	
-	for(unsigned i=0; i<_tiles->size(); i++){		
-		Tile &temp=tiles[(*_tiles)[i]->x][(*_tiles)[i]->y];		
+	for(unsigned i=0; i<occlusion_tiles->size(); i++){		
+		Tile &temp=tiles[(*occlusion_tiles)[i]->x][(*occlusion_tiles)[i]->y];		
 		if(temp.iImage != -1)
 		{
 			sm.GetImage(temp.iImage,temp.rect);
@@ -338,35 +357,29 @@ void Nivel::Draw(sf::RenderWindow &w){
 			w.Draw(temp);
 	}*/
 
-	for(unsigned i=0; i<_tiles->size(); i++)
+	/*for(unsigned i=0; i<_tiles->size(); i++)
 	{
 		delete (*_tiles)[i];
 	}
 	_tiles->clear();
-	delete _tiles;
+	delete _tiles;*/
 	
 }
 
 void Nivel::DrawOverLayer(sf::RenderWindow &w)
 {
-	vector<sf::Vector2i *> *_tiles = new vector<sf::Vector2i *>();
-	GetOverlappingTiles(levelView.GetRect(), *_tiles);
+	/*vector<sf::Vector2i *> *_tiles = new vector<sf::Vector2i *>();
+	GetOverlappingTiles(levelView.GetRect(), *_tiles);*/
 	
-	for(unsigned i=0; i<_tiles->size(); i++){
-		Tile &temp=tiles_overlayer[(*_tiles)[i]->x][(*_tiles)[i]->y];		
+	for(unsigned i=0; i<occlusion_tiles->size(); i++){
+		//Tile &temp=tiles_overlayer[(*_tiles)[i]->x][(*_tiles)[i]->y];		
+		Tile &temp=tiles[(*occlusion_tiles)[i]->x][(*occlusion_tiles)[i]->y];		
 		if(temp.iOverLayer != -1)
-		{
+		{	
 			sm.GetImage(temp.iOverLayer,temp.rect);
 			w.Draw(sm);
 		}
-	}
-
-	for(unsigned i=0; i<_tiles->size(); i++)
-	{
-		delete (*_tiles)[i];
-	}
-	_tiles->clear();
-	delete _tiles;
+	}	
 }
 
 // llena el vector ovTiles con las coordenadas de los tiles que se superponen

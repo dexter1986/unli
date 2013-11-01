@@ -93,6 +93,8 @@ int main(int argc, char *argv[]) {
 
 		float dt = clk.GetElapsedTime();
 
+		nivel.PrepareNivel();
+
 		prince.Mover_y_Animar(j,dt);
 		
 		guardia.Mover_y_Animar(j,dt);	
