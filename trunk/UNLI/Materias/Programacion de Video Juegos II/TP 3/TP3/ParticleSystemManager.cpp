@@ -28,10 +28,16 @@ ParticleSystemManager::ParticleSystemManager() {
 
 
 ParticleSystemManager::~ParticleSystemManager() {
+	ParticleSystem *ptemp;
 	list<ParticleSystem *>::iterator ps=particlesystems.begin();
 	while(ps!=particlesystems.end()){
-		delete *ps;
+		ptemp = (*(ps));
+		//ps=particlesystems.erase(ps);
+		delete ptemp;				
+		ps++;
 	}
+
+	particlesystems.clear();
 	//delete globalManager;
 	ClearAffectors();
 }

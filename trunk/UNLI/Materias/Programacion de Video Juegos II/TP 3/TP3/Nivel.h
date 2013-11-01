@@ -74,6 +74,8 @@ private:
 	sf::View levelView;
 	
 	vector<ParallaxLayer *> capasParallax;
+
+	vector<sf::Vector2i *> *occlusion_tiles;
 	
 	// inicializa la matriz de tiles
 	void Init();
@@ -82,6 +84,8 @@ private:
 	// (para detectar colisiones e evitar dibujar todo el escenario)
 	void GetOverlappingTiles(sf::FloatRect r, vector<sf::Vector2i *> &_tiles);
 	
+	//
+	void GetOcclusionTiles();
 public:
 
 	bool isNeedNextLoadLevel;
@@ -105,6 +109,8 @@ public:
 	void Draw(sf::RenderWindow &w);
 	void DrawOverLayer(sf::RenderWindow &w);
 	
+	void PrepareNivel();
+
 	// probar si hay colision del nivel con el rectangulo r
 	bool HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,bool isNPC);
 	bool HayColision(float x, float y,int &tipo);

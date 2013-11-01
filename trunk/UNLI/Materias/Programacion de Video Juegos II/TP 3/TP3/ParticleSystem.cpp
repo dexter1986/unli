@@ -18,7 +18,11 @@ ParticleSystem::ParticleSystem(Emitter &e, unsigned nMaxParticles){
 
 // destructor: elimina la memoria de las particulas
 ParticleSystem::~ParticleSystem() {
-	delete [] particles;
+	if(particles == NULL)
+	{
+		delete []particles;
+		particles = NULL;
+	}
 }
 
 
