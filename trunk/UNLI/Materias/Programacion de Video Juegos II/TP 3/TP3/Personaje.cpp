@@ -4,7 +4,7 @@ Personaje::Personaje(void):SpriteBase(30,"../data/personaje.png",0.5,0.5)
 {
 	currentState = Estado::NORMAL;	
 	direccion = Direccion::RIGHT;
-	velocidad.x = 45.0f;
+	velocidad.x = 60.0f;
 	delayToBreak = 0;
 	IsJumpStart = false;
 	IsTirarStart = false;
