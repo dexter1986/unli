@@ -39,6 +39,7 @@ void ManejadorDisparos::MoverDisparos(float dt, sf::View &v){
 	float misilx;
 	float misily;
 	int tipo  = 0;
+	Color color = Color::White;
 	sf::FloatRect r=v.GetRect();
 
 	Disparo *disparoTemp;
@@ -52,28 +53,45 @@ void ManejadorDisparos::MoverDisparos(float dt, sf::View &v){
 		misily = (*p)->GetPosition().y;
 
 		//verifica colision con las paredes
-		if(nivel->HayColision(misilx,misily,tipo))
+		if(misilx > r.Left && misilx < r.Right)
 		{
-			ParticleSystemManager::GetManager().CreateEmiterOneShoot(misilx,misily);
-			// al borrar, el iterador p se invalida, por lo que
-			// debemos actualizarlo
-			disparoTemp = (*p);
-			p=disparos.erase(p);
-			delete disparoTemp;
-		}
-		else if(misilx<r.Left || misilx>r.Right)
-		{
-			// al borrar, el iterador p se invalida, por lo que
-			// debemos actualizarlo
-			disparoTemp = (*p);
-			p=disparos.erase(p);
-			delete disparoTemp;
+			if(nivel->HayColision(misilx,misily,tipo))
+			{
+				ParticleSystemManager::GetManager().CreateEmiterOneShoot(misilx,misily);
+				// al borrar, el iterador p se invalida, por lo que
+				// debemos actualizarlo
+				disparoTemp = (*p);
+				p=disparos.erase(p);
+				delete disparoTemp;
+			}
+			else if(haycolision_entities(misilx,misily,color))
+			{
+				ParticleSystemManager::GetManager().CreateEmiterOneExplosion(misilx,misily,color);
+				// al borrar, el iterador p se invalida, por lo que
+				// debemos actualizarlo
+				disparoTemp = (*p);
+				p=disparos.erase(p);
+				delete disparoTemp;
+			}
+			else
+			{			
+				p++;
+			}
 		}
 		else
-		{			
-			p++;
-		}
+		{
+			// al borrar, el iterador p se invalida, por lo que
+			// debemos actualizarlo
+			disparoTemp = (*p);
+			p=disparos.erase(p);
+			delete disparoTemp;
+		}		
 	}
+}
+
+void  ManejadorDisparos::SetEnemigoManagerDelegate(bool(*haycolision)(float x, float y,sf::Color &color))
+{
+	haycolision_entities = haycolision; 
 }
 
 // agrega un nuevo disparo a la lista con la posicion y velocidad dadas

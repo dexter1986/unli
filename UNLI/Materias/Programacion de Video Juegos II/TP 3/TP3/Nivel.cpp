@@ -118,7 +118,7 @@ void Nivel::Init(){
 			tileTemp.isEntryPoint = false;			
 			tileTemp.solid = false;
 			tileTemp.iType = -1;
-						
+			tileTemp.isDead = false;						
 			// insertamos al tile en la fila
 			filaTemp.push_back(tileTemp);
 		}
@@ -156,8 +156,8 @@ void Nivel::Init(){
 	/*capasParallax.push_back(new ParallaxLayer(*l, 0.0035, true, 0, 0, false, 0));*/
 
 	const int len = 2;
-	char *archivosCapas[]={ "../data/parallax-1-800x200.png",
-							"../data/parallax-2-800x120.png"};
+	/*char *archivosCapas[]={ "../data/parallax-1-800x200.png",
+							"../data/parallax-2-800x120.png"}*/;
 	
 	// cargamos las imagenes de las capas
 	/*sf::Image imgCapas[len];
@@ -179,12 +179,10 @@ void Nivel::Init(){
 	//ParallaxLayer *capas[len];
 	for(unsigned i=0; i<len; i++)
 	{	 
-		 img = &TextureManager::GetInstance().GetTexture(archivosCapas[i]);		
+		 img = &TextureManager::GetInstance().GetTexture(capasparalaxFiles[i]);		
 		 capasParallax.push_back(new ParallaxLayer(*img, velCapas[i], true, offsetXCapas[i],
 												    0, false, offsetYCapas[i]));
 	}
-
-	
 }
 
 // carga un nivel desde un archivo de nivel
@@ -194,6 +192,10 @@ void Nivel::Load(string filename){
 	ifstream entrada(filename.c_str());
 	// leemos el nombre del archivo de tilesets
 	getline(entrada,tileset_filename);
+	//Cargamos el paralax
+	entrada>>capasparalaxFiles[0];
+	entrada>>capasparalaxFiles[1];
+	
 	// cargamos el tamano del tileset y del nivel
 	entrada>>tileSetSize.x>>tileSetSize.y;
 	entrada>>levelSize.x>>levelSize.y;
@@ -210,7 +212,7 @@ void Nivel::Load(string filename){
 	
 	// inicializamos la matriz de tiles
 	Init();
-	
+
 	int aux = 0;
 
 	// leemos la matriz de numeros de imagenes
@@ -223,6 +225,7 @@ void Nivel::Load(string filename){
 	
 	//01 solid
 	//03 bomb
+	//04 
 	//60-70 Enemigo
 	//10-20 portal
 	//99 Enter Point - es donde aparece el player
@@ -344,7 +347,7 @@ void Nivel::Draw(sf::RenderWindow &w){
 	
 	for(unsigned i=0; i<occlusion_tiles->size(); i++){		
 		Tile &temp=tiles[(*occlusion_tiles)[i]->x][(*occlusion_tiles)[i]->y];		
-		if(temp.iImage != -1)
+		if(temp.iImage != -1 && !temp.isDead)
 		{
 			sm.GetImage(temp.iImage,temp.rect);
 			w.Draw(sm);			
@@ -374,7 +377,7 @@ void Nivel::DrawOverLayer(sf::RenderWindow &w)
 	for(unsigned i=0; i<occlusion_tiles->size(); i++){
 		//Tile &temp=tiles_overlayer[(*_tiles)[i]->x][(*_tiles)[i]->y];		
 		Tile &temp=tiles[(*occlusion_tiles)[i]->x][(*occlusion_tiles)[i]->y];		
-		if(temp.iOverLayer != -1)
+		if(temp.iOverLayer != -1 && !temp.isDead)
 		{	
 			sm.GetImage(temp.iOverLayer,temp.rect);
 			w.Draw(sm);
@@ -424,6 +427,8 @@ bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,
 				if(tile.isBomb)
 				{
 					tipo = 3;
+					tile.isBomb = false;
+					tile.iOverLayer = -1;
 					return true;
 				}
 				else if(tile.iPortal != -1)

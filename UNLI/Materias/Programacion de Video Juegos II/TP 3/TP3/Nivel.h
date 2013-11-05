@@ -3,8 +3,8 @@
 
 #include <iostream>
 #include <vector>
-#include "SpriteSheetManager.h"
 #include <SFML/Graphics/RenderWindow.hpp>
+#include "SpriteSheetManager.h"
 #include "ParallaxLayer.h"
 #include "AnimatedBase.h"
 
@@ -36,6 +36,7 @@ private:
 		bool isEntryPoint; //punto en el cual aparece el personaje cuando empieza el nivel
 		int iType; //
 		sf::FloatRect rect; // para facilitar la deteccion de colisiones
+		bool isDead;
 	};
 
 	class Level
@@ -48,6 +49,7 @@ private:
 	int iPortales;
 	int iEnemigos;
 	
+	string capasparalaxFiles[2];
 
 	// nombre del archivo tileset
 	string tileset_filename;
@@ -70,9 +72,8 @@ private:
 	// tamano de los tiles (ancho x alto)
 	sf::Vector2i tileSize;
 	
-	// la vista del nivel
-	sf::View levelView;
 	
+
 	vector<ParallaxLayer *> capasParallax;
 
 	vector<sf::Vector2i *> *occlusion_tiles;
@@ -87,6 +88,8 @@ private:
 	//
 	void GetOcclusionTiles();
 public:
+	// la vista del nivel
+	sf::View levelView;
 
 	bool isNeedNextLoadLevel;
 	string fileNextLevel;

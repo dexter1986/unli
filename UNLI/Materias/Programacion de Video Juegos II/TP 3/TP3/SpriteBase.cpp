@@ -25,6 +25,8 @@ SpriteBase::SpriteBase(int cant_estados,const string &filename,float scale_x,flo
 	scale.y = scale_y;
 	isHitWall = false;
 	vidas = 100;
+	isDead = false;
+	isVisible = true;
 
 	animaciones = new AnimatedBase[cant_estados];
 	
@@ -92,6 +94,8 @@ int SpriteBase::AnimationCurrentFrame()
 
 void SpriteBase::Mover_y_Animar(Joystick j, float dt)
 {	
+	if(isDead)
+		return;
 	//Actualiza Delta de tiempo
 	this->dt =  dt;
 	
@@ -206,7 +210,7 @@ void SpriteBase::Inicializar(ManejadorDisparos *d,Nivel *n)
 	this->nivel = n;
 	this->disparos = d;
 
-	SetPosition(this->nivel->vEntryPoint);
+	SetPosition(this->nivel->vEntryPoint);	
 }
 
 // para saber si ya expiro el tiempo que dura la secuencia de disparo
@@ -252,7 +256,8 @@ bool SpriteBase::ColisionaPared(){
 		isHitWall = true;
 		if(tipo == 3)
 		{
-			cout<<"Toco una bomba - Vitalidad: "<< vidas<<"\n";
+			ParticleSystemManager::GetManager().CreateEmiterOneExplosion(aabb_tmp.Left+aabb_tmp.GetWidth()/2,aabb_tmp.Top+aabb_tmp.GetHeight()/2,Color::White);
+			isDead = true;
 			vidas--;
 		}
 		else if(tipo>= 10 && tipo <=20)
@@ -293,7 +298,8 @@ bool SpriteBase::ColisionaTecho(){
 		{
 			if(tipo == 3)
 			{
-				cout<<"Toco una bomba - Vitalidad: "<< vidas<<"\n";
+				ParticleSystemManager::GetManager().CreateEmiterOneExplosion(aabb_tmp.Left+aabb_tmp.GetWidth()/2,aabb_tmp.Top+aabb_tmp.GetHeight()/2,Color::White);
+				isDead = true;
 				vidas--;
 			}
 			else if(tipo>= 10 && tipo <=20)
@@ -309,6 +315,8 @@ bool SpriteBase::ColisionaTecho(){
 
 void SpriteBase::Mover_y_Animar_NPC(float dt)
 {
+	if(isDead)
+		return;
 	//Actualiza Delta de tiempo
 	this->dt =  dt;
 
@@ -352,6 +360,9 @@ void SpriteBase::Mover_y_Animar_NPC(float dt)
 	}
 
 	if(!SecuenciaDisparoFinalizada()) shootTime-=dt;
+
+	isVisible = CheckVisibility();
+
 }
 
 // saber si chocara con el suelo cuando esta cayendo,
@@ -388,7 +399,8 @@ bool SpriteBase::ColisionaSuelo(){
 		{
 			if(tipo == 3)
 			{
-				cout<<"Toco una bomba - Vitalidad: "<< vidas<<"\n";
+				ParticleSystemManager::GetManager().CreateEmiterOneExplosion(aabb_tmp.Left+aabb_tmp.GetWidth()/2,aabb_tmp.Top+aabb_tmp.GetHeight()/2,Color::White);
+				isDead = true;
 				vidas--;
 			}
 			else if(tipo>= 10 && tipo <=20)
@@ -419,4 +431,38 @@ int SpriteBase::GetDireccionX()
 			return -1;
 	else if(direccion == Direccion::RIGHT)
 			return 1;
+}
+
+void SpriteBase::Draw(sf::RenderWindow &w)
+{
+	if(isVisible && !isDead)
+	{
+		w.Draw(*this);
+	}
+}
+
+bool SpriteBase::CheckVisibility()
+{
+	Vector2f pos = GetPosition();
+
+	if(pos.x < 0)
+		pos.x = 0;
+	if(pos.y < 0)
+		pos.y = 0;
+
+	FloatRect view = nivel->levelView.GetRect();
+	return pos.x > view.Left && pos.x < view.Right && pos.y > view.Top && pos.y < view.Bottom;
+}
+
+bool SpriteBase::RecibirImpacto(float x,float y)
+{
+	if(isVisible)
+	{
+		if(aabb.Contains(x,y))
+		{
+			isDead = true;
+			return true;
+		}
+	}
+	return false;
 }

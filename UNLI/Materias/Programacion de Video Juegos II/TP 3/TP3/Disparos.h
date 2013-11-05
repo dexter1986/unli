@@ -28,7 +28,11 @@ class ManejadorDisparos{
 private:
 	list<Disparo *> disparos;								// guardamos una lista de disparos
 	Nivel *nivel;
+
+	bool(*haycolision_entities)(float x, float y,sf::Color &color);
+	
 public:
+	void SetEnemigoManagerDelegate(bool(*haycolision)(float x, float y,sf::Color &color));
 	void SetLevelManager(Nivel *n);
 	~ManejadorDisparos();
 	void Init();
