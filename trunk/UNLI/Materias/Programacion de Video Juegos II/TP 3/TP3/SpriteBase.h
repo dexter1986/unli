@@ -39,6 +39,8 @@ protected:
 
 	bool isNPC;
 	bool isHitWall;
+	bool isVisible;
+	bool isDead;
 
 	int vidas;
 
@@ -71,7 +73,10 @@ protected:
 	void Disparar(float x, float y,float shoot_time,float velmisiles);
 	void Disparar(float shootTime,float vel_misiles);
 	virtual void AiNpc();
+	bool CheckVisibility();
 public:	
+	bool RecibirImpacto(float x,float y);
+	void Draw(sf::RenderWindow &w);
 	int GetDireccionX();
 	FloatRect &GetAABB();
 	virtual void Inicializar(ManejadorDisparos *d,Nivel *n);

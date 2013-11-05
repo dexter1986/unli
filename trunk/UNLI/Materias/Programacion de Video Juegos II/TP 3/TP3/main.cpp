@@ -7,13 +7,17 @@
 #include "Enemigo.h"
 #include "Disparos.h"
 #include "ParticleSystemManager.h"
+#include "EntityManager.h"
 
 using namespace std;
 
 int const resx=800, resy=600;
 
 void IntLevel(ManejadorDisparos &disparos,Personaje &prince,string fileLevel,RenderWindow &w, Nivel &nivel);
+bool HayColisionEntityManager(float x, float y,sf::Color &color); 
 
+EntityManager *entities;
+Personaje *prince;
 int main(int argc, char *argv[]) {
 	
 	// creamos la ventana y definimos la porcion visible del plano
@@ -26,6 +30,9 @@ int main(int argc, char *argv[]) {
 	Joystick j;
 	j.up=j.down=j.left=j.right=j.a=j.b=0;
 	
+	entities = new EntityManager();
+
+	entities->Init();
 
 	Nivel nivel;
 
@@ -33,21 +40,22 @@ int main(int argc, char *argv[]) {
 	ManejadorDisparos disparos;
 
 	disparos.SetLevelManager(&nivel);
+	disparos.SetEnemigoManagerDelegate(HayColisionEntityManager);
 
-	Personaje prince;
-	
-	Enemigo guardia;
-	
-	IntLevel(disparos,prince,"../data/level1.lev",w,nivel);
+	entities->SetEnvironment(&disparos,&nivel);
+
+	prince = new Personaje();
+		
+	IntLevel(disparos,*prince,"../data/level1.lev",w,nivel);
 
 	View &v = w.GetDefaultView();
 	
-	prince.Inicializar(&disparos,&nivel);
+	prince->Inicializar(&disparos,&nivel);
 	
-	guardia.Inicializar(&disparos,&nivel);
-	guardia.AiTracker(&prince);
+	entities->AiTracker(prince);
+	entities->Agregar(new Enemigo());
 	
-	// obtiene el manejador de sistemas de particulas
+	//obtiene el manejador de sistemas de particulas
 	ParticleSystemManager *mg=&ParticleSystemManager::GetManager();
 	
 	Affector *g=new Gravity(0,1000);
@@ -95,15 +103,15 @@ int main(int argc, char *argv[]) {
 
 		nivel.PrepareNivel();
 
-		prince.Mover_y_Animar(j,dt);
-		
-		guardia.Mover_y_Animar(j,dt);	
-
 		disparos.MoverDisparos(dt, v);
 
+		prince->Mover_y_Animar(j,dt);
+		
+		entities->Mover(j,dt);
+		
 		mg->Simulate(dt);
 
-		nivel.SetViewCenter(prince.GetPosition());
+		nivel.SetViewCenter(prince->GetPosition());
 
 		clk.Reset();
 		
@@ -113,10 +121,10 @@ int main(int argc, char *argv[]) {
 		nivel.Draw(w);
 		
 		//nivel.DrawGrid(w);
+	 
+		prince->Draw(w);
+		entities->Dibujar(w);
 		
-		w.Draw(prince);
-		w.Draw(guardia);
-
 		disparos.DibujarDisparos(w);
 		
 		/*FloatRect bb=prince.GetAABB();
@@ -131,12 +139,25 @@ int main(int argc, char *argv[]) {
 		if(nivel.isNeedNextLoadLevel)
 		{
 			string file = nivel.fileNextLevel;						
-			IntLevel(disparos,prince,file,w,nivel);
+			IntLevel(disparos,*prince,file,w,nivel);
 		}
 	}	
-		
+	delete prince;
+	delete entities;
 	delete mg;
 	return 0;
+}
+
+bool HayColisionEntityManager(float x, float y,sf::Color &color)
+{
+	if(entities->HayColision(x,y,color)){
+		return true;
+	}
+
+	if(prince->RecibirImpacto(x,y)){
+		return true;
+	}
+	return false;
 }
 
 void IntLevel(ManejadorDisparos &disparos, Personaje &prince, string fileLevel, RenderWindow &w, Nivel &nivel)

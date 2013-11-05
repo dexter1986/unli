@@ -88,6 +88,7 @@
     <ClCompile Include="Disparos.cpp" />
     <ClCompile Include="Emitter.cpp" />
     <ClCompile Include="Enemigo.cpp" />
+    <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Nivel.cpp" />
     <ClCompile Include="ParallaxLayer.cpp" />
@@ -108,6 +109,7 @@
     <ClInclude Include="Disparos.h" />
     <ClInclude Include="Emitter.h" />
     <ClInclude Include="Enemigo.h" />
+    <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Nivel.h" />
     <ClInclude Include="ParallaxLayer.h" />
     <ClInclude Include="ParticleSystem.h" />

@@ -31,7 +31,7 @@ public:
 	void ClearAffectors();
 
 	void CreateEmiterOneShoot(float x, float y);
-
+	void CreateEmiterOneExplosion(float x, float y,sf::Color color);
 	~ParticleSystemManager();
 	// devuelve el manejador global
 	static ParticleSystemManager &GetManager();
