@@ -36,7 +36,11 @@ private:
 		bool isEntryPoint; //punto en el cual aparece el personaje cuando empieza el nivel
 		int iType; //
 		sf::FloatRect rect; // para facilitar la deteccion de colisiones
-		bool isDead;
+		bool isDead; //indica si ya se uso. No hay que mostrarlo ni detectar colisiones
+		bool isKey; //indica si es una clave para desactivar la bomba final
+		int iKey; //indice que indica cual es la clave, hay 5 en total
+		bool isDynamic; //indica si se puede tomar
+		bool isKeyBomb; // es la bomba que hay que desactivar
 	};
 
 	class Level
@@ -48,6 +52,8 @@ private:
 	
 	int iPortales;
 	int iEnemigos;
+	int iKeys;
+	int irKeys[5];
 	
 	string capasparalaxFiles[2];
 
@@ -89,6 +95,7 @@ private:
 	void GetOcclusionTiles();
 	//
 	void (*agregarEnemigo_entities)(float x, float y,int tipo);
+	void (*gamewon_delegate)(void);
 public:
 	// la vista del nivel
 	sf::View levelView;
@@ -117,7 +124,7 @@ public:
 	void PrepareNivel();
 
 	void SetEnemigoManagerDelegate(void (*agregarEnemigo)(float x, float y,int tipo));
-
+	void SetGameWonDelegate(void (*gamewon)(void));
 	// probar si hay colision del nivel con el rectangulo r
 	bool HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,bool isNPC);
 	bool HayColision(float x, float y,int &tipo);

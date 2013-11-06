@@ -254,16 +254,7 @@ bool SpriteBase::ColisionaPared(){
 	if(chocaPared)
 	{
 		isHitWall = true;
-		if(tipo == 3)
-		{
-			ParticleSystemManager::GetManager().CreateEmiterOneExplosion(aabb_tmp.Left+aabb_tmp.GetWidth()/2,aabb_tmp.Top+aabb_tmp.GetHeight()/2,Color::White);
-			isDead = true;
-			vidas--;
-		}
-		else if(tipo>= 10 && tipo <=20)
-		{
-			cout<<"Cargar Nivel"<<"\n";
-		}
+		ResolverColision(tipo,aabb_tmp);
 	}
 
 	return chocaPared;	
@@ -296,16 +287,7 @@ bool SpriteBase::ColisionaTecho(){
 
 		if(chocaConTecho)
 		{
-			if(tipo == 3)
-			{
-				ParticleSystemManager::GetManager().CreateEmiterOneExplosion(aabb_tmp.Left+aabb_tmp.GetWidth()/2,aabb_tmp.Top+aabb_tmp.GetHeight()/2,Color::White);
-				isDead = true;
-				vidas--;
-			}
-			else if(tipo>= 10 && tipo <=20)
-			{
-				cout<<"Cargar Nivel"<<"\n";
-			}
+			ResolverColision(tipo,aabb_tmp);
 		}
 
 		ajustaColision_y = despl+areaColision.GetHeight();
@@ -397,22 +379,42 @@ bool SpriteBase::ColisionaSuelo(){
 
 		if(chocaConSuelo)
 		{
-			if(tipo == 3)
-			{
-				ParticleSystemManager::GetManager().CreateEmiterOneExplosion(aabb_tmp.Left+aabb_tmp.GetWidth()/2,aabb_tmp.Top+aabb_tmp.GetHeight()/2,Color::White);
-				isDead = true;
-				vidas--;
-			}
-			else if(tipo>= 10 && tipo <=20)
-			{
-				cout<<"Cargar Nivel"<<"\n";
-			}
+			ResolverColision(tipo,aabb_tmp);
 		}
 		
 		ajustaColision_y = despl - areaColision.GetHeight();					
 	}
 	
 	return chocaConSuelo;	
+}
+
+void SpriteBase::ResolverColision(int tipo,FloatRect aabb_tmp)
+{
+	//tipo = 1 -> Key
+	//tipo = 2 -> Key Bomb
+	//tipo = 3 -> Bomb
+	if(tipo == 1)
+	{
+		
+	}
+	else if(tipo == 2)
+	{
+
+	}
+	else if(tipo == 3)
+	{
+		ParticleSystemManager::GetManager().CreateEmiterOneExplosion(aabb_tmp.Left+aabb_tmp.GetWidth()/2,aabb_tmp.Top+aabb_tmp.GetHeight()/2,Color::White);
+		isDead = true;
+		vidas--;
+	}
+	else if(tipo == 4)
+	{
+
+	}
+	else if(tipo >= 10 && tipo <= 19)
+	{
+		cout<<"Cargar Nivel"<<"\n";
+	}
 }
 
 void SpriteBase::AjustaColisionX()

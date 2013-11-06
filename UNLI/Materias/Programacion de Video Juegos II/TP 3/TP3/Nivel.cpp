@@ -5,6 +5,12 @@
 Nivel::Nivel()
 {
 	occlusion_tiles = NULL;
+	irKeys[0]  = 0;
+	irKeys[1]  = 0;
+	irKeys[2]  = 0;
+	irKeys[3]  = 0;
+	irKeys[4]  = 0;	
+	iKeys = 5;
 }
 
 // Constructor: inicializa el Nivel
@@ -27,6 +33,12 @@ Nivel::Nivel(string tileset_filename, int tileset_nw, int tileset_nh, unsigned l
 	tileSize.x= size.x;
 	tileSize.y= size.y;
 	occlusion_tiles = NULL;
+	irKeys[0]  = 0;
+	irKeys[1]  = 0;
+	irKeys[2]  = 0;
+	irKeys[3]  = 0;
+	irKeys[4]  = 0;	
+	iKeys = 5;
 	// inicializamos la matriz de tiles
 	Init();
 }
@@ -34,6 +46,12 @@ Nivel::Nivel(string tileset_filename, int tileset_nw, int tileset_nh, unsigned l
 // Constructor: cargar el nivel desde el archivo level_file
 Nivel::Nivel(string level_file){
 	occlusion_tiles = NULL;
+	irKeys[0]  = 0;
+	irKeys[1]  = 0;
+	irKeys[2]  = 0;
+	irKeys[3]  = 0;
+	irKeys[4]  = 0;	
+	iKeys = 5;
 	Load(level_file);
 }
 
@@ -62,8 +80,7 @@ void Nivel::Init(){
 	isNeedNextLoadLevel = false;
 	fileNextLevel = "";
 	iPortales = 0;
-	iEnemigos = 0;
-	
+	iEnemigos = 0;	
 	// vaciamos la matriz de tiles (por las dudas si se llama
 	// a Load() mas de una vez)
 	tiles.clear();
@@ -114,7 +131,11 @@ void Nivel::Init(){
 			tileTemp.isEntryPoint = false;			
 			tileTemp.solid = false;
 			tileTemp.iType = -1;
-			tileTemp.isDead = false;						
+			tileTemp.isDead = false;
+			tileTemp.isKey = false;
+			tileTemp.iKey = -1;
+			tileTemp.isDynamic = false;
+			tileTemp.isKeyBomb = false;
 			// insertamos al tile en la fila
 			filaTemp.push_back(tileTemp);
 		}
@@ -183,11 +204,12 @@ void Nivel::Load(string filename){
 	}
 	
 	//01 solid
-	//03 bomb
-	//04 
+	//03 bomb		
+	//10-19 portal
+	//20-29 recolectable -> 20,21,22,23,24 -> son las claves
 	//60-69 Enemigo
-	//10-20 portal
 	//99 Enter Point - es donde aparece el player
+	//88 Key Bomb
 	// leemos la matriz que nos indica cuales
 	// tiles son solidos
 	aux = 0;
@@ -202,16 +224,34 @@ void Nivel::Load(string filename){
 			{
 				tiles[i][j].isBomb = true;				
 			}
-			else if(aux >= 10 && aux <= 20)
+			else if(aux >= 10 && aux <= 19)
 			{
 				iPortales++;
 				tiles[i][j].iPortal = aux;
+			}
+			else if(aux >= 21 && aux <= 29)
+			{
+				iPortales++;
+				tiles[i][j].iImage = 30;
+				tiles[i][j].isKey = true;
+				tiles[i][j].iKey = aux - 20;
+				tiles[i][j].isDynamic = true;
+				if(irKeys[tiles[i][j].iKey] != 0)
+				{
+					tiles[i][j].isDead = true;
+				}
 			}
 			else if(aux >= 60 && aux <= 69)
 			{
 				iEnemigos++;
 				tiles[i][j].iEnemigo = aux - 60;
 				agregarEnemigo_entities(tileSize.x * j,tileSize.y * i,tiles[i][j].iEnemigo);
+			}
+			else if(aux == 88)
+			{
+				tiles[i][j].iImage = 29;
+				tiles[i][j].isDynamic = true;
+				tiles[i][j].isKeyBomb = true;
 			}
 			else if(aux == 99)
 			{
@@ -221,15 +261,12 @@ void Nivel::Load(string filename){
 			}
 		}
 	}
-
-
 	// leemos la matriz que nos indica cuales
 	// tiles son overlay
 	aux = 0;
 	for(unsigned i=0; i<levelSize.y; i++){
 		for(unsigned j=0; j<levelSize.x; j++){
-			entrada>>aux;
-			//tiles_overlayer[i][j].iOverLayer = aux-1;
+			entrada>>aux;			
 			tiles[i][j].iOverLayer = aux-1;
 		}
 	}
@@ -244,25 +281,8 @@ void Nivel::Load(string filename){
 		templevel.file = file;
 		nextLevels.push_back(templevel);
 	}
-
 	// cerramos el archivo
 	entrada.close();
-	
-	//// finalmente asignamos las imagenes a los tiles
-	//// (si su numero de imagen es distinto de -1)
-	//int iImg;
-	//for(unsigned i=0; i<levelSize.y; i++){
-	//	for(unsigned j=0; j<levelSize.x; j++){
-	//		iImg=tiles[i][j].iImage;
-	//		if(iImg!=-1){
-	//			tiles[i][j].SetImage(sm[iImg]);
-	//		}
-	//		iImg=tiles_overlayer[i][j].iOverLayer;
-	//		if(iImg!=-1){
-	//			tiles_overlayer[i][j].SetImage(sm[iImg]);
-	//		}
-	//	}
-	//}
 }
 
 // guardamos el nivel en un archivo
@@ -307,7 +327,7 @@ void Nivel::Draw(sf::RenderWindow &w){
 	
 	for(unsigned i=0; i<occlusion_tiles->size(); i++){		
 		Tile &temp=tiles[(*occlusion_tiles)[i]->x][(*occlusion_tiles)[i]->y];		
-		if(temp.iImage != -1 && !temp.isDead)
+		if(temp.iImage != -1 )//&& !temp.isDead)
 		{
 			sm.GetImage(temp.iImage,temp.rect);
 			w.Draw(sm);			
@@ -382,13 +402,38 @@ bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,
 		{
 			//Tile &tile = tiles[_tiles[i].x][_tiles[i].y];
 			Tile &tile = tiles[x][y];
+			
+			if(tile.isDead)
+			{
+				continue;
+			}
+
 			if(!isNPC)
 			{
 				if(tile.isBomb)
 				{
 					tipo = 3;
-					tile.isBomb = false;
-					tile.iOverLayer = -1;
+					tile.isDead = true;
+					return true;
+				}
+				else if(tile.isDynamic)
+				{
+					if(tile.isKey)
+					{
+						tipo = 1;
+						tile.isDead = true;
+						iKeys--;
+						irKeys[tile.iKey] = 1;
+					}
+					else if(tile.isKeyBomb)
+					{
+						tipo = 2;
+						if(iKeys == 0)
+						{
+							tipo = 4;
+							gamewon_delegate();
+						}
+					}
 					return true;
 				}
 				else if(tile.iPortal != -1)
@@ -406,7 +451,7 @@ bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,
 						}
 					}					
 					return true;
-				}
+				}				
 			}
 			
 			if(tile.solid || tile.isBomb)
@@ -433,6 +478,11 @@ bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,
 	delete _tiles;
 
 	return maxResponse > 0;
+}
+
+void Nivel::SetGameWonDelegate(void (*gamewon)(void))
+{
+	gamewon_delegate = gamewon;
 }
 
 void Nivel::SetEnemigoManagerDelegate(void (*agregarEnemigo)(float x, float y,int tipo))
