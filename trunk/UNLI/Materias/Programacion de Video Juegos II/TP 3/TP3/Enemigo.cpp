@@ -1,13 +1,25 @@
 #include "Enemigo.h"
 
 
-Enemigo::Enemigo(void)
+Enemigo::Enemigo(int modo)
 {
 	isNPC = true;	
 	contadorPasos = 0;
 	contadorDisparos = 0;
+	direccion = Direccion::LEFT;
 	currentState = EstadosFSM::DETENIDO;
-	currentModo = ModoComportamiento::MERCENARIO;
+	switch(modo)
+	{
+	case GUARDIA:
+		currentModo = GUARDIA;
+		break;
+	case PATRULLA:
+		currentModo = PATRULLA;
+		break;
+	case MERCENARIO:
+		currentModo = MERCENARIO;
+		break;
+	}
 }
 
 Enemigo::~Enemigo(void)
@@ -22,8 +34,8 @@ void Enemigo::AiTracker(Personaje *p)
 
 void Enemigo::Inicializar(ManejadorDisparos *d,Nivel *n)
 {
-	Personaje::Inicializar(d,n);		
-	SetPosition(256,32);	
+	Personaje::Inicializar(d,n);	
+
 	SetupComportamiento();
 }
 

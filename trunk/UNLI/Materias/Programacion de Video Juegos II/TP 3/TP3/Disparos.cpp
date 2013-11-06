@@ -53,7 +53,7 @@ void ManejadorDisparos::MoverDisparos(float dt, sf::View &v){
 		misily = (*p)->GetPosition().y;
 
 		//verifica colision con las paredes
-		if(misilx > r.Left && misilx < r.Right)
+		if(misilx > r.Left && misilx < r.Right * 2)
 		{
 			if(nivel->HayColision(misilx,misily,tipo))
 			{

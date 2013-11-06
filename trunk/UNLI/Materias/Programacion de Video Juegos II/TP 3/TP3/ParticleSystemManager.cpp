@@ -28,6 +28,12 @@ ParticleSystemManager::ParticleSystemManager() {
 
 
 ParticleSystemManager::~ParticleSystemManager() {
+	Clear();
+	ClearAffectors();
+}
+
+void ParticleSystemManager::Clear()
+{
 	ParticleSystem *ptemp;
 	list<ParticleSystem *>::iterator ps=particlesystems.begin();
 	while(ps!=particlesystems.end()){
@@ -39,9 +45,8 @@ ParticleSystemManager::~ParticleSystemManager() {
 
 	particlesystems.clear();
 	//delete globalManager;
-	ClearAffectors();
+	
 }
-
 
 // crea un emisor y un nuevo sistema de particulas
 // y nos devuelve una referencia a al emisor
