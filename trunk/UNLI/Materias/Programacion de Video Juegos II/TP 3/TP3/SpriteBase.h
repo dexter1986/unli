@@ -74,6 +74,7 @@ protected:
 	void Disparar(float shootTime,float vel_misiles);
 	virtual void AiNpc();
 	bool CheckVisibility();
+	void ResolverColision(int tipo,FloatRect aabb_tmp);
 public:	
 	bool RecibirImpacto(float x,float y);
 	void Draw(sf::RenderWindow &w);

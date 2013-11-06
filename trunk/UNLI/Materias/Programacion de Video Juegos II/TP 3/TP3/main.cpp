@@ -16,7 +16,7 @@ int const resx=800, resy=600;
 void IntLevel(string fileLevel,RenderWindow &w);
 bool HayColisionEntityManager(float x, float y,sf::Color &color); 
 void AgregarEnemigo(float x, float y,int tipo);
-void InitSystems();
+void GameFinish();
 
 EntityManager *entities;
 Personaje *prince;
@@ -39,6 +39,7 @@ int main(int argc, char *argv[]) {
 	
 	nivel = new Nivel();	
 	nivel->SetEnemigoManagerDelegate(AgregarEnemigo);
+	nivel->SetGameWonDelegate(GameFinish);
 	
 	disparos = new ManejadorDisparos();		
 	disparos->SetLevelManager(nivel);
@@ -147,6 +148,11 @@ int main(int argc, char *argv[]) {
 	delete prince;
 	delete mg;
 	return 0;
+}
+
+void GameFinish()
+{
+
 }
 
 void IntLevel(string fileLevel, RenderWindow &w)
