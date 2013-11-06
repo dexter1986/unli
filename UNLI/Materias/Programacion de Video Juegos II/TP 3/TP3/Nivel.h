@@ -87,6 +87,8 @@ private:
 	
 	//
 	void GetOcclusionTiles();
+	//
+	void (*agregarEnemigo_entities)(float x, float y,int tipo);
 public:
 	// la vista del nivel
 	sf::View levelView;
@@ -113,6 +115,8 @@ public:
 	void DrawOverLayer(sf::RenderWindow &w);
 	
 	void PrepareNivel();
+
+	void SetEnemigoManagerDelegate(void (*agregarEnemigo)(float x, float y,int tipo));
 
 	// probar si hay colision del nivel con el rectangulo r
 	bool HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,bool isNPC);

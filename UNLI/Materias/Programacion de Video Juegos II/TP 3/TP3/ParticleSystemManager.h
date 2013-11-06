@@ -29,7 +29,7 @@ public:
 
 	void AddAffector(Affector *a);
 	void ClearAffectors();
-
+	void Clear();
 	void CreateEmiterOneShoot(float x, float y);
 	void CreateEmiterOneExplosion(float x, float y,sf::Color color);
 	~ParticleSystemManager();

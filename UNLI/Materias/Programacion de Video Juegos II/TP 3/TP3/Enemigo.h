@@ -7,9 +7,9 @@ protected:
 
 	enum ModoComportamiento
 	{
-		GUARDIA,
-		PATRULLA,
-		MERCENARIO
+		GUARDIA=0,
+		PATRULLA=1,
+		MERCENARIO=2
 	};
 
 	enum EstadosFSM
@@ -42,7 +42,7 @@ protected:
 public:
 	void AiTracker(Personaje *p);
 	virtual void Inicializar(ManejadorDisparos *d,Nivel *n);
-	Enemigo(void);
+	Enemigo(int modo);
 	~Enemigo(void);
 };
 

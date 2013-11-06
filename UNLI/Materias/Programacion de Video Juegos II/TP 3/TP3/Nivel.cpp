@@ -69,9 +69,6 @@ void Nivel::Init(){
 	tiles.clear();
 	tiles.resize(0);
 
-	/*tiles_overlayer.clear();
-	tiles_overlayer.resize(0);*/
-	
 	nextLevels.clear();
 	nextLevels.resize(0);
 
@@ -80,7 +77,6 @@ void Nivel::Init(){
 	vector<Tile> filaTemp;
 	Tile tileTemp;
 	
-
 	//vaciamos las capas parallax
 	for(int i=0;i<capasParallax.size();i++)
 	{
@@ -123,55 +119,18 @@ void Nivel::Init(){
 			filaTemp.push_back(tileTemp);
 		}
 		// insertamos la fila en la matriz
-		tiles.push_back(filaTemp);
-		tiles_overlayer.push_back(filaTemp);
+		tiles.push_back(filaTemp);		
 	}
 	
-	/*sf::Image *i=new sf::Image;
-	sf::Image *j=new sf::Image;
-	sf::Image *k=new sf::Image;*/
+	
 	sf::Image *l=new sf::Image;
-	/*i->LoadFromFile("../data/parallax1.png");*/
-	/*i->LoadFromFile("../data/parallax5.png");*/
-	/*j->LoadFromFile("../data/parallax2.png");*/
-	/*k->LoadFromFile("../data/parallax3.png");*/
-	/*l->LoadFromFile("../data/parallax4.png");*/
-	/*i->LoadFromFile("../data/parallax6.png");
-	j->LoadFromFile("../data/parallax7.png");*/
-	//l->LoadFromFile("../data/parallax8.png");
-	//l->LoadFromFile("../data/parallax-1-800x200.png");
 	
-
-	/*capasParallax.push_back(new ParallaxLayer(*l, 0.0005, true, 0, 0, false, -5));*/
-	
-	//capasParallax.push_back(new ParallaxLayer(*i, 0.001, true, 0, 0, false, 0));
-	//capasParallax.push_back(new ParallaxLayer(*j, 0.001, true, 0, 0, false, 30));
-	/*capasParallax.push_back(new ParallaxLayer(*l, 0.000, false, 0, 0, true, 40));*/
-	//capasParallax.push_back(new ParallaxLayer(*l, 0.001, true, 0, 0.0001, false, 0));
-	
-	/*capasParallax.push_back(new ParallaxLayer(*k, 0.0015, true, 0, 0, false, 15));
-	capasParallax.push_back(new ParallaxLayer(*j, 0.002, true, 0, 0, false, 40));
-	capasParallax.push_back(new ParallaxLayer(*i, 0.0035, true, 0, 0, false, 110));*/
-
-	/*capasParallax.push_back(new ParallaxLayer(*l, 0.0035, true, 0, 0, false, 0));*/
 
 	const int len = 2;
-	/*char *archivosCapas[]={ "../data/parallax-1-800x200.png",
-							"../data/parallax-2-800x120.png"}*/;
 	
-	// cargamos las imagenes de las capas
-	/*sf::Image imgCapas[len];
-	for(unsigned i=0; i<len; i++)
-	{
-		imgCapas[i].LoadFromFile(archivosCapas[i]);
-	}*/
-	
-	//l->LoadFromFile("../data/parallax-1-800x200.png");
-
 	// los offsets y velocidades de las capas
 	float offsetYCapas[]={0,20,110};
-	float offsetXCapas[]={0,0,0};
-	/*float offsetYCapas[]={0,10,20,30,40};*/
+	float offsetXCapas[]={0,0,0};	
 	float velCapas[]={0.0010, 0.0015, 0.0015};
 	
 	// inicializamos las capas del parallax
@@ -226,7 +185,7 @@ void Nivel::Load(string filename){
 	//01 solid
 	//03 bomb
 	//04 
-	//60-70 Enemigo
+	//60-69 Enemigo
 	//10-20 portal
 	//99 Enter Point - es donde aparece el player
 	// leemos la matriz que nos indica cuales
@@ -248,10 +207,11 @@ void Nivel::Load(string filename){
 				iPortales++;
 				tiles[i][j].iPortal = aux;
 			}
-			else if(aux >= 60 && aux <= 70)
+			else if(aux >= 60 && aux <= 69)
 			{
 				iEnemigos++;
-				tiles[i][j].iEnemigo = aux;
+				tiles[i][j].iEnemigo = aux - 60;
+				agregarEnemigo_entities(tileSize.x * j,tileSize.y * i,tiles[i][j].iEnemigo);
 			}
 			else if(aux == 99)
 			{
@@ -449,9 +409,9 @@ bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,
 				}
 			}
 			
-			if(tiles[x][y].solid)
+			if(tile.solid || tile.isBomb)
 			{
-				if(r.Intersects(tiles[x][y].rect, &tempResp))
+				if(r.Intersects(tile.rect, &tempResp))
 				{
 					sresponse=tempResp.GetWidth()*tempResp.GetHeight();
 					if(sresponse>maxResponse)
@@ -473,6 +433,11 @@ bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,
 	delete _tiles;
 
 	return maxResponse > 0;
+}
+
+void Nivel::SetEnemigoManagerDelegate(void (*agregarEnemigo)(float x, float y,int tipo))
+{
+	agregarEnemigo_entities = agregarEnemigo;
 }
 
 bool Nivel::HayColision(float x, float y,int &tipo)
