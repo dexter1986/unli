@@ -52,9 +52,7 @@ private:
 	
 	int iPortales;
 	int iEnemigos;
-	int iKeys;
-	int irKeys[5];
-	
+		
 	string capasparalaxFiles[2];
 
 	// nombre del archivo tileset
@@ -78,8 +76,6 @@ private:
 	// tamano de los tiles (ancho x alto)
 	sf::Vector2i tileSize;
 	
-	
-
 	vector<ParallaxLayer *> capasParallax;
 
 	vector<sf::Vector2i *> *occlusion_tiles;
@@ -97,6 +93,9 @@ private:
 	void (*agregarEnemigo_entities)(float x, float y,int tipo);
 	void (*gamewon_delegate)(void);
 public:
+	int iKeys;
+	int irKeys[5];
+	bool isDebug;
 	// la vista del nivel
 	sf::View levelView;
 
@@ -110,7 +109,7 @@ public:
 	Nivel(string level_file);
 	Nivel();
 	// salvar y guardar un nivel
-	void Load(string file);
+	void Load(string file,bool reload = false);
 	void Save(string file);
 	
 	// tamano de tiles y del nivel

@@ -69,6 +69,9 @@
     <ClCompile Include="EntityManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Cronometro.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h">
@@ -123,6 +126,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EntityManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cronometro.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Constantes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

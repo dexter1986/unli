@@ -24,10 +24,10 @@ SpriteBase::SpriteBase(int cant_estados,const string &filename,float scale_x,flo
 	scale.x = scale_x;
 	scale.y = scale_y;
 	isHitWall = false;
-	vidas = 100;
+	vidas = 5;
 	isDead = false;
 	isVisible = true;
-
+	pause = false;
 	animaciones = new AnimatedBase[cant_estados];
 	
 	const sf::Image &tex = TextureManager::GetInstance().GetTexture(filename);	
@@ -121,7 +121,10 @@ void SpriteBase::Mover_y_Animar(Joystick j, float dt)
 		AiNpc();
 	}
 
-	Internal_Mover_y_Animar();
+	if(!pause)
+	{
+		Internal_Mover_y_Animar();
+	}
 
 	if(direccion == Direccion::RIGHT)
 	{
@@ -168,8 +171,8 @@ void SpriteBase::SetOffsetAABB(Vector2f &offset)
 
 void SpriteBase::CalculateAABB()
 {	
-	Vector2f pos = GetPosition();
-	FloatRect rec = animaciones[currentState].GetAABB();
+	const Vector2f &pos = GetPosition();
+	FloatRect &rec = animaciones[currentState].GetAABB();
 	aabb.Top =  pos.y + rec.Top;
 	aabb.Left = pos.x + rec.Left;
 	aabb.Bottom = pos.y + rec.Bottom;
@@ -463,6 +466,7 @@ bool SpriteBase::RecibirImpacto(float x,float y)
 		if(aabb.Contains(x,y))
 		{
 			isDead = true;
+			vidas--;
 			return true;
 		}
 	}

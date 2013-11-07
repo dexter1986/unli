@@ -40,13 +40,18 @@ void SpriteSheetManager::Load(string filename, unsigned nCols, unsigned nRows,un
 			tiles.push_back(r);
 		}
 	}
-	SetImage(sheet);
+	SetImage(sheet);	
 }
 
 void SpriteSheetManager::GetImage(unsigned i,FloatRect &rect){
 	SetSubRect(tiles[i]);	
 	SetX(rect.Left);
-	SetY(rect.Top);
+	SetY(rect.Top);	
+}
+
+const Image& SpriteSheetManager::InternalImage()
+{
+	return *Sprite::GetImage();
 }
 
 //sf::Image &SpriteSheetManager::operator[](unsigned i){

@@ -18,6 +18,7 @@ public:
 	void Load(string filename, unsigned nCols, unsigned nRows=1,unsigned LevelRows=1,unsigned LevelCols=1);
 	// devuelve la imagen en la posicion i
 	void GetImage(unsigned i,FloatRect &rect);
+	const Image& InternalImage();
 	//sf::Image &operator[](unsigned i);
 	// devuelve la cantidad de imagenes almacenadas
 	//unsigned Size();

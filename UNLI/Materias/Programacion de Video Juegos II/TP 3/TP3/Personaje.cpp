@@ -17,6 +17,11 @@ Personaje::~Personaje(void)
 {
 }
 
+void Personaje::ResetState()
+{
+	CambiarEstado(Estado::NORMAL);
+}
+
 void Personaje::InicializarAnimaciones()
 {
 	int w;
