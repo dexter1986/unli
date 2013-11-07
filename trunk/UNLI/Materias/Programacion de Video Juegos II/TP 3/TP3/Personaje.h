@@ -56,7 +56,7 @@ private:
 	bool IsClim_TO_JUMP;
 	bool DelayToBreak(bool reset=false,float value=0.1f);	
 
-protected:			
+protected:		
 	// inicializa las animaciones, es llamado en el constructor
 	void InicializarAnimaciones();	
 	// algunas acciones
@@ -68,6 +68,7 @@ protected:
 	void ArrojarPiedra();		
 	void Slide();
 public:
+	void ResetState();
 	Personaje(void);
 	~Personaje(void);		
 };

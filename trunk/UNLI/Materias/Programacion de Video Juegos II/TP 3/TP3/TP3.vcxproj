@@ -87,6 +87,7 @@
     <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="AnimatedBase.cpp" />
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="Cronometro.cpp" />
     <ClCompile Include="Disparos.cpp" />
     <ClCompile Include="Emitter.cpp" />
     <ClCompile Include="Enemigo.cpp" />
@@ -108,6 +109,8 @@
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="AnimatedBase.h" />
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="Constantes.h" />
+    <ClInclude Include="Cronometro.h" />
     <ClInclude Include="Disparos.h" />
     <ClInclude Include="Emitter.h" />
     <ClInclude Include="Enemigo.h" />

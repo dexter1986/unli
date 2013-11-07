@@ -5,6 +5,7 @@
 Nivel::Nivel()
 {
 	occlusion_tiles = NULL;
+	isDebug = false;
 	irKeys[0]  = 0;
 	irKeys[1]  = 0;
 	irKeys[2]  = 0;
@@ -39,6 +40,7 @@ Nivel::Nivel(string tileset_filename, int tileset_nw, int tileset_nh, unsigned l
 	irKeys[3]  = 0;
 	irKeys[4]  = 0;	
 	iKeys = 5;
+	isDebug = false;
 	// inicializamos la matriz de tiles
 	Init();
 }
@@ -52,6 +54,7 @@ Nivel::Nivel(string level_file){
 	irKeys[3]  = 0;
 	irKeys[4]  = 0;	
 	iKeys = 5;
+	isDebug = false;
 	Load(level_file);
 }
 
@@ -77,7 +80,9 @@ void Nivel::PrepareNivel()
 
 // inicializa la matriz de tiles
 void Nivel::Init(){
+	
 	isNeedNextLoadLevel = false;
+
 	fileNextLevel = "";
 	iPortales = 0;
 	iEnemigos = 0;	
@@ -166,7 +171,7 @@ void Nivel::Init(){
 }
 
 // carga un nivel desde un archivo de nivel
-void Nivel::Load(string filename){
+void Nivel::Load(string filename,bool reload){
 	
 	// abrimos el archivo
 	ifstream entrada(filename.c_str());
@@ -192,6 +197,10 @@ void Nivel::Load(string filename){
 	
 	// inicializamos la matriz de tiles
 	Init();
+	if(reload)
+	{
+		isNeedNextLoadLevel = true;
+	}
 
 	int aux = 0;
 
@@ -229,10 +238,8 @@ void Nivel::Load(string filename){
 				iPortales++;
 				tiles[i][j].iPortal = aux;
 			}
-			else if(aux >= 21 && aux <= 29)
-			{
-				iPortales++;
-				tiles[i][j].iImage = 30;
+			else if(aux >= 20 && aux <= 29)
+			{					
 				tiles[i][j].isKey = true;
 				tiles[i][j].iKey = aux - 20;
 				tiles[i][j].isDynamic = true;
@@ -245,11 +252,11 @@ void Nivel::Load(string filename){
 			{
 				iEnemigos++;
 				tiles[i][j].iEnemigo = aux - 60;
-				agregarEnemigo_entities(tileSize.x * j,tileSize.y * i,tiles[i][j].iEnemigo);
+				if(!isDebug)
+					agregarEnemigo_entities(tileSize.x * j,tileSize.y * i,tiles[i][j].iEnemigo);
 			}
 			else if(aux == 88)
-			{
-				tiles[i][j].iImage = 29;
+			{				
 				tiles[i][j].isDynamic = true;
 				tiles[i][j].isKeyBomb = true;
 			}
@@ -424,6 +431,7 @@ bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,
 						tile.isDead = true;
 						iKeys--;
 						irKeys[tile.iKey] = 1;
+						return true;
 					}
 					else if(tile.isKeyBomb)
 					{
@@ -432,9 +440,9 @@ bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,
 						{
 							tipo = 4;
 							gamewon_delegate();
-						}
+							tile.isDead = true;
+						}						
 					}
-					return true;
 				}
 				else if(tile.iPortal != -1)
 				{
@@ -454,7 +462,7 @@ bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,
 				}				
 			}
 			
-			if(tile.solid || tile.isBomb)
+			if(tile.solid || tile.isBomb || tile.isKeyBomb)
 			{
 				if(r.Intersects(tile.rect, &tempResp))
 				{
@@ -660,8 +668,9 @@ void Nivel::SaveToImage(string filename){
 	// dibuja los tiles en la imagen
 	for(unsigned i=0; i<levelSize.y; i++){
 		for(unsigned j=0; j<levelSize.x; j++){
-			if(tiles[i][j].iImage!=-1){
-				//imagen.Copy(sm[tiles[i][j].iImage], j*tileSize.x, i*tileSize.y);
+			if(tiles[i][j].iImage!=-1){				
+				sm.GetImage(tiles[i][j].iImage,tiles[i][j].rect);			
+				imagen.Copy(sm.InternalImage(), j*tileSize.x, i*tileSize.y);
 			}
 		}
 	}

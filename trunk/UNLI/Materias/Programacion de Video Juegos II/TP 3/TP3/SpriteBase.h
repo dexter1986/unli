@@ -40,10 +40,7 @@ protected:
 	bool isNPC;
 	bool isHitWall;
 	bool isVisible;
-	bool isDead;
-
-	int vidas;
-
+	
 	AnimatedBase *animaciones;
 	FloatRect aabb;
 	
@@ -76,6 +73,9 @@ protected:
 	bool CheckVisibility();
 	void ResolverColision(int tipo,FloatRect aabb_tmp);
 public:	
+	bool pause;
+	bool isDead;
+	int vidas;
 	bool RecibirImpacto(float x,float y);
 	void Draw(sf::RenderWindow &w);
 	int GetDireccionX();
