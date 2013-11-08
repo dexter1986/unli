@@ -93,6 +93,7 @@ private:
 	void (*agregarEnemigo_entities)(float x, float y,int tipo);
 	void (*gamewon_delegate)(void);
 public:
+	string name;
 	int iKeys;
 	int irKeys[5];
 	bool isDebug;

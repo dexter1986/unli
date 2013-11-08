@@ -159,11 +159,11 @@ void ParticleSystemManager::ClearAffectors()
 
 void ParticleSystemManager::CreateEmiterOneShoot(float x, float y)
 {
-	Emitter &e = AddParticleSystem(5);
+	Emitter &e = AddParticleSystem(3);
 	e.Spawn(false);
 	e.SetImage(TextureManager::GetInstance().GetTexture("../data/particula.png"));
 	e.SetEmmitVel(200,200);
-	e.SetEmmitLife(1, 1);
+	e.SetEmmitLife(1,1);
 	e.SetBlendMode(sf::Blend::Add);
 	e.SetSpawnRate(100);
 
@@ -180,7 +180,7 @@ void ParticleSystemManager::CreateEmiterOneShoot(float x, float y)
 
 void ParticleSystemManager::CreateEmiterOneExplosion(float x, float y,sf::Color color)
 {
-	Emitter &e = AddParticleSystem(50);
+	Emitter &e = AddParticleSystem(10);
 	e.Spawn(false);
 	e.SetImage(TextureManager::GetInstance().GetTexture("../data/particula.png"));
 	e.SetEmmitVel(200,50);
