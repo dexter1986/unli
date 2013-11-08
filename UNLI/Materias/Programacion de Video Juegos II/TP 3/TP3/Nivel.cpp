@@ -175,6 +175,9 @@ void Nivel::Load(string filename,bool reload){
 	
 	// abrimos el archivo
 	ifstream entrada(filename.c_str());
+
+	getline(entrada,name);
+
 	// leemos el nombre del archivo de tilesets
 	getline(entrada,tileset_filename);
 	//Cargamos el paralax
