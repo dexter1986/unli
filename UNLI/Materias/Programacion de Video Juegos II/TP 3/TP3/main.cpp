@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
 	PreLoadUnits();
 	
 	// creamos la ventana y definimos la porcion visible del plano
-	sf::RenderWindow w(VideoMode(resx,resy),"TP3");	
+	sf::RenderWindow w(VideoMode(resx,resy),"TP3",sf::Style::Fullscreen);	
 	
 	w.SetFramerateLimit(FPS);
 	
@@ -78,7 +78,7 @@ int main(int argc, char *argv[]) {
 	j.up=j.down=j.left=j.right=j.a=j.b=0;
 	
 	InitUnits();
-	
+	nivel->isDebug = false; //No carga los enemigos
 	IntLevel("../data/level1.lev",w);
 
 	v = &w.GetDefaultView();	
@@ -95,7 +95,7 @@ int main(int argc, char *argv[]) {
 	isPause = true;
 	isContinue = true;
 
-	//ShowIntroduction(w);
+	ShowIntroduction(w);
 
 	cronometro = new Cronometro(600,font);	
 	cronometro->Init();	
@@ -358,7 +358,6 @@ void InitUnits()
 	entities = new EntityManager();
 	
 	nivel = new Nivel();	
-	nivel->isDebug = false;
 	nivel->SetEnemigoManagerDelegate(AgregarEnemigo);
 	nivel->SetGameWonDelegate(GameFinish);
 	
