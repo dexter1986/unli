@@ -1,0 +1,17 @@
+La idea de esta actividad es que creen una escena combinando todos los elementos vistos hasta el 
+momento como si estuvieran creando un nivel de un juego. Por ahora no nos vamos a preocupar por gameplay. Eso lo vamos a dejar para el TP final.
+
+Lo que si van a tener que seguir algunas reglas:
+
+Crear un terreno utilizando la herramienta de generación de terrenos de Unity.
+Vestir dicho terreno. No solo con vegetación. Acá pueden incorporar assets que consigan en internet de edificios, autos, etc. Lo que ustedes quieran. 
+Pueden utilizar todos los assets provistos por Unity en sus Standard Assets también.
+Incorporar un personaje en la escena para recorrerla. Para esto deberán, además, implementar en C# su propio controlador de inputs y de cámara. 
+El personaje deberá caminar, correr y saltar. No es necesario que el modelo tenga todas las animaciones, pero si usan un modelo que las tenga, mejor. 
+Manteniendo presionada la tecla "shift" y una tecla de dirección hacen que el personaje corra en esa dirección. La barra espaciadora, saltar. 
+El personaje se puede controlar con los cursores o con "wsad".
+Presionando la tecla "Tab" deberá cambiar la perspectiva de "primera persona" a "tercera persona" y viceversa. La cámara inicialmente estará en modo "tercera persona". 
+Agregar efectos de partículas en el entorno. Pueden crear triggers que se activen cuando el personaje pasa por ellos para dispararlos o pueden estar vivos siempre. 
+
+Como seguramente el producto final les ocupará bastante mas espacio del que tenemos habilitado va a ser necesario que me suban los archivos a dropbox o algún servicio de envío de archivos.
+En el área de carga de la tarea van a subir un documento txt plano con dicho link. De esta forma yo me descargo el archivo con el link y en el área de la tarea les puedo poner la nota.
