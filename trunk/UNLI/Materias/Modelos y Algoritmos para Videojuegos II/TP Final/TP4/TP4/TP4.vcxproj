@@ -81,7 +81,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Block.cpp" />
     <ClCompile Include="Cronometro.cpp" />
+    <ClCompile Include="Estrella.cpp" />
     <ClCompile Include="Fondo.cpp" />
     <ClCompile Include="GameBase.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -93,9 +95,11 @@
     <ClCompile Include="TP4.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Block.h" />
     <ClInclude Include="Constantes.h" />
     <ClInclude Include="ContactListener.h" />
     <ClInclude Include="Cronometro.h" />
+    <ClInclude Include="Estrella.h" />
     <ClInclude Include="Fondo.h" />
     <ClInclude Include="GameBase.h" />
     <ClInclude Include="GameObject.h" />

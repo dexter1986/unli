@@ -3,7 +3,7 @@
 
 TP4::TP4(int ancho, int alto,std::string titulo):GameBase(ancho,alto,titulo)
 {
-	EnableDebugPhysics(true);
+	//EnableDebugPhysics(true);
 	
 	text.setFont(ImageManager::Instance()->GetFont());	
 	text.setCharacterSize(22);		
@@ -27,12 +27,19 @@ TP4::TP4(int ancho, int alto,std::string titulo):GameBase(ancho,alto,titulo)
 TP4::~TP4(void)
 {	
 	delete fondo;
+	
 	for(std::list<Lata*>::const_iterator it = m_latas.begin();it != m_latas.end();++it)
 	{
 		delete *it;
 	}
+	
 	m_latas.clear();
 
+	delete blockfijo1;
+	delete blockfijo2;
+	delete blockMov1;
+	delete blockMov2;
+	delete estrella;
 	delete _cronometro;	
 }
 
@@ -41,7 +48,7 @@ void TP4::Init()
 	_cronometro = new Cronometro(180);
 	_cronometro->Init();
 
-	int max = 2;// rand()%2+3;
+	int max = 3;// rand()%2+3;
 
 	Lata* lata;
 
@@ -52,8 +59,20 @@ void TP4::Init()
 		lata->Init();
 	}
 
+	//Estrella
+	estrella = new Estrella(10.0f,10.0f,0.0f,rand()%80+25.0f,rand()%50+35.0f);
+	estrella->Init();
+
 	fondo = new Fondo();
 	fondo->Init();
+
+	//Obstaculos
+	blockfijo1 = new Block(10.0f,10.0f,0.0f,60.0f,70.0f);
+	blockfijo1->Init();
+
+	blockfijo2 = new Block(10.0f,10.0f,0.0f,130.0f,90.0f);
+	blockfijo2->Init();
+
 
 	//PhysicManager::Instance()->SetContactListener(&_listener);
 }
@@ -66,10 +85,18 @@ void TP4::DrawGame()
 		Draw(_cronometro->DrawObject());	
 	}
 
+	Draw(estrella->DrawObject());
+
 	for(std::list<Lata*>::const_iterator it = m_latas.begin();it != m_latas.end();++it)
 	{
 		Draw(((Lata*)*it)->DrawObject());
 	}
+
+	Draw(blockfijo1->DrawObject());
+	Draw(blockfijo2->DrawObject());
+
+	Draw(blockMov1->DrawObject());
+	Draw(blockMov2->DrawObject());
 
 	Draw(TexPuntos);
 
@@ -87,7 +114,7 @@ void TP4::UpdatePoolEvents(Event evt)
 			//para preguntar que objetos lo intersectan
 			_query.mousePos.x = pos.x;
 			_query.mousePos.y = pos.y;
-			PhysicManager::Instance()->QueryAABB(&_query,pos.x-5,pos.y-5,pos.x+5,pos.y+5);
+			PhysicManager::Instance()->QueryAABB(&_query,pos.x-5,pos.y-5,pos.x+5,pos.y+5);			
 		}
 		break;
 	}
@@ -142,7 +169,22 @@ void TP4::CheckCollitions()
 					}
 				}
 			}
-		}		
+		}
+
+		for(b2ContactEdge* ce = estrella->GetBody()->GetContactList();ce;ce = ce->next)
+		{
+			b2Contact* c = ce->contact;			
+			body = c->GetFixtureA()->GetBody();
+			bodyUserData = body->GetUserData();
+			if(bodyUserData)
+			{
+				iPuntos += 15;
+				delete estrella;
+				estrella = new Estrella(10.0f,10.0f,0.0f,rand()%80+25.0f,rand()%50+35.0f);
+				estrella->Init();
+				break;
+			}
+		}
 	}
 }
 
@@ -152,6 +194,12 @@ void TP4::UpdatePhysics()
 	{
 		((Lata*)*it)->UpdatePhysics();
 	}
+
+	estrella->UpdatePhysics();
+	blockfijo1->UpdatePhysics();
+	blockfijo2->UpdatePhysics();
+	blockMov1->UpdatePhysics();
+	blockMov2->UpdatePhysics();
 }
 
 void TP4::UpdateState()
@@ -199,7 +247,19 @@ void TP4::InitPhysics()
 	groundTarimaBody[2] = PhysicManager::Instance()->CreateRectangularStaticBody(16.0f,5.0f,1.0f,0.5f,0.1f);
 	groundTarimaBody[2]->SetTransform(b2Vec2(146.0f,43.0f),0.0f);
 
+	
+	//Join
+	blockMov1 = new	Block(10.0f,10.0f,1.0f,95.0f,20.0f);
+	blockMov1->Init();
 
+	blockMov2 = new	Block(10.0f,10.0f,1.0f,95.0f,50.0f);
+	blockMov2->Init(true);
+
+	b2RevoluteJoint* join = PhysicManager::Instance()->CreateRevoluteJoint(blockMov1->GetBody(),
+																		   blockMov1->GetBody()->GetWorldCenter(),
+																		   blockMov2->GetBody(),
+		                                                                   -b2_pi/2.0f,b2_pi/2.0f,
+																		   2.0f,1000.0f,false,true);
 }
 
 void TP4::ActualizarPuntos()
@@ -217,8 +277,8 @@ void TP4::ActualizarPuntos()
 	{
 		str += "0";
 	}
-
 	str += C::NumberToString(iPuntos);
+	str += " Puntos"; 
 	TexPuntos.setString(str);
 }
 
