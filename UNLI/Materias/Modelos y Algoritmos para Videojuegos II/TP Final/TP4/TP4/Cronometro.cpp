@@ -23,9 +23,7 @@ void Cronometro::Update()
 	tiempoFin = _reloj.getElapsedTime().asSeconds();	
 	final_count_seconds = ((int)(tiempoInicio - tiempoFin));
 	if(final_count_seconds >= 0){
-		string str = "Tiempo: 00:";
-		if(final_count_seconds < 10)
-			str += "0";
+		string str = "Tiempo: ";					
 		str += C::NumberToString(final_count_seconds);
 		text.setString(str);
 	}	

@@ -56,7 +56,6 @@ void GameObject::Init()
 
 void GameObject::InitPhysic()
 {	
-
 	_isInitPhysic = true;
 
 	_fixture = &_controlBody->GetFixtureList()[0];
@@ -92,6 +91,11 @@ void GameObject::UpdatePoolEvents(Event& evt)
 void GameObject::Update()
 {
 	
+}
+
+b2Body* GameObject::GetBody()
+{
+	return _controlBody;
 }
 
 void GameObject::Rotate(float ang)

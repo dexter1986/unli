@@ -13,6 +13,7 @@
 
 GameBase::GameBase(int ancho, int alto,std::string titulo)
 {
+	srand(time(NULL));
 	this->alto = alto;
 	this->ancho = ancho;
 	wnd= new RenderWindow(VideoMode(ancho,alto),titulo);

@@ -37,6 +37,7 @@ public:
 	virtual void Draw(RenderWindow* wnd);
 	void SetPosition(float x,float y);
 	const Vector2f& GetPosition();
+	b2Body* GetBody();
 	virtual void InitPhysic();
 	virtual void Init();
 	virtual void UpdatePoolEvents(Event& evt); 

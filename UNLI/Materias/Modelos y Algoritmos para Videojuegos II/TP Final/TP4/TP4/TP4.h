@@ -5,6 +5,8 @@
 #include "Cronometro.h"
 #include "lata.h"
 #include "Fondo.h"
+#include "Estrella.h"
+#include "Block.h"
 #include "ContactListener.h"
 
 class TP4 :	public GameBase
@@ -20,6 +22,12 @@ private:
 	ContactListener _listener;
 	Cronometro* _cronometro;
 	Fondo* fondo;
+	Estrella* estrella;
+	Block* blockfijo1;
+	Block* blockfijo2;
+	Block* blockMov1;
+	Block* blockMov2;
+
 	bool isEndGame;
 	void ActualizarContador();
 	void ActualizarPuntos();
