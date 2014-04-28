@@ -87,15 +87,14 @@ void Hormiga::Evade(Matador *m)
 	Vector2f posActual = m_spr.getPosition();
 	Vector2f posTarget = m->GetPosition();
 	dir = posTarget - posActual;
+
+	//Invierte el vector
+	dir.x *= -1;
+	dir.y *= -1;
+		
 	float norm = sqrt(dir.x*dir.x + dir.y*dir.y);
 	dir.x /= norm; 
 	dir.y /= norm;
-		
-	dir.x *= -1;
-	
-	dir.y *= -1;
-
-
 }
 
 void Hormiga::Chase()

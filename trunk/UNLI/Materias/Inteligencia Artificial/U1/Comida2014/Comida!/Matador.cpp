@@ -78,18 +78,14 @@ void Matador::ChangeDirection(){
 	dir = Utils::GetRandomVec(-1.0f, 1.0f, -1.0f, 1.0f);
 	float norm= sqrt(dir.x*dir.x+dir.y*dir.y);
 	dir.x /=norm;
-	dir.y /=norm;
-	
+	dir.y /=norm;	
 }
 
 void Matador::Move(){
-
 	Vector2f posActual= m_spr.getPosition();
 	posActual.x+= dir.x * MATADORVEL;
 	posActual.y+= dir.y * MATADORVEL;
 	SetPosition(posActual);
-
-
 }
 
 void Matador::Chase(){
@@ -100,7 +96,4 @@ void Matador::Chase(){
 	float norm= sqrt(dir.x*dir.x+dir.y*dir.y);
 	dir.x /=norm;
 	dir.y /=norm;
-
-
-
 }
