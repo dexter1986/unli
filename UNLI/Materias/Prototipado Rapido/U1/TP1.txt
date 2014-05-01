@@ -1,0 +1,29 @@
+TRABAJO PRÁCTICO N° 1
+
+Fecha de entrega: 
+Lunes 4 de mayo.
+
+Consigna: 
+Desarrolle un prototipo conceptual con la temática propuesta, 
+según los contenidos dados hasta la fecha. La entrega deberá consistir 
+en un solo archivo .swf, producto de la correcta compilación de su proyecto 
+(el mismo puede encontrarse en la carpeta bin, y se puede entregar comprimido 
+en un .zip o .rar).
+
+Universo de interés: 
+deberán estar en el prototipo los temas dados en los apuntes teóricos, 
+aplicados a la idea que se desea desarrollar. 
+El core mechanic propuesto por el alumno no debe ser necesariamente innovador, 
+sino que debe estar implementado claramente, explorar la temática indicada, 
+y utilizar los conceptos dados en las unidades mencionadas. 
+Es válido utilizar arte de otros juegos.
+
+Temática: 
+explore en el prototipo a realizar maneras de manipular, controlar, 
+o alterar la fuerza de gravedad.
+
+Metodología de evaluación: se evaluará en el trabajo la correcta aplicación de 
+los conceptos dictados en Unidades 1, 2 y 3 para el desarrollo del
+ prototipo con una restricción temática. 
+Una exploración "interesante" de la temática sumará puntos, 
+como también un correcto pulido de los features implementados.
