@@ -18,7 +18,8 @@ package
 			super(800, 600, 30, false);
 			
 			FP.screen.color = 0x000000;
-			
+			//FP.console.debug = true;
+			//FP.console.enable();
 			FP.world = new GameWorld();
 			
 			//FP.console.enable(); FP.console.toggleKey = 188; // Con esto habilito la consola. Se activa con la tecla ',' (coma).
