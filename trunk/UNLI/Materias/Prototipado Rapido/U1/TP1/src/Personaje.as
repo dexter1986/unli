@@ -12,13 +12,16 @@ package
 	 * ...
 	 * @author ...
 	 */
+		
 	public class Personaje extends Entity 
 	{
+			
 		[Embed(source="swordguy.png")]
 		private const PERSONAJE_IMG:Class;
 		
 		private var personajeImg:Spritemap;
 		
+		private const SCALE = 1.0;
 		private const VEL_X = 200;
 		private const VEL_X_anti_g = 50;
 		private const VEL_Y = 300;
@@ -43,33 +46,45 @@ package
 		private var isAnti_g_cargado = true; 
 				
 		public function Personaje(x:Number=0, y:Number=0, graphic:Graphic=null, mask:Mask=null) 
-		{
+		{			
 			personajeImg = new Spritemap(PERSONAJE_IMG, 48, 32);
 			
 			personajeImg.add("idle", [0, 1, 2, 3, 4, 5], 20, true);
 			personajeImg.add("slide", [0], 30, true);
 			personajeImg.add("run", [6, 7, 8, 9, 10, 11], 30, true);
-			
-			type = "Personaje";
 						
 			Input.define("run_r", Key.D, Key.RIGHT);
 			Input.define("run_l", Key.A, Key.LEFT);
 			Input.define("jump", Key.W, Key.UP);
 			Input.define("antiG", Key.SHIFT);
-			Input.define("fire", Key.CONTROL);
-			Input.define("hit", Key.SPACE);
+			Input.define("fire", Key.SPACE);
+			Input.define("hit", Key.CONTROL);
 			
-			setHitbox(8, 16);
+			setHitbox(48 * SCALE, 32 * SCALE);
+			width = 48;
+			height = 32;
+			
+			personajeImg.smooth = true;
+			personajeImg.scale = SCALE;
+			
 			anti_g_carga = MAX_anti_g;
 			
 			super(x, y, personajeImg);
+			
+			type = "Personaje";
+			
+		}
+		
+		public function GetAntiG():Number 
+		{
+			return int(anti_g_carga * 100 / MAX_anti_g);
 		}
 		
 		override public function update():void 
 		{
 			if (Input.pressed("jump") && vel_y == 0 && !anti_g)
 			{				
-				vel_y = VEL_Y_JUMP;
+				vel_y = VEL_Y_JUMP*SCALE;
 				personajeImg.play("slide");
 			}
 			
@@ -85,7 +100,7 @@ package
 				{					
 					dir_x = DIR_R;
 					dir_x_f = -dir_x;
-					vel_x = VEL_X * dir_x;
+					vel_x = VEL_X * dir_x*SCALE;
 				}
 				if (dir_x != DIR_R)
 				{
@@ -95,7 +110,7 @@ package
 				else
 				{
 					personajeImg.play("run");
-					vel_x = VEL_X * dir_x;
+					vel_x = VEL_X * dir_x*SCALE;
 				}
 			}
 			else if (Input.check("run_l") && vel_y == 0 && !anti_g)
@@ -105,7 +120,7 @@ package
 				{				
 					dir_x = DIR_L;
 					dir_x_f = -dir_x;
-					vel_x = VEL_X * dir_x;
+					vel_x = VEL_X * dir_x*SCALE;
 				}
 				if (dir_x != DIR_L)
 				{
@@ -115,7 +130,7 @@ package
 				else
 				{
 					personajeImg.play("run");
-					vel_x = VEL_X * dir_x;
+					vel_x = VEL_X * dir_x*SCALE;
 				}
 			}
 			
@@ -150,9 +165,20 @@ package
 				//Pega con el arma y daña
 			}
 			
-			if (Input.check("fire"))
+			if (Input.pressed("fire"))
 			{
 				//Dispara y crea antigravedad en los objetos, los mismos levitan
+				
+				if (FP.world.classCount(ProyectilAntiG) < 10)
+				{
+					var dirx = 1;
+					if (personajeImg.flipped)
+					{
+						dirx = -1;
+					}
+					FP.world.add(new ProyectilAntiG(x + width / 2, y + height /2, dirx));
+				}
+				
 			}
 			
 			move();
@@ -179,7 +205,7 @@ package
 				center_y = personajeImg.originY;
 				personajeImg.originY += width / 2;		
 				angulo = 0;			
-				vel_x = VEL_X_anti_g * dir_x;
+				vel_x = VEL_X_anti_g * dir_x*SCALE;
 				personajeImg.play("slide")													
 			}
 		}
@@ -201,13 +227,18 @@ package
 			{	
 				if (anti_g_carga < MAX_anti_g)
 				{
-					anti_g_carga += FP.elapsed;
-					if(anti_g_carga > MAX_anti_g)
+					anti_g_carga += FP.elapsed;					
+					if(anti_g_carga >= MAX_anti_g)
 					{
 						anti_g_carga = MAX_anti_g;
 						isAnti_g_cargado = true;
 					}
-				}				
+				}
+				if(anti_g_carga > MAX_anti_g)
+				{
+					anti_g_carga = MAX_anti_g;
+					isAnti_g_cargado = true;
+				}
 			}
 		}
 		
@@ -260,15 +291,6 @@ package
 				y = PISO_Y;
 				vel_y = 0;
 			}
-		}
-		
-		private function checkCollide():void 
-		{
-			/*
-			if (collide("??", x + 10, y))
-			{				
-			}
-			*/
 		}
 		
 		public function destroy():void
