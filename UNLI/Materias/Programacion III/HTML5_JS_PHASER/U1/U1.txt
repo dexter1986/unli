@@ -1,0 +1,24 @@
+Esta es la primer semana de Programación 3, en esta sección veremos una herramienta para desarrollar juegos en HTML. Las tecnologías que vamos a utilizar son:
+
++ Algún editor de texto con sitanxis coloreada (Sugerimos Eclipse, o Sublimetext, pero cualquier sirve)
+
+Eclipse: http://www.eclipse.org/downloads/
+Sublimetext: http://www.sublimetext.com/
+
++ El motor Phaser http://phaser.io/
+
+Por el momento nos vamos a acostumbrar a JavaScript (que es el lenguaje que usaremos para desarrollar).
+
+Pero también ya hay algunos ejemplos de Phaser como para dejar todo listo para arrancar con Sprites y animaciones la semana que viene.
+
+Los apuntes de esta semana están en la carpeta: 
+
+carpeta de esta semana
+
+La carpeta de assets la podrán encontrar aquí:
+
+Carpeta de assets
+
+Como siempre, cualquier duda la podremos compartir en el foro.
+
+¡Saludos!
