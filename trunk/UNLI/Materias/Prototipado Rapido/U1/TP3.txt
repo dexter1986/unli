@@ -1,0 +1,13 @@
+Fecha de entrega: Miércoles 28 de mayo.
+
+Consigna: 
+Desarrolle un prototipo conceptual con la temática propuesta, según los contenidos dados hasta la fecha. La entrega deberá consistir en un solo archivo .swf, producto de la correcta compilación de su proyecto (el mismo puede encontrarse en la carpeta bin, y se puede entregar comprimido en un .zip o .rar).
+
+Universo de interés: 
+deberán estar en el prototipo los temas dados en los apuntes teóricos, aplicados a la idea que se desea desarrollar. El core mechanic propuesto no debe ser necesariamente innovador, sino que debe estar implementado claramente y explorar la temática indicada. Es válido utilizar arte de otros juegos.
+
+Temática: 
+explore en el prototipo a realizar una core mechanic incluya como componente crucial el concepto de asimilación o simbiosis (o sea, tomar algo externo y apropiárselo para su uso). Referencia: Kirby, Katamari sólo para ofrecer un ejemplo de una mecánica que incorpora la asimilación (en este caso, de habilidades de los enemigos).
+
+Metodología de evaluación: 
+se evaluará en el trabajo la correcta aplicación de los conceptos dictados en Unidades 1, 2, 3, y 4 para el desarrollo del prototipo con una restricción temática. Una exploración "interesante" de la temática sumará puntos, como también un correcto pulido de los features implementados.
