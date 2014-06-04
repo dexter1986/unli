@@ -1,0 +1,11 @@
+Fecha de entrega: lunes 9 de junio.
+
+Consigna: 
+Desarrolle un prototipo conceptual con la temática propuesta, según los contenidos dados hasta la fecha. La entrega deberá consistir en un solo archivo .swf, producto de la correcta compilación de su proyecto (el mismo puede encontrarse en la carpeta bin, y se puede entregar comprimido en un .zip o .rar).
+Universo de interés: deberán estar en el prototipo los temas dados en los apuntes teóricos, aplicados a la idea que se desea desarrollar. El core mechanic propuesto no debe ser necesariamente innovador, sino que debe estar implementado claramente y explorar la temática indicada. Es válido utilizar arte de otros juegos.
+
+Temática: 
+explore en el prototipo a realizar una core mechanic incluya como componente crucial el concepto de multitasking, o sea, abordar varias tareas en simultáneo. Las tareas pueden tener por ejemplo un ritmo veloz como en el caso de los Diner Dash o Cooking Dash, o bien poder tomarse el tiempo para manejar diferentes tipos de personajes como en The Lost Vikings. Como siempre, estas son solo referencias, y no deben clonarse.
+
+Metodología de evaluación: 
+se evaluará en el trabajo la correcta aplicación de los conceptos dictados en las Unidades 1 a 5 para el desarrollo del prototipo con una restricción temática. Una exploración "interesante" de la temática sumará puntos, como también un correcto pulido de los features implementados.
