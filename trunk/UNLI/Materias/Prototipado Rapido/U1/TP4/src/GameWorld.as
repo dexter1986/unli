@@ -59,9 +59,7 @@ package
 			this.add(fondoUp);
 			this.add(fondoDo);		
 			
-			gameReboot();
-			
-			//FP.console.enable();
+			gameReboot();			
 		}
 		
 		public function NewGame():void 
@@ -89,8 +87,8 @@ package
 			{
 				case "START": 
 				{
-					titleTweenIn.tween(titleText, "y", FP.screen.height * 0.25, 3, Ease.backOut);
-					pressTweenIn.tween(pressText, "alpha", 1, 3);
+					titleTweenIn.tween(titleText, "y", FP.screen.height * 0.25, 1, Ease.backOut);
+					pressTweenIn.tween(pressText, "alpha", 1, 1);
 					
 					this.status = "WAIT1";
 					break;
@@ -100,16 +98,15 @@ package
 				{
 					if (Input.check(Key.SPACE))
 					{
-						titleTweenOut.tween(titleText, "y", -100, 3, Ease.backIn);
-						pressTweenOut.tween(pressText, "alpha", 0, 3);
+						titleTweenOut.tween(titleText, "y", -100, 1, Ease.backIn);
+						pressTweenOut.tween(pressText, "alpha", 0, 1);
 						this.status = "WAIT2";
 					}
 					break;
 				}
 				
 				case "GAME": 
-				{
-					//Game
+				{					
 					if (classCount(Globo) == 0)
 					{
 						gameReboot();
