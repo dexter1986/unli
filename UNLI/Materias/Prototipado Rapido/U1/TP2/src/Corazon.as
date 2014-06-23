@@ -14,6 +14,8 @@ package
 	import net.flashpunk.utils.Key;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.FP;
+	import net.flashpunk.Tween;
+	import net.flashpunk.utils.Ease;
 	
 	/**
 	 * ...
@@ -26,7 +28,7 @@ package
 				
 		[Embed(source="corazonAnim.png")]
 		private const SPRITE :Class;
-		private var sprite:Spritemap;
+		public var sprite:Spritemap;
 		
 		[Embed(source="boom.mp3")]
 		private const SND_Exp:Class;
@@ -35,20 +37,20 @@ package
 		private var grp_List:Graphiclist;
 		private var exp_Emiter:Emitter;
 		
-		private var isDead:Boolean = false;
+		public var isDead:Boolean = false;
 		
 		public function Corazon(px:Number = 0, py:Number = 0) 
 		{
 			sfx_expl = new Sfx(SND_Exp);
 			
-			exp_Emiter = new Emitter(new BitmapData(1, 1), 1, 1);
+			exp_Emiter = new Emitter(new BitmapData(2, 2), 2,2);
 			exp_Emiter.newType("explode", [0]);
 			exp_Emiter.setAlpha("explode", 1, 0);
-			exp_Emiter.setMotion("explode", 0, 100, 3, 360, -40, -0.5);
+			exp_Emiter.setMotion("explode", 0, 300, 3, 360, -40,-0.5,Ease.quadOut);
 			exp_Emiter.relative = false;
 			
-			sprite = new Spritemap(SPRITE, 75, 75);
-			sprite.add("idle", [0], 30, false);
+			sprite = new Spritemap(SPRITE, 76, 76);
+			sprite.add("idle", [0,1,2,3,4,5,6,7,8,9], 30, true);
 			sprite.add("dead", [0], 30, false);
 			
 			grp_List = new Graphiclist(sprite,exp_Emiter);				
@@ -70,11 +72,16 @@ package
 					this.sprite.visible = false;
 					if (exp_Emiter.particleCount == 0)
 					{
-						var world:GameWorld = FP.world as GameWorld;
-						world.remove(this);
+						var world:GameWorld = FP.world as GameWorld;						
 						world.gameReboot();
 					}
 				}				
+			}else
+			{
+				if (this.collide("Bala", this.x, this.y))
+				{
+					die();
+				}
 			}
 			
 			super.update();
@@ -94,11 +101,12 @@ package
 		{
 			if (!isDead)
 			{
+				sfx_expl.play();
 				isDead = true;
-				this.collidable = false;
+				this.collidable = false;				
 				sprite.play("dead");
-				exp_Emiter.setColor("explode", 0xFFFFFF, 0xFFFFFF);
-				for (var i:uint = 0; i < 200; i++)
+				exp_Emiter.setColor("explode", 0xFF0000, 0xFFFFFF);
+				for (var i:uint = 0; i < 500; i++)
 				{
 					exp_Emiter.emit("explode", x + width / 2, y + height / 2);
 				}
