@@ -3,6 +3,7 @@ package
 	import adobe.utils.CustomActions;
 	import flash.display.BitmapData;
 	import flash.geom.Rectangle;
+	import flash.geom.Transform;
 	import flash.sampler.NewObjectSample;
 	import net.flashpunk.Entity;
 	import net.flashpunk.Graphic;
@@ -15,6 +16,7 @@ package
 	import net.flashpunk.utils.Key;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.FP;
+	import net.flashpunk.utils.Draw;
 	
 	/**
 	 * ...
@@ -37,7 +39,7 @@ package
 		private var centX:Number;
 		private var centY:Number;
 		private var ang:Number;
-		private var collrect:Rectangle = new Rectangle();
+		
 		public function Escudo(px:Number=0, py:Number=0) 
 		{
 			sprite = new Spritemap(SPRITE, 100, 100);			
@@ -77,6 +79,24 @@ package
 		
 		private function CheckCollition():void
 		{
+			var oldAng:Number = -(sprite.angle) * 3.14 / 180;
+			
+			var dx:Number = x + sprite.originX;
+			var dy:Number = y + sprite.originY;
+			
+			var l:Number = 100;		
+			
+			var tx:Number = dx + Math.cos(oldAng-3.14/4) * l;
+			var ty:Number = dy + Math.sin(oldAng-3.14/4) * l;
+			
+			var tx1:Number = dx + Math.cos(oldAng) * l;
+			var ty1:Number = dy + Math.sin(oldAng) * l;
+			
+			var tx2:Number = dx + Math.cos(oldAng-3.14/2) * l;
+			var ty2:Number = dy + Math.sin(oldAng-3.14/2) * l;
+			
+			
+			
 			var balas:Array = [];
 			world.getClass(Bala, balas);
 			
@@ -84,40 +104,73 @@ package
 			{
 				if (!e.isDead)
 				{
+					/*
 					if (collrect.contains(e.x, e.y))
 					{
 						e.die();
 					}
+					*/					
 				}
 			}
 		}
 		
-		private function  UpdateCollitionRect():void 
+		override public function render():void 
 		{
-			co
+			var oldAng:Number = -(sprite.angle) * 3.14 / 180;
+			
+			var dx:Number = x + sprite.originX;
+			var dy:Number = y + sprite.originY;
+			
+			var l:Number = 100;		
+			
+			var tx:Number = dx + Math.cos(oldAng-3.14/4) * l;
+			var ty:Number = dy + Math.sin(oldAng-3.14/4) * l;
+			
+			var tx1:Number = dx + Math.cos(oldAng) * l;
+			var ty1:Number = dy + Math.sin(oldAng) * l;
+			
+			var tx2:Number = dx + Math.cos(oldAng-3.14/2) * l;
+			var ty2:Number = dy + Math.sin(oldAng-3.14/2) * l;
+				
+			
+			
+			//+45
+			Draw.line(dx, dy, tx1, ty1, 0xff0000);						
+			
+			//medio
+			Draw.line(dx,dy,tx,ty,0xff0000);
+			
+			//-45
+			Draw.line(dx, dy, tx2, ty2, 0xff0000);
+			
+			Draw.line(tx1, ty1, tx, ty, 0xff0000);
+			
+			Draw.line(tx, ty, tx2, ty2, 0xff0000);	
+			
+			Draw.line(tx1,ty1,tx2,ty2,0xff0000);	
+			
+			super.render();
 		}
 		
 		override public function update():void 
-		{
+		{	
 			if (posX != Input.mouseX || posY != Input.mouseY)
 			{
-				posX = Input.mouseX - centX;
-				posY = Input.mouseY - centY;
+				posX = centX - Input.mouseX;
+				posY = centY - Input.mouseY;
 				
-				if (posY < 0)
+				if (posY < 0 )
 				{
-					ang = Math.atan(posX / posY) * 180 / 3.14 + 45;
-					sprite.angle = 	ang;					
+					sprite.angle = (Math.atan(posX / posY) + 3.14 / 4) * 180 / 3.14;// + 45;
 				}
 				else 
 				{
-					ang = 180 + Math.atan(posX / posY) * 180 / 3.14 + 45;
-					sprite.angle = ang;									
+					sprite.angle =  (Math.atan(posX / posY) + 3.14 + 3.14 / 4) * 180 / 3.14; 
 				}
 			}
 			
 			posX = Input.mouseX;
-			posY = Input.mouseY;			
+			posY = Input.mouseY
 			
 			CheckCollition();
 			
