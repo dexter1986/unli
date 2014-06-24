@@ -100,32 +100,18 @@ package
 				}
 				
 				case "GAME": 
-				{
+				{					
 					if (!corazon.isDead)
 					{
 						wait -= FP.elapsed;
 						
 						if (wait <= 0)
 						{
-							if (iterCount % 4 == 0)
-							{
-								if (FP.rand(4) < 2)
-								{
-									PatternFire();
-								}
-								else
-								{
-									NormalFire();
-								}
-							}
-							else
-							{
-								NormalFire();
-							}
-							wait = FP.rand(4) + 1;	
+							NormalFire();						
+							wait = FP.rand(1) + 1;	
 							iterCount++;
 						}			
-					}
+					}					
 				}
 			}
 			
@@ -143,29 +129,33 @@ package
 		private function  StartGame():void 
 		{
 			this.corazon.visible = true;
-			this.corazon.collidable = true;				
+			this.corazon.collidable = false;				
 			this.escudo.visible = true;
-			this.escudo.collidable = true;
+			this.escudo.collidable = false;
 			this.status = "GAME";
 		}
 		
 		private function  NormalFire():void 
 		{
-			ang = FP.rand(4);
-			switch (ang) 
+			var max:int = FP.rand(2)+1;
+			for (var i:int = 0; i < max; i++) 
 			{
-				case 0:	
-					Fire(0);
-				break;	
-				case 1:		
-					Fire(90);
-				break;	
-				case 2:		
-					Fire(180);
-				break;	
-				case 3:			
-					Fire(270);
-				break;	
+				ang = FP.rand(4);
+				switch (ang) 
+				{
+					case 0:	
+						Fire(0);
+					break;	
+					case 1:		
+						Fire(90);
+					break;	
+					case 2:		
+						Fire(180);
+					break;	
+					case 3:			
+						Fire(270);
+					break;	
+				}
 			}
 		}
 		
@@ -191,13 +181,9 @@ package
 		{
 			if (classCount(Bala) < 10)
 			{
-				var max:int = FP.rand(10) + 10;
-				for (var i:uint = 0; i < max; i++)
-				{
-					bala = new Bala(200 + i * 20,100 + i * 20);					
-					bala.Init(ang);
-					this.add(bala);
-				}
+				bala = new Bala(200 + FP.rand(400),100 + FP.rand(400));					
+				bala.Init(ang);
+				this.add(bala);				
 			}
 		}
 		
@@ -213,7 +199,7 @@ package
 			
 			this.status = "START";
 			
-			wait = FP.rand(4) + 1;
+			wait = FP.rand(1) + 1;
 			iterCount = 0;
 			
 			StartGame();

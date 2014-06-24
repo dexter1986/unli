@@ -82,7 +82,7 @@ package
 				diry = -1;
 				y = FP.screen.height;
 			}
-			vel =FP.rand(300) + vel;
+			vel = FP.rand(300) + vel;
 		}
 		
 		override public function update():void 
