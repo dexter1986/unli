@@ -63,10 +63,10 @@ package
 			this.add(corazon);
 			
 			this.escudo = new Escudo(FP.screen.width / 2, FP.screen.height / 2);
-			this.escudo.x = FP.screen.width / 2 - this.escudo.getWidth() / 2;
-			this.escudo.y = FP.screen.height / 2 - this.escudo.getHeight() / 2;
+			this.escudo.x = FP.screen.width / 2 - this.escudo.img.width / 2;
+			this.escudo.y = FP.screen.height / 2 - this.escudo.img.height / 2;
 			this.escudo.Init();
-			this.add(escudo);
+			this.add(escudo);	
 			
 			gameReboot();
 		}
@@ -129,15 +129,15 @@ package
 		private function  StartGame():void 
 		{
 			this.corazon.visible = true;
-			this.corazon.collidable = false;				
+			this.corazon.collidable = true;				
 			this.escudo.visible = true;
-			this.escudo.collidable = false;
+			this.escudo.collidable = true;
 			this.status = "GAME";
 		}
 		
 		private function  NormalFire():void 
 		{
-			var max:int = FP.rand(2)+1;
+			var max:int = FP.rand(3)+1;
 			for (var i:int = 0; i < max; i++) 
 			{
 				ang = FP.rand(4);
@@ -179,7 +179,7 @@ package
 		
 		private function Fire(ang:int):void 
 		{
-			if (classCount(Bala) < 10)
+			if (classCount(Bala) < 30)
 			{
 				bala = new Bala(200 + FP.rand(400),100 + FP.rand(400));					
 				bala.Init(ang);
@@ -202,7 +202,7 @@ package
 			wait = FP.rand(1) + 1;
 			iterCount = 0;
 			
-			StartGame();
+		
 		}
 	}
 }

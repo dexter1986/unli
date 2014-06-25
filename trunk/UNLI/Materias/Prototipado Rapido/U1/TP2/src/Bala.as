@@ -32,10 +32,9 @@ package
 		private var exp_Emiter:Emitter;
 		
 		private var grp_List:Graphiclist;
-		private var vel:int = 300;
+		private var vel:int = 50;
 		private var dirx:int = 0;
-		private var diry:int = 0;
-				
+		private var diry:int = 0;				
 		public var isDead:Boolean = false;
 		
 		public function Bala(px:Number=0, py:Number=0) 
@@ -82,7 +81,7 @@ package
 				diry = -1;
 				y = FP.screen.height;
 			}
-			vel = FP.rand(300) + vel;
+			vel = FP.rand(50) + vel;
 		}
 		
 		override public function update():void 
@@ -108,6 +107,11 @@ package
 				{
 					this.destroy();
 				}	
+				
+				if (this.collide("Escudo", this.x, this.y))
+				{
+					die();
+				}			
 			}
 			
 			
