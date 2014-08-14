@@ -7,6 +7,7 @@
 #include "SpriteSheetManager.h"
 #include "ParallaxLayer.h"
 #include "AnimatedBase.h"
+#include "SceneBase.h"
 
 using namespace std;
 using namespace sf;
@@ -52,7 +53,8 @@ private:
 	
 	int iPortales;
 	int iEnemigos;
-		
+	
+	SceneBase* scene;
 	string capasparalaxFiles[2];
 
 	// nombre del archivo tileset
@@ -93,6 +95,8 @@ private:
 	void (*agregarEnemigo_entities)(float x, float y,int tipo);
 	void (*gamewon_delegate)(void);
 public:
+	bool isGameWon;
+
 	string name;
 	int iKeys;
 	int irKeys[5];
@@ -108,7 +112,7 @@ public:
 	// constructores
 	Nivel(string tileset_file, int ntilesx, int ntilesy, unsigned levelSize_w, unsigned levelSize_h);
 	Nivel(string level_file);
-	Nivel();
+	Nivel(SceneBase* scene);
 	// salvar y guardar un nivel
 	void Load(string file,bool reload = false);
 	void Save(string file);

@@ -2,7 +2,7 @@
 #include <fstream>
 #include <iomanip>
 
-Nivel::Nivel()
+Nivel::Nivel(SceneBase* p_scene)
 {
 	occlusion_tiles = NULL;
 	isDebug = false;
@@ -11,7 +11,8 @@ Nivel::Nivel()
 	irKeys[2]  = 0;
 	irKeys[3]  = 0;
 	irKeys[4]  = 0;	
-	iKeys = 5;
+	iKeys = 5;	
+	scene = p_scene;
 }
 
 // Constructor: inicializa el Nivel
@@ -31,8 +32,10 @@ Nivel::Nivel(string tileset_filename, int tileset_nw, int tileset_nh, unsigned l
 	sm.Load(tileset_filename, tileSetSize.x, tileSetSize.y,levelSize.x,levelSize.y);
 	sm.GetImage(0,FloatRect());
 	Vector2f size = sm.GetSize();
-	tileSize.x= size.x;
-	tileSize.y= size.y;
+	
+	tileSize.x=(int)size.x;
+	tileSize.y= (int)size.y;
+
 	occlusion_tiles = NULL;
 	irKeys[0]  = 0;
 	irKeys[1]  = 0;
@@ -80,7 +83,7 @@ void Nivel::PrepareNivel()
 
 // inicializa la matriz de tiles
 void Nivel::Init(){
-	
+	isGameWon = false;
 	isNeedNextLoadLevel = false;
 
 	fileNextLevel = "";
@@ -119,12 +122,12 @@ void Nivel::Init(){
 			// calculamos la posision del tile
 			posx=j*tileSize.x;
 			posy=i*tileSize.y;
-			tileTemp.SetPosition(posx, posy);
+			tileTemp.SetPosition((float)posx,(float) posy);
 			// calculamos el rectangulo que va a ocupar el tile
-			tileTemp.rect.Left=posx;
-			tileTemp.rect.Right=posx+tileSize.x;
-			tileTemp.rect.Top=posy;
-			tileTemp.rect.Bottom=posy+tileSize.y;
+			tileTemp.rect.Left=(float)posx;
+			tileTemp.rect.Right=(float)posx+tileSize.x;
+			tileTemp.rect.Top=(float)posy;
+			tileTemp.rect.Bottom=(float)posy+tileSize.y;
 			
 			// inicializamos el numero de imagen
 			tileTemp.iImage=-1;
@@ -157,7 +160,7 @@ void Nivel::Init(){
 	// los offsets y velocidades de las capas
 	float offsetYCapas[]={0,20,110};
 	float offsetXCapas[]={0,0,0};	
-	float velCapas[]={0.0010, 0.0015, 0.0015};
+	float velCapas[]={0.0010f, 0.0015f, 0.0015f};
 	
 	// inicializamos las capas del parallax
 	const sf::Image *img;
@@ -195,8 +198,8 @@ void Nivel::Load(string filename,bool reload){
 
 	sm.GetImage(0,FloatRect());
 	Vector2f size = sm.GetSize();
-	tileSize.x= size.x;
-	tileSize.y= size.y;
+	tileSize.x=(int) size.x;
+	tileSize.y= (int)size.y;
 	
 	// inicializamos la matriz de tiles
 	Init();
@@ -442,7 +445,7 @@ bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,
 						if(iKeys == 0)
 						{
 							tipo = 4;
-							gamewon_delegate();
+							isGameWon = true;
 							tile.isDead = true;
 						}						
 					}

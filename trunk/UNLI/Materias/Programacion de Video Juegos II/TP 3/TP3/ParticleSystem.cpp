@@ -48,7 +48,7 @@ void ParticleSystem::Move(float &dt){
 		if(emitter->isOneTime)
 		{
 			cycle = true;
-			particlesToSpawn = nMaxParticles;
+			particlesToSpawn = (float)nMaxParticles;
 		}
 		else
 		{
@@ -75,7 +75,7 @@ void ParticleSystem::Move(float &dt){
 				p.SetBlendMode(emitter->GetBlendMode());
 				p.SetColor(emitter->GetColor());
 				p.SetPosition(emitter->GetPosition().x, emitter->GetPosition().y);
-				p.SetCenter(emitter->GetImage()->GetWidth()/2,emitter->GetImage()->GetHeight()/2);
+				p.SetCenter(emitter->GetImage()->GetWidth()/2.0f,emitter->GetImage()->GetHeight()/2.0f);
 				
 				// inicializa los parametros aleatorios de la particula
 				// divide la velocidad en sus componentes segun el angulo

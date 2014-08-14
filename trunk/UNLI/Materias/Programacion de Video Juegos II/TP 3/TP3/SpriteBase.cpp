@@ -188,7 +188,7 @@ bool SpriteBase::DelayTransition(bool reset)
 {
 	if(reset)
 	{
-		delay = 0.15;
+		delay = 0.15f;
 	}
 	
 	if(delay > 0)
@@ -232,12 +232,15 @@ bool SpriteBase::ColisionaPared(){
 	// y el area de colision
 	FloatRect aabb_tmp, areaColision;
 	
+	ajustaColision_x = 0;
+	ajustaColision_y = 0;
+
 	bool chocaPared = false;
 	isHitWall = false;
 	
-	// la distancia que nos moveriamos
-	float despl = GetDireccionX() * dt * velocidad.x;
-	
+	//// la distancia que nos moveriamos
+	float despl = GetDireccionX() * dt * velocidad.x;	
+
 	// buscamos el bounding box que tendriamos
 	// si nos moviesemos, preguntamos si
 	// colisionamos y la distancia
@@ -252,12 +255,17 @@ bool SpriteBase::ColisionaPared(){
 	int tipo=-1;
 	chocaPared = nivel->HayColision(aabb_tmp, areaColision,tipo,isNPC);
 	
-	ajustaColision_x = GetDireccionX() * (dt*velocidad.x-areaColision.GetWidth());
-
 	if(chocaPared)
 	{
-		isHitWall = true;
+		isHitWall = true;		
 		ResolverColision(tipo,aabb_tmp);
+
+
+
+		ajustaColision_x = GetDireccionX() * (dt*velocidad.x-areaColision.GetWidth());
+
+
+		Move(ajustaColision_x,ajustaColision_y);
 	}
 
 	return chocaPared;	
@@ -357,15 +365,20 @@ bool SpriteBase::ColisionaSuelo(){
 	ajustaColision_x = 0;
 	ajustaColision_y = 0;
 	// calculamos la velocidad que tendriamos
-	float newvy=velocidad.y+gravity*dt;
+	float newvy=velocidad.y + gravity *dt;
 	// si estamos subiendo, no podemos chocar con
 	// el suelo
 	if(newvy>0)
 	{
 		FloatRect aabb_tmp,areaColision;
 		
+		if(newvy > MAX_VEL_Y)
+		{
+			newvy = MAX_VEL_Y;
+		}
+
 		// la distancia que nos vamos a mover
-		float despl= dt * newvy;
+		float despl= newvy * dt;
 
 		// conseguimos el AABB actual y calculamos
 		// el que tendriamos en un instante de tiempo
@@ -377,15 +390,16 @@ bool SpriteBase::ColisionaSuelo(){
 
 		// calculamos si habria colision
 		//chocaConSuelo = nivel->HayColision2(aabb,aabb_tmp, areaColision);
+
 		int tipo = -1;
 		chocaConSuelo = nivel->HayColision(aabb_tmp, areaColision,tipo,isNPC);
 
 		if(chocaConSuelo)
 		{
 			ResolverColision(tipo,aabb_tmp);
+			ajustaColision_y = despl - areaColision.GetHeight();		
+			Move(ajustaColision_x,ajustaColision_y);
 		}
-		
-		ajustaColision_y = despl - areaColision.GetHeight();					
 	}
 	
 	return chocaConSuelo;	

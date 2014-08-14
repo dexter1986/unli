@@ -8,6 +8,7 @@
 #include "Nivel.h"
 #include "ParticleSystemManager.h"
 #include "TextureManager.h"
+#include "SceneBase.h"
 
 using namespace std;
 
@@ -22,17 +23,16 @@ class Disparo: public sf::Sprite{
 	friend class ManejadorDisparos;	// para que ManejadorDisparos pueda acceder al miembro velx
 };
 
-
 // la clase se encarga de manejar todos los disparos
 class ManejadorDisparos{
 private:
 	list<Disparo *> disparos;								// guardamos una lista de disparos
 	Nivel *nivel;
-
-	bool(*haycolision_entities)(float x, float y,sf::Color &color);
-	
+	SceneBase* scene;
+		
 public:
-	void SetEnemigoManagerDelegate(bool(*haycolision)(float x, float y,sf::Color &color));
+
+	ManejadorDisparos(SceneBase* scene);	
 	void SetLevelManager(Nivel *n);
 	~ManejadorDisparos();
 	void Init();
