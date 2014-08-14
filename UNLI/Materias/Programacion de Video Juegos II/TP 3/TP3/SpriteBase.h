@@ -5,11 +5,12 @@
 #include "AnimatedBase.h"
 #include "Nivel.h"
 #include "Disparos.h"
+#include "GameEngine.h"
 
-// una estructura simple para pasarle los controles a megaman
-struct Joystick{
-	bool up, down, left, right, a, b;
-};
+//// una estructura simple para pasarle los controles a megaman
+//struct Joystick{
+//	bool up, down, left, right, a, b;
+//};
 
 class SpriteBase :
 	public Sprite
@@ -23,6 +24,9 @@ protected:
 		RIGHT,
 		DOWN
 	};
+
+	static const int MAX_VEL_Y = 1000;
+	static const int MAX_VEL_X = 80;
 
 	float v0;		// velocidad inicial al comenzar el salto 
 	float gravity;	// gravedad

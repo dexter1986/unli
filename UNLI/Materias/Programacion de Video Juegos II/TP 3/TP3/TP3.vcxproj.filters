@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Escenas">
+      <UniqueIdentifier>{f5abcc88-c5ea-4509-9134-f6bd2b57f4f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Escenas">
+      <UniqueIdentifier>{051b2a6e-0a6c-4f0e-8842-1a4712fce8c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -71,6 +77,33 @@
     </ClCompile>
     <ClCompile Include="Cronometro.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainScene.cpp">
+      <Filter>Source Files\Escenas</Filter>
+    </ClCompile>
+    <ClCompile Include="MisionScene.cpp">
+      <Filter>Source Files\Escenas</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroScene.cpp">
+      <Filter>Source Files\Escenas</Filter>
+    </ClCompile>
+    <ClCompile Include="AyudaScene.cpp">
+      <Filter>Source Files\Escenas</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuScene.cpp">
+      <Filter>Source Files\Escenas</Filter>
+    </ClCompile>
+    <ClCompile Include="JuegoPerdidoScene.cpp">
+      <Filter>Source Files\Escenas</Filter>
+    </ClCompile>
+    <ClCompile Include="JuegoGanadoScene.cpp">
+      <Filter>Source Files\Escenas</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +166,33 @@
     </ClInclude>
     <ClInclude Include="Constantes.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroScene.h">
+      <Filter>Header Files\Escenas</Filter>
+    </ClInclude>
+    <ClInclude Include="MainScene.h">
+      <Filter>Header Files\Escenas</Filter>
+    </ClInclude>
+    <ClInclude Include="MisionScene.h">
+      <Filter>Header Files\Escenas</Filter>
+    </ClInclude>
+    <ClInclude Include="AyudaScene.h">
+      <Filter>Header Files\Escenas</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuScene.h">
+      <Filter>Header Files\Escenas</Filter>
+    </ClInclude>
+    <ClInclude Include="JuegoGanadoScene.h">
+      <Filter>Header Files\Escenas</Filter>
+    </ClInclude>
+    <ClInclude Include="JuegoPerdidoScene.h">
+      <Filter>Header Files\Escenas</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

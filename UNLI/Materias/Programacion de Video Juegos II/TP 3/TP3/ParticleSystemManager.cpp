@@ -117,7 +117,7 @@ void ParticleSystemManager::Render_PointSprites(sf::RenderWindow &w){
 		sf::Vector2f particlePosition;
 		for(unsigned i=0; i<(*ps)->nMaxParticles; i++, p++){
 			if(p->life>=0){
-				glColor4f(1,1,1,p->GetColor().a/255.0);
+				glColor4f(1,1,1,p->GetColor().a/255.0f);
 				particlePosition=p->GetPosition();
 				glVertex2f(particlePosition.x, particlePosition.y);
 			}

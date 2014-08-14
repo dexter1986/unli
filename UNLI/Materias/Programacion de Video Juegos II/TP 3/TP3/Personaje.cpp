@@ -4,7 +4,8 @@ Personaje::Personaje(void):SpriteBase(30,"../data/personaje.png",0.5,0.5)
 {
 	currentState = Estado::NORMAL;	
 	direccion = Direccion::RIGHT;
-	velocidad.x = 60.0f;
+	velocidad.x = MAX_VEL_X;
+	velocidad.y = 0.0f;
 	delayToBreak = 0;
 	IsJumpStart = false;
 	IsTirarStart = false;
@@ -30,7 +31,7 @@ void Personaje::InicializarAnimaciones()
 	int yo;
 	float offset_x=0;
 	float offset_y=0;
-	float framelengh = 0.1;
+	float framelengh = 0.1f;
 	
 	xo = 222;
 	yo = 368;
@@ -42,7 +43,7 @@ void Personaje::InicializarAnimaciones()
 
 	animaciones[Estado::TURN].SetAABB(FloatRect(2,2,10,26));
 	animaciones[Estado::TURN].SetLoop(false);
-	animaciones[Estado::TURN].AddFrame(145,285,w,h,0.2);
+	animaciones[Estado::TURN].AddFrame(145,285,w,h,0.2f);
 
 		
 	xo = 272;
@@ -86,7 +87,7 @@ void Personaje::InicializarAnimaciones()
 
 	animaciones[Estado::TURN_DUCK].SetAABB(FloatRect(2,10,10,26));
 	animaciones[Estado::TURN_DUCK].SetLoop(false);
-	animaciones[Estado::TURN_DUCK].AddFrame(xo,yo,w,h,0.2,0.0,-16.0,0.0,-16.0);
+	animaciones[Estado::TURN_DUCK].AddFrame(xo,yo,w,h,0.2f,0.0,-16.0,0.0,-16.0);
 
 	xo = 58;
 	yo = 298;
@@ -94,7 +95,7 @@ void Personaje::InicializarAnimaciones()
 	h = 44;		
 	animaciones[Estado::DUCK_AND_ARM1].SetAABB(FloatRect(2,10,10,26));
 	animaciones[Estado::DUCK_AND_ARM1].SetLoop(false);
-	animaciones[Estado::DUCK_AND_ARM1].AddFrame(xo,yo,w,h,framelengh,1.6,-13.0,0.0,-13.0);
+	animaciones[Estado::DUCK_AND_ARM1].AddFrame(xo,yo,w,h,framelengh,1.6f,-13.0,0.0,-13.0);
 	
 	xo = 16;
 	yo = 197;
@@ -102,7 +103,7 @@ void Personaje::InicializarAnimaciones()
 	h = 62;			
 	animaciones[Estado::JUMP_UP].SetAABB(FloatRect(2,2,10,26));
 	animaciones[Estado::JUMP_UP].SetLoop(false);
-	animaciones[Estado::JUMP_UP].AddFrame(xo,yo,w,h,0.15,0,0,5);
+	animaciones[Estado::JUMP_UP].AddFrame(xo,yo,w,h,0.15f,0,0,5);
 	for(int i=1;i<3;i++)
 	{
 		animaciones[Estado::JUMP_UP].AddFrame(xo+w*i,yo,w,h,framelengh,0,0,5);
@@ -118,7 +119,7 @@ void Personaje::InicializarAnimaciones()
 	h = 62;			
 	animaciones[Estado::JUMP_AND_RUN_UP].SetAABB(FloatRect(2,2,10,26));
 	animaciones[Estado::JUMP_AND_RUN_UP].SetLoop(false);
-	animaciones[Estado::JUMP_AND_RUN_UP].AddFrame(xo,yo,w,h,0.15,0,0,5);
+	animaciones[Estado::JUMP_AND_RUN_UP].AddFrame(xo,yo,w,h,0.15f,0,0,5);
 	for(int i=1;i<3;i++)
 	{
 		animaciones[Estado::JUMP_AND_RUN_UP].AddFrame(xo+w*i,yo,w,h,framelengh,0,0,5);
@@ -164,10 +165,10 @@ void Personaje::InicializarAnimaciones()
 	}
 	animaciones[Estado::CRAW_AND_WALK].SetAABB(FloatRect(2,12,10,26));
 
-	animaciones[Estado::CRAW].SetAABB(FloatRect(2,12,10,26));
-	animaciones[Estado::CRAW].SetLoop(false);
+	/*animaciones[Estado::CRAW].SetAABB(FloatRect(2,12,10,26));
+	animaciones[Estado::CRAW].SetLoop(false);*/
 	//animaciones[Estado::CRAW].AddFrame(xo,yo,w,h,framelengh,10,-26.0f,20.0f,-26.0f);
-	animaciones[Estado::CRAW].AddFrame(xo,yo,w,h,framelengh,20,-26.0f,5.0f,-26.0f);
+	//animaciones[Estado::CRAW].AddFrame(xo,yo,w,h,framelengh,20,-26.0f,5.0f,-26.0f);
 
 	xo = 147;
 	yo = 217;
@@ -187,7 +188,8 @@ void Personaje::InicializarAnimaciones()
 	//joytick.b when is Normal and Is near a door
 	//Add Throw
 	//joytick.b when is Normal (throw Stone)
-	xo = 13;
+
+	/*xo = 13;
 	yo = 818;
 	w = 53;
 	h = 57;
@@ -196,45 +198,769 @@ void Personaje::InicializarAnimaciones()
 		animaciones[Estado::THROW].AddFrame(xo+w*i,yo,w,h,framelengh,5.0f,0,22.0f);
 	}
 	animaciones[Estado::THROW].SetAABB(FloatRect(2,2,10,26));
-	animaciones[Estado::THROW].SetLoop(false);
-
+	animaciones[Estado::THROW].SetLoop(false);*/
 }
+
+////
+////void Personaje::Internal_Mover_y_Animar()
+////{
+////	float distAjuste = 0;
+////	switch(currentState)
+////	{
+////		case TURN:
+////			if(IsAnimationEnded())
+////			{
+////				CambiarEstado(Estado::NORMAL);				
+////			}
+////			break;		
+////		case TURN_DUCK:
+////			if(IsAnimationEnded())
+////			{
+////				CambiarEstado(Estado::DUCK);				
+////			}
+////			break;
+////		case NORMAL:
+////			if(joystick.right)
+////			{	
+////				if(direccion != Direccion::RIGHT)
+////				{
+////					direccion = Direccion::RIGHT;
+////					CambiarEstado(Estado::TURN);
+////				}
+////				else
+////				{
+////					if(!ColisionaPared())
+////					{
+////						CambiarEstado(Estado::RUN);						
+////					}
+////					else
+////					{
+////						AjustaColisionX();						
+////					}
+////				}
+////			}
+////			else if(joystick.left)
+////			{
+////				if(direccion != Direccion::LEFT)
+////				{
+////					direccion = Direccion::LEFT;
+////					CambiarEstado(Estado::TURN);
+////				}
+////				else
+////				{
+////					if(!ColisionaPared())
+////					{
+////						CambiarEstado(Estado::RUN);								
+////					}
+////					else
+////					{
+////						AjustaColisionX();						
+////					}
+////				}
+////			}			
+////			
+////			if(joystick.down)
+////			{	
+////				CambiarEstado(Estado::DUCK);				
+////			}			
+////			
+////			if(joystick.a)
+////			{	
+////				CambiarEstado(Estado::NORMAL_AND_ARM1);				
+////			}
+////			
+////			/*if(!IsTirarStart && joystick.b)
+////			{	
+////				CambiarEstado(Estado::THROW);				
+////			}*/
+////			
+////			
+////			VerifyFall();
+////			
+////
+////			if(joystick.up)
+////			{
+////				CambiarEstado(Estado::JUMP_UP);
+////				Saltar();				
+////			}
+////			
+////			/*
+////			 if(joystick.b && joystick.up)
+////			{
+////				CambiarEstado(Estado::CLIM_UP);				
+////			}*/
+////			break;
+////		case NORMAL_AND_ARM1:
+////			if(joystick.right)
+////			{	
+////				if(direccion != Direccion::RIGHT)
+////				{
+////					direccion = Direccion::RIGHT;
+////					CambiarEstado(Estado::TURN);
+////				}
+////				else
+////				{
+////					if(!ColisionaPared())
+////					{
+////						CambiarEstado(Estado::RUN_AND_ARM1);						
+////					}
+////					else
+////					{	
+////						AjustaColisionX();						
+////					}
+////				}
+////			}
+////			else if(joystick.left)
+////			{	
+////				if(direccion != Direccion::LEFT)
+////				{
+////					direccion = Direccion::LEFT;
+////					CambiarEstado(Estado::TURN);
+////				}
+////				else
+////				{	
+////					if(!ColisionaPared())
+////					{
+////						CambiarEstado(Estado::RUN_AND_ARM1);								
+////					}
+////					else
+////					{	
+////						AjustaColisionX();						
+////					}
+////				}
+////			}
+////			
+////			VerifyFall();
+////
+////			if(!joystick.a)
+////			{
+////				CambiarEstado(Estado::NORMAL);
+////				break;
+////			}
+////			if(joystick.down)
+////			{
+////				CambiarEstado(Estado::DUCK_AND_ARM1);				
+////			}
+////			
+////			DisparoArma1();
+////			break;
+////		/*case THROW:			
+////			if(IsAnimationEnded())
+////			{
+////				ArrojarPiedra();
+////				CambiarEstado(Estado::NORMAL);
+////			}
+////			break;	*/	
+////		/*case CRAW:
+////			if(!joystick.down)
+////			{
+////				CambiarEstado(Estado::NORMAL);
+////			}
+////
+////			if(joystick.left && direccion == Direccion::LEFT || joystick.right && direccion == Direccion::RIGHT)
+////			{	
+////				if(!ColisionaPared())
+////				{
+////					CambiarEstado(Estado::CRAW_AND_WALK);							
+////				}
+////				else
+////				{
+////					if(direccion == Direccion::RIGHT)
+////					{
+////						Move(ajustaColision_x,0);
+////					}
+////					else
+////					{	
+////						AjustaColisionX();
+////					}
+////				}
+////			}
+////			else if(joystick.left && direccion != Direccion::LEFT || joystick.right && direccion != Direccion::LEFT)
+////			{
+////				CambiarEstado(Estado::TURN_DUCK);				
+////			}
+////			break;*/
+////		case CRAW_AND_WALK:		
+////			if(ColisionaPared())
+////			{	
+////				CambiarEstado(Estado::DUCK);
+////				if(direccion == Direccion::RIGHT)
+////				{
+////					Move(ajustaColision_x,0);
+////				}
+////				else
+////				{						
+////					AjustaColisionX();
+////				}
+////			}
+////			if(!joystick.down) 
+////			{
+////				CambiarEstado(Estado::NORMAL);
+////			}
+////
+////			if(!joystick.left && direccion == Direccion::LEFT || !joystick.right && direccion == Direccion::RIGHT)
+////			{
+////				CambiarEstado(Estado::DUCK);
+////			}
+////			VerifyFallAndRun();
+////			break;
+////		case DUCK_AND_ARM1:
+////			if(joystick.right)
+////			{	
+////				if(direccion != Direccion::RIGHT)
+////				{
+////					direccion = Direccion::RIGHT;
+////					CambiarEstado(Estado::TURN_DUCK);
+////				}				
+////			}
+////			else if(joystick.left)
+////			{	
+////				if(direccion != Direccion::LEFT)
+////				{
+////					direccion = Direccion::LEFT;
+////					CambiarEstado(Estado::TURN_DUCK);
+////				}				
+////			}
+////			
+////			VerifyFall();
+////
+////			if(!joystick.a)
+////			{
+////				CambiarEstado(Estado::DUCK);				
+////			}
+////			if(!joystick.down)
+////			{
+////				CambiarEstado(Estado::NORMAL_AND_ARM1);			
+////			}
+////			
+////			DisparoArma1();
+////			break;	
+////		case DUCK:
+////			if(joystick.right)
+////			{	
+////				if(direccion != Direccion::RIGHT)
+////				{
+////					direccion = Direccion::RIGHT;
+////					CambiarEstado(Estado::TURN_DUCK);
+////				}
+////				else
+////				{
+////					if(!ColisionaPared())
+////					{
+////						CambiarEstado(Estado::CRAW_AND_WALK);						
+////					}
+////					else
+////					{
+////						AjustaColisionX();
+////					}
+////				}				
+////			}
+////			else if(joystick.left)
+////			{
+////				if(direccion != Direccion::LEFT)
+////				{
+////					direccion = Direccion::LEFT;
+////					CambiarEstado(Estado::TURN_DUCK);
+////				}
+////				else
+////				{
+////					if(!ColisionaPared())
+////					{
+////						CambiarEstado(Estado::CRAW_AND_WALK);						
+////					}
+////					else
+////					{	
+////						AjustaColisionX();
+////					}								
+////				}				
+////			}
+////			else if(!joystick.down)
+////			{
+////				CambiarEstado(Estado::NORMAL);				
+////			}
+////			else if(joystick.a)
+////			{
+////				CambiarEstado(Estado::DUCK_AND_ARM1);				
+////			}
+////			break;	
+////		case RUN:			
+////			if(ColisionaPared())
+////			{	
+////				CambiarEstado(Estado::NORMAL);	
+////				/*if(direccion == Direccion::RIGHT)
+////				{
+////					Move(ajustaColision_x,0);
+////				}
+////				else
+////				{	*/
+////					AjustaColisionX();
+////				//}
+////			}
+////			else if(!joystick.right && direccion == Direccion::RIGHT || !joystick.left && direccion == Direccion::LEFT)
+////			{	
+////				CambiarEstado(Estado::NORMAL);					
+////			}
+////			else if(VerifyFallAndRun())
+////			{
+////			}
+////			else
+////			{
+////				if(joystick.a)
+////				{
+////					CambiarEstado(Estado::RUN_AND_ARM1);				
+////				}
+////			}			
+////
+////			if(joystick.up)
+////			{
+////				CambiarEstado(Estado::JUMP_AND_RUN_UP);
+////				Saltar();				
+////			}
+////			else if(joystick.down)
+////			{
+////				CambiarEstado(Estado::SNEAK);
+////			}
+////			
+////			break;
+////		 case SNEAK:
+////
+////			VerifyFall();
+////
+////			if(!joystick.down)
+////			{
+////				CambiarEstado(Estado::NORMAL);
+////			}
+////			else if(joystick.right)
+////			{	
+////				CambiarEstado(Estado::SNEAK_AND_RUN);
+////				direccion = Direccion::RIGHT;
+////			}
+////			else if(joystick.left)
+////			{
+////				CambiarEstado(Estado::SNEAK_AND_RUN);
+////				direccion = Direccion::LEFT;			
+////			}
+////			break;
+////		case SNEAK_AND_RUN:
+////			if(!joystick.right && direccion == Direccion::RIGHT || !joystick.left && direccion == Direccion::LEFT)
+////			{	
+////				CambiarEstado(Estado::SNEAK);					
+////			}
+////
+////			if(ColisionaPared())
+////			{		
+////				CambiarEstado(Estado::NORMAL);
+////				/*if(direccion == Direccion::RIGHT)
+////				{
+////					AjustaColisionX();
+////				}
+////				else
+////				{*/
+////					AjustaColisionX();
+////				//}
+////			}
+////			
+////			VerifyFall();
+////			
+////			if(!joystick.down)
+////			{
+////				CambiarEstado(Estado::RUN);
+////			}
+////			
+////			if(joystick.right)
+////			{	
+////				direccion = Direccion::RIGHT;
+////			}
+////			
+////			if(joystick.left)
+////			{
+////				direccion = Direccion::LEFT;			
+////			}
+////			
+////			break;
+////		case RUN_AND_ARM1:
+////			if(!joystick.right && direccion == Direccion::RIGHT || !joystick.left && direccion == Direccion::LEFT)
+////			{
+////				CambiarEstado(Estado::NORMAL);				
+////			}
+////			if(ColisionaPared())
+////			{
+////				CambiarEstado(Estado::NORMAL);
+////				/*if(direccion == Direccion::RIGHT)
+////				{
+////					AjustaColisionX();
+////				}
+////				else
+////				{*/
+////					AjustaColisionX();
+////				//}
+////			}
+////
+////			VerifyFallAndRun();
+////			
+////			if(!joystick.a)
+////			{
+////				DelayToBreak(true);
+////				CambiarEstado(Estado::RUN,true);
+////			}			
+////			
+////			if(joystick.up)
+////			{
+////				CambiarEstado(Estado::JUMP_AND_RUN_UP);
+////				Saltar();			
+////			}
+////			DisparoArma1();
+////			break;	
+////		case JUMP_UP:
+////			if(ColisionaTecho())
+////			{
+////				CambiarEstado(Estado::JUMP_DOWN);				
+////				AjustaColisionY();
+////				velocidad.y=0;				
+////			}
+////			else
+////			{
+////				/*if(joystick.b && ColisionaPared() && (joystick.left || joystick.right) && velocidad.y !=0 )
+////				{	
+////					CambiarEstado(Estado::CLIM);								
+////				}*/
+////			}
+////			
+////			if(velocidad.y > 0)
+////			{	
+////				CambiarEstado(Estado::JUMP_DOWN);			
+////			}
+////
+////			if(joystick.left)
+////			{
+////				if(!ColisionaPared())
+////				{
+////					direccion = Direccion::LEFT;
+////					CambiarEstado(JUMP_AND_RUN_DOWN);
+////				}
+////				else
+////				{
+////					AjustaColisionX();
+////				}
+////			}
+////			else if(joystick.right)
+////			{
+////				if(!ColisionaPared())
+////				{
+////					direccion = Direccion::RIGHT;
+////					CambiarEstado(JUMP_AND_RUN_DOWN);
+////				}
+////				else
+////				{
+////					AjustaColisionX();
+////				}
+////			}
+////
+////			//if(!IsJumpStart && joystick.b && ColisionaPared())
+////			if(joystick.b && ColisionaPared() && !ColisionaTecho())
+////			{	
+////				CambiarEstado(Estado::CLIM);								
+////			}
+////			break;
+////		case JUMP_DOWN:		
+////			if(ColisionaSuelo())
+////			{	
+////				CambiarEstado(Estado::NORMAL);	
+////				AjustaColisionY();
+////				velocidad.y = 0;
+////			}
+////			//if(!IsJumpStart && joystick.b &&  ColisionaPared())
+////			/*if( joystick.b &&  ColisionaPared())
+////			{	
+////				CambiarEstado(Estado::CLIM);					
+////			}	*/		
+////			break;
+////		case JUMP_AND_RUN_UP:
+////			if(ColisionaTecho())
+////			{
+////				CambiarEstado(Estado::JUMP_AND_RUN_DOWN);
+////				AjustaColisionY();
+////				velocidad.y=0;				
+////			}
+////			if(ColisionaPared())
+////			{
+////				CambiarEstado(Estado::JUMP_DOWN);
+////				/*if(direccion == Direccion::RIGHT)
+////				{
+////					AjustaColisionX();
+////				}
+////				else
+////				{*/
+////					AjustaColisionX();
+////				//}
+////
+////				/*if(joystick.b && !ColisionaTecho())
+////				{	
+////					CambiarEstado(Estado::CLIM);				
+////				}*/
+////			}
+////			
+////			if(velocidad.y > 0)
+////			{
+////				CambiarEstado(Estado::JUMP_AND_RUN_DOWN);				
+////			}
+////			
+////			break;
+////		case JUMP_AND_RUN_DOWN:
+////			if(ColisionaTecho())
+////			{
+////				CambiarEstado(Estado::JUMP_AND_RUN_DOWN);
+////				AjustaColisionY();
+////				velocidad.y=0;				
+////			}
+////			if(ColisionaSuelo())
+////			{	
+////				CambiarEstado(Estado::NORMAL);	
+////				AjustaColisionY();
+////				velocidad.y = 0;
+////			}
+////			if(ColisionaPared())
+////			{
+////				CambiarEstado(Estado::JUMP_DOWN);
+////				/*if(direccion == Direccion::RIGHT)
+////				{
+////					AjustaColisionX();
+////				}
+////				else
+////				{*/
+////					AjustaColisionX();
+////				//}					
+////				/*if(joystick.b)
+////				{		
+////					CambiarEstado(Estado::CLIM);	
+////				}*/
+////			}
+////			
+////			break;
+////		case CLIM:
+////			/*if(ColisionaSuelo())
+////			{	
+////				CambiarEstado(Estado::NORMAL);	
+////				AjustaColisionY();
+////				velocidad.y = 0;
+////			}*/		
+////
+////			/*if(!ColisionaPared())
+////			{	
+////				if(!joystick.b && joystick.up)
+////				{
+////					CambiarEstado(JUMP_UP);
+////					Saltar();
+////				}				
+////			}
+////			else*/ 
+////			if(ColisionaTecho())
+////			{
+////				AjustaColisionY();	
+////				CambiarEstado(SLIDE);
+////				Slide();				
+////			}			
+////			else if(!joystick.b)
+////			{
+////				CambiarEstado(JUMP_DOWN);
+////				velocidad.y = 0;
+////			}
+////			
+////			if(joystick.b)
+////			{	
+////				if(joystick.left)
+////				{
+////					direccion = Direccion::LEFT;					
+////					CambiarEstado(Estado::JUMP_AND_RUN_DOWN);					
+////				}			
+////				else if(joystick.right)
+////				{	
+////					direccion = Direccion::RIGHT;					
+////					CambiarEstado(Estado::JUMP_AND_RUN_DOWN);
+////				}
+////			}
+////			
+////			/*if(!IsJumpStart && joystick.b && joystick.right)
+////			{	
+////				direccion = Direccion::RIGHT;
+////				if(!ColisionaPared())
+////				{
+////					CambiarEstado(Estado::JUMP_AND_RUN_DOWN);
+////				}				
+////			}*/			
+////			
+////			if(joystick.up)
+////			{	
+////				if(!ColisionaTecho())
+////				{
+////					CambiarEstado(CLIM_UP);				 
+////				}
+////				else
+////				{
+////					AjustaColisionY();
+////					CambiarEstado(SLIDE);
+////					Slide();
+////				}
+////			}
+////			/*else if(joystick.down)
+////			{
+////				if(!ColisionaSuelo())
+////				{
+////				  CambiarEstado(CLIM_DOWN);				 
+////				}
+////				else
+////				{
+////					AjustaColisionY();
+////				}
+////			}*/
+////			
+////			break;
+////		case CLIM_UP:	
+////			if(ColisionaTecho()	|| !joystick.b || !ColisionaPared() )
+////			{	
+////				CambiarEstado(SLIDE);
+////				Slide();
+////				//AjustaColisionY();
+////			}
+////			else if(!joystick.up)
+////			{
+////				CambiarEstado(Estado::CLIM);				
+////			}
+////			/*else if(!joystick.b)
+////			{
+////				CambiarEstado(SLIDE);
+////				Slide();
+////			}*/
+////			break;
+////		case CLIM_DOWN:			
+////			if(!ColisionaPared())
+////			{
+////				CambiarEstado(JUMP_DOWN);
+////			}
+////			 if(ColisionaSuelo())
+////			{	
+////				CambiarEstado(Estado::NORMAL);	
+////				AjustaColisionY();
+////				velocidad.y = 0;
+////			}
+////			 if(!joystick.b)
+////			{
+////				CambiarEstado(SLIDE);
+////				Slide();
+////			}
+////			if(!joystick.down)
+////			{
+////				 CambiarEstado(Estado::CLIM);				 
+////			}
+////			break;	
+////		case SLIDE:
+////			if(!ColisionaPared())
+////			{
+////				CambiarEstado(JUMP_DOWN);
+////			}
+////			else if(ColisionaSuelo())
+////			{	
+////				CambiarEstado(Estado::NORMAL);	
+////				AjustaColisionY();
+////				velocidad.y = 0;
+////			}
+////			else if(!joystick.b)
+////			{	
+////				CambiarEstado(Estado::CLIM);
+////			}			
+////			break;
+////	}
+////
+////	if(IsJumpStart && !joystick.b)
+////	{
+////		IsJumpStart = false;		
+////	}
+////
+////	if(IsTirarStart && !joystick.b)
+////	{
+////		IsTirarStart = false;
+////	}
+////
+////	if(joystick.b && (currentState == Estado::JUMP_UP || currentState == Estado::JUMP_DOWN || 
+////					  currentState == Estado::JUMP_AND_RUN_UP  || currentState == Estado::JUMP_AND_RUN_DOWN))
+////	{
+////		IsJumpStart = true;
+////	}
+////
+////	if(joystick.b && currentState == Estado::NORMAL)
+////	{
+////		IsTirarStart = true;
+////	}
+////
+////	if(currentState == Estado::CLIM_UP)
+////	{
+////		Move(0,-CLIM_VEL * dt);
+////	}
+////
+////	if(currentState == Estado::CLIM_DOWN)
+////	{
+////		Move(0,CLIM_VEL * dt);
+////	}
+////		
+////	if(currentState ==  Estado::RUN || currentState ==  Estado::RUN_AND_ARM1 )
+////	{	
+////		Move( GetDireccionX() * velocidad.x * dt, 0);				
+////	}
+////
+////	/*if((currentState ==  Estado::NORMAL || currentState ==  Estado::NORMAL_AND_ARM1) && DelayToBreak())
+////	{	
+////		Move(GetDireccionX() *velocidad.x * dt, 0);				
+////	}*/
+////
+////	if(currentState == Estado::JUMP_UP || currentState == Estado::JUMP_DOWN)
+////	{	
+////		velocidad.y += gravity*dt;
+////		Move(0,velocidad.y * dt);						
+////	}
+////
+////	 if(currentState == Estado::SLIDE)
+////	 {
+////		velocidad.y += gravity*dt;
+////		Move(0,velocidad.y * dt);
+////		Move(0,SLIDE_VEL * dt);
+////	 }
+////
+////	if(currentState == Estado::JUMP_AND_RUN_UP  || currentState == Estado::JUMP_AND_RUN_DOWN)
+////	{
+////		velocidad.y += gravity*dt;
+////		float vy = velocidad.y * dt;
+////		float vx = GetDireccionX() *velocidad.x * dt;		
+////		Move(vx,vy);
+////	}
+////
+////	if(currentState == Estado::CRAW_AND_WALK)
+////	{	
+////		Move(GetDireccionX() * CRAW_VEL * dt, 0);		
+////	}
+////
+////	if(currentState == Estado::SNEAK_AND_RUN)
+////	{	
+////		Move(GetDireccionX() * SNEAK_VEL * dt, 0);			
+////	}
+////}
+
 
 void Personaje::Internal_Mover_y_Animar()
 {
 	float distAjuste = 0;
 	switch(currentState)
 	{
-		case TURN:
-			if(IsAnimationEnded())
-			{
-				CambiarEstado(Estado::NORMAL);				
-			}
-			break;		
-		case TURN_DUCK:
-			if(IsAnimationEnded())
-			{
-				CambiarEstado(Estado::DUCK);				
-			}
-			break;
-		case NORMAL:
+		case NORMAL:			
 			if(joystick.right)
-			{	
+			{
 				if(direccion != Direccion::RIGHT)
 				{
-					direccion = Direccion::RIGHT;
+					direccion =  Direccion::RIGHT;
 					CambiarEstado(Estado::TURN);
 				}
 				else
 				{
-					if(!ColisionaPared())
-					{
-						CambiarEstado(Estado::RUN);						
-					}
-					else
-					{
-						AjustaColisionX();						
-					}
+					CambiarEstado(Estado::RUN);
 				}
 			}
 			else if(joystick.left)
@@ -246,212 +972,93 @@ void Personaje::Internal_Mover_y_Animar()
 				}
 				else
 				{
-					if(!ColisionaPared())
-					{
-						CambiarEstado(Estado::RUN);								
-					}
-					else
-					{
-						AjustaColisionX();						
-					}
+					CambiarEstado(Estado::RUN);
 				}
-			}			
+			}
+			else if(joystick.down)
+			{
+				CambiarEstado(Estado::DUCK);
+			}
+			else if(joystick.a)
+			{
+				CambiarEstado(Estado::NORMAL_AND_ARM1);
+			}
 			
-			if(joystick.down)
-			{	
-				CambiarEstado(Estado::DUCK);				
-			}			
-			
+			break;
+		case TURN:	
+			if(IsAnimationEnded())
+			{
+				if(joystick.right && direccion == Direccion::RIGHT)
+				{
+					CambiarEstado(Estado::RUN);
+				}
+				else if(joystick.left && direccion == Direccion::LEFT)
+				{
+					CambiarEstado(Estado::RUN);
+				}
+				else
+				{
+					CambiarEstado(Estado::NORMAL);
+				}
+			}
+			break;	
+		case RUN:	
 			if(joystick.a)
-			{	
-				CambiarEstado(Estado::NORMAL_AND_ARM1);				
-			}
-			
-			/*if(!IsTirarStart && joystick.b)
-			{	
-				CambiarEstado(Estado::THROW);				
-			}*/
-			
-			
-			VerifyFall();
-			
-
-			if(joystick.up)
 			{
-				CambiarEstado(Estado::JUMP_UP);
-				Saltar();				
-			}
-			
-			/*
-			 if(joystick.b && joystick.up)
+				CambiarEstado(Estado::RUN_AND_ARM1);
+			}			
+			else if(!joystick.right && direccion == Direccion::RIGHT)
 			{
-				CambiarEstado(Estado::CLIM_UP);				
-			}*/
-			break;
-		case NORMAL_AND_ARM1:
-			if(joystick.right)
-			{	
-				if(direccion != Direccion::RIGHT)
-				{
-					direccion = Direccion::RIGHT;
-					CambiarEstado(Estado::TURN);
-				}
-				else
-				{
-					if(!ColisionaPared())
-					{
-						CambiarEstado(Estado::RUN_AND_ARM1);						
-					}
-					else
-					{	
-						AjustaColisionX();						
-					}
-				}
+				CambiarEstado(Estado::NORMAL);
 			}
-			else if(joystick.left)
-			{	
-				if(direccion != Direccion::LEFT)
-				{
-					direccion = Direccion::LEFT;
-					CambiarEstado(Estado::TURN);
-				}
-				else
-				{	
-					if(!ColisionaPared())
-					{
-						CambiarEstado(Estado::RUN_AND_ARM1);								
-					}
-					else
-					{	
-						AjustaColisionX();						
-					}
-				}
+			else if(!joystick.left && direccion == Direccion::LEFT)
+			{
+				CambiarEstado(Estado::NORMAL);
 			}
-			
-			VerifyFall();
-
+			break;				
+		case NORMAL_AND_ARM1:			
 			if(!joystick.a)
 			{
 				CambiarEstado(Estado::NORMAL);
 				break;
 			}
-			if(joystick.down)
+			if(joystick.right || joystick.left || joystick.down)
 			{
-				CambiarEstado(Estado::DUCK_AND_ARM1);				
-			}
-			
-			DisparoArma1();
-			break;
-		case THROW:			
-			if(IsAnimationEnded())
-			{
-				ArrojarPiedra();
 				CambiarEstado(Estado::NORMAL);
 			}
 			break;		
-		case CRAW:
-			if(!joystick.down)
-			{
-				CambiarEstado(Estado::NORMAL);
-			}
-
-			if(joystick.left && direccion == Direccion::LEFT || joystick.right && direccion == Direccion::RIGHT)
-			{	
-				if(!ColisionaPared())
-				{
-					CambiarEstado(Estado::CRAW_AND_WALK);							
-				}
-				else
-				{
-					if(direccion == Direccion::RIGHT)
-					{
-						Move(ajustaColision_x,0);
-					}
-					else
-					{	
-						AjustaColisionX();
-					}
-				}
-			}
-			else if(joystick.left && direccion != Direccion::LEFT || joystick.right && direccion != Direccion::LEFT)
-			{
-				CambiarEstado(Estado::TURN_DUCK);				
-			}
-			break;
-		case CRAW_AND_WALK:		
-			if(ColisionaPared())
-			{	
-				CambiarEstado(Estado::DUCK);
-				if(direccion == Direccion::RIGHT)
-				{
-					Move(ajustaColision_x,0);
-				}
-				else
-				{						
-					AjustaColisionX();
-				}
-			}
-			if(!joystick.down) 
-			{
-				CambiarEstado(Estado::NORMAL);
-			}
-
-			if(!joystick.left && direccion == Direccion::LEFT || !joystick.right && direccion == Direccion::RIGHT)
-			{
-				CambiarEstado(Estado::DUCK);
-			}
-			VerifyFallAndRun();
-			break;
-		case DUCK_AND_ARM1:
-			if(joystick.right)
-			{	
-				if(direccion != Direccion::RIGHT)
-				{
-					direccion = Direccion::RIGHT;
-					CambiarEstado(Estado::TURN_DUCK);
-				}				
-			}
-			else if(joystick.left)
-			{	
-				if(direccion != Direccion::LEFT)
-				{
-					direccion = Direccion::LEFT;
-					CambiarEstado(Estado::TURN_DUCK);
-				}				
-			}
-			
-			VerifyFall();
-
+		case RUN_AND_ARM1:
 			if(!joystick.a)
 			{
-				CambiarEstado(Estado::DUCK);				
+				CambiarEstado(Estado::RUN);
+				break;
+			}			
+			if(!joystick.right && direccion == Direccion::RIGHT)
+			{
+				CambiarEstado(Estado::NORMAL);
 			}
+			else if(!joystick.left && direccion == Direccion::LEFT)
+			{
+				CambiarEstado(Estado::NORMAL);
+			}
+			break;
+		case DUCK:		
 			if(!joystick.down)
 			{
-				CambiarEstado(Estado::NORMAL_AND_ARM1);			
+				CambiarEstado(Estado::NORMAL);
+				break;
 			}
-			
-			DisparoArma1();
-			break;	
-		case DUCK:
 			if(joystick.right)
-			{	
+			{
 				if(direccion != Direccion::RIGHT)
 				{
-					direccion = Direccion::RIGHT;
+					direccion =  Direccion::RIGHT;
 					CambiarEstado(Estado::TURN_DUCK);
 				}
 				else
 				{
-					if(!ColisionaPared())
-					{
-						CambiarEstado(Estado::CRAW_AND_WALK);						
-					}
-					else
-					{
-						AjustaColisionX();
-					}
-				}				
+					CambiarEstado(Estado::CRAW_AND_WALK);
+				}
 			}
 			else if(joystick.left)
 			{
@@ -462,440 +1069,74 @@ void Personaje::Internal_Mover_y_Animar()
 				}
 				else
 				{
-					if(!ColisionaPared())
-					{
-						CambiarEstado(Estado::CRAW_AND_WALK);						
-					}
-					else
-					{	
-						AjustaColisionX();
-					}								
-				}				
-			}
-			else if(!joystick.down)
-			{
-				CambiarEstado(Estado::NORMAL);				
+					CambiarEstado(Estado::CRAW_AND_WALK);
+				}
 			}
 			else if(joystick.a)
 			{
-				CambiarEstado(Estado::DUCK_AND_ARM1);				
+				CambiarEstado(Estado::DUCK_AND_ARM1);
+			}
+			break;
+		case DUCK_AND_ARM1:		
+			if(!joystick.a || !joystick.down)
+			{
+				CambiarEstado(Estado::DUCK);
+				break;
+			}			
+			if(joystick.right ||  joystick.left)
+			{
+				CambiarEstado(Estado::DUCK);
+			}			
+			break;
+		case TURN_DUCK:			
+			if(IsAnimationEnded())
+			{
+				if(joystick.right && direccion == Direccion::RIGHT)
+				{
+					CambiarEstado(Estado::CRAW_AND_WALK);
+				}
+				else if(joystick.left && direccion == Direccion::LEFT)
+				{
+					CambiarEstado(Estado::CRAW_AND_WALK);
+				}
+				else
+				{
+					CambiarEstado(Estado::DUCK);
+				}
 			}
 			break;	
-		case RUN:			
-			if(ColisionaPared())
-			{	
-				CambiarEstado(Estado::NORMAL);	
-				if(direccion == Direccion::RIGHT)
-				{
-					Move(ajustaColision_x,0);
-				}
-				else
-				{	
-					AjustaColisionX();
-				}
-			}
-			else if(!joystick.right && direccion == Direccion::RIGHT || !joystick.left && direccion == Direccion::LEFT)
-			{	
-				CambiarEstado(Estado::NORMAL);					
-			}
-			else if(VerifyFallAndRun())
+		case CRAW_AND_WALK:		
+			if(!joystick.right && direccion == Direccion::RIGHT)
 			{
+				CambiarEstado(Estado::DUCK);
 			}
-			else
+			else if(!joystick.left && direccion == Direccion::LEFT)
 			{
-				if(joystick.a)
-				{
-					CambiarEstado(Estado::RUN_AND_ARM1);				
-				}
-			}			
-
-			if(joystick.up)
-			{
-				CambiarEstado(Estado::JUMP_AND_RUN_UP);
-				Saltar();				
+				CambiarEstado(Estado::DUCK);
 			}
-			else if(joystick.down)
-			{
-				CambiarEstado(Estado::SNEAK);
-			}
-			
+			break;						
+		case JUMP_UP:			
 			break;
-		 case SNEAK:
-
-			VerifyFall();
-
-			if(!joystick.down)
-			{
-				CambiarEstado(Estado::NORMAL);
-			}
-			else if(joystick.right)
-			{	
-				CambiarEstado(Estado::SNEAK_AND_RUN);
-				direccion = Direccion::RIGHT;
-			}
-			else if(joystick.left)
-			{
-				CambiarEstado(Estado::SNEAK_AND_RUN);
-				direccion = Direccion::LEFT;			
-			}
+		case JUMP_DOWN:					
 			break;
-		case SNEAK_AND_RUN:
-			if(!joystick.right && direccion == Direccion::RIGHT || !joystick.left && direccion == Direccion::LEFT)
-			{	
-				CambiarEstado(Estado::SNEAK);					
-			}
-
-			if(ColisionaPared())
-			{		
-				CambiarEstado(Estado::NORMAL);
-				if(direccion == Direccion::RIGHT)
-				{
-					AjustaColisionX();
-				}
-				else
-				{
-					AjustaColisionX();
-				}
-			}
-			
-			VerifyFall();
-			
-			if(!joystick.down)
-			{
-				CambiarEstado(Estado::RUN);
-			}
-			
-			if(joystick.right)
-			{	
-				direccion = Direccion::RIGHT;
-			}
-			
-			if(joystick.left)
-			{
-				direccion = Direccion::LEFT;			
-			}
-			
+		case JUMP_AND_RUN_UP:			
 			break;
-		case RUN_AND_ARM1:
-			if(!joystick.right && direccion == Direccion::RIGHT || !joystick.left && direccion == Direccion::LEFT)
-			{
-				CambiarEstado(Estado::NORMAL);				
-			}
-			if(ColisionaPared())
-			{
-				CambiarEstado(Estado::NORMAL);
-				if(direccion == Direccion::RIGHT)
-				{
-					AjustaColisionX();
-				}
-				else
-				{
-					AjustaColisionX();
-				}
-			}
-
-			VerifyFallAndRun();
-			
-			if(!joystick.a)
-			{
-				DelayToBreak(true);
-				CambiarEstado(Estado::RUN,true);
-			}			
-			
-			if(joystick.up)
-			{
-				CambiarEstado(Estado::JUMP_AND_RUN_UP);
-				Saltar();			
-			}
-			DisparoArma1();
+		case JUMP_AND_RUN_DOWN:			
+			break;
+		case CLIM:			
+			break;
+		case CLIM_UP:				
+			break;
+		case CLIM_DOWN:						
 			break;	
-		case JUMP_UP:
-			if(ColisionaTecho())
-			{
-				CambiarEstado(Estado::JUMP_DOWN);				
-				AjustaColisionY();
-				velocidad.y=0;				
-			}
-			if(velocidad.y > 0)
-			{	
-				CambiarEstado(Estado::JUMP_DOWN);			
-			}
-
-			if(joystick.left)
-			{
-				if(!ColisionaPared())
-				{
-					direccion = Direccion::LEFT;
-					CambiarEstado(JUMP_AND_RUN_DOWN);
-				}
-				else
-				{
-					AjustaColisionX();
-				}
-			}
-			if(joystick.right)
-			{
-				if(!ColisionaPared())
-				{
-					direccion = Direccion::RIGHT;
-					CambiarEstado(JUMP_AND_RUN_DOWN);
-				}
-				else
-				{
-					AjustaColisionX();
-				}
-			}
-
-			//if(!IsJumpStart && joystick.b && ColisionaPared())
-			if( joystick.b && ColisionaPared())
-			{	
-				CambiarEstado(Estado::CLIM);								
-			}
+		case SLIDE:			
 			break;
-		case JUMP_DOWN:		
-			if(ColisionaSuelo())
-			{	
-				CambiarEstado(Estado::NORMAL);	
-				AjustaColisionY();
-				velocidad.y = 0;
-			}
-			//if(!IsJumpStart && joystick.b &&  ColisionaPared())
-			if( joystick.b &&  ColisionaPared())
-			{	
-				CambiarEstado(Estado::CLIM);					
-			}			
-			break;
-		case JUMP_AND_RUN_UP:
-			if(ColisionaTecho())
-			{
-				CambiarEstado(Estado::JUMP_AND_RUN_DOWN);
-				AjustaColisionY();
-				velocidad.y=0;				
-			}
-			if(ColisionaPared())
-			{
-				CambiarEstado(Estado::JUMP_DOWN);
-				if(direccion == Direccion::RIGHT)
-				{
-					AjustaColisionX();
-				}
-				else
-				{
-					AjustaColisionX();
-				}
-
-				if(joystick.b)
-				{	
-					CambiarEstado(Estado::CLIM);				
-				}
-			}
-			
-			if(velocidad.y > 0)
-			{
-				CambiarEstado(Estado::JUMP_AND_RUN_DOWN);				
-			}
-			
-			break;
-		case JUMP_AND_RUN_DOWN:
-			if(ColisionaTecho())
-			{
-				CambiarEstado(Estado::JUMP_AND_RUN_DOWN);
-				AjustaColisionY();
-				velocidad.y=0;				
-			}
-			if(ColisionaSuelo())
-			{	
-				CambiarEstado(Estado::NORMAL);	
-				AjustaColisionY();
-				velocidad.y = 0;
-			}
-			if(ColisionaPared())
-			{
-				CambiarEstado(Estado::JUMP_DOWN);
-				if(direccion == Direccion::RIGHT)
-				{
-					AjustaColisionX();
-				}
-				else
-				{
-					AjustaColisionX();
-				}					
-				if(joystick.b)
-				{		
-					CambiarEstado(Estado::CLIM);	
-				}
-			}
-			
-			break;
-		case CLIM:
-			/*if(ColisionaSuelo())
-			{	
-				CambiarEstado(Estado::NORMAL);	
-				AjustaColisionY();
-				velocidad.y = 0;
-			}*/		
-			if(ColisionaTecho())
-			{
-				AjustaColisionY();	
-				CambiarEstado(SLIDE);
-				Slide();				
-			}
-			else if(!ColisionaPared())
-			{	
-				if(!joystick.b && joystick.up)
-				{
-					CambiarEstado(JUMP_UP);
-					Saltar();
-				}				
-			}
-			else if(!joystick.b)
-			{
-				CambiarEstado(JUMP_DOWN);
-				velocidad.y = 0;
-			}
-			else if(joystick.b && joystick.left)
-			{	
-				direccion = Direccion::LEFT;
-				if(!ColisionaPared())
-				{
-					CambiarEstado(Estado::JUMP_AND_RUN_DOWN);
-				}								
-			}
-			else if(!IsJumpStart && joystick.b && joystick.right)
-			{	
-				direccion = Direccion::RIGHT;
-				if(!ColisionaPared())
-				{
-					CambiarEstado(Estado::JUMP_AND_RUN_DOWN);
-				}
-								
-			}			
-			else if(joystick.up)
-			{	
-				if(!ColisionaTecho())
-				{
-					CambiarEstado(CLIM_UP);				 
-				}
-				else
-				{
-					AjustaColisionY();
-				}
-			}
-			/*else if(joystick.down)
-			{
-				if(!ColisionaSuelo())
-				{
-				  CambiarEstado(CLIM_DOWN);				 
-				}
-				else
-				{
-					AjustaColisionY();
-				}
-			}*/
-			
-			break;
-		case CLIM_UP:	
-			if(ColisionaTecho())
-			{	
-				CambiarEstado(CLIM);
-				AjustaColisionY();
-			}
-			else if(!ColisionaPared() || !joystick.up)
-			{
-				CambiarEstado(Estado::CLIM);				
-			}
-			else if(!joystick.b)
-			{
-				CambiarEstado(SLIDE);
-				Slide();
-			}
-			break;
-		case CLIM_DOWN:			
-			if(!ColisionaPared())
-			{
-				CambiarEstado(JUMP_DOWN);
-			}
-			 if(ColisionaSuelo())
-			{	
-				CambiarEstado(Estado::NORMAL);	
-				AjustaColisionY();
-				velocidad.y = 0;
-			}
-			 if(!joystick.b)
-			{
-				CambiarEstado(SLIDE);
-				Slide();
-			}
-			if(!joystick.down)
-			{
-				 CambiarEstado(Estado::CLIM);				 
-			}
-			break;	
-		case SLIDE:
-			if(!ColisionaPared())
-			{
-				CambiarEstado(JUMP_DOWN);
-			}
-			else if(ColisionaSuelo())
-			{	
-				CambiarEstado(Estado::NORMAL);	
-				AjustaColisionY();
-				velocidad.y = 0;
-			}
-			else if(!joystick.b)
-			{	
-				CambiarEstado(Estado::CLIM);
-			}			
-			break;
-	}
-
-	if(IsJumpStart && !joystick.b)
-	{
-		IsJumpStart = false;		
-	}
-
-	if(IsTirarStart && !joystick.b)
-	{
-		IsTirarStart = false;
-	}
-
-	if(joystick.b && (currentState == Estado::JUMP_UP || currentState == Estado::JUMP_DOWN || 
-					  currentState == Estado::JUMP_AND_RUN_UP  || currentState == Estado::JUMP_AND_RUN_DOWN))
-	{
-		IsJumpStart = true;
-	}
-
-	if(joystick.b && currentState == Estado::NORMAL)
-	{
-		IsTirarStart = true;
-	}
-
-	if(currentState == Estado::CLIM_UP)
-	{
-		Move(0,-CLIM_VEL * dt);
-	}
-
-	if(currentState == Estado::CLIM_DOWN)
-	{
-		Move(0,CLIM_VEL * dt);
 	}
 		
-	if(currentState ==  Estado::RUN || currentState ==  Estado::RUN_AND_ARM1 )
-	{	
-		Move( GetDireccionX() * velocidad.x * dt, 0);				
-	}
-
-	if((currentState ==  Estado::NORMAL || currentState ==  Estado::NORMAL_AND_ARM1) && DelayToBreak())
-	{	
-		Move(GetDireccionX() *velocidad.x * dt, 0);				
-	}
-
-	if(currentState == Estado::JUMP_UP || currentState == Estado::JUMP_DOWN)
-	{	
-		velocidad.y += gravity*dt;
-		Move(0,velocidad.y * dt);						
-	}
-
+	float vy = 0.0f;
+	float vx = 0.0f;
+	/*
+	
 	 if(currentState == Estado::SLIDE)
 	 {
 		velocidad.y += gravity*dt;
@@ -910,15 +1151,60 @@ void Personaje::Internal_Mover_y_Animar()
 		float vx = GetDireccionX() *velocidad.x * dt;		
 		Move(vx,vy);
 	}
+	*/
 
-	if(currentState == Estado::CRAW_AND_WALK)
-	{	
-		Move(GetDireccionX() * CRAW_VEL * dt, 0);		
+	if(!ColisionaPared())
+	{
+		if(currentState == Estado::RUN || currentState == Estado::RUN_AND_ARM1)
+		{
+			vx = GetDireccionX() * dt;
+			vx *= velocidad.x;
+		}
+		else if(currentState == Estado::CRAW_AND_WALK)
+		{	
+			vx = GetDireccionX() * dt;
+			vx *= CRAW_VEL;				
+		}	
 	}
 
-	if(currentState == Estado::SNEAK_AND_RUN)
-	{	
-		Move(GetDireccionX() * SNEAK_VEL * dt, 0);			
+	if(currentState == Estado::RUN_AND_ARM1 || currentState == Estado::NORMAL_AND_ARM1 || currentState == Estado::DUCK_AND_ARM1)
+	{
+		DisparoArma1();
+	}
+
+	if(!ColisionaSuelo())
+	{
+		if(currentState != Estado::JUMP_DOWN || currentState != Estado::JUMP_AND_RUN_DOWN)
+		{
+			if(currentState == Estado::RUN || currentState == Estado::RUN_AND_ARM1)
+			{
+				CambiarEstado(Estado::JUMP_AND_RUN_DOWN);
+			}
+			else
+			{
+				CambiarEstado(Estado::JUMP_DOWN);
+			}
+		}	
+
+		velocidad.y += gravity * dt;
+		if(velocidad.y > MAX_VEL_Y)
+		{
+			velocidad.y = MAX_VEL_Y;
+		}
+		vy = velocidad.y * dt;
+	}
+	else
+	{			
+		velocidad.y = 0;
+		if(currentState == Estado::JUMP_AND_RUN_DOWN || currentState == Estado::JUMP_DOWN)
+		{
+			CambiarEstado(Estado::NORMAL);
+		}
+	}
+
+	if(vx != 0 || vy != 0)
+	{
+		Move(vx,vy);
 	}
 }
 
@@ -926,7 +1212,7 @@ void Personaje::DisparoArma1()
 {
 	if(SecuenciaDisparoFinalizada())
 	{
-		Disparar(SHOOT_TIME,VEL_MISILES);
+		Disparar(SHOOT_TIME,(int)VEL_MISILES);
 	}
 }
 

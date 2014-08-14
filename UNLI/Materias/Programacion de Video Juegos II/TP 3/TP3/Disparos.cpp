@@ -16,6 +16,12 @@ void ManejadorDisparos::Init()
 	disparos.clear();	
 };
 
+
+ ManejadorDisparos::ManejadorDisparos(SceneBase* p_scene)
+{
+	scene = p_scene;
+};
+
 ManejadorDisparos::~ManejadorDisparos()
 {
 	Disparo *disparoTemp;
@@ -64,7 +70,7 @@ void ManejadorDisparos::MoverDisparos(float dt, sf::View &v){
 				p=disparos.erase(p);
 				delete disparoTemp;
 			}
-			else if(haycolision_entities(misilx,misily,color))
+			else if(scene->HayColision(misilx,misily,color))
 			{
 				ParticleSystemManager::GetManager().CreateEmiterOneExplosion(misilx,misily,color);
 				// al borrar, el iterador p se invalida, por lo que
@@ -87,11 +93,6 @@ void ManejadorDisparos::MoverDisparos(float dt, sf::View &v){
 			delete disparoTemp;
 		}		
 	}
-}
-
-void  ManejadorDisparos::SetEnemigoManagerDelegate(bool(*haycolision)(float x, float y,sf::Color &color))
-{
-	haycolision_entities = haycolision; 
 }
 
 // agrega un nuevo disparo a la lista con la posicion y velocidad dadas

@@ -50,14 +50,15 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\libs\SFML-1.6\include;C:\libs\glew</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\libs\SFML-1.6\include;C:\Libs\glew\include\GL</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\libs\SFML-1.6\lib\vc2010;C:\libs\glew</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-audio-s-d.lib;sfml-graphics-s-d.lib;sfml-main-d.lib;sfml-network-s-d.lib;sfml-system-s-d.lib;sfml-window-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\libs\SFML-1.6\lib;C:\Libs\glew\lib\Release\Win32</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-audio-s-d.lib;sfml-graphics-s-d.lib;sfml-main-d.lib;sfml-network-s-d.lib;sfml-system-s-d.lib;sfml-window-s-d.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -66,20 +67,21 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\libs\SFML-1.6\include;C:\libs\glew</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>C:\libs\SFML-1.6\include;C:\Libs\glew\include\GL</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\libs\SFML-1.6\lib\vc2010;C:\libs\glew</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\libs\SFML-1.6\lib;C:\Libs\glew\lib\Release\Win32</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-audio-s-d.lib;sfml-graphics-s-d.lib;sfml-main-d.lib;sfml-network-s-d.lib;sfml-system-s-d.lib;sfml-window-s-d.lib</AdditionalDependencies>
-      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -87,17 +89,26 @@
     <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="AnimatedBase.cpp" />
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="AyudaScene.cpp" />
     <ClCompile Include="Cronometro.cpp" />
     <ClCompile Include="Disparos.cpp" />
     <ClCompile Include="Emitter.cpp" />
     <ClCompile Include="Enemigo.cpp" />
     <ClCompile Include="EntityManager.cpp" />
+    <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="IntroScene.cpp" />
+    <ClCompile Include="JuegoGanadoScene.cpp" />
+    <ClCompile Include="JuegoPerdidoScene.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainScene.cpp" />
+    <ClCompile Include="MenuScene.cpp" />
+    <ClCompile Include="MisionScene.cpp" />
     <ClCompile Include="Nivel.cpp" />
     <ClCompile Include="ParallaxLayer.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="ParticleSystemManager.cpp" />
     <ClCompile Include="Personaje.cpp" />
+    <ClCompile Include="SceneBase.cpp" />
     <ClCompile Include="SpriteBase.cpp" />
     <ClCompile Include="SpriteSheetManager.cpp" />
     <ClCompile Include="TextureManager.cpp" />
@@ -109,17 +120,26 @@
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="AnimatedBase.h" />
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="AyudaScene.h" />
     <ClInclude Include="Constantes.h" />
     <ClInclude Include="Cronometro.h" />
     <ClInclude Include="Disparos.h" />
     <ClInclude Include="Emitter.h" />
     <ClInclude Include="Enemigo.h" />
     <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="GameEngine.h" />
+    <ClInclude Include="IntroScene.h" />
+    <ClInclude Include="JuegoGanadoScene.h" />
+    <ClInclude Include="JuegoPerdidoScene.h" />
+    <ClInclude Include="MainScene.h" />
+    <ClInclude Include="MenuScene.h" />
+    <ClInclude Include="MisionScene.h" />
     <ClInclude Include="Nivel.h" />
     <ClInclude Include="ParallaxLayer.h" />
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="ParticleSystemManager.h" />
     <ClInclude Include="Personaje.h" />
+    <ClInclude Include="SceneBase.h" />
     <ClInclude Include="SpriteBase.h" />
     <ClInclude Include="SpriteSheetManager.h" />
     <ClInclude Include="TextureManager.h" />
