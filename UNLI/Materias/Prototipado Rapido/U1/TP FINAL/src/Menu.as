@@ -32,8 +32,8 @@ package
 		
 		public function CreateMenu():void
 		{
-			this.titleText = new Text("TP FINAL");
-			this.pressText = new Text("Press SPACE BAR to start");
+			this.titleText = new Text("TRUE LIFE");
+			this.pressText = new Text("Haz clic para continuar");
 			
 			this.titleText.color = 0xFFFFFF;
 			this.titleText.scale = 2;
@@ -88,7 +88,7 @@ package
 				
 				case "TO": 
 				{
-					if (Input..pressed(Key.SPACE))
+					if (Input.mousePressed)
 					{
 						titleTweenOut.tween(titleText, "y", -100, 1, Ease.backIn);
 						pressTweenOut.tween(pressText, "alpha", 0, 1);

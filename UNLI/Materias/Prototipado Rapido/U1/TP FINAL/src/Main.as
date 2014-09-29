@@ -30,7 +30,10 @@ package
 			trace("The game has started!");			
 			FP.world = _Menu;			
 			FP.screen.color = 0x000000;	
+			
 			_Menu.active = false;
+			_level = 1;
+			
 		}
 		
 		override public function update():void
