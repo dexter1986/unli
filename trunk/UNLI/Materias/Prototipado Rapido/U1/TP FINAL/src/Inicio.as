@@ -20,7 +20,7 @@ package
 	public class Inicio extends World 
 	{
 		
-		[Embed(source="FondoIntro.png")]
+		[Embed(source="../assets/gfx/FondoIntro.png")]
 		private const IMG:Class;
 		public var image:Image;	
 		
@@ -70,14 +70,31 @@ package
 		override public function begin():void
 		{
 			_Level = 0;		
-			status = "NEXT";
+			status = "FIRST";
 			titleText.text = "";
+			this.clicText.alpha = 0;
+			this.titleText.alpha = 1;
+			this.image.alpha = 0;
 		}
 		
 		override public function update():void
 		{
 			switch (status)
 			{
+				case "FIRST":
+				{
+					fadeTween.tween(image, "alpha", 1, 1);
+					this.status = "FADEBACKGROUND";
+					break;
+				}
+				case "FADEBACKGROUND":
+				{
+					if (fadeTween.percent == 1)
+					{
+						this.status = "NEXT";
+					}
+					break
+				}
 				case "NEXT": 
 				{
 					this.status = "FADEOUT";					

@@ -14,142 +14,77 @@ package
 	
 	public class GameWorld extends World
 	{	
+		[Embed(source="../assets/gfx/FondoNormal.png")]
+		private const IMG:Class;
+		public var image:Image;	
+		
+		protected var status:String;
+		private var _player:Player;
+		private var moveTween:VarTween;
+		
 		public function GameWorld()
-		{		
+		{
+			InitGame();
 		}
-		
-		private function resetGame():void
-   	    {     
-		    FP.world = new GameWorld();           
-		}
-		
-		private function endLevel():void
-        {
-			/*
-               //Reset counter
-               endLevelCounter = 0;               
-               removeAll();               
-               if (currentLevel == 1)
-               {
-                    trace("LEVEL ONE ENDING");                    
-                    currentLevel++;                    
-                    //Load level 2
-                    getTheLevel();
-               }
-               else if (currentLevel == 2)
-               {
-                    trace("LEVEL TWO ENDING");                                                                                
-                    currentLevel++;                    
-                    //Load level 3
-                    getTheLevel();
-               }
-               else if (currentLevel == 3)
-               {
-                    trace("LEVEL THREE ENDING");                    
-                    //Game end
-                    endGame();
-               }
-			   */
-          }
-		  
-		  private function getTheLevel():void
-          {
-			  /*
-               FP.camera.y = CAMERA_START;               
-               
-               //Replace HUD pieces that were removed on level end
-               add(new HUD);
-               add(new HUDTwo);
-               add(new HUDTwoText(this));
-               
-               spawnType = 1;
-               warlord = null;
-               
-               handCursorRef = new HandCursor(this);
-               add(handCursorRef);
-               
-               var dataList:XMLList;
-               var dataElement:XML;
-               
-               var loadLevel:Level;
-               
-               trace("Loading level " + currentLevel);
-               
-               //Select which level to load
-               if (currentLevel == 1) { loadLevel = Level(add(new Level(LEVEL_01))); }
-               else if (currentLevel == 2) { loadLevel = Level(add(new Level(LEVEL_02))); }
-               else if (currentLevel == 3) { loadLevel = Level(add(new Level(LEVEL_03))); }
-              
-               
-               //Begin transition screen
-               if (currentLevel == 1) { add(new LevelTransition(1, this)); }
-               else if (currentLevel == 2) { add(new LevelTransition(2, this)); }
-               else if (currentLevel == 3) { add(new LevelTransition(3, this)); }
-          
-               levelTransitioning = true;
-			   */
-          }
-		  
-		  private function gameOver():void
-          {
-			  /*
-               if (gameIsFinished == false)
-               {
-                    trace("You lose!");
-                    //removeAll();
-                    GameIsFinished = true;
-                    DEFEAT.play(.75);
-                    BGM.stop();
-                    add(gameOverScreen);
-                    gameOverBeingDisplayed = true;
-               }
-			   */
-          }
-		  
-		  private function endGame():void
-          {
-			  /*
-               //Win game here
-               add(gameWinScreen);
-               add(gameWinText);
-               
-               //A conditional here would be ideal to determine if the player qualifies for inputting a high score:
-               add(initials);
-               add(initHeader);
-               
-               TURN_OFF_HUD_SELECTING = true;
-               
-               
-               // INITIALS CODE HERE JUST NEED A VARIABLE to pass to setVariable
-               
-               
-               // Sets the user intials in the database from the text input
-               Main.myDBComm.setVariable("userInitials", "AAA", Main.mainUserID);
-               
-               BGM.stop();
-               VICTORY.play(.75);
-               
-               gameOverBeingDisplayed = true;
-			   */
-        }
 		
 		public function InitGame():void 
 		{
+			image = new Image(IMG);			
+			this.addGraphic(image);
 			
+			_player = new Player(0,0);
+			add(_player);
+			
+			moveTween = new VarTween();
+			addTween(moveTween);
 		}
 		
-		public function NextLevel():void 
+		override public function begin():void
 		{
-			//_nextlevel = true;
-		}	
+			FP.screen.color = 0xFFFFFF;	
+			status = "NORMAL";
+			_player.Initialize();
+		}		
 		
 		override public function update():void
 		{
-			if (Input.pressed(Key.SPACE))
+			switch (status)
 			{
-				this.active = false;
+				case "NORMAL":
+				{
+					if (Input.mousePressed)
+					{
+						status = "MOVE_NEXT";
+						_player.MoveNextStep();
+						moveTween.tween(_player, "x", _player.GetNextPosX(), 1, Ease.backIn);
+					}
+					break;
+				}
+				case  "MOVE_NEXT":
+				{
+					if (moveTween.percent == 1)
+					{
+						if (_player.GetStep() == 2)
+						{
+							_player.Grow();
+						}
+						else if (_player.GetStep() == -1)
+						{
+							_player.NextCicle();
+						}
+						status = "NORMAL";
+					}
+				}
+				break;
+				case "QUIZ":
+				{
+				
+					break;
+				}
 			}
+			
 			super.update();
 		}
+		
 	}
 }
