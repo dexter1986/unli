@@ -41,12 +41,28 @@ package
 		private var _IsPareja:Boolean = false;
 		private var _IsHijo:Boolean = false;
 		private var _IsEspiritu:Boolean = false;
+		private var _IsTrabajo:Boolean = false;
+		private var _Dinero:int = 0;
+		private var _IsProfesional:Boolean = false;
+		private var _IsEstudio:Boolean = false;
+				
+		private var _contTrabajo:int = 0;
+		private var _contEstudio:int = 0;
+		private var _contAmor:int = 0;
+		private var _contFe:int = 0;
+		private var _contFamilia:int = 0;
+		private var _contHijo:int = 0;
+		private var _contAvaricia:int = 0;		
+		private var _ageEnd:int = 1000;
+		
+		private var _actividad:String;		
+		private var _sentimental:String;	
+		private var _multTrabajo:int;
 			
 		private var _tempx:Number=0;
 		
 		public function Player(px:Number = 0, py:Number = 0) 
-		{	
-		
+		{			
 			sprite = new Spritemap(IMG,96,96);
 			sprite.add("bebe",[0], 1, false);			
 			sprite.add("nino", [1], 1, false);
@@ -54,7 +70,7 @@ package
 			sprite.add("adulto", [3], 1, false);
 			sprite.add("pareja", [4], 1, false);
 			sprite.add("familia", [5], 1, false);
-			sprite.add("vejez", [6], 1, false);
+			sprite.add("anciano", [6], 1, false);
 			sprite.add("espiritu",[7,8], 5, true);
 			
 			sprite.scale = scale;
@@ -67,8 +83,7 @@ package
 			
 			super(px, py, grp_List);				
 			
-			type = "player";	
-			
+			type = "player";				
 		}
 		
 		public function Initialize():void 
@@ -79,10 +94,30 @@ package
 			_IsPareja = false;
 			_IsHijo = false;
 			_IsEspiritu = false;
+			_IsTrabajo = false;
+			_IsProfesional = false;
+			_IsEstudio = false;
+			_Dinero = 0;
 			_Ciclo = 0;
 			_Edad = 0;
-			//EvaluateAge();	
-			//EvaluteGrowRules();
+			_multTrabajo = 1;
+			_contTrabajo = 3;
+			_contEstudio = 0;
+			_contAmor = 0;
+			_contAvaricia = 0;
+			_contFamilia = 3;
+			_contFe = 3;
+			_contHijo = 1;			
+			_ageEnd = FP.rand(120);
+			
+			if (_ageEnd < 45)
+			{
+				_ageEnd = 45;
+			}
+			
+			EvaluateAge();	
+			EvaluteGrowRules();
+			EvaluateRules();
 		}
 		
 		public function MoveNextStep():void 
@@ -139,6 +174,7 @@ package
 		{
 			_Edad = _NextEdad;
 			EvaluteGrowRules();
+			EvaluateRules();
 		}		
 		
 		public function EvaluteGrowRules():void 
@@ -146,10 +182,11 @@ package
 			if (_Edad < 5)
 			{
 				_estado = "bebe";
+				
 			}
 			else if (_Edad < 15)
 			{
-				_estado = "nino";
+				_estado = "nino";				
 			}
 			else if(_Edad < 25)
 			{
@@ -172,7 +209,7 @@ package
 			}
 			else
 			{
-				_estado = "vejez";
+				_estado = "anciano";
 			}
 			
 			if (_IsEspiritu)
@@ -182,7 +219,14 @@ package
 			
 			sprite.play(_estado);			
 		}
+		//---
 		
+		public function IsEndSoon():Boolean
+		{
+			return _NextEdad >= _ageEnd;
+		}
+		
+		//---
 		public function GetNextPosX():Number
 		{
 			return _tempx;
@@ -191,6 +235,56 @@ package
 		public function GetEdad():int 
 		{
 			return _Edad;
+		}
+		
+		public function GetHijo():Boolean 
+		{
+			return _IsHijo;
+		}
+		
+		public function SetHijo(value:Boolean)
+		{
+			_IsHijo = value;
+		}
+		
+		public function GetPareja():Boolean 
+		{
+			return _IsPareja;
+		}
+		
+		public function SetPareja(value:Boolean)
+		{
+			_IsPareja = value;
+		}
+		
+		public function GetTrabajo():Boolean 
+		{
+			return _IsTrabajo;
+		}
+		
+		public function SetTrabajo(value:Boolean)
+		{
+			_IsTrabajo = value;
+		}
+		
+		public function GetProfesional():Boolean 
+		{
+			return _IsProfesional;
+		}
+		
+		public function GetEstudio():Boolean 
+		{
+			return _IsEstudio;
+		}
+		
+		public function GetDinero():int 
+		{
+			return _Dinero;
+		}
+		
+		public function GetNextEdad():int 
+		{
+			return _NextEdad;
 		}
 		
 		public function  GetStep():int
@@ -203,9 +297,179 @@ package
 			return _estado;
 		}
 		
+		public function GetSentimental():String 
+		{
+			return _sentimental;
+		}
+		
+		public function GetActividad():String 
+		{
+			return _actividad;
+		}
+		
 		override public function update():void
 		{
 			super.update();
+		}	
+		//---
+		//---********************************************
+		public function Divertirse():void 
+		{
+			if (_IsEstudio)
+			{
+				_contEstudio--;
+				_contAmor++;
+			}
+			else if (_IsTrabajo)
+			{
+				_contTrabajo--;
+				_contAmor++;
+			}
+		}		
+		public function GotoIglesia(value:Boolean):void 
+		{
+			if (value)
+			{
+				_contFe++;
+			}
+			else
+			{
+				_contFe--;
+			}
+		}		
+		public function JugarHijos(value:Boolean):void 
+		{
+			if (value)
+			{
+				_contHijo++;
+			}else 
+			{
+				_contHijo--;				
+			}
+		}		
+		public function ReunionFamilia(value:Boolean):void 
+		{
+			if (value)
+			{
+				_contFamilia++;
+			}
+			else
+			{
+				_contFamilia--;
+			}
+		}		
+		public function Donacion(value:Boolean):void 
+		{
+			if (value)
+			{
+				_contAvaricia--;
+				_Dinero -= 25;
+			}
+			else
+			{
+				_contAvaricia++;
+			}
+		}		
+		public function Infelidad():void 
+		{
+			_contFamilia -= 5;			
+		}	
+		//---********************************************
+		//---
+		public function EvaluateRules():void 
+		{
+			if (_Edad < 5)
+			{
+				_actividad = "JUGANDO Y CRECIENDO";
+			}
+			else if(_Edad < 10)
+			{
+				_actividad = "ESTUDIANDO";
+				_IsEstudio = true;
+			}
+			else if (_Edad < 25 && _IsEstudio)
+			{	
+				if (_contEstudio > 2)
+				{
+					_IsProfesional = true;
+					_multTrabajo  = 2;
+				}
+			}
+			else if(_Edad == 25 && _IsEstudio)
+			{
+				_IsTrabajo = true; 
+				_actividad = "TRABAJANDO";
+			}
+			else if (_Edad < 65 )
+			{				
+				if (!_IsTrabajo)
+				{
+					_actividad = "DESEMPLEADO";	
+				}
+			}
+			else
+			{
+				_IsTrabajo = false;
+				_actividad = "JUBILADO";				
+			}
+			//---
+			if (_IsEstudio)
+			{
+				_contEstudio++;
+			}
+			if (_IsTrabajo)
+			{
+				_Dinero += _multTrabajo * 50; 
+			}
+			//---
+			if (_Edad < 20)
+			{
+				_sentimental = "NINGUNO";
+			}
+			if (_Edad > 20 && _Edad < 60)
+			{	
+				if (_contAmor > 2)
+				{
+					if (!_IsPareja)
+					{
+						if (_Edad < 50)
+						{
+							_sentimental = "EN PAREJA";
+							_IsPareja =  true;
+						}
+					}
+					else
+					{
+						
+						_sentimental = "CASADO";
+						if (_Edad < 45)
+						{
+							if (_contAmor > 4)
+							{
+								_sentimental = "CASADO y CON HIJOS";
+								_IsHijo = true;
+							}
+							else
+							{
+								_contAmor++;
+							}
+						}
+					}
+				}				
+			}			
+			if (_IsPareja && _contFamilia < 1)
+			{
+				_sentimental = "DIVORCIADO";
+				_contAmor = 0;
+				_IsPareja = false;
+			}
+			
+			if (_IsHijo && _contHijo < 1)
+			{
+				_IsHijo = false;
+			}
+			//---
+						
 		}
 		
 	}

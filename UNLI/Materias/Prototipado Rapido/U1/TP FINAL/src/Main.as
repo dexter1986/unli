@@ -13,6 +13,7 @@ package
 	{
 		private var _Menu:Menu;
 		private var _Game:GameWorld;	
+		private var _End:GameEnd;	
 		private var _Inicio:Inicio;
 		
 		private var _level:int = 0;
@@ -23,6 +24,7 @@ package
 			_Menu = new Menu();
 			_Game = new GameWorld();
 			_Inicio = new Inicio();
+			_End = new GameEnd();
 		}
 		
 		override public function init():void
@@ -52,14 +54,19 @@ package
 						_level = 2;
 					break;			
 					case 2:
+						FP.world = _End;						
+						_level = 3;
+					break;	
+					case 3:
 						FP.world = _Menu;						
 						_level = 0;
-					break;			
+					break;
 					default:
 				}
+				_End.active = true;
 				_Game.active = true;
 				_Menu.active = true;
-				_Inicio.active = true;
+				_Inicio.active = true;				
 			}
 		}
 	}

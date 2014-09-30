@@ -12,9 +12,9 @@ package
 	import net.flashpunk.utils.Ease;
 	import net.flashpunk.graphics.Text;
 	
-	public class GameWorld extends World
+	public class GameEnd extends World
 	{	
-		[Embed(source="../assets/gfx/FondoNormal.png")]
+		[Embed(source="../assets/gfx/FondoFin.png")]
 		private const IMG:Class;
 		public var image:Image;	
 		
@@ -29,7 +29,7 @@ package
 		private var txtDinero:Text; 
 		private var _quiz:Quiz;
 		
-		public function GameWorld()
+		public function GameEnd()
 		{
 			InitGame();
 		}
@@ -131,7 +131,7 @@ package
 							PrintNextAge();
 							if (_player.IsEndSoon())
 							{
-								active = false;
+								
 							}							
 						}
 						status = "NORMAL";
