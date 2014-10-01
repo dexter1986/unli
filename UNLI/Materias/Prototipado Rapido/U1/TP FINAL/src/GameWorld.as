@@ -27,7 +27,11 @@ package
 		private var txtActividad:Text; 
 		private var txtSentimental:Text; 		
 		private var txtDinero:Text; 
-		private var _quiz:Quiz;
+		private var txtQuiz:Text; 
+		private var _quiz:Quiz;		
+		protected var pressText:Text;
+		private var pressTweenIn:VarTween;
+		private var pressTweenOut:VarTween;
 		
 		public function GameWorld()
 		{
@@ -51,7 +55,7 @@ package
 			txtAge.color = 0x000000;
 			addGraphic(txtAge);
 					
-			txtEtapa = new Text("-----------------------");
+			txtEtapa = new Text("----------------------------------------------------------------");
 			txtEtapa.x = 10;
 			txtEtapa.y = 45;
 			txtEtapa.scale = 1.5;			
@@ -65,7 +69,7 @@ package
 			txtActividad.color = 0x000000;
 			addGraphic(txtActividad);
 			
-			txtSentimental = new Text("-----------------------");
+			txtSentimental = new Text("------------------------------------------------------------");
 			txtSentimental.x = 10;
 			txtSentimental.y = 95;
 			txtSentimental.scale = 1.5;			
@@ -79,13 +83,33 @@ package
 			txtDinero.color = 0x000000;
 			addGraphic(txtDinero);
 			
+			txtQuiz = new Text("-----------------------------------\n-----------------------------------\n-----------------------------------\n-----------------------------------");
+			txtQuiz.x = FP.screen.width *0.3;
+			txtQuiz.y = 165;
+			txtQuiz.scale = 1.5;			
+			txtQuiz.color = 0x000000;
+			addGraphic(txtQuiz);
+			
+			this.pressText = new Text("Haz clic para continuar");
+			this.pressText.color = 0x000000;
+			this.pressText.scale = 1.5;			
+			this.pressText.x = FP.screen.width * 0.35;
+			this.pressText.y = FP.screen.height * 0.80;
+			
+			pressTweenIn = new VarTween();
+			pressTweenOut = new VarTween();
+			
+			this.addGraphic(pressText);	
+			this.addTween(pressTweenIn);
+			this.addTween(pressTweenOut);
+			
 			image = new Image(IMG);			
 			this.addGraphic(image);
 			
 			_player = new Player(0,0);
 			add(_player);
 			
-			_quiz = new Quiz(FP.screen.width * 0.5 - 30, FP.screen.height * 0.3);
+			_quiz = new Quiz(FP.screen.width * 0.45, FP.screen.height * 0.35);
 			add(_quiz);
 			
 			moveTween = new VarTween();
@@ -95,15 +119,38 @@ package
 		override public function begin():void
 		{
 			FP.screen.color = 0xFFFFFF;	
+			this.pressText.alpha = 1;
+			this.pressText.text = "Haz clic para continuar";
 			status = "NORMAL";
+			txtQuiz.text = "";
 			_player.Initialize();	
 			_quiz.Initialize();
+			_quiz.SetShow(false);
 			PrintNextAge();
 			PrintAge();
-		}		
+		}	
+		
+		private function SetShowQuiz(value:Boolean):void 
+		{
+			if (value)
+			{
+				_quiz.GetRandQuiz(_player.GetEdad(), _player.GetPareja(), _player.GetHijo());							
+				txtQuiz.text = _quiz.GetDescription().toUpperCase();		
+				_quiz.SetShow(true);
+				_quiz.active = true;
+			}
+			else
+			{
+				_quiz.active = false;
+				_quiz.SetShow(false);
+				txtQuiz.text = "";
+			}
+		}
 		
 		override public function update():void
 		{
+			super.update();
+			
 			switch (status)
 			{
 				case "NORMAL":
@@ -111,8 +158,9 @@ package
 					if (Input.mousePressed)
 					{
 						status = "MOVE_NEXT";
-						_player.MoveNextStep();
+						_player.MoveNextStep();							
 						moveTween.tween(_player, "x", _player.GetNextPosX(), 1, Ease.backIn);
+						pressTweenOut.tween(pressText, "alpha", 0, 0.5);
 					}
 					break;
 				}
@@ -123,29 +171,101 @@ package
 						if (_player.GetStep() == 2)
 						{
 							_player.Grow();
-							PrintAge();
+							PrintAge();							
 						}
-						else if (_player.GetStep() == -1)
+						
+						if (_player.GetStep() == -1)
 						{
 							_player.NextCicle();
 							PrintNextAge();
 							if (_player.IsEndSoon())
 							{
 								active = false;
-							}							
+							}			
+							status = "NORMAL";
+							this.pressText.text = "Haz clic para continuar";
+							this.pressText.x = FP.screen.width * 0.35;
 						}
-						status = "NORMAL";
+						else
+						{	
+							SetShowQuiz(true);
+							if (_quiz.GetTipo() > -1)
+							{
+								
+								status = "QUIZ";
+								this.pressText.text = "Elige tu opcion";
+								this.pressText.x =  FP.screen.width * 0.40;
+							}
+							else
+							{
+								SetShowQuiz(false);
+								status = "NORMAL";
+								this.pressText.text = "Haz clic para continuar";
+								this.pressText.x = FP.screen.width * 0.35;
+							}
+						}
+						
+						pressTweenOut.tween(pressText, "alpha", 1, 0.5);
 					}
-				}
-				break;
+					break;
+				}				
 				case "QUIZ":
 				{
+					if (_quiz.OnClick())
+					{
+						switch (_quiz.GetTipo()) 
+						{
+							case 0:
+								_player.GotoIglesia(_quiz.GetResult());
+							break;
+							case 1:
+								if (_quiz.GetResult())
+								{
+									_player.Divertirse();
+								}
+							break;
+							case 2:								
+								_player.ReunionFamilia(_quiz.GetResult());
+							break;
+							case 3:								
+								_player.JugarHijos(_quiz.GetResult());
+							break;
+							case 4:								
+								_player.Enamorarse(_quiz.GetResult());
+							break;
+							case 5:								
+								_player.Donacion(_quiz.GetResult());								
+							break;
+							case 6:								
+								_player.Trabajar(_quiz.GetResult());								
+							break;
+							case 8:								
+								if (_quiz.GetResult())
+								{
+									_player.Infelidad();								
+								}
+							break;
+							case 9:	
+								if (_quiz.GetResult())
+								{
+									_player.Jugar();								
+								}
+							break;
+							default:
+						}
 					
+						SetShowQuiz(false);						
+						status = "MOVE_NEXT";
+						_player.MoveNextStep();						
+						moveTween.tween(_player, "x", _player.GetNextPosX(), 1, Ease.backIn);
+						this.pressText.text = "Elige tu opcion";
+						pressTweenOut.tween(pressText, "alpha", 0, 0.5);
+					}
 					break;
 				}
 			}
 			
-			super.update();
+			
 		}
 		
 		private function PrintNextAge ():void 

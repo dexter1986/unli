@@ -112,7 +112,7 @@ package
 			
 			if (_ageEnd < 45)
 			{
-				_ageEnd = 45;
+				_ageEnd = FP.rand(30) + 45;
 			}
 			
 			EvaluateAge();	
@@ -142,7 +142,8 @@ package
 					_step = -1;
 				break;
 				default:
-			}				
+			}			
+			EvaluteGrowRules();
 		}
 		
 		public function NextCicle():void 
@@ -172,17 +173,16 @@ package
 		
 		public function Grow():void 
 		{
-			_Edad = _NextEdad;
-			EvaluteGrowRules();
+			_Edad = _NextEdad;			
 			EvaluateRules();
+			//EvaluteGrowRules();
 		}		
 		
 		public function EvaluteGrowRules():void 
 		{
 			if (_Edad < 5)
 			{
-				_estado = "bebe";
-				
+				_estado = "bebe";				
 			}
 			else if (_Edad < 15)
 			{
@@ -194,7 +194,7 @@ package
 			}
 			else if(_Edad < 65)
 			{
-				if (_IsPareja)
+				if (_IsPareja && !_IsHijo)
 				{
 					_estado = "pareja";
 				}
@@ -325,7 +325,36 @@ package
 				_contTrabajo--;
 				_contAmor++;
 			}
-		}		
+		}
+		
+		public function  Jugar():void 
+		{
+			if (_IsEstudio)
+			{
+				_contEstudio--;
+			}
+		}
+		
+		public function Trabajar(value:Boolean):void 
+		{
+			if (value)
+			{
+				_contTrabajo++;
+			}
+			else 
+			{
+				_contTrabajo--;
+			}
+		}
+		
+		public function Enamorarse(value:Boolean):void 
+		{
+			if (value)
+			{
+				_contAmor++;
+			}		
+		}
+		
 		public function GotoIglesia(value:Boolean):void 
 		{
 			if (value)
@@ -342,7 +371,8 @@ package
 			if (value)
 			{
 				_contHijo++;
-			}else 
+			}
+			else 
 			{
 				_contHijo--;				
 			}
@@ -398,6 +428,7 @@ package
 			else if(_Edad == 25 && _IsEstudio)
 			{
 				_IsTrabajo = true; 
+				_IsEstudio = false;
 				_actividad = "TRABAJANDO";
 			}
 			else if (_Edad < 65 )
@@ -439,8 +470,7 @@ package
 						}
 					}
 					else
-					{
-						
+					{						
 						_sentimental = "CASADO";
 						if (_Edad < 45)
 						{
