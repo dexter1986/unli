@@ -257,6 +257,13 @@ package
 			return description;
 		}
 		
+		public function  SetFinalQuiz():void 
+		{
+			_OnClick = false;
+			description = "El momento ha llegado\nSolo podras cruzar si haz\ntenido una vida equilibrada";
+			sprite.play("cruz");
+		}
+		
 		override public function update():void
 		{
 			if (Input.mousePressed)

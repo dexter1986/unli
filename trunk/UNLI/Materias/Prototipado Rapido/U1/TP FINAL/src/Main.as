@@ -3,6 +3,7 @@ package
 	import net.flashpunk.Engine;
 	import net.flashpunk.FP;
 	import net.flashpunk.World;
+	import net.flashpunk.Sfx;
 	/**
 	 * ...
 	 * @author Acid
@@ -15,6 +16,8 @@ package
 		private var _Game:GameWorld;	
 		private var _End:GameEnd;	
 		private var _Inicio:Inicio;
+		
+		
 		
 		private var _level:int = 0;
 				
@@ -52,11 +55,18 @@ package
 					case 1:
 						FP.world = _Game;						
 						_level = 2;
-					break;			
-					case 2:
-						FP.world = _End;						
-						_level = 3;
 					break;	
+					case 2:					
+						if (_Game.Again())
+						{
+							_level = 0;
+						}
+						else
+						{
+							_level = 3;
+						}
+						_Game.active = false;
+					break;
 					case 3:
 						FP.world = _Menu;						
 						_level = 0;

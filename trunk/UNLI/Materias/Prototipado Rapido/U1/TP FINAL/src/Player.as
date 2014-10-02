@@ -2,6 +2,7 @@ package
 {
 	import adobe.utils.CustomActions;
 	import flash.display.BitmapData;
+	import flash.display.Sprite;
 	import flash.sampler.NewObjectSample;
 	import net.flashpunk.Entity;
 	import net.flashpunk.Graphic;
@@ -39,6 +40,7 @@ package
 		private var _NextEdad:int = 0;
 		private var _Ciclo:int = 0;
 		private var _IsPareja:Boolean = false;
+		private var _IsDivorciado:Boolean = false;
 		private var _IsHijo:Boolean = false;
 		private var _IsEspiritu:Boolean = false;
 		private var _IsTrabajo:Boolean = false;
@@ -71,7 +73,7 @@ package
 			sprite.add("pareja", [4], 1, false);
 			sprite.add("familia", [5], 1, false);
 			sprite.add("anciano", [6], 1, false);
-			sprite.add("espiritu",[7,8], 5, true);
+			sprite.add("espiritu",[7,8], 15, true);
 			
 			sprite.scale = scale;
 			
@@ -88,6 +90,7 @@ package
 		
 		public function Initialize():void 
 		{
+			sprite.alpha = 1;
 			x = -15;
 			y = 420;
 			_step = 0;			
@@ -97,6 +100,7 @@ package
 			_IsTrabajo = false;
 			_IsProfesional = false;
 			_IsEstudio = false;
+			_IsDivorciado = false;
 			_Dinero = 0;
 			_Ciclo = 0;
 			_Edad = 0;
@@ -202,6 +206,10 @@ package
 				{
 					_estado = "familia";
 				}
+				else if (_IsDivorciado)
+				{
+					_estado = "adulto";
+				}
 				else
 				{
 					_estado = "adulto";
@@ -220,6 +228,69 @@ package
 			sprite.play(_estado);			
 		}
 		//---
+		
+		
+		public function GetSprite():Object
+		{
+			return sprite;
+		}
+		
+		public function EvaluateEspiritu():Boolean 
+		{
+			var res:int = 0;
+			
+			if (_contFe > 5)
+			{
+				res++;
+			}
+			else
+			{
+				res--;
+			}			
+			
+			if(_contFamilia > 3)
+			{
+				res++;
+			}
+			else
+			{
+				res--;
+			}			
+			
+			if (_contHijo > 3)
+			{
+				res++;
+			}
+			else
+			{
+				res--;
+			}
+			
+			if (_contAmor > 5)
+			{
+				res++;
+			}
+			
+			if (_contTrabajo > 2)
+			{
+				res++;
+			}
+			
+			if (_contAvaricia < 2)
+			{
+				res -= 2;
+			}
+			else
+			{
+				res++;
+			}
+			if (res > 0)
+			{
+				_IsEspiritu = true;
+				return true;
+			}
+			return false;
+		}
 		
 		public function IsEndSoon():Boolean
 		{
@@ -492,6 +563,7 @@ package
 				_sentimental = "DIVORCIADO";
 				_contAmor = 0;
 				_IsPareja = false;
+				_IsDivorciado = true;
 			}
 			
 			if (_IsHijo && _contHijo < 1)
