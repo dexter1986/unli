@@ -69,6 +69,7 @@ package
 		
 		override public function begin():void
 		{
+			FP.screen.color = 0x000000;	
 			_Level = 0;		
 			status = "FIRST";
 			titleText.text = "";

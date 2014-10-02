@@ -5,6 +5,7 @@ package
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.FP;
 	import net.flashpunk.masks.Pixelmask;
+	import net.flashpunk.Sfx;
 	import net.flashpunk.utils.Key;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.World;
@@ -24,6 +25,7 @@ package
 		private var titleTweenOut:VarTween;
 		private var pressTweenIn:VarTween;
 		private var pressTweenOut:VarTween;
+		
 		
 		public function Menu() 
 		{
@@ -62,6 +64,7 @@ package
 		
 		override public function begin():void
 		{
+			FP.screen.color = 0x000000;	
 			this.status = "START";
 		}
 		
