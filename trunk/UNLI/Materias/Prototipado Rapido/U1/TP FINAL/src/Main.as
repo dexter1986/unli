@@ -36,8 +36,8 @@ package
 			FP.world = _Menu;			
 			FP.screen.color = 0x000000;	
 			
-			_Menu.active = false;
-			_level = 1;
+			//_Menu.active = false;
+			//_level = 1;
 			
 		}
 		
@@ -58,13 +58,16 @@ package
 					break;	
 					case 2:					
 						if (_Game.Again())
-						{
-							_level = 0;
+						{							
+							FP.world = _Inicio;
+							_Inicio.SetShortMenu();
+							_level = 1;
 						}
 						else
 						{
 							_level = 3;
 						}
+						_Game.SetMusicOff();
 						_Game.active = false;
 					break;
 					case 3:

@@ -166,6 +166,7 @@ package
 			txtQuiz.text = "";
 			txtNoQuiz.visible = false;
 			txtNarrador.visible = false;
+			txtNarrador.text = "";
 			_player.Initialize();	
 			_quiz.Initialize();
 			_quiz.SetShow(false);
@@ -210,18 +211,6 @@ package
 			else
 			{
 				txtNarrador.visible = false;
-			}
-		}
-		
-		public function GetNarradorText(isQuiz:Boolean):String 
-		{
-			if (isQuiz)
-			{
-				return "QUIZ";
-			}
-			else
-			{
-				return "NO_QUIZ";
 			}
 		}
 		
@@ -465,6 +454,13 @@ package
 			}			
 		}
 		
+		public function SetMusicOff():void 
+		{
+			music.stop();
+			music2.stop();
+			music3.stop();
+		}
+		
 		public function Again():Boolean
 		{
 			return _again;
@@ -483,6 +479,195 @@ package
 			txtActividad.text = "ACTIDAD: " + _player.GetActividad();
 			txtSentimental.text = "SENTIMENTAL: " + _player.GetSentimental();
 			txtDinero.text = "DINERO: " + _player.GetDinero().toString();
+		}
+		
+		public function GetNarradorText(isQuiz:Boolean):String 
+		{
+			var edad:int = _player.GetEdad();
+			
+			if (_player.IsEndSoon())
+			{				
+				if(edad < 50) 
+				{					
+					return "A pesar de estar lleno de vida\ny con mucho por delante\nel camino llega a su fin";
+				}
+				else if (edad < 70)
+				{
+					return "A medio camino y cuando\nempezaba ha disfrutar de esto\nveo que se me paso el tiempo";
+				}
+				else 
+				{
+					return "Ya cansado de tanto andar en\nsoledad no si ya es tiempo\npero necesito descansar";
+				}
+			}			
+			var r:int = FP.rand(3);
+			if (isQuiz)
+			{
+				if(edad < 25) 
+				{
+					switch (r) 
+					{
+						case 0:
+							return "Otro dia mas\nmucho por hacer\n";
+						break;
+						case 1:
+							return "Estudiar y estudiar\ncon lo lindo que esta\nel dia";
+						break;
+						case 2:
+							return "Lo importante era\nCrecer y divertirse\n";
+						break;
+						default:
+					}
+				}
+				else if (edad < 45)
+				{
+					switch (r) 
+					{
+						case 0:
+							return "Trabajo y mas trabajo\nNecesito vacaciones\n";
+						break;
+						case 1:
+							return "Creo que deberia tener\nUn Hobie";
+						break;
+						case 2:
+							return "Reunion con viejos amigos\nCerveza de por medio\n";
+						break;
+						default:
+					}
+				}
+				else if (edad < 65)
+				{
+					switch (r) 
+					{
+						case 0:
+							return "Trabajo y mas trabajo\nYa no estoy para estos\ntrotes";
+						break;
+						case 1:
+							return "Me alegra pensar\nque me falta poco\npara jubilarme";
+						break;
+						case 2:
+							return "Otro dia mas\nLa rutina feroz\n";
+						break;
+						default:
+					}
+				}
+				else if (edad < 80)
+				{
+					switch (r) 
+					{
+						case 0:
+							return "Que lindo dia\npara ir a la plaza\ny alimentar las palomas";
+						break;
+						case 1:
+							return "Lo bueno de ser\nJubilado es que \ntengo mas tiempo para mi";
+						break;
+						case 2:
+							return "A veces siento nostalgia\nquisiera que el tiempo se\ndetenga\n";
+						break;
+						default:
+					}
+				}
+				else 
+				{
+					switch (r) 
+					{
+						case 0:
+							return "Un dia mas\nagradezco a dios\npor poder ver el sol";
+						break;
+						case 1:
+							return "Me siento solo\ntodos mis amigos\nya partieron";
+						break;
+						case 2:
+							return "creo que dios\nse ha olvidado de mi\n";
+						break;
+						default:
+					}
+				}
+			}
+			
+			switch (edad) 
+			{				
+				case 0:
+					return "Esta es mi historia\nun dia como hoy naci";
+				break;
+				case 1:
+					return "Todavia no camino\npero pronto lo hare\nque grande que veo todo";
+				break;
+				case 5:
+					return "Mis padres siempre\nme dieron todo\nlo que pudieron";
+				break;
+				case 10:
+					return "Ya un poco mas grande\nEmpeze a buscar mi\npropia aventura";
+				break;
+				case 15:
+					return "En mi adolescencia\nme gustaba estudiar\nQueria ser el mejor de mi clase";
+				break;
+				case 20:
+					return "Cuando estudiaba en la\nfacultad me di cuenta\nque el mundo no era como pensaba";
+				break;
+				case 25:
+					return "Como recuerdo el primer dia\nde mi primer trabajo\n";
+				break;
+				case 30:
+					return "Uno nota que el tiempo pasa\ny la rutina es la misma\ntodos los dias\n";
+				break;
+				case 35:
+					return "A veces tenia suerte\ny podia salir\npara conocer gente\n";
+				break;
+				case 40:
+					return "Cuando compre mi casa\nhize un asado para\ntodos mis amigos\n";
+				break;
+				case 45:
+					return "Hay dias que trataba\nde reflexionar\n";
+				break;
+				case 50:
+					return "Lo bueno de tener 50\nes que estoy en la \nmitad de todo\n";
+				break;
+				case 55:
+					return "Siempre me gustaron\nlas mascotas\ny me compre un perro";
+				break;
+				case 60:
+					return "Creia que nunca llegaria\na jubilarme pero\ncada vez falta menos";
+				break;
+				case 65:
+					return "Cuando cobre la primer\nJubilacion me di cuenta\nque es lo que siente un jubilado";
+				break;
+				case 70:
+					return "Ojala hubiera tenido\nel coraje de vivir\nuna vida siendo fiel a mis sueños\n";
+				break;
+				case 75:
+					return "Desearía no haber trabajado\n tan duro\n";
+				break;
+				case 80:
+					return "Ojala hubiera sido capaz\nde expresar mis sentimientos\n";
+				break;
+				case 85:
+					return "Ojala me hubiera quedado\nen contacto con mis amigos";
+				break;
+				case 90:
+					return "Me gustaría haber\nsido más feliz";
+				break;
+				case 95:
+					return "Pensaba y reflexionaba\n sobre mis recuerdos";
+				break;
+				case 100:
+					return "Es feo ya no conocer a\nnadie en el barrio";
+				break;
+				case 105:
+					return "Me sentia triste y cansado";
+				break;
+				case 110:
+					return "Me preguntaba si realmente\nhize todo lo que quize";
+				break;
+				case 115:
+					return "A veces me cuesta\nrecordar";
+				break;
+				case 120:
+					return "Solo sentis soledad";
+				break;				
+				default:
+			}
+			return "";			
 		}
 	}
 }
