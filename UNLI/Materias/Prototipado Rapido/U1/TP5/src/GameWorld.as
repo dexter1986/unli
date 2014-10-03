@@ -40,7 +40,7 @@ package
 		
 		public function CreateMenu():void
 		{
-			this.titleText = new Text("TP 3");
+			this.titleText = new Text("TP 5");
 			this.pressText = new Text("Press SPACE BAR to start");
 			
 			this.titleText.color = 0xFFFFFF;
