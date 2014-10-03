@@ -41,6 +41,7 @@ package
 		private var _Ciclo:int = 0;
 		private var _IsPareja:Boolean = false;
 		private var _IsDivorciado:Boolean = false;
+		private var _IsPadreAusente:Boolean = false;
 		private var _IsHijo:Boolean = false;
 		private var _IsEspiritu:Boolean = false;
 		private var _IsTrabajo:Boolean = false;
@@ -65,7 +66,7 @@ package
 		
 		public function Player(px:Number = 0, py:Number = 0) 
 		{			
-			sprite = new Spritemap(IMG,96,96);
+			sprite = new Spritemap(IMG,95,96);
 			sprite.add("bebe",[0], 1, false);			
 			sprite.add("nino", [1], 1, false);
 			sprite.add("adolescente", [2], 1, false);
@@ -101,6 +102,7 @@ package
 			_IsProfesional = false;
 			_IsEstudio = false;
 			_IsDivorciado = false;
+			_IsPadreAusente = false;
 			_Dinero = 0;
 			_Ciclo = 0;
 			_Edad = 0;
@@ -179,7 +181,8 @@ package
 		{
 			_Edad = _NextEdad;			
 			EvaluateRules();
-			//EvaluteGrowRules();
+			
+			EvaluteGrowRules();
 		}		
 		
 		public function EvaluteGrowRules():void 
@@ -206,11 +209,17 @@ package
 				{
 					_estado = "familia";
 				}
-				else if (_IsDivorciado)
+				else
 				{
 					_estado = "adulto";
 				}
-				else
+				
+				if (_IsDivorciado)
+				{
+					_estado = "adulto";
+				}
+				
+				if (IsEndSoon())
 				{
 					_estado = "adulto";
 				}
@@ -224,7 +233,6 @@ package
 			{
 				_estado = "espiritu";
 			}
-			
 			sprite.play(_estado);			
 		}
 		//---
@@ -239,7 +247,7 @@ package
 		{
 			var res:int = 0;
 			
-			if (_contFe > 5)
+			if (_contFe > 4)
 			{
 				res++;
 			}
@@ -257,7 +265,7 @@ package
 				res--;
 			}			
 			
-			if (_contHijo > 3)
+			if (_contHijo > 2)
 			{
 				res++;
 			}
@@ -266,7 +274,7 @@ package
 				res--;
 			}
 			
-			if (_contAmor > 5)
+			if (_contAmor > 4)
 			{
 				res++;
 			}
@@ -278,12 +286,13 @@ package
 			
 			if (_contAvaricia < 2)
 			{
-				res -= 2;
+				res--;
 			}
 			else
 			{
 				res++;
 			}
+			
 			if (res > 0)
 			{
 				_IsEspiritu = true;
@@ -542,17 +551,25 @@ package
 					}
 					else
 					{						
-						_sentimental = "CASADO";
-						if (_Edad < 45)
+						if (_IsHijo)
 						{
-							if (_contAmor > 4)
+							_sentimental = "CASADO y CON HIJOS";
+						}
+						else
+						{
+							_sentimental = "CASADO";
+							
+							if (_Edad < 45)
 							{
-								_sentimental = "CASADO y CON HIJOS";
-								_IsHijo = true;
-							}
-							else
-							{
-								_contAmor++;
+								if (_contAmor > 4)
+								{
+									_sentimental = "CASADO y CON HIJOS";
+									_IsHijo = true;
+								}
+								else
+								{
+									_contAmor++;
+								}
 							}
 						}
 					}
@@ -568,7 +585,18 @@ package
 			
 			if (_IsHijo && _contHijo < 1)
 			{
+				_IsPadreAusente = true;
 				_IsHijo = false;
+			}
+			
+			if (_IsPadreAusente)
+			{
+				_sentimental = "CASADO y PADRE AUSENTE";
+			}
+			
+			if (_IsDivorciado)
+			{
+				_sentimental = "DIVORCIADO";
 			}
 			//---
 						

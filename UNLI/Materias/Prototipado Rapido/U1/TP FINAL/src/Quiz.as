@@ -56,9 +56,9 @@ package
 			
 			sprite.scale = scale;
 			
-			setHitbox(128*scale, 128*scale);
-			width = 128;
-			height = 128;
+			setHitbox(96*scale, 96*scale);
+			width = 96;
+			height = 96;
 			
 			grp_List = new Graphiclist();	
 			grp_List.add(sprite);
@@ -98,7 +98,7 @@ package
 			}
 			else if (edad < 65)
 			{	
-				var aux:int = FP.rand(10);
+				var aux:int = FP.rand(8);
 				if (aux > 0 && aux < 5)
 				{
 					aux = FP.rand(25);
@@ -122,7 +122,7 @@ package
 				
 				if (ispareja)
 				{
-					aux = FP.rand(20)
+					aux = FP.rand(17)
 					if ( aux > 0 && aux < 5)
 					{
 						Tipo = 2;				
@@ -140,21 +140,19 @@ package
 				if (ishijo)
 				{
 					aux = FP.rand(5);
-					if (aux > 3)
+					if (aux > 2)
 					{
 						Tipo = 3;
 					}
 				}
 			}
-			else if (edad > 65)
+			else if (edad < 80)
 			{
 				var aux:int = FP.rand(8);
-				Tipo = 0;
-				Tipo = 1;
 				
 				if (aux > 0 && aux < 5)
 				{
-					aux = FP.rand(15);
+					aux = FP.rand(18);
 					if (aux > 0 && aux < 5)
 					{
 						Tipo = 0;		
@@ -170,12 +168,24 @@ package
 				}
 				if (ispareja)
 				{
-					aux = FP.rand(10)
+					aux = FP.rand(8)
 					if ( aux > 0 && aux < 5)
 					{
 						Tipo = 2;				
 					}
 				}				
+			}else
+			{
+				var aux:int = FP.rand(14);				
+				
+				if (aux > 0 && aux < 5)
+				{
+					Tipo = 0;		
+				}
+				else if (aux > 5 && aux < 10)
+				{
+					Tipo = 5;
+				}		
 			}
 						
 			switch (Tipo) 
@@ -269,7 +279,7 @@ package
 			if (Input.mousePressed)
 			{
 				_OnClick = true;
-				
+				IsOk = false;
 				if (collidePoint(x, y, Input.mouseX, Input.mouseY))
 				{
 					IsOk = true;					

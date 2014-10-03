@@ -23,14 +23,14 @@ package
 		[Embed(source="../assets/gfx/FondoIntro.png")]
 		private const IMG:Class;
 		public var image:Image;	
-		
-		
+				
 		protected var titleText:Text;		
 		protected var clicText:Text;
 		private var fadeTween:VarTween;
 		private var fadeTween2:VarTween;
 		private var _Level:int = 0;
 		private var status:String = "";
+		private var _isShortMenu:Boolean = false;
 		
 		public function Inicio() 
 		{
@@ -70,7 +70,14 @@ package
 		override public function begin():void
 		{
 			FP.screen.color = 0x000000;	
-			_Level = 0;		
+			if (!_isShortMenu)
+			{
+				_Level = 0;		
+			}
+			else
+			{
+				_isShortMenu = false;
+			}
 			status = "FIRST";
 			titleText.text = "";
 			this.clicText.alpha = 0;
@@ -160,6 +167,12 @@ package
 			_Level = _Level + 1;
 		}
 		
+		public function SetShortMenu():void 
+		{
+			_Level = 5;
+			_isShortMenu = true;
+		}
+		
 		function LoadLevel():void 	
 		{
 			switch (_Level) 
@@ -182,7 +195,7 @@ package
 			case 5:
 				titleText.text = "            ¿PREPARADO PARA UNA NUEVA AVENTURA?";
 				break;
-				default:
+			default:
 				 this.active = false;
 			}
 		}
