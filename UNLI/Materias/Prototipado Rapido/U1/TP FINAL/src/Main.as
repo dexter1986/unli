@@ -9,7 +9,7 @@ package
 	 * @author Acid
 	 */
 	
-	[SWF(width="1024",height="768")]	
+	[SWF(width="800",height="600")]	
 	public class Main extends Engine
 	{
 		private var _Menu:Menu;
@@ -23,7 +23,7 @@ package
 				
 		public function Main():void
 		{
-			super(1024, 768, 30, false);						
+			super(800, 600, 30, false);						
 			_Menu = new Menu();
 			_Game = new GameWorld();
 			_Inicio = new Inicio();

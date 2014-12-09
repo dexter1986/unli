@@ -34,7 +34,7 @@ package
 		
 		public function CreateMenu():void
 		{
-			this.titleText = new Text("TRUE LIFE");
+			this.titleText = new Text("TRUE LIFE");			
 			this.pressText = new Text("Haz clic para continuar");
 			
 			this.titleText.color = 0xFFFFFF;

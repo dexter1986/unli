@@ -72,62 +72,62 @@ package
 			txtAge = new Text("EDAD: 120");
 			txtAge.x = 10;
 			txtAge.y = 20;
-			txtAge.scale = 1.5;			
+			txtAge.scale = 1.2;// 1.5;			
 			txtAge.color = 0x000000;
 			addGraphic(txtAge);
 					
 			txtEtapa = new Text("----------------------------------------------------------------");
 			txtEtapa.x = 10;
 			txtEtapa.y = 45;
-			txtEtapa.scale = 1.5;			
+			txtEtapa.scale = 1.2;// 1.5;			
 			txtEtapa.color = 0x000000;
 			addGraphic(txtEtapa);
 			
 			txtActividad = new Text("------------------------------------------------------------");
 			txtActividad.x = 10;
 			txtActividad.y = 70;
-			txtActividad.scale = 1.5;			
+			txtActividad.scale = 1.2;// 1.5;			
 			txtActividad.color = 0x000000;
 			addGraphic(txtActividad);
 			
 			txtSentimental = new Text("------------------------------------------------------------");
 			txtSentimental.x = 10;
 			txtSentimental.y = 95;
-			txtSentimental.scale = 1.5;			
+			txtSentimental.scale = 1.2;// 1.5;			
 			txtSentimental.color = 0x000000;
 			addGraphic(txtSentimental);
 						
 			txtDinero = new Text("DINERO: 100000");
 			txtDinero.x = 10;
 			txtDinero.y = 120;
-			txtDinero.scale = 1.5;			
+			txtDinero.scale = 1.2;// 1.5;			
 			txtDinero.color = 0x000000;
 			addGraphic(txtDinero);
 			
 			txtQuiz = new Text("-----------------------------------\n-----------------------------------\n-----------------------------------\n-----------------------------------");
 			txtQuiz.x = FP.screen.width *0.3;
 			txtQuiz.y = 165;
-			txtQuiz.scale = 1.5;			
+			txtQuiz.scale = 1.2;// 1.5;			
 			txtQuiz.color = 0x000000;
 			addGraphic(txtQuiz);
 			
 			txtNarrador = new Text("-----------------------------------\n-----------------------------------\n-----------------------------------\n-----------------------------------");
 			txtNarrador.x = FP.screen.width *0.3;
-			txtNarrador.y = 165;
-			txtNarrador.scale = 1.5;			
+			txtNarrador.y = FP.screen.height * 0.35;
+			txtNarrador.scale = 1.5;// 1.5;			
 			txtNarrador.color = 0x000000;
 			addGraphic(txtNarrador);
 			
 			this.pressText = new Text("Haz clic para continuar");
 			this.pressText.color = 0x000000;
-			this.pressText.scale = 1.5;			
+			this.pressText.scale = 1.2;// 1.5;			
 			this.pressText.x = FP.screen.width * 0.35;
 			this.pressText.y = FP.screen.height * 0.80;
 			
 			txtNoQuiz = new Text("No es el\nmomento");
 			txtNoQuiz.x = FP.screen.width * 0.50;
 			txtNoQuiz.y = FP.screen.height * 0.35;
-			txtNoQuiz.scale = 1.5;			
+			txtNoQuiz.scale = 1.2;// 1.5;		
 			txtNoQuiz.color = 0x000000;
 			addGraphic(txtNoQuiz);
 			
@@ -147,7 +147,7 @@ package
 			_player = new Player(0,0);
 			add(_player);
 			
-			_quiz = new Quiz(FP.screen.width * 0.4, FP.screen.height * 0.35);
+			_quiz = new Quiz(FP.screen.width * 0.4, FP.screen.height * 0.33);
 			add(_quiz);
 			
 			moveTween = new VarTween();
@@ -174,6 +174,10 @@ package
 			PrintNextAge();
 			PrintAge();
 			music.loop();
+			
+			this.txtNarrador.scale = 1.2;
+			this.txtNarrador.y = FP.screen.height * 0.3; 							
+			this.txtQuiz.y = FP.screen.height * 0.25;
 		}	
 		
 		private function SetShowQuiz(value:Boolean,isFinal:Boolean=false):void 
@@ -251,13 +255,18 @@ package
 								status = "END_AGE";	
 								music.stop();
 								music2.loop();
+								
+								this.txtNarrador.scale = 1.2;
+								this.txtNarrador.y =  FP.height * 0.2; 
+								this.txtQuiz.scale = 1.2;				
+								this.txtQuiz.y = FP.height * 0.2;
 							}
 							else
 							{
 								ShowNarrador(true);
 								status = "NORMAL";							
 								this.pressText.text = "Haz clic para continuar";
-								this.pressText.x = FP.screen.width * 0.35;
+								this.pressText.x = FP.screen.width * 0.35;								
 							}
 						}
 						else

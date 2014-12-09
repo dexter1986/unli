@@ -33,7 +33,7 @@ package
 		
 		private  var sprite:Spritemap;	
 		private var grp_List:Graphiclist;
-		private var scale:Number = 1;
+		private var scale:Number = 0.9;// 1;
 		private var _step:int = 0;
 		private var _estado:String;
 		private var _Edad:int = 0;
@@ -93,7 +93,7 @@ package
 		{
 			sprite.alpha = 1;
 			x = -15;
-			y = 420;
+			y = 315;//420;
 			_step = 0;			
 			_IsPareja = false;
 			_IsHijo = false;
@@ -121,6 +121,8 @@ package
 				_ageEnd = FP.rand(30) + 45;
 			}
 			
+			//_ageEnd = 0;
+			
 			EvaluateAge();	
 			EvaluteGrowRules();
 			EvaluateRules();
@@ -135,16 +137,16 @@ package
 					x = -15;
 				break;
 				case 1:
-					_tempx = 215;
+					_tempx = 162; //215;
 				break;
 				case 2:
-					_tempx = 470;					
+					_tempx = 360;//470;					
 				break;
 				case 3:
-					_tempx = 725;
+					_tempx = 564;//725;
 				break;
 				case 4:
-					_tempx = 1024;
+					_tempx = 800;
 					_step = -1;
 				break;
 				default:

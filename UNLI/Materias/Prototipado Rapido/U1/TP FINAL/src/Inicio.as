@@ -41,7 +41,7 @@ package
 		{
 			this.titleText = new Text("----------------------------------------------------------------------\n----------------------------------------------------------------------\n----------------------------------------------------------------------\n");						
 			this.titleText.color = 0xFFFFFF;
-			this.titleText.scale = 1.5;			
+			this.titleText.scale = 1.2;// 1.5;			
 			this.titleText.alpha = 1;
 			
 			this.titleText.x = (FP.screen.width - this.titleText.scaledWidth) / 2;
