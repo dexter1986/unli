@@ -34,7 +34,7 @@ package
 		
 		private var sprite:Spritemap;	
 		private var grp_List:Graphiclist;
-		private var scale:Number = 1;
+		private var scale:Number = 0.9;// 1;
 		private var description:String;		
 		private var IsOk:Boolean;
 		private var Tipo:int;		

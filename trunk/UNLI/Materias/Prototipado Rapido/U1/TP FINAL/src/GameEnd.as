@@ -39,7 +39,7 @@ package
 			txtNextAge = new Text("---");
 			txtNextAge.x = (FP.screen.width / 2) - 25;
 			txtNextAge.y = FP.screen.height * 0.70;
-			txtNextAge.scale = 2;
+			txtNextAge.scale = 1.2;// 2;
 			txtNextAge.color = 0x000000;
 			
 			addGraphic(txtNextAge);			
@@ -47,35 +47,35 @@ package
 			txtAge = new Text("EDAD: 120");
 			txtAge.x = 10;
 			txtAge.y = 20;
-			txtAge.scale = 1.5;			
+			txtAge.scale = 1.2;// 1.5;			
 			txtAge.color = 0x000000;
 			addGraphic(txtAge);
 					
 			txtEtapa = new Text("-----------------------");
 			txtEtapa.x = 10;
 			txtEtapa.y = 45;
-			txtEtapa.scale = 1.5;			
+			txtEtapa.scale = 1.2;// 1.5;			
 			txtEtapa.color = 0x000000;
 			addGraphic(txtEtapa);
 			
 			txtActividad = new Text("------------------------------------------------------------");
 			txtActividad.x = 10;
 			txtActividad.y = 70;
-			txtActividad.scale = 1.5;			
+			txtActividad.scale = 1.2;// 1.5;			
 			txtActividad.color = 0x000000;
 			addGraphic(txtActividad);
 			
 			txtSentimental = new Text("-----------------------");
 			txtSentimental.x = 10;
 			txtSentimental.y = 95;
-			txtSentimental.scale = 1.5;			
+			txtSentimental.scale = 1.2;// 1.5;			
 			txtSentimental.color = 0x000000;
 			addGraphic(txtSentimental);
 						
 			txtDinero = new Text("DINERO: 100000");
 			txtDinero.x = 10;
 			txtDinero.y = 120;
-			txtDinero.scale = 1.5;			
+			txtDinero.scale = 1.2;// 1.5;			
 			txtDinero.color = 0x000000;
 			addGraphic(txtDinero);
 			
