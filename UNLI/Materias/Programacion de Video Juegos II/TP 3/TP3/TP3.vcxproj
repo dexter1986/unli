@@ -97,6 +97,7 @@
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="IntroScene.cpp" />
+    <ClCompile Include="Joystick.cpp" />
     <ClCompile Include="JuegoGanadoScene.cpp" />
     <ClCompile Include="JuegoPerdidoScene.cpp" />
     <ClCompile Include="main.cpp" />
@@ -129,6 +130,7 @@
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="IntroScene.h" />
+    <ClInclude Include="Joystick.h" />
     <ClInclude Include="JuegoGanadoScene.h" />
     <ClInclude Include="JuegoPerdidoScene.h" />
     <ClInclude Include="MainScene.h" />

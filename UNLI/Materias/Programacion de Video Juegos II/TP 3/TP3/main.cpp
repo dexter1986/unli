@@ -3,7 +3,7 @@
 #include "IntroScene.h"
 #include "MenuScene.h"
 #include "MisionScene.h"
-
+/*
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
@@ -19,10 +19,13 @@
 #include "EntityManager.h"
 #include "Cronometro.h"
 
+#include "GameEngine.h"
+*/
 using namespace std;
 
 int const resx=800, resy=600;
 
+/*
 void IntLevel(string fileLevel,RenderWindow &w,bool reload = false);
 bool HayColisionEntityManager(float x, float y,sf::Color &color); 
 //void AgregarEnemigo(float x, float y,int tipo);
@@ -69,13 +72,14 @@ float FPS = 60.0f;
 float fpsScale = 1.0f;
 float fpsUnit = 1.0f/FPS;//run to 30fps
 float minFpsUnit = 1.0f/30.0f;//min run to 10fps
+*/
 
 int main(int argc, char *argv[]) 
 {
-	GameEngine *engine = new GameEngine(resx,resy,"Extreme Mission",60);
-	engine->PushScene(new IntroScene());	
-	engine->PushScene(new MenuScene());
-	engine->PushScene(new MisionScene());
+	GameEngine *engine = new GameEngine(resx,resy,"Extreme Mission",30);
+//	engine->PushScene(new IntroScene(engine));	
+//	engine->PushScene(new MenuScene(engine));
+//	engine->PushScene(new MisionScene(engine));
 	engine->PushScene(new MainScene(engine));
 	engine->Loop();
 	delete engine;
@@ -267,6 +271,7 @@ int main(int argc, char *argv[])
 //	return 0;
 //}
 
+/*
 void ManageEvents(RenderWindow &w)
 {
 	//while(w.GetEvent(e)) {
@@ -326,7 +331,8 @@ void ManageEvents(RenderWindow &w)
 	//		}			
 	//	}	
 }
-
+*/
+/*
 void ShowIntroduction(RenderWindow &w)
 {
 	//int contador = 0;
@@ -366,28 +372,32 @@ void ShowIntroduction(RenderWindow &w)
 	//	w.Display();
 	//}
 }
+*/
 
+/*
 void PreLoadUnits()
 {
-	/*TextureManager::GetInstance().GetTexture("../data/Intro1.png");
+	TextureManager::GetInstance().GetTexture("../data/Intro1.png");
 	TextureManager::GetInstance().GetTexture("../data/Intro2.png");
 	TextureManager::GetInstance().GetTexture("../data/HUD.png");
 	TextureManager::GetInstance().GetTexture("../data/Mandos.png");
 	TextureManager::GetInstance().GetTexture("../data/Elementos.png");
 	TextureManager::GetInstance().GetTexture("../data/Mision.png");
 	
-	spriteIntro.SetImage(TextureManager::GetInstance().GetTexture("../data/Intro1.png"));*/
-	spriteIntro.SetScale(0.4f,0.4f);
+	spriteIntro.SetImage(TextureManager::GetInstance().GetTexture("../data/Intro1.png"));
+	//spriteIntro.SetScale(0.4f,0.4f);
 
-	/*LoadVidasHUD();
-	LoadKeysHUD();	*/
+	LoadVidasHUD();
+	LoadKeysHUD();	
 		
-	/*font.LoadFromFile("../data/arialbd.ttf");
+	font.LoadFromFile("../data/arialbd.ttf");
 	text.SetFont(font);
 	text.SetColor(Color::White);
-	text.SetSize(10);*/
+	text.SetSize(10);
 }
+*/
 
+/*
 void InitUnits()
 {
 	//entities = new EntityManager();
@@ -407,11 +417,12 @@ void InitUnits()
 	//entities->SetEnvironment(disparos,nivel);	
 	//entities->AiTracker(prince);
 }
-
+*/
+/*
 void EndGame(RenderWindow &w)
 {
 }
-
+*/
 //bool Intro(int &contador)
 //{
 //	float dt = clk.GetElapsedTime();
@@ -451,10 +462,10 @@ void EndGame(RenderWindow &w)
 //	}	
 //	return true;
 //}
-
+/*
 void LoadKeysHUD()
 {
-	/*const sf::Image &tex = TextureManager::GetInstance().GetTexture("../data/megaman_iceman_level.png");	
+	const sf::Image &tex = TextureManager::GetInstance().GetTexture("../data/megaman_iceman_level.png");	
 	
 	keysHUD.SetImage(tex);
 	keysHUD.SetScale(0.7f,0.7f);
@@ -463,12 +474,13 @@ void LoadKeysHUD()
 	IntRect recKeys(32,128,64,160);
 	
 	keysHUD.SetSubRect(recKeys);
-	keysHUD.SetCenter(0,0);*/
+	keysHUD.SetCenter(0,0);
 }
-
+*/
+/*
 void LoadVidasHUD()
 {
-	/*const sf::Image &tex = TextureManager::GetInstance().GetTexture("../data/personaje.png");	
+	const sf::Image &tex = TextureManager::GetInstance().GetTexture("../data/personaje.png");	
 	
 	vidasHUD.SetImage(tex);
 	vidasHUD.SetScale(0.4f,0.4f);
@@ -477,20 +489,25 @@ void LoadVidasHUD()
 	IntRect recVidas(145,285,145 + 22,285 + 57);
 	
 	vidasHUD.SetSubRect(recVidas);
-	vidasHUD.SetCenter(0,0);*/
+	vidasHUD.SetCenter(0,0);
 }
-
+*/
+/*
 void GameFinish()
 {
-	/*isGameWon = true;*/
+	isGameWon = true;
 }
+*/
 
+/*
 void ActualizarContador()
 {
-	/*cronometro->Update();
-	isGameFinish = ((Cronometro*)cronometro)->isEndTime();*/	
+	cronometro->Update();
+	isGameFinish = ((Cronometro*)cronometro)->isEndTime();
 }
+*/
 
+/*
 void ShowHUD(RenderWindow &w)
 {	
 	/*FloatRect rect = nivel->levelView.GetRect();	
@@ -574,32 +591,36 @@ void ShowHUD(RenderWindow &w)
 		text.SetPosition(center.x,center.y - 30);
 		text.SetColor(Color::Color(255,255,255,255));
 		w.Draw(text);
-	}*/
+	}
 }
+*/
 
+/*
 void IntLevel(string fileLevel, RenderWindow &w,bool reload)
 {
-	/*entities->Init();
+	entities->Init();
 	disparos->Init();
 	nivel->Load(fileLevel,reload);
 	prince->SetPosition(nivel->vEntryPoint);
 	nivel->InitLevelView(resx, resy,10,8);
 	View &v = nivel->GetView();
-	w.SetView(v);*/	
+	w.SetView(v);
 }
+*/
 
+/*
 bool HayColisionEntityManager(float x, float y,sf::Color &color)
 {
-	/*if(entities->HayColision(x,y,color)){
+	if(entities->HayColision(x,y,color)){
 		return true;
 	}
 
 	if(prince->RecibirImpacto(x,y)){
 		return true;
-	}*/
+	}
 	return false;
 }
-
+*/
 //void AgregarEnemigo(float x, float y,int tipo)
 //{
 //	/*Enemigo *e = new Enemigo(tipo);		

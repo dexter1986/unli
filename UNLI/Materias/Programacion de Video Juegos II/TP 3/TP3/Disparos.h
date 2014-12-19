@@ -12,6 +12,9 @@
 
 using namespace std;
 
+class Nivel;
+class SceneBase;
+
 class Disparo: public sf::Sprite{
 	private:
 	
@@ -20,6 +23,7 @@ class Disparo: public sf::Sprite{
 	
 	public:
 	Disparo(float x0, float y0, float vel);	// constructor
+	~Disparo(void);
 	friend class ManejadorDisparos;	// para que ManejadorDisparos pueda acceder al miembro velx
 };
 
@@ -28,11 +32,11 @@ class ManejadorDisparos{
 private:
 	list<Disparo *> disparos;								// guardamos una lista de disparos
 	Nivel *nivel;
-	SceneBase* scene;
-		
+	SceneBase *scene;
 public:
 
-	ManejadorDisparos(SceneBase* scene);	
+	ManejadorDisparos();
+	void SetScene(SceneBase *scene);
 	void SetLevelManager(Nivel *n);
 	~ManejadorDisparos();
 	void Init();

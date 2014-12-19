@@ -18,7 +18,7 @@ private:
 	bool isDebug;
 protected:
 	bool isFinished;
-	bool isExit;
+	bool isExit;	
 	GameEngine *engine;
 
 public:

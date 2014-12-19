@@ -1,22 +1,22 @@
-#ifndef SPRITEBASE_H
-#define SPRITEBASE_H
+#pragma once
 
 #include <math.h>
+#include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Window.hpp>
 #include "AnimatedBase.h"
-#include "Nivel.h"
-#include "Disparos.h"
+#include "Joystick.h"
 #include "GameEngine.h"
 
-//// una estructura simple para pasarle los controles a megaman
-//struct Joystick{
-//	bool up, down, left, right, a, b;
-//};
 
-class SpriteBase :
-	public Sprite
+using namespace std;
+using namespace sf;
+
+class GameEngine;
+
+class SpriteBase :	public Sprite
 {
-protected:
-	
+protected:	
 	enum Direccion
 	{
 		UP,
@@ -38,7 +38,9 @@ protected:
 	Vector2f posicion_inicial;
 	Vector2f scale;
 	float dt;
+	
 	Joystick joystick;
+	GameEngine *engine;
 	Direccion direccion;// si apunta a la der o izq (flip horizontal de la textura)
 
 	bool isNPC;
@@ -46,10 +48,8 @@ protected:
 	bool isVisible;
 	
 	AnimatedBase *animaciones;
-	FloatRect aabb;
-	
-	Nivel *nivel;
-	
+	FloatRect aabb;	
+	Nivel *nivel;	
 	ManejadorDisparos *disparos;
 	float shootTime;
 
@@ -76,7 +76,8 @@ protected:
 	virtual void AiNpc();
 	bool CheckVisibility();
 	void ResolverColision(int tipo,FloatRect aabb_tmp);
-public:	
+public:
+
 	bool pause;
 	bool isDead;
 	int vidas;
@@ -85,11 +86,8 @@ public:
 	int GetDireccionX();
 	FloatRect &GetAABB();
 	virtual void Inicializar(ManejadorDisparos *d,Nivel *n);
-	SpriteBase(int cant_estados,const string &filename,float scale_x=0,float scale_y=0,bool NPC=false);
-	void Mover_y_Animar(Joystick j, float dt);	
+	SpriteBase(GameEngine *e,int cant_estados,const string &filename,float scale_x=0,float scale_y=0,bool NPC=false);
+	void Mover_y_Animar(Joystick &j, float dt);	
 	void Mover_y_Animar_NPC(float dt);	
 	virtual ~SpriteBase(void);
 };
-
-#endif
-

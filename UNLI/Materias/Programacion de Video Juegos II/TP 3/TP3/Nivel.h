@@ -1,5 +1,4 @@
-#ifndef NIVEL_H
-#define NIVEL_H
+#pragma once
 
 #include <iostream>
 #include <vector>
@@ -11,6 +10,8 @@
 
 using namespace std;
 using namespace sf;
+
+class SceneBase;
 
 namespace Tiletype
 {
@@ -29,6 +30,9 @@ private:
 		public:			
 		int iImage;			// el numero de imagen
 		bool solid;			// si se puede chocar con el tile
+		bool wall;		//si es pared
+		bool floor;		//si es piso
+		bool ceiling;	//Si es techo
 		int  iPortal;	//indice si es una puerta a otro nivel
 		bool isBomb; // indica si es una bomba
 		int iOverLayer; //indica si debe pintarse sobre
@@ -62,21 +66,21 @@ private:
 	// manejador de las imagenes del tileset
 	SpriteSheetManager sm;
 	// la matriz (o vector de vectores) de tiles
-	vector<vector<Tile>>tiles;
+	//vector<vector<Tile>>tiles;
 	
 	// la matriz (o vector de vectores) de tiles
 	vector<vector<Tile>>tiles_overlayer;
 
 	//Matriz con los jump a los 
 	//otro niveles
-	vector<Level> nextLevels;
+	vector<Level *> nextLevels;
 
 	// tamano del nivel en tiles (ancho x alto)
-	sf::Vector2i levelSize;
+	//sf::Vector2i levelSize;
 	// tamano del tileset en tiles (ancho x alto)
 	sf::Vector2i tileSetSize;
 	// tamano de los tiles (ancho x alto)
-	sf::Vector2i tileSize;
+	//sf::Vector2i tileSize;
 	
 	vector<ParallaxLayer *> capasParallax;
 
@@ -94,7 +98,27 @@ private:
 	//
 	void (*agregarEnemigo_entities)(float x, float y,int tipo);
 	void (*gamewon_delegate)(void);
+
+	float g_xo,g_xf,g_yo,g_yf;
+
+	// aca vamos a guardar el tamano final de la vista (en tiles)
+	float realtiles_x, realtiles_y;
+
+
+
 public:
+
+	// tamano de los tiles (ancho x alto)
+	sf::Vector2i tileSize;
+
+	// tamano del nivel en tiles (ancho x alto)
+	sf::Vector2i levelSize;
+
+	// la matriz (o vector de vectores) de tiles
+	vector<vector<Tile>>tiles;
+
+	//void (*agregarEnemigo_entities)(float x, float y,int tipo);
+
 	bool isGameWon;
 
 	string name;
@@ -103,6 +127,7 @@ public:
 	bool isDebug;
 	// la vista del nivel
 	sf::View levelView;
+	sf::Sprite imgLevel;
 
 	bool isNeedNextLoadLevel;
 	string fileNextLevel;
@@ -110,9 +135,10 @@ public:
 	Vector2f vEntryPoint;
 	
 	// constructores
-	Nivel(string tileset_file, int ntilesx, int ntilesy, unsigned levelSize_w, unsigned levelSize_h);
-	Nivel(string level_file);
-	Nivel(SceneBase* scene);
+	//Nivel(string tileset_file, int ntilesx, int ntilesy, unsigned levelSize_w, unsigned levelSize_h);
+	//Nivel(string level_file);
+	Nivel();
+	~Nivel();
 	// salvar y guardar un nivel
 	void Load(string file,bool reload = false);
 	void Save(string file);
@@ -127,7 +153,6 @@ public:
 	
 	void PrepareNivel();
 
-	void SetEnemigoManagerDelegate(void (*agregarEnemigo)(float x, float y,int tipo));
 	void SetGameWonDelegate(void (*gamewon)(void));
 	// probar si hay colision del nivel con el rectangulo r
 	bool HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,bool isNPC);
@@ -154,6 +179,5 @@ public:
 	void SetViewCenterSmooth(sf::Vector2f newCenter, float factor, float dt);
 };
 
-#endif
 
 

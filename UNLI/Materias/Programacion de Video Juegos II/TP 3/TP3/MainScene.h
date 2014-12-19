@@ -5,6 +5,7 @@
 #include "Cronometro.h"
 #include "Disparos.h"
 
+
 class MainScene : public SceneBase
 {
 private:
@@ -12,20 +13,27 @@ private:
 	sf::String text;
 	Sprite keysHUD;
 	Sprite vidasHUD;
+	sf::Clock clkPerf;
 	
-	EntityManager *entities;
+	GameEngine *engine;
+	
 	Personaje *prince;
+	
+	EntityManager *entities;	
 	ManejadorDisparos *disparos;
 	Nivel *nivel;
 	Cronometro *cronometro;
 	ParticleSystemManager *mg;
-
-	bool isGameWon;
-
 	
+	bool isSlowTime;
+	bool isGameWon;
+	bool isPause;
+	bool isContinue;
+	float slowTime;
+	float slowTimeCount;
 	void GameFinish();
 	
-	void IntLevel(string fileLevel, RenderWindow &w,bool reload);
+	void IntLevel(string fileLevel, RenderWindow *w,bool reload);
 	void ShowHUD(RenderWindow &w);
 	void ActualizarContador();
 

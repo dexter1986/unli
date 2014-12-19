@@ -6,6 +6,10 @@ MenuScene::MenuScene(void)
 	contador = 0;
 }
 
+MenuScene::MenuScene(GameEngine *engine)
+{
+
+}
 
 MenuScene::~MenuScene(void)
 {

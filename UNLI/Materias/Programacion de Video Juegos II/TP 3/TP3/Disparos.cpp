@@ -11,16 +11,25 @@ Disparo::Disparo(float x0, float y0, float vel){
 	velx=vel;
 };
 
+Disparo::~Disparo(void)
+{
+
+}
+
 void ManejadorDisparos::Init()
 {
 	disparos.clear();	
 };
 
 
- ManejadorDisparos::ManejadorDisparos(SceneBase* p_scene)
+ ManejadorDisparos::ManejadorDisparos()
 {
-	scene = p_scene;
 };
+
+void  ManejadorDisparos::SetScene(SceneBase *s)
+{
+	scene = s;
+}
 
 ManejadorDisparos::~ManejadorDisparos()
 {

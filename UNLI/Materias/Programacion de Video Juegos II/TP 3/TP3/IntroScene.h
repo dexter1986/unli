@@ -12,6 +12,7 @@ private:
 	sf::Sprite spriteIntro;
 	sf::Clock clk;
 public:
+	IntroScene(GameEngine *engine);
 	IntroScene(void);
 	virtual ~IntroScene(void);
 	virtual void Init();

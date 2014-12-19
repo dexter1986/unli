@@ -33,19 +33,16 @@ ParticleSystemManager::~ParticleSystemManager() {
 }
 
 void ParticleSystemManager::Clear()
-{
-	ParticleSystem *ptemp;
+{	ParticleSystem *ptemp;
 	list<ParticleSystem *>::iterator ps=particlesystems.begin();
 	while(ps!=particlesystems.end()){
-		ptemp = (*(ps));
-		//ps=particlesystems.erase(ps);
+		ptemp = (*(ps));		
+		ps=particlesystems.erase(ps);
 		delete ptemp;				
-		ps++;
 	}
-
-	particlesystems.clear();
-	//delete globalManager;
 	
+	particlesystems.clear();
+	globalManager = NULL;	
 }
 
 // crea un emisor y un nuevo sistema de particulas
@@ -56,7 +53,6 @@ Emitter &ParticleSystemManager::AddParticleSystem(unsigned nMaxParticles){
 							new ParticleSystem(*e, nMaxParticles));
 	return *e;
 }
-
 
 // mueve las particulas de todos los sistemas
 void ParticleSystemManager::Simulate(float dt){
@@ -78,7 +74,6 @@ void ParticleSystemManager::Simulate(float dt){
 		}
 	}
 }
-
 
 // dibuja las particulas de todos los sistemas
 void ParticleSystemManager::Render(sf::RenderWindow &w){
