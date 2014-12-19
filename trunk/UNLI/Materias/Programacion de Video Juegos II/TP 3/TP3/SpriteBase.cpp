@@ -4,8 +4,9 @@
  #define round(r) r-int(r)>=0.5?int(r)+1:int(r)
 #endif
 
-SpriteBase::SpriteBase(int cant_estados,const string &filename,float scale_x,float scale_y,bool NPC)
+SpriteBase::SpriteBase(GameEngine *e,int cant_estados,const string &filename,float scale_x,float scale_y,bool NPC)
 {
+	engine = e;
 	isNPC = NPC;
 	velocidad.x = 0.0f;
 	velocidad.y = 0.0f;
@@ -92,7 +93,7 @@ int SpriteBase::AnimationCurrentFrame()
 	return animaciones[currentState].GetCurrentFrameNum();
 }
 
-void SpriteBase::Mover_y_Animar(Joystick j, float dt)
+void SpriteBase::Mover_y_Animar(Joystick &j, float dt)
 {	
 	if(isDead)
 		return;
@@ -135,8 +136,8 @@ void SpriteBase::Mover_y_Animar(Joystick j, float dt)
 		FlipX(true);				
 	}
 
-	if(!DelayTransition())
-	{
+	//if(!DelayTransition())
+	//{
 		//Anima el objeto
 		(animaciones+currentState)->Animate(dt);
 		IntRect rect = animaciones[currentState].GetCurrentFrameRect();
@@ -154,7 +155,7 @@ void SpriteBase::Mover_y_Animar(Joystick j, float dt)
 		}
 
 		CalculateAABB();
-	}
+	//}
 
 	if(!SecuenciaDisparoFinalizada()) shootTime-=dt;
 }
@@ -213,7 +214,7 @@ void SpriteBase::Inicializar(ManejadorDisparos *d,Nivel *n)
 	this->nivel = n;
 	this->disparos = d;
 
-	SetPosition(this->nivel->vEntryPoint);	
+//	SetPosition(this->nivel->vEntryPoint);	
 }
 
 // para saber si ya expiro el tiempo que dura la secuencia de disparo
@@ -310,6 +311,9 @@ void SpriteBase::Mover_y_Animar_NPC(float dt)
 {
 	if(isDead)
 		return;
+
+	isVisible = CheckVisibility();
+
 	//Actualiza Delta de tiempo
 	this->dt =  dt;
 
@@ -353,9 +357,6 @@ void SpriteBase::Mover_y_Animar_NPC(float dt)
 	}
 
 	if(!SecuenciaDisparoFinalizada()) shootTime-=dt;
-
-	isVisible = CheckVisibility();
-
 }
 
 // saber si chocara con el suelo cuando esta cayendo,
@@ -475,7 +476,7 @@ bool SpriteBase::CheckVisibility()
 
 bool SpriteBase::RecibirImpacto(float x,float y)
 {
-	if(isVisible)
+	if(isVisible && !isDead)
 	{
 		if(aabb.Contains(x,y))
 		{

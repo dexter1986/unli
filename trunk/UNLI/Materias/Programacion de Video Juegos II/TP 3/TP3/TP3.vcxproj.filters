@@ -105,6 +105,9 @@
     <ClCompile Include="JuegoGanadoScene.cpp">
       <Filter>Source Files\Escenas</Filter>
     </ClCompile>
+    <ClCompile Include="Joystick.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h">
@@ -193,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="JuegoPerdidoScene.h">
       <Filter>Header Files\Escenas</Filter>
+    </ClInclude>
+    <ClInclude Include="Joystick.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

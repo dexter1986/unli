@@ -1,10 +1,9 @@
-#ifndef PERSONAJE_H
-#define PERSONAJE_H
-
+#pragma once
 #include "SpriteBase.h"
 
-class Personaje :
-	public SpriteBase
+class GameEngine;
+
+class Personaje : public SpriteBase
 {
 private:
 	static const int CLIM_VEL = 20;
@@ -58,8 +57,6 @@ protected:
 	void Slide();
 public:
 	void ResetState();
-	Personaje(void);
+	Personaje(GameEngine *e);
 	~Personaje(void);		
 };
-
-#endif

@@ -8,9 +8,10 @@
 #include <climits>
 #include "GameEngine.h"
 
-
 GameEngine::GameEngine(int ancho,int alto,std::string titulo,int fps)
 {	
+	fps_dt = 1 / static_cast<float>(fps);
+
 	m_currentScene = NULL;
 	m_sceneToDelete = NULL;
 	exitEngine = false;
@@ -21,11 +22,24 @@ GameEngine::GameEngine(int ancho,int alto,std::string titulo,int fps)
 	srand(time(NULL));
 	
 	wnd = new RenderWindow(VideoMode(ancho,alto),titulo);	
-	wnd->SetFramerateLimit(fps);
+	wnd->SetFramerateLimit(fps+10.0f);
 
 	//App.SetView(App.GetDefaultView());
 
+	nivel = new Nivel();
+	disparos = new ManejadorDisparos();
+	
 	wnd->Show(true);		
+}
+
+bool GameEngine::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,bool isNPC)
+{
+	return true;// nivel->HayColision(r, areaColision,tipo,isNPC);
+}
+
+FloatRect GameEngine::GetLevelViewRect()
+{
+	return nivel->levelView.GetRect();
 }
 
 void GameEngine::Init()
@@ -34,6 +48,8 @@ void GameEngine::Init()
 
 GameEngine::~GameEngine(void)
 {
+	delete nivel;
+	delete disparos;
 }
 
 void GameEngine::PushScene(SceneBase *scene)
@@ -86,18 +102,49 @@ void GameEngine::Loop()
 			}
 		}
 		else
-		{
+		{	
+			//cout<<"P: " << clkPerf.GetElapsedTime() << "\n";
+
 			dt = clk.GetElapsedTime() * fpsScale;
 			clk.Reset();
+
+			if(dt > fps_dt)
+			{
+				cout<<"Adjust frame --> " << dt << "\n";
+				dt = fps_dt;				
+			}
+			else
+			{
+				//cout<<"T:" << dt << "\n";
+			}
+
+
 			if(!isPause)
 			{	
 				DoEvents();
 				UpdateEvents(dt);
 			}
-			
 			DrawGame();
 		}	
+		//clkPerf.Reset();
 	}
+
+	if(m_currentScene)
+	{
+		m_currentScene->Cleanup();
+		m_sceneQueue.pop_front();
+		delete m_currentScene;
+		m_currentScene = NULL;
+	}
+
+	while(m_sceneQueue.size() > 0)
+	{
+		m_currentScene = m_sceneQueue.front();
+		m_sceneQueue.pop_front();
+		delete m_currentScene;
+		m_currentScene = NULL;
+	}
+
 	wnd->Close();
 }
 
@@ -144,7 +191,8 @@ void GameEngine::JoystickUpdate(const Event &evt)
 			case sf::Key::Right: 	j.right=true; break; 
 			case sf::Key::A: 		j.a=true; break; 
 			case sf::Key::S: 		j.b=true; break;
-			/*case sf::Key::P:		
+			/*
+			case sf::Key::P:		
 				if(!isContinue)
 				{
 					isPause = !isPause; 					

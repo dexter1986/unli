@@ -9,8 +9,10 @@ class MenuScene : public SceneBase
 private:
 	float contador;
 	sf::Sprite spriteIntro;
-	sf::Clock clk;
+	sf::Clock clk;	
+	
 public:
+	MenuScene(GameEngine *engine);
 	MenuScene(void);
 	virtual ~MenuScene(void);
 	virtual void Init();

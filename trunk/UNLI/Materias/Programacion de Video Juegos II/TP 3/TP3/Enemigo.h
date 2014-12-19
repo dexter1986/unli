@@ -1,10 +1,11 @@
 #pragma once
-#include "personaje.h"
-class Enemigo :
-	public Personaje
+#include "Personaje.h";
+
+class GameEngine;
+
+class Enemigo :	public Personaje
 {
 protected:
-
 	enum ModoComportamiento
 	{
 		GUARDIA=0,
@@ -29,9 +30,10 @@ protected:
 	ModoComportamiento currentModo;
 	int contadorPasos;
 	int contadorDisparos;
+	GameEngine *engine;
 
 	Personaje *target;
-	virtual void AiNpc();
+	void AiNpc();
 
 	void ModoGuardia();
 	void ModoPatrulla();
@@ -41,8 +43,9 @@ protected:
 
 public:
 	void AiTracker(Personaje *p);
-	virtual void Inicializar(ManejadorDisparos *d,Nivel *n);
-	Enemigo(int modo);
+	void Inicializar(ManejadorDisparos *d,Nivel *n);
+	void Inicializar();
+	Enemigo(int modo,GameEngine *engine);
 	~Enemigo(void);
 };
 

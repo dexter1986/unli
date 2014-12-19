@@ -10,7 +10,7 @@ class SpriteSheetManager : public Sprite {
 private:
 	unsigned subimgw, subimgh;
 	vector<sf::IntRect> tiles;
-	vector<sf::Image> images;
+	//vector<sf::Image> images;
 	sf::IntRect r;
 	unsigned cols, rows; 
 public:

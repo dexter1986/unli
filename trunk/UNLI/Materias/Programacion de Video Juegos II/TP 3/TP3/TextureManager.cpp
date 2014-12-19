@@ -49,8 +49,7 @@ const sf::Image &TextureManager::GetTexture(const string &name){
 		return p->second;
 	}else{
 		return LoadTexture(name);
-	}
-	
+	}	
 }
 
 // cumple la misma función que GetTexture()
@@ -68,6 +67,5 @@ void TextureManager::SmoothTextures(bool smooth){
 	while(p != images.end()){
 		p->second.SetSmooth(smooth);
 		p++;
-	}
-	
+	}	
 }

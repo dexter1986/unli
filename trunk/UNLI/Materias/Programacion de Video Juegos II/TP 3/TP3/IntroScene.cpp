@@ -1,6 +1,10 @@
 #include "IntroScene.h"
 #include "TextureManager.h"
 
+IntroScene::IntroScene(GameEngine *engine)
+{
+}
+
 IntroScene::IntroScene(void)
 {
 	contador = 0;

@@ -11,33 +11,34 @@
 #include "SpriteSheetManager.h"
 #include "Animation.h"
 #include "ParticleSystemManager.h"
-#include "SceneBase.h"
+#include "Disparos.h"
+#include "Nivel.h"
+#include "Cronometro.h"
+#include "Joystick.h"
 
 using namespace std;
 using namespace sf;
 
 class SceneBase;
+class ManejadorDisparos;
+class Nivel;
 
-// una estructura simple para pasarle los controles a megaman
-struct Joystick{
-	bool up, down, left, right, a, b;
-};
 
 
 class GameEngine
 {
 private:
-	RenderWindow *wnd;
 	View m_currentView;
 	std::deque<SceneBase *> m_sceneQueue;
 	SceneBase *m_currentScene;
 	SceneBase *m_sceneToDelete;	
 	bool exitEngine;
-	bool isPause;
-	float fpsScale;
-	Joystick j;
-	sf::Clock clk;
+	bool isPause;	
+	float fps_dt;
 	
+	sf::Clock clk;
+	sf::Clock clkPerf;
+
 	void DrawGame();
 	void UpdatePoolEvents(const Event &evt); 
 	void UpdateEvents(const float &dt);
@@ -52,7 +53,16 @@ private:
 	void Init();
 
 public:
-	
+	Joystick j;
+	float fpsScale;
+	RenderWindow *wnd;
+	ManejadorDisparos *disparos;
+	Nivel *nivel;
+	Cronometro *cronometro;
+	ParticleSystemManager *mg;
+
+	bool HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,bool isNPC);
+	FloatRect GetLevelViewRect();
 	GameEngine(int ancho,int alto,std::string titulo,int fps);
 	~GameEngine(void);
 	void Loop();	

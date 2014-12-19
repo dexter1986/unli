@@ -1,7 +1,8 @@
 #include "EntityManager.h"
 
-EntityManager::EntityManager(void)
+EntityManager::EntityManager(GameEngine *e)
 {
+	engine = e;
 }
 
 EntityManager::~EntityManager(void)
@@ -30,7 +31,7 @@ void EntityManager::Init()
 	}
 }
 
-void EntityManager::Mover(Joystick j, float dt)
+void EntityManager::Mover(Joystick &j, float dt)
 {
 	list<Enemigo *>::iterator e=enemigos.begin();
 	while(e!=enemigos.end())
@@ -39,6 +40,7 @@ void EntityManager::Mover(Joystick j, float dt)
 		e++;
 	}
 }
+
 
 bool EntityManager::HayColision(float x, float y,sf::Color &color)
 {
@@ -58,6 +60,7 @@ bool EntityManager::HayColision(float x, float y,sf::Color &color)
 	return false;
 }
 
+
 void EntityManager::SetEnvironment(ManejadorDisparos *d,Nivel *n)
 {
 	disparos = d;	
@@ -66,7 +69,7 @@ void EntityManager::SetEnvironment(ManejadorDisparos *d,Nivel *n)
 
 void EntityManager::Agregar(Enemigo *entity)
 {
-	entity->Inicializar(disparos,nivel);	
+	entity->Inicializar(disparos,nivel);		
 	entity->AiTracker(target);
 	enemigos.push_back(entity);
 }
@@ -76,7 +79,7 @@ void EntityManager::Dibujar(sf::RenderWindow &w)
 	list<Enemigo *>::iterator e= enemigos.begin();
 	while(e!=enemigos.end())
 	{
-		(*e)->Draw(w);
+		(*e)->Draw(w);	
 		e++;
 	}
 }

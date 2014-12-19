@@ -2,8 +2,8 @@
 #include <fstream>
 #include <iomanip>
 
-Nivel::Nivel(SceneBase* p_scene)
-{
+Nivel::Nivel()
+{	
 	occlusion_tiles = NULL;
 	isDebug = false;
 	irKeys[0]  = 0;
@@ -12,16 +12,17 @@ Nivel::Nivel(SceneBase* p_scene)
 	irKeys[3]  = 0;
 	irKeys[4]  = 0;	
 	iKeys = 5;	
-	scene = p_scene;
 }
 
+/*
 // Constructor: inicializa el Nivel
 // tileset_filename: el nombre del archivo que contiene el tileset
 // tileset_nw: numero de tiles de ancho del tileset
 // tileset_nh: numero de tiles de alto del tileset
 // levelSize_w: ancho del nivel en tiles
 // levelSize_h: alto del nivel en tiles
-Nivel::Nivel(string tileset_filename, int tileset_nw, int tileset_nh, unsigned levelSize_w, unsigned levelSize_h){
+Nivel::Nivel(string tileset_filename, int tileset_nw, int tileset_nh, unsigned levelSize_w, unsigned levelSize_h)
+{
 	// asignamos algunas variables
 	levelSize.x=levelSize_w;
 	levelSize.y=levelSize_h;
@@ -47,20 +48,14 @@ Nivel::Nivel(string tileset_filename, int tileset_nw, int tileset_nh, unsigned l
 	// inicializamos la matriz de tiles
 	Init();
 }
-
+*/
+/*
 // Constructor: cargar el nivel desde el archivo level_file
-Nivel::Nivel(string level_file){
-	occlusion_tiles = NULL;
-	irKeys[0]  = 0;
-	irKeys[1]  = 0;
-	irKeys[2]  = 0;
-	irKeys[3]  = 0;
-	irKeys[4]  = 0;	
-	iKeys = 5;
-	isDebug = false;
+Nivel::Nivel(string level_file)
+{	
 	Load(level_file);
 }
-
+*/
 void Nivel::GetOcclusionTiles()
 {
 	if(occlusion_tiles != NULL)
@@ -73,6 +68,7 @@ void Nivel::GetOcclusionTiles()
 		delete occlusion_tiles;
 	}
 	occlusion_tiles = new  vector<sf::Vector2i *>();	
+
 	GetOverlappingTiles(levelView.GetRect(), *occlusion_tiles);
 }
 
@@ -93,6 +89,11 @@ void Nivel::Init(){
 	// a Load() mas de una vez)
 	tiles.clear();
 	tiles.resize(0);
+
+	for(int i=0;i<nextLevels.size();i++)
+	{	
+		delete nextLevels[i];
+	}
 
 	nextLevels.clear();
 	nextLevels.resize(0);
@@ -149,12 +150,10 @@ void Nivel::Init(){
 		}
 		// insertamos la fila en la matriz
 		tiles.push_back(filaTemp);		
-	}
-	
+	}	
 	
 	sf::Image *l=new sf::Image;
 	
-
 	const int len = 2;
 	
 	// los offsets y velocidades de las capas
@@ -164,6 +163,7 @@ void Nivel::Init(){
 	
 	// inicializamos las capas del parallax
 	const sf::Image *img;
+
 	//ParallaxLayer *capas[len];
 	for(unsigned i=0; i<len; i++)
 	{	 
@@ -203,6 +203,7 @@ void Nivel::Load(string filename,bool reload){
 	
 	// inicializamos la matriz de tiles
 	Init();
+
 	if(reload)
 	{
 		isNeedNextLoadLevel = true;
@@ -210,7 +211,7 @@ void Nivel::Load(string filename,bool reload){
 
 	int aux = 0;
 
-	// leemos la matriz de numeros de imagenes
+	//leemos la matriz de numeros de imagenes
 	for(unsigned i=0; i<levelSize.y; i++){
 		for(unsigned j=0; j<levelSize.x; j++){
 			entrada>>aux;
@@ -223,8 +224,11 @@ void Nivel::Load(string filename,bool reload){
 	//10-19 portal
 	//20-29 recolectable -> 20,21,22,23,24 -> son las claves
 	//60-69 Enemigo
-	//99 Enter Point - es donde aparece el player
 	//88 Key Bomb
+	//99 Enter Point - es donde aparece el player
+	//100 solid - floor
+	//101 solid - wall
+	//102 solid - ceiling
 	// leemos la matriz que nos indica cuales
 	// tiles son solidos
 	aux = 0;
@@ -234,7 +238,7 @@ void Nivel::Load(string filename,bool reload){
 			if(aux == 1)
 			{
 				tiles[i][j].solid = true;
-			}
+			}			
 			else if(aux == 3)
 			{
 				tiles[i][j].isBomb = true;				
@@ -258,8 +262,8 @@ void Nivel::Load(string filename,bool reload){
 			{
 				iEnemigos++;
 				tiles[i][j].iEnemigo = aux - 60;
-				if(!isDebug)
-					agregarEnemigo_entities(tileSize.x * j,tileSize.y * i,tiles[i][j].iEnemigo);
+				//if(!isDebug)
+					//ptrAgregarEnemigo(tileSize.x * j,tileSize.y * i,tiles[i][j].iEnemigo);
 			}
 			else if(aux == 88)
 			{				
@@ -272,28 +276,48 @@ void Nivel::Load(string filename,bool reload){
 				vEntryPoint.x = tileSize.x * j;
 				vEntryPoint.y = tileSize.y * i;
 			}
+			else if(aux == 100)
+			{
+				tiles[i][j].solid = true;
+				tiles[i][j].floor = true;
+			}
+			else if(aux == 101)
+			{
+				tiles[i][j].solid = true;
+				tiles[i][j].wall = true;
+			}
+			else if(aux == 102)
+			{
+				tiles[i][j].solid = true;
+				tiles[i][j].ceiling = true;
+			}
 		}
 	}
 	// leemos la matriz que nos indica cuales
 	// tiles son overlay
 	aux = 0;
-	for(unsigned i=0; i<levelSize.y; i++){
+	for(unsigned i=0; i<levelSize.y; i++)
+	{
 		for(unsigned j=0; j<levelSize.x; j++){
 			entrada>>aux;			
 			tiles[i][j].iOverLayer = aux-1;
 		}
 	}
+
 	aux = 0;
 	string file;
-	Level templevel;
+	Level *templevel = NULL;
+
 	//Cargamos los link a los niveles
 	for(unsigned i=0; i<iPortales; i++){		
 		entrada>>aux;
 		entrada>>file;
-		templevel.index = aux;
-		templevel.file = file;
+		templevel = new	Level();
+		templevel->index = aux;
+		templevel->file = file;
 		nextLevels.push_back(templevel);
 	}
+
 	// cerramos el archivo
 	entrada.close();
 }
@@ -332,20 +356,70 @@ void Nivel::Save(string filename){
 // dibuja el tilemap del nivel en la ventana w, para ello utiliza
 // la funcion GetOverlappingTiles() para saber que tiles aparecen
 // en la vista actual del nivel
-void Nivel::Draw(sf::RenderWindow &w){
+void Nivel::Draw(sf::RenderWindow &w)
+{
 	
 	for(unsigned i=0; i<capasParallax.size(); i++){
 		capasParallax[i]->Draw(w);
 	}
+
+	//
+	//for(int x=0;x<levelSize.y; x++)
+	//{		
+	//	for(int y=0;y<levelSize.x;y++)
+	//	{
+	//		Tile &temp=tiles[x][y];		
+	//
+	//		if(temp.iImage != -1 )//&& !temp.isDead)
+	//		{
+	//			sm.GetImage(temp.iImage,temp.rect);
+	//			w.Draw(sm);			
+	//		}
+	//	}
+	//}
 	
-	for(unsigned i=0; i<occlusion_tiles->size(); i++){		
+
+	/*
+	for(unsigned i=0; i<capasParallax.size(); i++){
+		capasParallax[i]->Draw(w);
+	}
+	*/
+	
+	for(unsigned i=0; i<occlusion_tiles->size(); i++)
+	{		
 		Tile &temp=tiles[(*occlusion_tiles)[i]->x][(*occlusion_tiles)[i]->y];		
+	
 		if(temp.iImage != -1 )//&& !temp.isDead)
 		{
 			sm.GetImage(temp.iImage,temp.rect);
 			w.Draw(sm);			
 		}
+
 	}
+	
+	//g_xo,g_xf,g_yo,g_yf
+
+	/*
+	Tile *tempTile = NULL;
+	const sf::FloatRect rect = levelView.GetRect();
+
+	float off_x = std::ceilf(rect.Top/tileSize.y);
+	float off_y = std::ceilf(rect.Left/tileSize.x);
+	
+	for(int x=0;x<g_xf;x++)
+	{	
+		for(int y=0;y<g_yf;y++)
+		{	
+			Tile &temp=tiles[x+off_x][y+off_y];		
+	
+			if(temp.iImage != -1 )//&& !temp.isDead)
+			{
+				sm.GetImage(temp.iImage,temp.rect);
+				w.Draw(sm);			
+			}
+		}
+	}
+	*/
 
 	/*int i = 15;
 	temp=tiles[_tiles[i].x][_tiles[i].y];
@@ -358,12 +432,26 @@ void Nivel::Draw(sf::RenderWindow &w){
 		delete (*_tiles)[i];
 	}
 	_tiles->clear();
-	delete _tiles;*/
-	
+	delete _tiles;*/	
+	//w.Draw(imgLevel);
 }
 
 void Nivel::DrawOverLayer(sf::RenderWindow &w)
 {
+	/*
+	for(int x=0;x<levelSize.y; x++)
+	{		
+		for(int y=0;y<levelSize.x;y++)
+		{
+			Tile &temp=tiles[x][y];		
+			if(temp.iOverLayer != -1 && !temp.isDead)
+			{	
+				sm.GetImage(temp.iOverLayer,temp.rect);
+				w.Draw(sm);
+			}		
+		}
+	}
+	*/
 	/*vector<sf::Vector2i *> *_tiles = new vector<sf::Vector2i *>();
 	GetOverlappingTiles(levelView.GetRect(), *_tiles);*/
 	
@@ -376,6 +464,7 @@ void Nivel::DrawOverLayer(sf::RenderWindow &w)
 			w.Draw(sm);
 		}
 	}	
+	
 }
 
 // llena el vector ovTiles con las coordenadas de los tiles que se superponen
@@ -404,81 +493,90 @@ void Nivel::GetOverlappingTiles(sf::FloatRect r, vector<sf::Vector2i *> &ovTiles
 // en caso de haber colision con mas de un tile, devuelve
 // el area de colision con el tile que tenga mayor area de colision
 bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,bool isNPC){
-	vector<sf::Vector2i *> *_tiles = new vector<sf::Vector2i *>();
+	
+	vector<sf::Vector2i *> *_tiles = new vector<sf::Vector2i *>();	
 	GetOverlappingTiles(r, *_tiles);
-	sf::FloatRect tempResp; float maxResponse=0, sresponse;
-	int x,y;
-	for(unsigned i=0; i<_tiles->size(); i++){		
+	
+	sf::FloatRect tempResp; 
+	float maxResponse=0;
+	float sresponse = 0;
+	int x = 0;
+	int y = 0;
+	bool ret = false;
+	for(unsigned i=0; i<_tiles->size(); i++)
+	{		
+		if(ret)
+		{
+			break;
+		}
 		x = (*_tiles)[i]->x;
 		y = (*_tiles)[i]->y;
 		if(x > -1 && x < levelSize.y && y < levelSize.x  && y > -1)
-		{
-			//Tile &tile = tiles[_tiles[i].x][_tiles[i].y];
-			Tile &tile = tiles[x][y];
-			
-			if(tile.isDead)
+		{	
+			Tile *tile = &tiles[x][y];			
+			if(tile->isDead)
 			{
 				continue;
 			}
 
+			if(tile->solid || tile->isBomb || tile->isKeyBomb)
+			{
+				if(r.Intersects(tile->rect, &tempResp))
+				{
+					sresponse = tempResp.GetWidth() * tempResp.GetHeight();
+					if( sresponse > maxResponse )
+					{
+						maxResponse=sresponse;
+						areaColision=tempResp;
+					}
+				}
+			}
+
 			if(!isNPC)
 			{
-				if(tile.isBomb)
+				if(tile->isBomb)
 				{
 					tipo = 3;
-					tile.isDead = true;
-					return true;
+					tile->isDead = true;
+					ret = true;
 				}
-				else if(tile.isDynamic)
+				else if(tile->isDynamic)
 				{
-					if(tile.isKey)
+					if(tile->isKey)
 					{
 						tipo = 1;
-						tile.isDead = true;
+						tile->isDead = true;
 						iKeys--;
-						irKeys[tile.iKey] = 1;
-						return true;
+						irKeys[tile->iKey] = 1;
+						ret = true;
 					}
-					else if(tile.isKeyBomb)
+					else if(tile->isKeyBomb)
 					{
 						tipo = 2;
 						if(iKeys == 0)
 						{
 							tipo = 4;
 							isGameWon = true;
-							tile.isDead = true;
+							tile->isDead = true;
 						}						
 					}
 				}
-				else if(tile.iPortal != -1)
+				else if(tile->iPortal != -1)
 				{
-					tipo = tile.iPortal;
+					tipo = tile->iPortal;
 					if(!isNeedNextLoadLevel)
 					{
 						isNeedNextLoadLevel = true;
 						for(int i=0;i<iPortales;i++)
 						{
-							if(nextLevels[i].index == tipo)
+							if(nextLevels[i]->index == tipo)
 							{
-								fileNextLevel = nextLevels[i].file;
+								fileNextLevel = nextLevels[i]->file;
 							}
 						}
 					}					
-					return true;
+					ret = true;
 				}				
-			}
-			
-			if(tile.solid || tile.isBomb || tile.isKeyBomb)
-			{
-				if(r.Intersects(tile.rect, &tempResp))
-				{
-					sresponse=tempResp.GetWidth()*tempResp.GetHeight();
-					if(sresponse>maxResponse)
-					{
-						maxResponse=sresponse;
-						areaColision=tempResp;
-					}
-				}
 			}
 		}
 	}
@@ -488,20 +586,24 @@ bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,
 	{
 		delete (*_tiles)[i];
 	}
+
 	_tiles->clear();
+	
 	delete _tiles;
 
-	return maxResponse > 0;
+	if(ret)
+	{
+		return true;
+	}
+	else
+	{
+		return maxResponse > 0;
+	}
 }
 
 void Nivel::SetGameWonDelegate(void (*gamewon)(void))
 {
 	gamewon_delegate = gamewon;
-}
-
-void Nivel::SetEnemigoManagerDelegate(void (*agregarEnemigo)(float x, float y,int tipo))
-{
-	agregarEnemigo_entities = agregarEnemigo;
 }
 
 bool Nivel::HayColision(float x, float y,int &tipo)
@@ -603,10 +705,7 @@ sf::View &Nivel::InitLevelView(int res_x, int res_y, int tiles_x, int tiles_y){
 	// buscamos una vista que abarque todo el nivel
 	if(tiles_x<0) tiles_x=levelSize.x;
 	if(tiles_y<0) tiles_y=levelSize.y;
-	
-	// aca vamos a guardar el tamano final de la vista (en tiles)
-	float realtiles_x, realtiles_y;
-	
+		
 	// la logica consiste en hacer coincidir la menor magnitud del Nivel
 	// (ancho o alto) con la menor magnitud de la ventana
 	
@@ -639,7 +738,7 @@ sf::View &Nivel::InitLevelView(int res_x, int res_y, int tiles_x, int tiles_y){
 		}
 	}
 	// seteamos la vista del nivel y hacemos un scroll para inicializarla/acomodarla
-	levelView.SetHalfSize(sf::Vector2f(realtiles_x*tileSize.x/2.0, realtiles_y*tileSize.y/2.0));
+	levelView.SetHalfSize(sf::Vector2f(realtiles_x*tileSize.x*0.5f, realtiles_y*tileSize.y*0.5f));
 	SetViewCenter(sf::Vector2f(0,0));
 	return levelView;
 }
@@ -684,3 +783,21 @@ void Nivel::SaveToImage(string filename){
 	imagen.SaveToFile(filename);
 }
 
+Nivel::~Nivel()
+{
+	for(int i=0;i<nextLevels.size();i++)
+	{	
+		delete nextLevels[i];
+	}
+
+	nextLevels.clear();
+
+	//vaciamos las capas parallax
+	for(int i=0;i<capasParallax.size();i++)
+	{
+		delete capasParallax[i];
+	}
+
+	capasParallax.clear();
+	capasParallax.resize(0);
+}

@@ -11,6 +11,7 @@ private:
 	sf::Sprite spriteIntro;
 	sf::Clock clk;
 public:
+	MisionScene(GameEngine *engine);
 	MisionScene(void);
 	virtual ~MisionScene(void);
 	virtual void Init();

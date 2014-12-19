@@ -1,8 +1,9 @@
 #include "Enemigo.h"
 
 
-Enemigo::Enemigo(int modo)
+Enemigo::Enemigo(int modo,GameEngine *e):Personaje(e)
 {
+	engine = e;
 	isNPC = true;	
 	contadorPasos = 0;
 	contadorDisparos = 0;
@@ -29,15 +30,15 @@ Enemigo::~Enemigo(void)
 
 void Enemigo::AiTracker(Personaje *p)
 {
-	target = p;
+	target = p;	
 }
 
 void Enemigo::Inicializar(ManejadorDisparos *d,Nivel *n)
 {
 	Personaje::Inicializar(d,n);	
-
 	SetupComportamiento();
 }
+
 
 void Enemigo::SetupComportamiento()
 {
@@ -321,6 +322,7 @@ void Enemigo::ModoMercenario()
 
 bool Enemigo::CheckTargetVisibility()
 {
+	/*
 	Vector2f pos = GetPosition();
 	Vector2f targetpos = target->GetPosition();
 	
@@ -337,6 +339,7 @@ bool Enemigo::CheckTargetVisibility()
 			}
 		}
 	}	
+	*/
 	return false;
 }
 
