@@ -21,7 +21,6 @@ void Emitter::AddAffector(Affector &e){
 	affectors.push_back(&e);
 }
 
-
 // avisa al emisor si debe o no emitir particulas
 void Emitter::Spawn(bool spawn=true){
 	this->spawn=spawn;
@@ -49,4 +48,9 @@ void Emitter::SetEmmitLife(float life, float deltaLife){
 }
 void Emitter::SetSpawnRate(float newSpawnRate){
 	spawnRate=newSpawnRate;
+}
+
+Emitter::~Emitter()
+{
+	affectors.clear();
 }

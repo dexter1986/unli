@@ -39,7 +39,7 @@ private:
 
 public:	
 	void AgregarEnemigo(float x, float y,int tipo);
-	bool HayColision(float x, float y,sf::Color &color);
+	bool HayColision(float x, float y,sf::Color &color,bool isNPC);
 	MainScene(GameEngine *engine);
 	virtual ~MainScene(void);
 	virtual void Init();

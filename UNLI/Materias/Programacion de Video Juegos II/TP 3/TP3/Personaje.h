@@ -17,6 +17,7 @@ private:
 
 	enum Estado{
 		NORMAL,
+		NORMAL_J,
 		TURN,
 		TURN_DUCK,
 		DUCK,			
@@ -52,6 +53,7 @@ protected:
 	bool VerifyFall();
 	bool VerifyFallAndRun();	
 	void Internal_Mover_y_Animar();
+	void Internal_Mover_y_Animar2();
 	void DisparoArma1();
 	void ArrojarPiedra();		
 	void Slide();

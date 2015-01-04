@@ -33,7 +33,7 @@ private:
 	SceneBase *m_currentScene;
 	SceneBase *m_sceneToDelete;	
 	bool exitEngine;
-	bool isPause;	
+	//bool isPause;	
 	float fps_dt;
 	
 	sf::Clock clk;
@@ -53,6 +53,7 @@ private:
 	void Init();
 
 public:
+	bool isPause;
 	Joystick j;
 	float fpsScale;
 	RenderWindow *wnd;

@@ -22,7 +22,7 @@ bool SceneBase::IsFinished()
 	return isFinished;
 }
 
-bool SceneBase::HayColision(float x, float y,sf::Color &color)
+bool SceneBase::HayColision(float x, float y,sf::Color &color,bool isNPC)
 {
 	return false;
 }

@@ -15,6 +15,7 @@ MainScene::~MainScene(void)
 
 void MainScene::Init()
 {
+	//IsDebug(true);
 	isGameWon = false;
 	isSlowTime = false;
 	isPause = false;
@@ -72,10 +73,13 @@ void MainScene::Init()
 	mg->AddAffector(new Fade(0.5));
 }
 
-bool MainScene::HayColision(float x, float y,sf::Color &color)
+bool MainScene::HayColision(float x, float y,sf::Color &color,bool isNPC)
 {
-	if(entities->HayColision(x,y,color)){
-		return true;
+	if(!isNPC)
+	{
+		if(entities->HayColision(x,y,color)){
+			return true;
+		}
 	}
 	if(prince->RecibirImpacto(x,y)){
 		return true;
@@ -171,14 +175,17 @@ void MainScene::IntLevel(string fileLevel, RenderWindow *w,bool reload)
 	disparos->Init();
 	nivel->Load(fileLevel,reload);	
 	
-	for(unsigned i=0; i<nivel->levelSize.y; i++){
-		for(unsigned j=0; j<nivel->levelSize.x; j++){
-			if(nivel->tiles[i][j].iEnemigo != -1)
-			{	
-				AgregarEnemigo(nivel->tileSize.x * j,nivel->tileSize.y * i,nivel->tiles[i][j].iEnemigo);
-			}			
+	if(!isDebug)
+	{
+		for(unsigned i=0; i<nivel->levelSize.y; i++){
+			for(unsigned j=0; j<nivel->levelSize.x; j++){
+				if(nivel->tiles[i][j].iEnemigo != -1)
+				{	
+					AgregarEnemigo(nivel->tileSize.x * j,nivel->tileSize.y * i,nivel->tiles[i][j].iEnemigo);
+				}			
+			}
 		}
-	}	
+	}
 	
 	nivel->InitLevelView(800, 600,10,8);
 	prince->SetPosition(nivel->vEntryPoint);
@@ -304,8 +311,10 @@ void MainScene::Render(sf::RenderWindow &w)
 	ShowHUD(w);
 	//cout << "-H:" << clk.GetElapsedTime() << "\n";
 //	cout << "R:" << clkPerf.GetElapsedTime() << "\n";
-
-	nivel->DrawGrid(w);
+	if(isDebug)
+	{
+		nivel->DrawGrid(w);
+	}
 }
 
 void MainScene::Cleanup()

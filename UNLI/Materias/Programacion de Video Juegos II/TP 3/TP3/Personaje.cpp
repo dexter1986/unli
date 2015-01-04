@@ -41,11 +41,14 @@ void Personaje::InicializarAnimaciones()
 	animaciones[Estado::NORMAL].SetLoop(false);
 	animaciones[Estado::NORMAL].AddFrame(145,285,w,h,framelengh);
 
+	animaciones[Estado::NORMAL_J].SetAABB(FloatRect(2,2,10,26));
+	animaciones[Estado::NORMAL_J].SetLoop(false);
+	animaciones[Estado::NORMAL_J].AddFrame(145,285,w,h,framelengh);
+
 	animaciones[Estado::TURN].SetAABB(FloatRect(2,2,10,26));
 	animaciones[Estado::TURN].SetLoop(false);
 	animaciones[Estado::TURN].AddFrame(145,285,w,h,0.2f);
-
-		
+			
 	xo = 272;
 	yo = 285;	
 	w = 36;
@@ -201,24 +204,517 @@ void Personaje::InicializarAnimaciones()
 	animaciones[Estado::THROW].SetLoop(false);*/
 }
 
-
 void Personaje::Internal_Mover_y_Animar()
-{
-	float distAjuste = 0;
+{		
 	switch(currentState)
 	{
+		case NORMAL:		
+		{	
+			if(!ColisionaSuelo())
+			{
+				CambiarEstado(Estado::JUMP_DOWN);
+			}
+			
+			if(joystick.right)
+			{	
+				if(direccion != Direccion::RIGHT)
+				{
+					direccion = Direccion::RIGHT;
+					CambiarEstado(Estado::TURN);
+				}
+				else
+				{
+					if(!ColisionaPared())
+					{
+						CambiarEstado(Estado::RUN);						
+					}
+				}
+			}
+			else if(joystick.left)
+			{
+				if(direccion != Direccion::LEFT)
+				{
+					direccion = Direccion::LEFT;
+					CambiarEstado(Estado::TURN);
+				}
+				else
+				{
+					if(!ColisionaPared())
+					{
+						CambiarEstado(Estado::RUN);						
+					}
+				}
+			}
+			else if(joystick.down)
+			{	
+				CambiarEstado(Estado::DUCK);				
+			}
+			else if(joystick.a)
+			{	
+				CambiarEstado(Estado::NORMAL_AND_ARM1);				
+			}
+			else if(joystick.up)
+			{
+				if(!ColisionaTecho())
+				{
+					CambiarEstado(Estado::JUMP_UP);
+					Saltar();				
+				}
+			}
+		}
+		break;
+		case NORMAL_AND_ARM1:
+		{
+			if(!ColisionaSuelo())
+			{
+				CambiarEstado(Estado::JUMP_DOWN);
+			}
+			if(!joystick.a)
+			{
+				CambiarEstado(Estado::NORMAL);				
+			}
+			else
+			{	
+				if(joystick.down)
+				{
+					CambiarEstado(Estado::DUCK);				
+				}
+				else if(joystick.right)
+				{	
+					if(direccion != Direccion::RIGHT)
+					{
+						direccion = Direccion::RIGHT;
+						CambiarEstado(Estado::TURN);
+					}	
+					else
+					{
+						if(!ColisionaPared())
+						{
+							CambiarEstado(Estado::RUN);						
+						}
+					}
+				}
+				else if(joystick.left)
+				{	
+					if(direccion != Direccion::LEFT)
+					{
+						direccion = Direccion::LEFT;
+						CambiarEstado(Estado::TURN);
+					}	
+					else
+					{
+						if(!ColisionaPared())
+						{
+							CambiarEstado(Estado::RUN);						
+						}
+					}
+				}
+				else
+				{
+					DisparoArma1();
+				}
+			}
+		}
+		break;
 		case TURN:
+		{
 			if(IsAnimationEnded())
 			{
 				CambiarEstado(Estado::NORMAL);				
 			}
-			break;		
+		}
+		break;
 		case TURN_DUCK:
+		{
 			if(IsAnimationEnded())
 			{
 				CambiarEstado(Estado::DUCK);				
 			}
-			break;
+		}
+		break;
+		case DUCK:
+		{
+			if(joystick.right)
+			{	
+				if(direccion != Direccion::RIGHT)
+				{
+					direccion = Direccion::RIGHT;
+					CambiarEstado(Estado::TURN_DUCK);
+				}
+				else
+				{
+					if(!ColisionaPared())
+					{
+						CambiarEstado(Estado::CRAW_AND_WALK);					
+					}
+				}				
+			}
+			else if(joystick.left)
+			{
+				if(direccion != Direccion::LEFT)
+				{
+					direccion = Direccion::LEFT;
+					CambiarEstado(Estado::TURN_DUCK);
+				}
+				else
+				{
+					if(!ColisionaPared())
+					{
+						CambiarEstado(Estado::CRAW_AND_WALK);					
+					}
+				}				
+			}
+			
+			if(!joystick.down)
+			{
+				CambiarEstado(Estado::NORMAL);				
+			}
+			else if(joystick.a)
+			{
+				CambiarEstado(Estado::DUCK_AND_ARM1);				
+			}
+		}
+		break;		
+		case DUCK_AND_ARM1:
+		{
+			if(!joystick.a)
+			{
+				CambiarEstado(Estado::DUCK);				
+			}
+			else if(!joystick.down)
+			{
+				CambiarEstado(Estado::NORMAL);			
+			}
+			else
+			{
+				if(joystick.right)
+				{	
+					if(direccion != Direccion::RIGHT)
+					{
+						direccion = Direccion::RIGHT;
+						CambiarEstado(Estado::TURN_DUCK);
+					}
+					else
+					{
+						if(!ColisionaPared())
+						{
+							CambiarEstado(Estado::CRAW_AND_WALK);						
+						}
+					}
+				}
+				else if(joystick.left)
+				{	
+					if(direccion != Direccion::LEFT)
+					{
+						direccion = Direccion::LEFT;
+						CambiarEstado(Estado::TURN_DUCK);
+					}
+					else
+					{
+						if(!ColisionaPared())
+						{
+							CambiarEstado(Estado::CRAW_AND_WALK);						
+						}
+					}
+				}
+				else
+				{
+					DisparoArma1();
+				}
+			}
+		}
+		break;	
+		case CRAW_AND_WALK:	
+		{
+			if(ColisionaPared())
+			{	
+				CambiarEstado(Estado::DUCK);			
+			}
+
+			if(!ColisionaSuelo())
+			{
+				CambiarEstado(Estado::JUMP_DOWN);
+			}
+
+			if(!joystick.down) 
+			{
+				CambiarEstado(Estado::NORMAL);
+			}
+
+			if(!joystick.left && direccion == Direccion::LEFT || !joystick.right && direccion == Direccion::RIGHT)
+			{
+				CambiarEstado(Estado::DUCK);
+			}			
+		}
+		break;
+		case JUMP_DOWN:			
+		{	
+			if(ColisionaSuelo())
+			{	
+				CambiarEstado(Estado::NORMAL);				
+			}
+
+			if(joystick.b && ColisionaPared() && !ColisionaTecho())
+			{
+				CambiarEstado(Estado::CLIM);
+			}
+
+			/*if(joystick.a)
+			{
+				CambiarEstado(Estado::NORMAL_AND_ARM1);
+				DisparoArma1();
+			}*/
+		}
+		break;
+		case JUMP_UP:
+		{
+			if(ColisionaTecho())
+			{
+				CambiarEstado(Estado::JUMP_DOWN);			
+				velocidad.y = 0;
+			}			
+			else if(velocidad.y > 0)
+			{	
+				CambiarEstado(Estado::JUMP_DOWN);			
+			}
+			if(joystick.left)
+			{
+				CambiarEstado(Estado::JUMP_AND_RUN_UP);
+				direccion = Direccion::LEFT;
+			}
+			else if(joystick.right)
+			{
+				CambiarEstado(Estado::JUMP_AND_RUN_UP);
+				direccion = Direccion::RIGHT;
+			}
+			
+			/*if(joystick.a)
+			{
+				CambiarEstado(Estado::NORMAL_AND_ARM1);
+				DisparoArma1();
+			}*/
+		}
+		break;
+		case JUMP_AND_RUN_UP:
+		{
+			if(ColisionaTecho())
+			{
+				CambiarEstado(Estado::JUMP_AND_RUN_DOWN);				
+				velocidad.y=0;				
+			}			
+			else if(velocidad.y > 0)
+			{
+				CambiarEstado(Estado::JUMP_AND_RUN_DOWN);				
+			}
+			if(ColisionaPared())
+			{
+				CambiarEstado(Estado::NORMAL);
+			}
+		}	
+		break;
+		case JUMP_AND_RUN_DOWN:
+		{			
+			if(ColisionaSuelo())
+			{	
+				CambiarEstado(Estado::NORMAL);					
+				velocidad.y = 0;
+			}
+			if(ColisionaPared())
+			{
+				CambiarEstado(Estado::NORMAL);				
+			}
+		}	
+		break;
+		case RUN:
+		{
+			if(!ColisionaSuelo())
+			{
+				CambiarEstado(Estado::JUMP_DOWN);
+			}
+			else if(ColisionaPared())
+			{	
+				CambiarEstado(Estado::NORMAL);					
+			}
+			
+			if(joystick.a)
+			{
+				CambiarEstado(Estado::RUN_AND_ARM1);				
+			}
+			
+			if(!joystick.right && direccion == Direccion::RIGHT || !joystick.left && direccion == Direccion::LEFT)
+			{	
+				CambiarEstado(Estado::NORMAL);					
+			}
+			
+			if(joystick.down)
+			{
+				CambiarEstado(Estado::DUCK);
+			}
+			else if(joystick.up)
+			{
+				if(!ColisionaTecho())
+				{
+					CambiarEstado(Estado::JUMP_AND_RUN_UP);
+					Saltar();				
+				}
+			}		
+		}			
+		break;
+		case RUN_AND_ARM1:		
+		{
+			if(!joystick.right && direccion == Direccion::RIGHT || !joystick.left && direccion == Direccion::LEFT)
+			{
+				CambiarEstado(Estado::NORMAL);				
+			}
+			
+			if(ColisionaPared())
+			{
+				CambiarEstado(Estado::NORMAL);				
+			}
+			
+			if(!ColisionaSuelo())
+			{
+				CambiarEstado(Estado::JUMP_DOWN);
+			}
+
+			if(!joystick.a)
+			{				
+				CambiarEstado(Estado::RUN);
+			}			
+			
+			if(joystick.up)
+			{
+				if(!ColisionaTecho())
+				{
+					CambiarEstado(Estado::JUMP_AND_RUN_UP);
+					Saltar();			
+				}
+			}
+			DisparoArma1();
+		}
+		break;
+		case CLIM:
+		{
+			if(!joystick.b)
+			{
+				CambiarEstado(Estado::JUMP_DOWN);
+			}			
+			if(joystick.up )
+			{	
+				if(!ColisionaPared())
+				{	
+					CambiarEstado(Estado::JUMP_UP);
+					Saltar();										
+				}
+				else
+				{
+					if(!ColisionaTecho())
+					{
+						CambiarEstado(Estado::CLIM_UP);
+					}
+				}
+			}
+			else if(joystick.down)
+			{
+				if(ColisionaPared() && !ColisionaSuelo())
+				{
+					CambiarEstado(Estado::CLIM_DOWN);
+				}
+			}
+		}	
+		break;
+		case CLIM_UP:	
+		{
+			if(!joystick.up)
+			{
+				CambiarEstado(Estado::CLIM);				
+			}
+			if(!joystick.b)
+			{
+				CambiarEstado(Estado::CLIM);				
+			}
+
+			if(ColisionaTecho())
+			{
+				CambiarEstado(Estado::CLIM);				
+			}
+			if(!ColisionaPared())
+			{
+				CambiarEstado(Estado::CLIM);				
+			}
+		}
+		break;
+		case CLIM_DOWN:	
+		{
+			if(!ColisionaPared())
+			{
+				CambiarEstado(Estado::CLIM);
+			}
+
+			if(!joystick.b)
+			{
+				CambiarEstado(Estado::CLIM);
+			}
+			
+			if(!joystick.down)
+			{
+				CambiarEstado(Estado::CLIM);
+			}
+
+			if(ColisionaSuelo())
+			{	
+				CambiarEstado(Estado::CLIM);					
+			}			
+			
+		}
+		break;			
+
+		default:
+		break;
+	}
+
+	//-------------------->
+	if(currentState == Estado::JUMP_UP || currentState == Estado::JUMP_DOWN ||currentState == Estado::NORMAL_J)
+	{	
+		velocidad.y += gravity*dt;
+		float vy = velocidad.y * dt;
+		Move(0,vy);		
+	}
+
+	if(currentState ==  Estado::RUN || currentState ==  Estado::RUN_AND_ARM1 )
+	{	
+		Move(GetDireccionX() * velocidad.x * dt, 0);				
+	}
+
+	if(currentState == Estado::JUMP_AND_RUN_UP  || currentState == Estado::JUMP_AND_RUN_DOWN)
+	{
+		velocidad.y += gravity*dt;
+		float vy = velocidad.y * dt;
+		float vx = GetDireccionX() * velocidad.x * dt;		
+		Move(vx,vy);
+	}
+
+	if(currentState == Estado::CRAW_AND_WALK)
+	{	
+		Move(GetDireccionX() * CRAW_VEL * dt, 0);		
+	}
+
+	if(currentState == Estado::CLIM_UP)
+	{
+		Move(0,-CLIM_VEL * dt);
+	}
+
+	if(currentState == Estado::CLIM_DOWN)
+	{
+		Move(0,CLIM_VEL * dt);
+	}
+}
+
+void Personaje::Internal_Mover_y_Animar2()
+{
+	float distAjuste = 0;
+	switch(currentState)
+	{		
 		case NORMAL:
 			if(joystick.right)
 			{	
@@ -290,6 +786,19 @@ void Personaje::Internal_Mover_y_Animar()
 				CambiarEstado(Estado::CLIM_UP);				
 			}*/
 			break;
+		case TURN:
+			if(IsAnimationEnded())
+			{
+				CambiarEstado(Estado::NORMAL);				
+			}
+			break;		
+		case TURN_DUCK:
+			if(IsAnimationEnded())
+			{
+				CambiarEstado(Estado::DUCK);				
+			}
+			break;
+
 		case NORMAL_AND_ARM1:
 			if(joystick.right)
 			{	
@@ -1217,13 +1726,7 @@ void Personaje::DisparoArma1()
 
 bool Personaje::VerifyFall()
 {	
-	if(!ColisionaSuelo())
-	{
-		CambiarEstado(Estado::JUMP_DOWN);		
-		velocidad.y = 0;
-		return true;
-	}
-	return false;
+	return ColisionaSuelo();
 }
 
 bool Personaje::VerifyFallAndRun()
