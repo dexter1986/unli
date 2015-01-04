@@ -14,15 +14,15 @@ class GameEngine;
 
 class SceneBase
 {
-private:
-	bool isDebug;
+private:	
 protected:
 	bool isFinished;
 	bool isExit;	
+	bool isDebug;
 	GameEngine *engine;
 
 public:
-	virtual bool HayColision(float x, float y,sf::Color &color);
+	virtual bool HayColision(float x, float y,sf::Color &color,bool isNPC);
 	virtual void AgregarEnemigo(float x, float y,int tipo);
 	void IsDebug(bool debug);
 	bool IsFinished();

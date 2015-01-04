@@ -20,9 +20,10 @@ class Disparo: public sf::Sprite{
 	
 	static bool init; 				// para saber si ya cargamos o no la imagen
 	float velx;						// la velocidad del disparo
-	
+	bool isNPC;
+
 	public:
-	Disparo(float x0, float y0, float vel);	// constructor
+	Disparo(float x0, float y0, float vel,bool isNPC);	// constructor
 	~Disparo(void);
 	friend class ManejadorDisparos;	// para que ManejadorDisparos pueda acceder al miembro velx
 };
@@ -41,7 +42,7 @@ public:
 	~ManejadorDisparos();
 	void Init();
 	void MoverDisparos(float dt, sf::View &v);			// mueve los disparos y revisa que esten dentro de la pantalla
-	void AgregarDisparo(float x, float y, float vel);	// agrega un nuevo disparo
+	void AgregarDisparo(float x, float y, float vel,bool isNPC);	// agrega un nuevo disparo
 	void DibujarDisparos(sf::RenderWindow &w);				// Dibuja todos los disparos en la ventana w
 };
 

@@ -33,6 +33,8 @@ class Emitter: public sf::Sprite{
 			float spawnRate=10,bool oneTime=false);
 	
 	public:
+	~Emitter();
+
 	//Solo emite una vez. simula una explosion
 	bool isOneTime;
 

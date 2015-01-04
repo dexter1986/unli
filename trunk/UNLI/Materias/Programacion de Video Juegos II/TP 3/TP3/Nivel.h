@@ -109,10 +109,10 @@ private:
 public:
 
 	// tamano de los tiles (ancho x alto)
-	sf::Vector2i tileSize;
+	sf::Vector2f tileSize;
 
 	// tamano del nivel en tiles (ancho x alto)
-	sf::Vector2i levelSize;
+	sf::Vector2f levelSize;
 
 	// la matriz (o vector de vectores) de tiles
 	vector<vector<Tile>>tiles;
@@ -144,8 +144,8 @@ public:
 	void Save(string file);
 	
 	// tamano de tiles y del nivel
-	sf::Vector2i GetTileSize();
-	sf::Vector2i GetLevelSize();
+	sf::Vector2f GetTileSize();
+	sf::Vector2f GetLevelSize();
 	
 	// dibujar el nivel en pantalla
 	void Draw(sf::RenderWindow &w);

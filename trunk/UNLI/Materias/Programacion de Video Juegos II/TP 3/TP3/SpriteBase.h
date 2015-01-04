@@ -68,6 +68,7 @@ protected:
 	bool ColisionaPared();
 	bool ColisionaTecho();
 	bool ColisionaSuelo();
+	bool VerificaColisionaSuelo();
 	void AjustaColisionX();
 	void AjustaColisionY();	
 	bool SecuenciaDisparoFinalizada();

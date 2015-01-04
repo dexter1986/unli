@@ -56,23 +56,28 @@ Emitter &ParticleSystemManager::AddParticleSystem(unsigned nMaxParticles){
 
 // mueve las particulas de todos los sistemas
 void ParticleSystemManager::Simulate(float dt){
+	float t = GetTickCount();
+
 	list<ParticleSystem *>::iterator ps=particlesystems.begin();
 
 	ParticleSystem *ptemp;
 	// mueve todos los sistemas
 	while(ps!=particlesystems.end()){
-		(*(ps))->Move(dt);
-		if((*(ps))->nParticles==0 && (*(ps))->emitter->kill){
-			ptemp = (*(ps));
-			ps=particlesystems.erase(ps);	
-			delete ptemp->emitter;
-			delete ptemp;
+		ptemp = (*(ps));
+		ptemp->Move(dt);
+		if(ptemp->nParticles==0 && ptemp->emitter->kill)
+		{	
+			ps=particlesystems.erase(ps);			
+			delete ptemp->emitter;			
+			delete ptemp;			
 		}
 		else
 		{
 			ps++;
 		}
 	}
+	t = GetTickCount() - t;
+	cout << " Time -> " << t << "\n";
 }
 
 // dibuja las particulas de todos los sistemas
@@ -83,6 +88,8 @@ void ParticleSystemManager::Render(sf::RenderWindow &w){
 	}
 	else
 	{
+		float t = GetTickCount();
+
 		list<ParticleSystem *>::iterator ps=particlesystems.begin();
 		while(ps!=particlesystems.end()){
 			ParticleSystem::Particle *p=(*ps)->particles;
@@ -93,6 +100,9 @@ void ParticleSystemManager::Render(sf::RenderWindow &w){
 			}
 			ps++;
 		}
+		
+		t = GetTickCount() - t;
+		cout << " Time R-> " << t << "\n";
 	}
 }
 

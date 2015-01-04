@@ -95,49 +95,46 @@ int SpriteBase::AnimationCurrentFrame()
 
 void SpriteBase::Mover_y_Animar(Joystick &j, float dt)
 {	
-	if(isDead)
-		return;
-	//Actualiza Delta de tiempo
-	this->dt =  dt;
-	
-	if(!isNPC)
-	{
-		//Actualiza el estado del control
-		this->joystick.a = j.a;
-		this->joystick.b = j.b;
-		this->joystick.down = j.down;
-		this->joystick.left = j.left;
-		this->joystick.right = j.right;	
-		this->joystick.up = j.up;
-	}
-	else
-	{
-		this->joystick.a = false;
-		this->joystick.b = false;
-		this->joystick.down = false;
-		this->joystick.left = false;
-		this->joystick.right = false;	
-		this->joystick.up = false;
-
-		AiNpc();
-	}
-
 	if(!pause)
 	{
+		if(isDead)
+			return;
+		//Actualiza Delta de tiempo
+		this->dt =  dt;
+	
+		if(!isNPC)
+		{
+			//Actualiza el estado del control
+			this->joystick.a = j.a;
+			this->joystick.b = j.b;
+			this->joystick.down = j.down;
+			this->joystick.left = j.left;
+			this->joystick.right = j.right;	
+			this->joystick.up = j.up;
+		}
+		else
+		{
+			this->joystick.a = false;
+			this->joystick.b = false;
+			this->joystick.down = false;
+			this->joystick.left = false;
+			this->joystick.right = false;	
+			this->joystick.up = false;
+
+			AiNpc();
+		}
+
 		Internal_Mover_y_Animar();
-	}
 
-	if(direccion == Direccion::RIGHT)
-	{
-		FlipX(false);				
-	}
-	else if(direccion == Direccion::LEFT)
-	{	
-		FlipX(true);				
-	}
-
-	//if(!DelayTransition())
-	//{
+		if(direccion == Direccion::RIGHT)
+		{
+			FlipX(false);				
+		}
+		else if(direccion == Direccion::LEFT)
+		{	
+			FlipX(true);				
+		}
+		
 		//Anima el objeto
 		(animaciones+currentState)->Animate(dt);
 		IntRect rect = animaciones[currentState].GetCurrentFrameRect();
@@ -155,9 +152,12 @@ void SpriteBase::Mover_y_Animar(Joystick &j, float dt)
 		}
 
 		CalculateAABB();
-	//}
 
-	if(!SecuenciaDisparoFinalizada()) shootTime-=dt;
+		if(!SecuenciaDisparoFinalizada())
+		{
+			shootTime-=dt;
+		}
+	}
 }
 
 void SpriteBase::AiNpc()
@@ -223,11 +223,11 @@ bool SpriteBase::SecuenciaDisparoFinalizada(){
 }
 
 void SpriteBase::Disparar(float x, float y,float shoot_time,float velmisiles){
-	shootTime=shoot_time;
-	disparos->AgregarDisparo(x, y, velmisiles*GetDireccionX());
+	shootTime=shoot_time;	
+	disparos->AgregarDisparo(x, y, velmisiles*GetDireccionX(),isNPC);
 }
 
-// saber si choca con alguna pared por derecha o por izquierda
+//saber si choca con alguna pared por derecha o por izquierda
 bool SpriteBase::ColisionaPared(){
 	// creamos rectangulos para el bounding box actual
 	// y el area de colision
@@ -240,8 +240,8 @@ bool SpriteBase::ColisionaPared(){
 	isHitWall = false;
 	
 	//// la distancia que nos moveriamos
-	float despl = GetDireccionX() * dt * velocidad.x;	
-
+	float despl =  dt * velocidad.x * GetDireccionX();	
+	
 	// buscamos el bounding box que tendriamos
 	// si nos moviesemos, preguntamos si
 	// colisionamos y la distancia
@@ -259,16 +259,11 @@ bool SpriteBase::ColisionaPared(){
 	if(chocaPared)
 	{
 		isHitWall = true;		
-		ResolverColision(tipo,aabb_tmp);
-
-
-
-		ajustaColision_x = GetDireccionX() * (dt*velocidad.x-areaColision.GetWidth());
-
-
+		ResolverColision(tipo,aabb_tmp);			
+		ajustaColision_x = GetDireccionX() * (dt * velocidad.x - areaColision.GetWidth());
 		Move(ajustaColision_x,ajustaColision_y);
 	}
-
+	
 	return chocaPared;	
 }
 
@@ -277,14 +272,18 @@ bool SpriteBase::ColisionaTecho(){
 	bool chocaConTecho = false;
 	// calculamos la velocidad que tendriamos
 	float newvy=velocidad.y+gravity*dt;
+	// la distancia que nos vamos a mover
+	float despl=dt*newvy;
+
 	// si estamos cayendo, no podemos chocar con
 	// el suelo
-	if(newvy<0)
+	if(newvy>0)
+	{
+		return false;
+	}
+	else
 	{
 		FloatRect aabb_tmp, areaColision;
-		
-		// la distancia que nos vamos a mover
-		float despl=dt*newvy;
 		
 		// conseguimos el AABB actual y calculamos
 		// el que tendriamos en un instante de tiempo
@@ -300,9 +299,10 @@ bool SpriteBase::ColisionaTecho(){
 		if(chocaConTecho)
 		{
 			ResolverColision(tipo,aabb_tmp);
+			ajustaColision_y = areaColision.GetHeight();
+			Move(0.0f,ajustaColision_y);			
 		}
-
-		ajustaColision_y = despl+areaColision.GetHeight();
+		
 	}
 	return chocaConTecho;	
 }
@@ -361,49 +361,60 @@ void SpriteBase::Mover_y_Animar_NPC(float dt)
 
 // saber si chocara con el suelo cuando esta cayendo,
 // o si hay suelo debajo
-bool SpriteBase::ColisionaSuelo(){
+bool SpriteBase::ColisionaSuelo()
+{
+	bool chocaConSuelo = VerificaColisionaSuelo();
+	if(chocaConSuelo)
+	{					
+		Move(ajustaColision_x,ajustaColision_y);
+		velocidad.y = 0;
+	}
+	return chocaConSuelo;
+}
+
+bool SpriteBase::VerificaColisionaSuelo()
+{
 	bool chocaConSuelo = false;
 	ajustaColision_x = 0;
 	ajustaColision_y = 0;
-	// calculamos la velocidad que tendriamos
-	float newvy=velocidad.y + gravity *dt;
+
+	//calculamos la velocidad que tendriamos
+	float newvy= velocidad.y + gravity * dt;
+		
 	// si estamos subiendo, no podemos chocar con
 	// el suelo
-	if(newvy>0)
+	if(newvy<0.0f)
+	{
+		return false;
+	}
+	else
 	{
 		FloatRect aabb_tmp,areaColision;
 		
-		if(newvy > MAX_VEL_Y)
+		/*if(newvy > MAX_VEL_Y)
 		{
 			newvy = MAX_VEL_Y;
-		}
+		}*/
 
 		// la distancia que nos vamos a mover
-		float despl= newvy * dt;
+		float despl = newvy * dt;
 
 		// conseguimos el AABB actual y calculamos
-		// el que tendriamos en un instante de tiempo
-		
+		// el que tendriamos en un instante de tiempo		
 		aabb_tmp.Top = aabb.Top + despl;
 		aabb_tmp.Bottom =  aabb.Bottom + despl;
 		aabb_tmp.Left = aabb.Left;
 		aabb_tmp.Right = aabb.Right;
-
-		// calculamos si habria colision
-		//chocaConSuelo = nivel->HayColision2(aabb,aabb_tmp, areaColision);
-
+		
+		// calculamos si habria colision		
 		int tipo = -1;
 		chocaConSuelo = nivel->HayColision(aabb_tmp, areaColision,tipo,isNPC);
-
-		if(chocaConSuelo)
-		{
-			ResolverColision(tipo,aabb_tmp);
-			ajustaColision_y = despl - areaColision.GetHeight();		
-			Move(ajustaColision_x,ajustaColision_y);
-		}
+		
+		ajustaColision_y = despl - areaColision.GetHeight() - 0.01f;			
+		ResolverColision(tipo,aabb_tmp);
 	}
-	
-	return chocaConSuelo;	
+
+	return chocaConSuelo;
 }
 
 void SpriteBase::ResolverColision(int tipo,FloatRect aabb_tmp)

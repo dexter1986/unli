@@ -321,8 +321,7 @@ void Enemigo::ModoMercenario()
 }
 
 bool Enemigo::CheckTargetVisibility()
-{
-	/*
+{	
 	Vector2f pos = GetPosition();
 	Vector2f targetpos = target->GetPosition();
 	
@@ -339,7 +338,7 @@ bool Enemigo::CheckTargetVisibility()
 			}
 		}
 	}	
-	*/
+	
 	return false;
 }
 
