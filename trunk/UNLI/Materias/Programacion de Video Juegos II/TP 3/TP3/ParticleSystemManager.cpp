@@ -33,16 +33,17 @@ ParticleSystemManager::~ParticleSystemManager() {
 }
 
 void ParticleSystemManager::Clear()
-{	ParticleSystem *ptemp;
+{	
+	ParticleSystem *ptemp;
 	list<ParticleSystem *>::iterator ps=particlesystems.begin();
 	while(ps!=particlesystems.end()){
 		ptemp = (*(ps));		
 		ps=particlesystems.erase(ps);
 		delete ptemp;				
-	}
-	
+	}	
 	particlesystems.clear();
-	globalManager = NULL;	
+
+	globalManager = NULL;		
 }
 
 // crea un emisor y un nuevo sistema de particulas
@@ -55,9 +56,7 @@ Emitter &ParticleSystemManager::AddParticleSystem(unsigned nMaxParticles){
 }
 
 // mueve las particulas de todos los sistemas
-void ParticleSystemManager::Simulate(float dt){
-	float t = GetTickCount();
-
+void ParticleSystemManager::Simulate(float dt){	
 	list<ParticleSystem *>::iterator ps=particlesystems.begin();
 
 	ParticleSystem *ptemp;
@@ -67,8 +66,7 @@ void ParticleSystemManager::Simulate(float dt){
 		ptemp->Move(dt);
 		if(ptemp->nParticles==0 && ptemp->emitter->kill)
 		{	
-			ps=particlesystems.erase(ps);			
-			delete ptemp->emitter;			
+			ps=particlesystems.erase(ps);								
 			delete ptemp;			
 		}
 		else
@@ -76,20 +74,17 @@ void ParticleSystemManager::Simulate(float dt){
 			ps++;
 		}
 	}
-	t = GetTickCount() - t;
-	cout << " Time -> " << t << "\n";
 }
 
 // dibuja las particulas de todos los sistemas
-void ParticleSystemManager::Render(sf::RenderWindow &w){
+void ParticleSystemManager::Render(sf::RenderWindow &w)
+{
 	if(usePointSprites) 
 	{
 		Render_PointSprites(w);
 	}
 	else
 	{
-		float t = GetTickCount();
-
 		list<ParticleSystem *>::iterator ps=particlesystems.begin();
 		while(ps!=particlesystems.end()){
 			ParticleSystem::Particle *p=(*ps)->particles;
@@ -100,9 +95,6 @@ void ParticleSystemManager::Render(sf::RenderWindow &w){
 			}
 			ps++;
 		}
-		
-		t = GetTickCount() - t;
-		cout << " Time R-> " << t << "\n";
 	}
 }
 
@@ -168,7 +160,7 @@ void ParticleSystemManager::CreateEmiterOneShoot(float x, float y)
 	e.Spawn(false);
 	e.SetImage(TextureManager::GetInstance().GetTexture("../data/particula.png"));
 	e.SetEmmitVel(200,200);
-	e.SetEmmitLife(1,1);
+	e.SetEmmitLife(0.5f,0.0f);
 	e.SetBlendMode(sf::Blend::Add);
 	e.SetSpawnRate(100);
 
@@ -189,7 +181,7 @@ void ParticleSystemManager::CreateEmiterOneExplosion(float x, float y,sf::Color 
 	e.Spawn(false);
 	e.SetImage(TextureManager::GetInstance().GetTexture("../data/particula.png"));
 	e.SetEmmitVel(200,50);
-	e.SetEmmitLife(1,1);
+	e.SetEmmitLife(0.7f,0.7f);
 	e.SetBlendMode(sf::Blend::Add);
 	e.SetSpawnRate(100);
 	e.SetColor(color);

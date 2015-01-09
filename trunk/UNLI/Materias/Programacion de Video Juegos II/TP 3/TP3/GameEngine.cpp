@@ -8,10 +8,10 @@
 #include <climits>
 #include "GameEngine.h"
 
-GameEngine::GameEngine(int ancho,int alto,std::string titulo,int fps)
+GameEngine::GameEngine(int ancho,int alto,std::string titulo,float fps)
 {	
-	fps_dt = 1 / static_cast<float>(fps);
-
+	fps_dt = 1 / fps;	
+	last_diff_dt = 0.0f;
 	m_currentScene = NULL;
 	m_sceneToDelete = NULL;
 	exitEngine = false;
@@ -22,7 +22,7 @@ GameEngine::GameEngine(int ancho,int alto,std::string titulo,int fps)
 	srand(time(NULL));
 	
 	wnd = new RenderWindow(VideoMode(ancho,alto),titulo);	
-	wnd->SetFramerateLimit(fps+10.0f);
+	wnd->SetFramerateLimit(fps);
 
 	//App.SetView(App.GetDefaultView());
 
@@ -106,25 +106,36 @@ void GameEngine::Loop()
 			//cout<<"P: " << clkPerf.GetElapsedTime() << "\n";
 
 			dt = clk.GetElapsedTime() * fpsScale;
+			dt = dt + last_diff_dt;
 			clk.Reset();
 
 			if(dt > fps_dt)
 			{
-				cout<<"Adjust frame --> " << dt << "\n";
-				dt = fps_dt;				
+				cout<<"Adjust frame --> " << dt << "\n";				
+				last_diff_dt = dt - fps_dt;
+				dt = fps_dt;			
+				if(last_diff_dt > fps_dt)
+				{
+					last_diff_dt = fps_dt;
+				}
 			}
 			else
-			{
-				//cout<<"T:" << dt << "\n";
+			{	
+				last_diff_dt = 0.0f;
+				//cout<<"T:" << dt << "\n";				
 			}
 
+
+			//dt = fps_dt * fpsScale;
 
 			if(!isPause)
 			{	
 				DoEvents();
 				UpdateEvents(dt);
 			}
+
 			DrawGame();
+
 		}	
 		//clkPerf.Reset();
 	}

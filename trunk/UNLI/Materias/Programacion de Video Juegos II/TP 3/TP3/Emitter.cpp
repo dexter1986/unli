@@ -52,5 +52,5 @@ void Emitter::SetSpawnRate(float newSpawnRate){
 
 Emitter::~Emitter()
 {
-	affectors.clear();
+	affectors.clear();	
 }
