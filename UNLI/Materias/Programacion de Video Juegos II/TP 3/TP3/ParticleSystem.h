@@ -5,7 +5,8 @@
 class ParticleSystem {
 	public:
 	// definicion de la clase particula
-	struct Particle: public sf::Sprite{
+	struct Particle : public sf::Sprite
+	{	
 		float life;
 		float vx, vy;
 	};

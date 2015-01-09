@@ -35,7 +35,8 @@ private:
 	bool exitEngine;
 	//bool isPause;	
 	float fps_dt;
-	
+	float last_diff_dt;
+
 	sf::Clock clk;
 	sf::Clock clkPerf;
 
@@ -64,9 +65,10 @@ public:
 
 	bool HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,bool isNPC);
 	FloatRect GetLevelViewRect();
-	GameEngine(int ancho,int alto,std::string titulo,int fps);
+	GameEngine(int ancho,int alto,std::string titulo,float fps);
 	~GameEngine(void);
 	void Loop();	
 	void PushScene(SceneBase *scene);			
 };
+
 

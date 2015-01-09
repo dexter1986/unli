@@ -18,10 +18,15 @@ ParticleSystem::ParticleSystem(Emitter &e, unsigned nMaxParticles){
 
 // destructor: elimina la memoria de las particulas
 ParticleSystem::~ParticleSystem() {
-	if(particles == NULL)
+	if(particles)
 	{
 		delete []particles;
 		particles = NULL;
+	}
+	if(emitter)
+	{
+		delete emitter;
+		emitter = NULL;
 	}
 }
 
@@ -95,9 +100,15 @@ void ParticleSystem::Move(float &dt){
 			// decrementamos el tiempo de vida de la particula
 			p.life-=dt;
 //			p.SetBlendMode(sf::Blend::Add);
-			if(p.life<0) nParticles--;
+			if(p.life<0)
+			{
+				nParticles--;
+			}
 			// mueve la particula (con la funcion Move() de sprite)
-			else p.Move(p.vx*dt, p.vy*dt);
+			else
+			{	
+				p.Move(p.vx*dt, p.vy*dt);
+			}
 		}
 	}
 }
