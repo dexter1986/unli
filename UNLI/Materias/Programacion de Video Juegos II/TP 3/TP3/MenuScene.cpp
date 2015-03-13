@@ -8,7 +8,7 @@ MenuScene::MenuScene(void)
 
 MenuScene::MenuScene(GameEngine *engine)
 {
-
+	contador = 0;
 }
 
 MenuScene::~MenuScene(void)

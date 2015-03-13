@@ -8,6 +8,7 @@ MisionScene::MisionScene(void)
 
 MisionScene::MisionScene(GameEngine *engine)
 {
+	contador = 0;
 }
 
 MisionScene::~MisionScene(void)

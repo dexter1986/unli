@@ -3,6 +3,8 @@
 
 IntroScene::IntroScene(GameEngine *engine)
 {
+	contador = 0;
+	isIntro = false;
 }
 
 IntroScene::IntroScene(void)

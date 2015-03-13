@@ -35,7 +35,7 @@ void  ManejadorDisparos::SetScene(SceneBase *s)
 ManejadorDisparos::~ManejadorDisparos()
 {
 	Disparo *disparoTemp;
-	list<Disparo *>::iterator p=disparos.begin();
+	vector<Disparo *>::iterator p=disparos.begin();
 	while(p!=disparos.end()){
 		disparoTemp = (*p);
 		p=disparos.erase(p);
@@ -61,7 +61,7 @@ void ManejadorDisparos::MoverDisparos(float dt, sf::View &v){
 
 	Disparo *disparoTemp;
 
-	list<Disparo *>::iterator p=disparos.begin();
+	vector<Disparo *>::iterator p=disparos.begin();
 	while(p!=disparos.end()){
 		
 		(*p)->Move((*p)->velx*dt, 0);
@@ -115,7 +115,7 @@ void ManejadorDisparos::AgregarDisparo(float x, float y, float vel,bool isNPC){
 
 // recorre la lista de disparos y los dibuja
 void ManejadorDisparos::DibujarDisparos(sf::RenderWindow &w){	
-	list<Disparo *>::iterator p=disparos.begin();
+	vector<Disparo *>::iterator p=disparos.begin();
 	while(p!=disparos.end()){		
 		Disparo *d = (*p);
 		w.Draw(*d);

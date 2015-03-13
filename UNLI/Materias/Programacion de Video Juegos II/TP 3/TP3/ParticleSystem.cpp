@@ -8,7 +8,9 @@ ParticleSystem::ParticleSystem(Emitter &e, unsigned nMaxParticles){
 	cycle = false;
 	// inicializa las particulas
 	this->nMaxParticles=nMaxParticles;
+
 	particles=new Particle[nMaxParticles];
+	
 	for(unsigned i=0; i<nMaxParticles; i++){
 		// inicializa la vida de las particulas en -1 para que sean
 		// reiniciadas al mover
@@ -76,6 +78,7 @@ void ParticleSystem::Move(float &dt){
 			if(emitter->spawn && particlesToSpawn>0){
 				float vel, angle;
 				// inicializa propiedades de la particula segun el emisor
+
 				p.SetImage(*emitter->GetImage());
 				p.SetBlendMode(emitter->GetBlendMode());
 				p.SetColor(emitter->GetColor());

@@ -22,9 +22,9 @@ GameEngine::GameEngine(int ancho,int alto,std::string titulo,float fps)
 	srand(time(NULL));
 	
 	wnd = new RenderWindow(VideoMode(ancho,alto),titulo);	
-	wnd->SetFramerateLimit(fps);
+	wnd->SetFramerateLimit(fps*2.0f);
 
-	//App.SetView(App.GetDefaultView());
+	wnd->SetView(wnd->GetDefaultView());
 
 	nivel = new Nivel();
 	disparos = new ManejadorDisparos();
@@ -34,7 +34,7 @@ GameEngine::GameEngine(int ancho,int alto,std::string titulo,float fps)
 
 bool GameEngine::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,bool isNPC)
 {
-	return true;// nivel->HayColision(r, areaColision,tipo,isNPC);
+	return nivel->HayColision(r, areaColision,tipo,isNPC);
 }
 
 FloatRect GameEngine::GetLevelViewRect()
@@ -68,6 +68,7 @@ void GameEngine::Loop()
 			if(m_sceneQueue.size() > 0)
 			{
 				m_currentScene = m_sceneQueue.front();
+				wnd->SetView(wnd->GetDefaultView());
 				m_currentScene->Init();
 			}
 			else
@@ -96,6 +97,7 @@ void GameEngine::Loop()
 			while(m_sceneQueue.size() > 0)
 			{
 				m_currentScene = m_sceneQueue.front();
+				m_currentScene->Cleanup();
 				m_sceneQueue.pop_front();
 				delete m_currentScene;
 				m_currentScene = NULL;
@@ -104,27 +106,26 @@ void GameEngine::Loop()
 		else
 		{	
 			//cout<<"P: " << clkPerf.GetElapsedTime() << "\n";
-
+			//dt = fps_dt * fpsScale;
 			dt = clk.GetElapsedTime() * fpsScale;
-			dt = dt + last_diff_dt;
+			//dt = dt + last_diff_dt;
 			clk.Reset();
 
 			if(dt > fps_dt)
 			{
-				cout<<"Adjust frame --> " << dt << "\n";				
-				last_diff_dt = dt - fps_dt;
+				cout<<"Adjust frame --> " << fps_dt << ":" << dt << "\n";				
+				//last_diff_dt = dt - fps_dt;
 				dt = fps_dt;			
-				if(last_diff_dt > fps_dt)
+				/*if(last_diff_dt > fps_dt)
 				{
-					last_diff_dt = fps_dt;
-				}
+					last_diff_dt = fps_dt * 0.5f;
+				}*/
 			}
 			else
 			{	
 				last_diff_dt = 0.0f;
 				//cout<<"T:" << dt << "\n";				
 			}
-
 
 			//dt = fps_dt * fpsScale;
 
@@ -151,6 +152,7 @@ void GameEngine::Loop()
 	while(m_sceneQueue.size() > 0)
 	{
 		m_currentScene = m_sceneQueue.front();
+		m_currentScene->Cleanup();
 		m_sceneQueue.pop_front();
 		delete m_currentScene;
 		m_currentScene = NULL;

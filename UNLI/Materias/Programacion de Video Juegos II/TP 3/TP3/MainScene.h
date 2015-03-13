@@ -4,6 +4,7 @@
 #include "Personaje.h"
 #include "Cronometro.h"
 #include "Disparos.h"
+#include "SFML\Graphics.hpp"
 
 
 class MainScene : public SceneBase
@@ -24,6 +25,7 @@ private:
 	Nivel *nivel;
 	Cronometro *cronometro;
 	ParticleSystemManager *mg;
+	string lastLevelFile;
 	
 	bool isSlowTime;
 	bool isGameWon;

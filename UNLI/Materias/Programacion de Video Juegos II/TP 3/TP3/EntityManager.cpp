@@ -20,7 +20,7 @@ void EntityManager::Init()
 	if(enemigos.size() > 0)
 	{
 		Enemigo *etemp;
-		list<Enemigo *>::iterator e = enemigos.begin();
+		vector<Enemigo *>::iterator e = enemigos.begin();
 		while(e != enemigos.end())
 		{
 			etemp = (*e);
@@ -33,7 +33,7 @@ void EntityManager::Init()
 
 void EntityManager::Mover(Joystick &j, float dt)
 {
-	list<Enemigo *>::iterator e=enemigos.begin();
+	vector<Enemigo *>::iterator e=enemigos.begin();
 	while(e!=enemigos.end())
 	{
 		(*e)->Mover_y_Animar(j,dt);
@@ -44,20 +44,26 @@ void EntityManager::Mover(Joystick &j, float dt)
 
 bool EntityManager::HayColision(float x, float y,sf::Color &color)
 {
-	list<Enemigo *>::iterator e=enemigos.begin();
+	bool isColl = false;
+
+	vector<Enemigo *>::iterator e=enemigos.begin();
 	while(e!=enemigos.end())
 	{
 		if((*e)->RecibirImpacto(x,y))
 		{
 			color = (*e)->GetColor();
 			Enemigo *temp = (*e);
-			enemigos.erase(e);
+			e = enemigos.erase(e);
 			delete temp;
-			return true;
+			isColl = true;			
 		}
-		e++;
+		else
+		{
+			e++;
+		}
 	}
-	return false;
+
+	return isColl;
 }
 
 
@@ -76,7 +82,7 @@ void EntityManager::Agregar(Enemigo *entity)
 
 void EntityManager::Dibujar(sf::RenderWindow &w)
 {
-	list<Enemigo *>::iterator e= enemigos.begin();
+	vector<Enemigo *>::iterator e= enemigos.begin();
 	while(e!=enemigos.end())
 	{
 		(*e)->Draw(w);	

@@ -5,6 +5,7 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <list>
+#include <vector>
 #include "Nivel.h"
 #include "ParticleSystemManager.h"
 #include "TextureManager.h"
@@ -31,7 +32,7 @@ class Disparo: public sf::Sprite{
 // la clase se encarga de manejar todos los disparos
 class ManejadorDisparos{
 private:
-	list<Disparo *> disparos;								// guardamos una lista de disparos
+	vector<Disparo *> disparos;								// guardamos una lista de disparos
 	Nivel *nivel;
 	SceneBase *scene;
 public:

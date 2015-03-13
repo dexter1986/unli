@@ -9,7 +9,7 @@ AyudaScene::AyudaScene(void)
 
 AyudaScene::~AyudaScene(void)
 {
-
+	contador = 0;
 }
 
 void AyudaScene::Init()

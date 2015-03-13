@@ -77,9 +77,9 @@ float minFpsUnit = 1.0f/30.0f;//min run to 10fps
 int main(int argc, char *argv[]) 
 {
 	GameEngine *engine = new GameEngine(resx,resy,"Extreme Mission",30.0f);
-//	engine->PushScene(new IntroScene(engine));	
-//	engine->PushScene(new MenuScene(engine));
-//	engine->PushScene(new MisionScene(engine));
+	//engine->PushScene(new IntroScene(engine));	
+	//engine->PushScene(new MenuScene(engine));
+	//engine->PushScene(new MisionScene(engine));
 	engine->PushScene(new MainScene(engine));
 	engine->Loop();
 	delete engine;

@@ -6,6 +6,10 @@ JuegoPerdidoScene::JuegoPerdidoScene(void)
 	contador = 0;
 }
 
+JuegoPerdidoScene::JuegoPerdidoScene(GameEngine *engine)
+{
+	contador = 0;
+}
 
 JuegoPerdidoScene::~JuegoPerdidoScene(void)
 {
@@ -14,7 +18,7 @@ JuegoPerdidoScene::~JuegoPerdidoScene(void)
 
 void JuegoPerdidoScene::Init()
 {
-	spriteIntro.SetImage(TextureManager::GetInstance().GetTexture("../data/GameLost.png"));	
+	//spriteIntro.SetImage(TextureManager::GetInstance().GetTexture("../data/GameLost.png"));	
 }
 
 void JuegoPerdidoScene::ProcessEvent(const sf::Event &e)
