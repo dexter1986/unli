@@ -11,6 +11,7 @@ private:
 	sf::Sprite spriteIntro;
 	sf::Clock clk;
 public:
+	JuegoGanadoScene(GameEngine *engine);
 	JuegoGanadoScene(void);
 	virtual ~JuegoGanadoScene(void);
 	virtual void Init();

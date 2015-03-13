@@ -1,5 +1,8 @@
 #include "Enemigo.h"
 
+#include "SFML\Graphics.hpp"
+
+using namespace sf;
 
 Enemigo::Enemigo(int modo,GameEngine *e):Personaje(e)
 {
@@ -45,7 +48,7 @@ void Enemigo::SetupComportamiento()
 	switch(currentModo)
 	{
 	case GUARDIA:
-		SetColor(Color::Red);
+		SetColor(sf::Color::Red);
 		break;
 	case PATRULLA:
 		SetColor(Color::Green);

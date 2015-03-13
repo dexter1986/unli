@@ -490,7 +490,7 @@ bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,
 				else if(tile->iPortal != -1)
 				{
 					tipo = tile->iPortal;
-					/*if(!isNeedNextLoadLevel)
+					if(!isNeedNextLoadLevel)
 					{
 						isNeedNextLoadLevel = true;
 						for(int i=0;i<iPortales;i++)
@@ -500,7 +500,7 @@ bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,
 								fileNextLevel = nextLevels[i]->file;
 							}
 						}
-					}*/					
+					}					
 					ret = true;
 				}				
 			}
@@ -509,9 +509,7 @@ bool Nivel::HayColision(sf::FloatRect &r, sf::FloatRect &areaColision,int &tipo,
 		{
 			cout<<"Out of Level limits";
 		}
-
 	}
-
 
 	for(unsigned i=0; i<_tiles->size(); i++)
 	{

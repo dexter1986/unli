@@ -1,16 +1,43 @@
 #include "MainScene.h"
+#include "JuegoGanadoScene.h"
+#include "JuegoPerdidoScene.h"
+#include "MenuScene.h"
+
+using namespace sf;
 
 MainScene::MainScene(GameEngine *engine):engine(engine)
 {
-	
+	cronometro = nullptr;
+	entities = nullptr;
+	prince = nullptr;
+	mg = nullptr;
 }
 
 MainScene::~MainScene(void)
-{
-	delete cronometro;
-	delete entities;			
-	delete prince;
-	delete mg;
+{	
+	if(cronometro != nullptr)
+	{
+		delete cronometro;
+		cronometro = nullptr;
+	}	
+
+	if(entities != nullptr)		
+	{
+		delete entities;	
+		entities = nullptr;
+	}
+	
+	if(prince != nullptr)
+	{
+		delete prince;
+		prince = nullptr;
+	}
+
+	/*if(mg != nullptr)
+	{
+		delete mg;
+		mg = nullptr;
+	}*/
 }
 
 void MainScene::Init()
@@ -48,17 +75,14 @@ void MainScene::Init()
 	
 	cronometro = new Cronometro(600,font);	
 	cronometro->Init();	
-
-	
+		
 	nivel = engine->nivel;	
 	
 	disparos = engine->disparos;	
 	disparos->SetScene(this);
 	disparos->SetLevelManager(nivel);	
-
-	
-	entities = new EntityManager(engine);
-	
+		
+	entities = new EntityManager(engine);	
 	
 	prince = new Personaje(engine);	
 	prince->Inicializar(disparos,nivel);
@@ -66,7 +90,9 @@ void MainScene::Init()
 	entities->SetEnvironment(disparos,nivel);	
 	entities->AiTracker(prince);
 
-	IntLevel("../data/level1.lev",engine->wnd,false);
+	lastLevelFile = "../data/level1.lev";
+
+	IntLevel(lastLevelFile,engine->wnd,false);
 	
 	mg = &ParticleSystemManager::GetManager();	
 	mg->AddAffector(new Gravity(0,1000));
@@ -77,11 +103,13 @@ bool MainScene::HayColision(float x, float y,sf::Color &color,bool isNPC)
 {
 	if(!isNPC)
 	{
-		if(entities->HayColision(x,y,color)){
+		if(entities->HayColision(x,y,color))
+		{
 			return true;
 		}
 	}
-	if(prince->RecibirImpacto(x,y)){
+	if(prince->RecibirImpacto(x,y))
+	{
 		return true;
 	}
 	return false;
@@ -96,7 +124,17 @@ void MainScene::AgregarEnemigo(float x, float y,int tipo)
 
 void MainScene::GameFinish()
 {
-	//isGameWon = true;
+	if(nivel->isGameWon)
+	{		
+		engine->PushScene(new JuegoGanadoScene(engine));
+	}
+	else
+	{
+		engine->PushScene(new JuegoPerdidoScene(engine));
+	}
+	engine->PushScene(new MenuScene(engine));
+	isPause = true;
+	isFinished = true;
 }
 
 void MainScene::ProcessEvent(const sf::Event &e)
@@ -114,12 +152,15 @@ void MainScene::ProcessEvent(const sf::Event &e)
 			case sf::Key::Return:	
 				if(isPause)
 				{
-					//toReload = true;
+					IntLevel(lastLevelFile,engine->wnd,false);
+					mg->Clear();
+					isPause = false;
+					isContinue = false;
+					prince->pause = false;
 				}
 				break; 
 			case sf::Key::Escape: 
-				//isGameFinish = true; 
-				isExit = true; 
+				isExit = true; 				
 				break;
 			case sf::Key::Q:    						
 				isSlowTime = !isSlowTime;						
@@ -141,30 +182,79 @@ void MainScene::Update(const float &dt)
 {
 	//clkPerf.Reset();
 	//isGameWon = nivel->isGameWon;
-	nivel->PrepareNivel();
-	
-	nivel->SetViewCenter(prince->GetPosition());	
 
-	prince->Mover_y_Animar(engine->j,dt);	
-	
-	entities->Mover(engine->j,dt);	
-	
-	View &v = nivel->GetView();
-	disparos->MoverDisparos(dt,v);
-	
-	mg->Simulate(dt);
-
-	ActualizarContador();
-	
-	if(isSlowTime)
+	if(prince->isDead)
 	{
-		slowTimeCount += dt; 
-		if(slowTimeCount > slowTime)
+		if(prince->vidas <= 0)
 		{
-			isSlowTime = false;
-			engine->fpsScale = 1.0f;
+			//isGameFinish = true;
+			GameFinish();
+		}
+		else
+		{
+			isContinue = true;
+			isPause = true;				
 		}
 	}
+	else
+	{
+		if(nivel->isNeedNextLoadLevel)
+		{	
+			lastLevelFile = nivel->fileNextLevel;
+			IntLevel(lastLevelFile,engine->wnd,false);
+			mg->Clear();
+			/*prince->pause = true;
+			prince->SetPosition(0,0);
+			prince->ResetState();
+			j.left = false;
+			j.right = false;
+			j.down = false;
+			j.up = false;				
+			string file = nivel->fileNextLevel;		
+			disparos->Init();
+			mg->Clear();
+			IntLevel(file,w,true);	
+			prince->Mover_y_Animar(j,fpsUnit);
+			nivel->isNeedNextLoadLevel = false;
+			prince->pause = false;	
+			cronometro->Reset();
+			clk.Reset();			
+			dt0 = 0;
+			dt1 = 0;*/
+		}
+		else
+		{
+			if(nivel->isGameWon)
+			{
+				GameFinish();
+			}
+
+			nivel->PrepareNivel();
+	
+			nivel->SetViewCenter(prince->GetPosition());	
+
+			prince->Mover_y_Animar(engine->j,dt);	
+	
+			entities->Mover(engine->j,dt);	
+	
+			View &v = nivel->GetView();
+			disparos->MoverDisparos(dt,v);
+	
+			mg->Simulate(dt);
+
+			ActualizarContador();
+	
+			if(isSlowTime)
+			{
+				slowTimeCount += dt; 
+				if(slowTimeCount > slowTime)
+				{
+					isSlowTime = false;
+					engine->fpsScale = 1.0f;
+				}
+			}
+		}
+	}	
 
 	//cout << "U:" << clkPerf.GetElapsedTime() << "\n";
 }
@@ -173,6 +263,7 @@ void MainScene::IntLevel(string fileLevel, RenderWindow *w,bool reload)
 {
 	entities->Init();
 	disparos->Init();
+	
 	nivel->Load(fileLevel,reload);	
 	
 	if(!isDebug)
@@ -185,13 +276,16 @@ void MainScene::IntLevel(string fileLevel, RenderWindow *w,bool reload)
 				}			
 			}
 		}
-	}
-	
-	nivel->InitLevelView(800, 600,10,8);
+	}	
+	nivel->InitLevelView(800, 600,10,8);	
 	prince->SetPosition(nivel->vEntryPoint);
-	prince->ResetState();
+	prince->ResetState();	
+	cronometro->Reset();
+	prince->isDead = false;
+	prince->pause = false;	
+	nivel->isNeedNextLoadLevel = false;
 	View &v = nivel->GetView();
-	w->SetView(v);
+	w->SetView(v);	
 }
 
 void MainScene::ActualizarContador()

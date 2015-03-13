@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <list>
+#include <vector>
 #include "Personaje.h"
 #include "Enemigo.h"
 
@@ -10,7 +11,7 @@ class Personaje;
 class EntityManager
 {
 private:
-	list<Enemigo *> enemigos;	
+	vector<Enemigo *> enemigos;	
 	Personaje *target;
 	ManejadorDisparos *disparos;
 	Nivel *nivel;

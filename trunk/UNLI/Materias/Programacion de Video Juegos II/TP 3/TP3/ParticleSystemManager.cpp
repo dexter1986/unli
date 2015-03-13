@@ -4,13 +4,16 @@
 #include <iostream>
 using namespace std;
 
-ParticleSystemManager *ParticleSystemManager::globalManager=NULL;
+//ParticleSystemManager *ParticleSystemManager::globalManager=nullptr;
+
+ParticleSystemManager ParticleSystemManager::globalManager;
 
 // devuelve el manager global de particulas
 ParticleSystemManager &ParticleSystemManager::GetManager(){
-	if(!globalManager)
-		globalManager=new ParticleSystemManager();
-	return *globalManager;
+	/*if(globalManager == nullptr)
+		globalManager=new ParticleSystemManager();*/
+	//return *globalManager;
+	return globalManager;
 }
 
 // constructor, no hace nada
@@ -29,13 +32,13 @@ ParticleSystemManager::ParticleSystemManager() {
 
 ParticleSystemManager::~ParticleSystemManager() {
 	Clear();
-	ClearAffectors();
+	ClearAffectors();	
 }
 
 void ParticleSystemManager::Clear()
 {	
 	ParticleSystem *ptemp;
-	list<ParticleSystem *>::iterator ps=particlesystems.begin();
+	vector<ParticleSystem *>::iterator ps=particlesystems.begin();
 	while(ps!=particlesystems.end()){
 		ptemp = (*(ps));		
 		ps=particlesystems.erase(ps);
@@ -43,21 +46,21 @@ void ParticleSystemManager::Clear()
 	}	
 	particlesystems.clear();
 
-	globalManager = NULL;		
+	//globalManager = NULL;		
 }
 
 // crea un emisor y un nuevo sistema de particulas
 // y nos devuelve una referencia a al emisor
 Emitter &ParticleSystemManager::AddParticleSystem(unsigned nMaxParticles){
 	Emitter *e=new Emitter;
-	particlesystems.insert(	particlesystems.end(),
+	particlesystems.insert(particlesystems.end(),
 							new ParticleSystem(*e, nMaxParticles));
 	return *e;
 }
 
 // mueve las particulas de todos los sistemas
 void ParticleSystemManager::Simulate(float dt){	
-	list<ParticleSystem *>::iterator ps=particlesystems.begin();
+	vector<ParticleSystem *>::iterator ps=particlesystems.begin();
 
 	ParticleSystem *ptemp;
 	// mueve todos los sistemas
@@ -85,7 +88,7 @@ void ParticleSystemManager::Render(sf::RenderWindow &w)
 	}
 	else
 	{
-		list<ParticleSystem *>::iterator ps=particlesystems.begin();
+		vector<ParticleSystem *>::iterator ps=particlesystems.begin();
 		while(ps!=particlesystems.end()){
 			ParticleSystem::Particle *p=(*ps)->particles;
 			for(unsigned i=0; i<(*ps)->nMaxParticles; i++, p++){
@@ -99,7 +102,7 @@ void ParticleSystemManager::Render(sf::RenderWindow &w)
 }
 
 void ParticleSystemManager::Render_PointSprites(sf::RenderWindow &w){
-	list<ParticleSystem *>::iterator ps=particlesystems.begin();
+	vector<ParticleSystem *>::iterator ps=particlesystems.begin();
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 	glEnable(GL_POINT_SPRITE);
 	glTexEnvi(GL_POINT_SPRITE, GL_COORD_REPLACE, GL_TRUE);
@@ -127,7 +130,7 @@ void ParticleSystemManager::Render_PointSprites(sf::RenderWindow &w){
 
 unsigned ParticleSystemManager::GetNumParticles(){
 	unsigned numParticles=0;
-	list<ParticleSystem *>::iterator ps=particlesystems.begin();
+	vector<ParticleSystem *>::iterator ps=particlesystems.begin();
 	while(ps!=particlesystems.end()){
 		numParticles+=(*ps)->GetNumParticles();
 		ps++;
@@ -158,7 +161,7 @@ void ParticleSystemManager::CreateEmiterOneShoot(float x, float y)
 {
 	Emitter &e = AddParticleSystem(3);
 	e.Spawn(false);
-	e.SetImage(TextureManager::GetInstance().GetTexture("../data/particula.png"));
+	e.SetImage(&TextureManager::GetInstance().GetTexture("../data/particula.png"));
 	e.SetEmmitVel(200,200);
 	e.SetEmmitLife(0.5f,0.0f);
 	e.SetBlendMode(sf::Blend::Add);
@@ -179,7 +182,7 @@ void ParticleSystemManager::CreateEmiterOneExplosion(float x, float y,sf::Color 
 {
 	Emitter &e = AddParticleSystem(10);
 	e.Spawn(false);
-	e.SetImage(TextureManager::GetInstance().GetTexture("../data/particula.png"));
+	e.SetImage(&TextureManager::GetInstance().GetTexture("../data/particula.png"));
 	e.SetEmmitVel(200,50);
 	e.SetEmmitLife(0.7f,0.7f);
 	e.SetBlendMode(sf::Blend::Add);

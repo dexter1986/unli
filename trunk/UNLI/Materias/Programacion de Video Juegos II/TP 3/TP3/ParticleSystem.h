@@ -21,7 +21,7 @@ class ParticleSystem {
 	
 	bool cycle;
 
-	ParticleSystem(Emitter &e, unsigned nMaxParticles=100);
+	ParticleSystem(Emitter &e, unsigned nMaxParticles=10);
 	~ParticleSystem();
 	// mueve el sistema de particulas
 	void Move(float &dt);

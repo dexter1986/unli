@@ -11,7 +11,8 @@ using namespace std;
 #endif
 
 
-class Emitter: public sf::Sprite{
+class Emitter//: public sf::Sprite
+{
 	private:
 	// medias de velocidad y angulo de emision y vida
 	float emitVel, emitAngle, emitLife;
@@ -31,9 +32,14 @@ class Emitter: public sf::Sprite{
 			float emitLife=3, float deltaVel=0,
 			float deltaAngle=M_PI, float deltaLife=1,
 			float spawnRate=10,bool oneTime=false);
-	
+
+	sf::Blend::Mode _blendedMode;
+	sf::Color _color;
+	sf::Vector2f _position;
+	const sf::Image* _image;
+
 	public:
-	~Emitter();
+	~Emitter();	
 
 	//Solo emite una vez. simula una explosion
 	bool isOneTime;
@@ -45,6 +51,48 @@ class Emitter: public sf::Sprite{
 	void SetEmmitAngle(float angle, float deltaAngle=0);
 	void SetEmmitLife(float life, float deltaLife=0);
 	void SetSpawnRate(float newSpawnRate);
+	
+	sf::Blend::Mode GetBlendMode()
+	{
+		return _blendedMode;
+	};
+
+	void SetBlendMode(sf::Blend::Mode Mode)
+	{
+		_blendedMode = Mode;
+	};
+
+	sf::Color GetColor()
+	{
+		return _color;
+	};
+
+	sf::Color SetColor(sf::Color& const  color)
+	{
+		return _color;
+	};
+
+	 const sf::Vector2f& GetPosition() const
+	 {
+		 return _position;
+	 };
+
+	 void SetPosition(float X, float Y)
+	 {
+		 _position.x = X;
+		 _position.y = Y;
+	 };
+
+	 const sf::Image* GetImage() const
+	 {
+		 return _image;
+	 };
+
+	 void SetImage(const sf::Image* Img)
+	 {
+		 _image = Img;
+	 };
+
 	float GetSpawnRate(){return spawnRate;};
 	
 	// indica si el emisor debe o no crear

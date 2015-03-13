@@ -6,6 +6,10 @@ JuegoGanadoScene::JuegoGanadoScene(void)
 	contador = 0;
 }
 
+JuegoGanadoScene::JuegoGanadoScene(GameEngine *engine)
+{
+	contador = 0;
+}
 
 JuegoGanadoScene::~JuegoGanadoScene(void)
 {
@@ -14,7 +18,7 @@ JuegoGanadoScene::~JuegoGanadoScene(void)
 
 void JuegoGanadoScene::Init()
 {
-	spriteIntro.SetImage(TextureManager::GetInstance().GetTexture("../data/GameWon.png"));	
+	//spriteIntro.SetImage(TextureManager::GetInstance().GetTexture("../data/GameWon.png"));	
 }
 
 void JuegoGanadoScene::ProcessEvent(const sf::Event &e)
